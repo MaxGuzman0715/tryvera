@@ -18,6 +18,7 @@ import { getAutoDownloadRecord } from "../autoDownload";
 import { useAuth } from "../auth/AuthContext";
 import CopyButton from "../components/CopyButton";
 import { downloadApplicationsCsv, filterForCsv } from "../resultsCsv";
+import { IconList } from "../../ui/icons";
 
 const DEFAULT_PAGE_SIZE = 10;
 const LOGS_COLUMNS_VIS_KEY = "enpply:logs:columnVisibility";
@@ -552,7 +553,7 @@ export default function Logs() {
 
   return (
     <>
-      <h1>Application Logs</h1>
+      <h1><IconList />Application Logs</h1>
       <p className="sub">Newest first. Search by company or role.</p>
       <p className="hint">
         Tracking: <span className="tracking-pill pending">P</span> pending ·{" "}

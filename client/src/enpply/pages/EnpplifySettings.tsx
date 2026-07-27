@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { api } from "../api";
 import { useAuth } from "../auth/AuthContext";
 import type { AnswerPolicy, EnpplifyFeatureFlags, EnpplifyUserSettings, ProfileAnswer } from "../types";
+import { IconPlug } from "../../ui/icons";
 
 /** The /api/profiles list returns just the profile ids. */
 type ProfileRef = { id: string };
 
 /**
- * Settings for the enpplify browser extension. Lives inside the enpply web app
+ * Settings for the Tryvify browser extension. Lives inside the Tryvera web app
  * (reusing its auth + storage); the extension reads these via
  * GET /api/enpplify/settings.
  */
@@ -348,13 +349,13 @@ export default function EnpplifySettings() {
   return (
     <>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
-        <h1 style={{ margin: 0 }}>Enpplify (extension)</h1>
+        <h1 style={{ margin: 0 }}><IconPlug />Tryvify (extension)</h1>
         <button type="button" className="btn primary" onClick={() => void save()}>
-          {saved ? "Saved" : "Save Enpplify settings"}
+          {saved ? "Saved" : "Save Tryvify settings"}
         </button>
       </div>
       <p className="sub">
-        Settings for the Enpplify browser extension, for <span className="mono">{user?.email}</span>.
+        Settings for the Tryvify browser extension, for <span className="mono">{user?.email}</span>.
         The extension reads these after you sign in there.
       </p>
       {error && <p className="error">{error}</p>}

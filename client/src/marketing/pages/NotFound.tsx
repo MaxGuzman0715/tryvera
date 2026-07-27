@@ -6,7 +6,7 @@ import "./NotFound.css";
 /**
  * 404 surface. Rendered for any route the React Router can't match — both
  * for unauthenticated visitors and signed-in users — so the visual stays
- * the public TealBridge theme rather than the Enpply app shell. Wired in
+ * the public Tryvera theme rather than the Enpply app shell. Wired in
  * App.tsx via a known-route check that short-circuits before the Layout
  * wrapper.
  *
@@ -34,7 +34,7 @@ export default function NotFound() {
     meta.content = "noindex,nofollow";
     document.head.appendChild(meta);
     const prevTitle = document.title;
-    document.title = "Page not found · TealBridge";
+    document.title = "Page not found · Tryvera";
     return () => {
       meta.remove();
       document.title = prevTitle;
@@ -48,9 +48,9 @@ export default function NotFound() {
   return (
     <div className="tb-notfound">
       <header className="tb-notfound-nav">
-        <Link to="/" className="tb-brand" aria-label="TealBridge home">
+        <Link to="/" className="tb-brand" aria-label="Tryvera home">
           <span className="tb-brand-mark" aria-hidden="true" />
-          <span className="tb-brand-name">TealBridge</span>
+          <span className="tb-brand-name">Tryvera</span>
         </Link>
         <Link to="/" className="tb-notfound-back">
           ← Back to home
@@ -88,7 +88,7 @@ export default function NotFound() {
           <li>
             <Link to="/">
               <strong>Home</strong>
-              <span>What TealBridge does, the platform, and the team.</span>
+              <span>What Tryvera does, the platform, and the team.</span>
             </Link>
           </li>
           <li>

@@ -3,7 +3,7 @@ import "./LoadingScreen.css";
 /**
  * Full-viewport loading state used while the auth context is hydrating
  * (initial `/api/auth/me` call) and during route-level guards. Matches
- * the TealBridge marketing theme so it doesn't flash a bare white/black
+ * the Tryvera marketing theme so it doesn't flash a bare white/black
  * "Loading…" string before the first authenticated render.
  *
  * Best-practice notes:
@@ -27,7 +27,7 @@ export default function LoadingScreen({ label = "Getting things ready…" }: Pro
     <div className="tb-loading">
       <div className="tb-loading-card" role="status" aria-live="polite">
         <span className="tb-loading-mark" aria-hidden="true" />
-        <span className="tb-loading-name">TealBridge</span>
+        <span className="tb-loading-name">Tryvera</span>
         <span className="tb-loading-bar" aria-hidden="true">
           <span className="tb-loading-bar-fill" />
         </span>

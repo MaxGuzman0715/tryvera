@@ -641,6 +641,27 @@ h1 {
   font-weight: 700;
   margin: 0 0 0.3rem;
   letter-spacing: -0.028em;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Page heading glyph — sits in an accent tile so the icon reads as part of the
+   page identity rather than decoration hanging off the text. */
+h1 > svg {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  padding: 6px;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-sizing: border-box;
+}
+
+/* The sub-line aligns with the heading text, not the glyph. */
+h1 + .sub {
+  margin-top: 0.45rem;
 }
 
 @media (max-width: 900px) {

@@ -5,7 +5,7 @@
 export const FALLBACK_THEME_OPTIONS: { id: string; label: string }[] = [
   { id: "rhazel", label: "Rhazel - Navy centered — centered navy header, thick rule, timeline rows" },
   { id: "rohit", label: "Rohit - Grey & gold — grey header band, gold rule, wide caps sections" },
-  { id: "standard", label: "Enpply - Standard — Enpply header band, navy accents" },
+  { id: "standard", label: "Tryvera - Standard — branded header band, navy accents" },
   { id: "classic", label: "Serif - Classic serif — minimal, all-caps sections (print-style)" },
   { id: "purple", label: "Lavender - Purple — soft lavender sheet, plum accents" },
   { id: "navy-center", label: "Glenn - Navy center — white sheet, centered name & headline, thick rule" },

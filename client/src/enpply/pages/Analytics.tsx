@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ApplicationLogEntry, AuthUser } from "../types";
 import { api } from "../api";
 import { useAuth } from "../auth/AuthContext";
+import { IconChart } from "../../ui/icons";
 
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 const DAY_MS = 24 * 3600 * 1000;
@@ -239,7 +240,7 @@ export default function Analytics() {
 
   return (
     <>
-      <h1>Analytics</h1>
+      <h1><IconChart />Analytics</h1>
       <p className="sub">
         {isAdmin
           ? "Aggregate metrics across all users. Switch scope to drill into one user."

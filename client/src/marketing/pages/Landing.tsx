@@ -23,7 +23,7 @@ import "./Landing.css";
 const ASSET = {
   // Decorative phone-shape device mockups used in the hero. Not avatars or
   // real screenshots — kept because they read as "modern product surface"
-  // without naming any brand. Replace with TealBridge-owned imagery when
+  // without naming any brand. Replace with Tryvera-owned imagery when
   // available.
   heroPhone: "/disciple/aYFrsJhbI2Q1AN6kULPHhYl3aM.png",
   heroPhone2: "/disciple/7ywhlXuRAFjuJPZXGtKVzNlWsI.png",
@@ -120,7 +120,7 @@ const TABS: Tab[] = [
  * CSS-only phone mockup (fixed-size frame + a notch + an interior that
  * varies per tab). Replaces image-based mockups so the multi-tab stage
  * doesn't reflow when you switch tabs and the on-screen content is real
- * TealBridge copy keyed to each talent specialty.
+ * Tryvera copy keyed to each talent specialty.
  */
 function PhoneMockup({ tabId }: { tabId: TabId }) {
   const StatusBar = (
@@ -141,7 +141,7 @@ function PhoneMockup({ tabId }: { tabId: TabId }) {
   const Brand = (
     <div className="tb-phone-brandbar">
       <span className="tb-brand-mark" aria-hidden="true" />
-      <strong>TealBridge</strong>
+      <strong>Tryvera</strong>
     </div>
   );
 
@@ -440,7 +440,7 @@ type TapeItem =
 /**
  * Industry / talent-category labels for the marquee. Replaces fictional
  * brand marks (which read as "trusted by" claims we can't substantiate)
- * with the kinds of companies and roles TealBridge places.
+ * with the kinds of companies and roles Tryvera places.
  */
 const TAPE_LOGOS: TapeItem[] = [
   { kind: "text", label: "SaaS", variant: "upper" },
@@ -484,9 +484,9 @@ export default function Landing() {
     <div className="tb-landing">
       <header className="tb-nav">
         <div className="tb-nav-inner">
-          <a href="#top" className="tb-brand" aria-label="TealBridge home">
+          <a href="#top" className="tb-brand" aria-label="Tryvera home">
             <span className="tb-brand-mark" aria-hidden="true" />
-            <span className="tb-brand-name">TealBridge</span>
+            <span className="tb-brand-name">Tryvera</span>
           </a>
           <nav className="tb-nav-links" aria-label="Primary">
             <a href="#what">What we staff</a>
@@ -534,8 +534,8 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Marquee — categories TealBridge serves */}
-        <section className="tb-tape" aria-label="Verticals and roles TealBridge places">
+        {/* Marquee — categories Tryvera serves */}
+        <section className="tb-tape" aria-label="Verticals and roles Tryvera places">
           <div className="tb-tape-window">
             <div className="tb-tape-track">
               {[...TAPE_LOGOS, ...TAPE_LOGOS].map((item, idx) => {
@@ -583,7 +583,7 @@ export default function Landing() {
             <p className="tb-eyebrow">What we staff</p>
             <h2 className="tb-section-title">Two specialties. Deep bench in each.</h2>
             <p className="tb-section-lede">
-              TealBridge focuses narrowly on the two functions US companies
+              Tryvera focuses narrowly on the two functions US companies
               most often struggle to staff well: technology and customer
               operations. Pick a specialty to see the kinds of roles we
               place every week.
@@ -636,7 +636,7 @@ export default function Landing() {
               Six pillars. One staffing partner you can call when you need to hire.
             </h2>
             <p className="tb-section-lede">
-              TealBridge isn't a job board, an ATS, or a course platform.
+              Tryvera isn't a job board, an ATS, or a course platform.
               We're a US staffing firm — we do the work end-to-end so your
               hiring manager can stay focused on the team they already have.
             </p>
@@ -829,7 +829,7 @@ export default function Landing() {
           <div className="tb-footer-brand">
             <span className="tb-brand">
               <span className="tb-brand-mark" aria-hidden="true" />
-              <span className="tb-brand-name">TealBridge</span>
+              <span className="tb-brand-name">Tryvera</span>
             </span>
             <p>
               TealBridge LLC — a US staffing firm based in Texas and California.

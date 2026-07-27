@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api";
 import type { AuthUser, UserRole } from "../types";
 import { useAuth } from "../auth/AuthContext";
+import { IconUsers } from "../../ui/icons";
 
 type ProfileRow = { id: string };
 
@@ -114,7 +115,7 @@ export default function Users() {
 
   return (
     <>
-      <h1>Users</h1>
+      <h1><IconUsers />Users</h1>
       <p className="sub">Admins manage all users and assign profiles they can access.</p>
       {error && <p className="error">{error}</p>}
 

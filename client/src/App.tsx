@@ -38,8 +38,8 @@ import {
 
 /**
  * Routes the React Router knows about. Anything not matching one of these
- * patterns falls through to the TealBridge-themed NotFound page (rendered
- * outside the Enpply Layout). Update this list whenever a new top-level
+ * patterns falls through to the marketing-themed NotFound page (rendered
+ * outside the app Layout). Update this list whenever a new top-level
  * route is added — the duplication is intentional and small.
  */
 const KNOWN_ROUTE_PATTERNS: RegExp[] = [
@@ -199,8 +199,8 @@ function AppShell() {
     return <LoadingScreen />;
   }
 
-  // TealBridge-themed public surfaces — landing + auth pages — render
-  // OUTSIDE the Enpply Layout so the dark teal chrome owns the whole
+  // Public surfaces - landing + auth pages - render
+  // OUTSIDE the app Layout so the marketing chrome owns the whole
   // viewport (no signed-in nav above the auth card). Auth pages stay
   // accessible after the first user exists; the Login/Setup components
   // themselves handle the redirect-when-signed-in case.
@@ -216,8 +216,8 @@ function AppShell() {
     );
   }
 
-  // Unknown route: render the TealBridge-themed NotFound page outside the
-  // Enpply Layout so the marketing chrome owns the viewport. Applies to
+  // Unknown route: render the marketing-themed NotFound page outside the
+  // app Layout so the marketing chrome owns the viewport. Applies to
   // both signed-in and anonymous visitors — NotFound itself picks
   // contextual CTAs based on auth state.
   if (!isKnownRoute(location.pathname)) {

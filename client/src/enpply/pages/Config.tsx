@@ -10,6 +10,7 @@ import type {
   Prompts,
 } from "../types";
 import { DEFAULT_LLM_MODEL, LLM_MODELS_BY_PROVIDER, LLM_PROVIDER_LABELS } from "../llmDefaults";
+import { IconSliders } from "../../ui/icons";
 
 const PROMPT_KEYS: PromptKey[] = ["extraction", "resume", "coverLetter", "qa", "matchScore"];
 
@@ -177,7 +178,7 @@ export default function Config() {
 
   return (
     <>
-      <h1>Config</h1>
+      <h1><IconSliders />Config</h1>
       <p className="sub">Default paths, theme, and LLM prompts.</p>
 
       {error && <p className="error">{error}</p>}

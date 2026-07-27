@@ -1,27 +1,27 @@
 /*
- * Full-viewport loading state for the TealBridge wrapper. Scoped under
+ * Full-viewport loading state for the Tryvera wrapper. Scoped under
  * `.tb-loading` so it can't be overridden by Enpply's global form rules
  * (and the `--bg`/`--text` overrides below keep the surface light even
  * when a previously-signed-in dark theme has set those vars on `:root`).
  */
 
 .tb-loading {
-  --tb-bg: #f6f3ee;
+  --tb-bg: #faf9f7;
   --tb-bg-soft: #ffffff;
-  --tb-bg-mint: #dfede8;
-  --tb-ink: #15384a;
-  --tb-ink-soft: #4a5b66;
-  --tb-line: rgba(15, 56, 74, 0.10);
-  --tb-teal: #00857e;
-  --tb-teal-deep: #0f545c;
-  --tb-teal-bright: #0fb8a3;
-  --tb-coral: #ed7464;
-  --tb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+  --tb-bg-mint: #fff4ed;
+  --tb-ink: #1b1f24;
+  --tb-ink-soft: #4a463f;
+  --tb-line: rgba(27, 31, 36, 0.10);
+  --tb-teal: #e8590c;
+  --tb-teal-deep: #c2410c;
+  --tb-teal-bright: #fb7a3c;
+  --tb-coral: #e8590c;
+  --tb-font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  --tb-font-display: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont,
+  --tb-font-display: "Proxima Nova", "DM Sans", -apple-system, BlinkMacSystemFont,
     "Segoe UI", system-ui, Roboto, sans-serif;
 
-  /* Override Enpply's --bg/--text so any leaking dark-theme rules resolve
+  /* Override the app's --bg/--text so any leaking dark-theme rules resolve
      to light values on this surface. Same trick we use in Landing.css. */
   --bg: #ffffff;
   --text: var(--tb-ink);

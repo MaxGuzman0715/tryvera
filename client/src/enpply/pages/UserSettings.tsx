@@ -3,6 +3,7 @@ import { api } from "../api";
 import { useAuth } from "../auth/AuthContext";
 import { applyAppUiTheme } from "../uiTheme";
 import type { AppUiTheme, LlmFunc, LlmTier } from "../types";
+import { IconGear } from "../../ui/icons";
 
 /** The four user-facing LLM functions, with their default tier. */
 const LLM_FUNC_META: { key: LlmFunc; label: string; help: string; def: LlmTier }[] = [
@@ -162,7 +163,7 @@ export default function UserSettings() {
 
   return (
     <>
-      <h1>My settings</h1>
+      <h1><IconGear />My settings</h1>
       <p className="sub">
         Signed in as <span className="mono">{user?.email}</span> ({user?.role}).
       </p>
@@ -227,7 +228,7 @@ export default function UserSettings() {
         <p className="sub" style={{ marginBottom: "0.75rem" }}>
           The app runs on two models (a cheap <strong>Light</strong> and a strong <strong>Heavy</strong>,
           set by an admin). Choose which tier each function uses. This also controls which model the
-          Enpplify extension uses to fill forms.
+          Tryvify extension uses to fill forms.
         </p>
         {LLM_FUNC_META.map((f) => (
           <div key={f.key} style={{ marginBottom: "0.75rem" }}>

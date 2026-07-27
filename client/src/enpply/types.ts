@@ -212,7 +212,7 @@ export type AuthUser = {
 
 export type LlmProvider = "openrouter" | "openai" | "deepseek" | "gemini";
 
-/** Per-user settings for the enpplify browser extension. */
+/** Per-user settings for the Tryvify browser extension. */
 export type EnpplifyFeatureFlags = {
   password_autofill: boolean;
   combobox_fill: boolean;

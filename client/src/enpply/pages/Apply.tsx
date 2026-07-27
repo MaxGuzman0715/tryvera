@@ -7,6 +7,7 @@ import KeyboardTextarea from "../components/KeyboardTextarea";
 import { FALLBACK_THEME_OPTIONS, normalizeThemeId } from "../themes";
 import { upsertGenerationToast } from "../generationToasts";
 import { touchAutoDownloadPermission } from "../autoDownload";
+import { IconSend } from "../../ui/icons";
 
 const APPLY_GEN_STORAGE_KEY = "enpply:apply:generationOptions";
 const APPLY_RESUME_PROFILE_KEY = "enpply:apply:lastResumeProfile";
@@ -207,7 +208,7 @@ export default function Apply() {
 
   return (
     <>
-      <h1>Job Apply</h1>
+      <h1><IconSend />Job Apply</h1>
       <p className="sub">
         Paste a job description and choose what to generate (résumé PDF, cover letter PDF, application answers). Résumé profile, PDF
         theme, and generate options are remembered on this browser.

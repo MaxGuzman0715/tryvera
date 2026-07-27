@@ -9,34 +9,34 @@
 
 .tb-landing {
   /* Palette — extracted from Disciple's stylesheet. */
-  --tb-bg: #f6f3ee;          /* page cream */
+  --tb-bg: #faf9f7;          /* page cream */
   --tb-bg-soft: #ffffff;     /* card surface */
-  --tb-bg-warm: #efeae0;     /* alt section */
-  --tb-bg-mint: #dfede8;     /* page top + behind floating header */
-  --tb-bg-pink: #fbe7e1;     /* tape + warm accent */
-  --tb-bg-deep: #0f545c;     /* dark section + footer */
-  --tb-bg-deep-2: #0a3f47;
-  --tb-ink: #15384a;         /* deep navy-teal heading */
-  --tb-ink-soft: #4a5b66;    /* muted body */
-  --tb-ink-dim: #76858d;
-  --tb-line: rgba(15, 56, 74, 0.10);
-  --tb-line-strong: rgba(15, 56, 74, 0.18);
-  --tb-teal: #00857e;
-  --tb-teal-deep: #0f545c;
-  --tb-teal-bright: #0fb8a3;
-  --tb-coral: #ed7464;       /* primary CTA (Book demo) */
-  --tb-coral-hover: #e95c47;
-  --tb-amber: #f4b942;       /* active tab pill */
-  --tb-amber-hover: #ea9f1c;
-  --tb-pill-gray: #e3dfd6;   /* inactive tab pill */
-  --tb-pill-gray-hover: #d4cfc3;
-  --tb-radius: 22px;
+  --tb-bg-warm: #f4f1ec;     /* alt section */
+  --tb-bg-mint: #fff4ed;     /* page top + behind floating header */
+  --tb-bg-pink: #ffe9db;     /* tape + warm accent */
+  --tb-bg-deep: #1c1a17;     /* dark section + footer */
+  --tb-bg-deep-2: #131110;
+  --tb-ink: #1b1f24;         /* deep navy-teal heading */
+  --tb-ink-soft: #4a463f;    /* muted body */
+  --tb-ink-dim: #6e6a63;
+  --tb-line: rgba(27, 31, 36, 0.10);
+  --tb-line-strong: rgba(27, 31, 36, 0.16);
+  --tb-teal: #e8590c;
+  --tb-teal-deep: #c2410c;
+  --tb-teal-bright: #fb7a3c;
+  --tb-coral: #e8590c;       /* primary CTA (Book demo) */
+  --tb-coral-hover: #c94a05;
+  --tb-amber: #f0a132;       /* active tab pill */
+  --tb-amber-hover: #dc8c1a;
+  --tb-pill-gray: #ece9e3;   /* inactive tab pill */
+  --tb-pill-gray-hover: #ded9d0;
+  --tb-radius: 16px;
   --tb-radius-sm: 12px;
-  --tb-radius-lg: 36px;
-  --tb-radius-btn: 12px;
-  --tb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+  --tb-radius-lg: 24px;
+  --tb-radius-btn: 10px;
+  --tb-font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  --tb-font-display: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont,
+  --tb-font-display: "Proxima Nova", "DM Sans", -apple-system, BlinkMacSystemFont,
     "Segoe UI", system-ui, Roboto, sans-serif;
 
   /*
@@ -47,7 +47,7 @@
    */
   --bg: #ffffff;
   --text: var(--tb-ink);
-  --border: rgba(15, 56, 74, 0.18);
+  --border: rgba(27, 31, 36, 0.18);
 
   position: relative;
   min-height: 100vh;
@@ -193,14 +193,14 @@
   background: var(--tb-coral);
   color: #ffffff;
   border-color: var(--tb-coral);
-  box-shadow: 0 8px 18px -10px rgba(237, 116, 100, 0.6);
+  box-shadow: 0 8px 18px -10px rgba(232, 89, 12, 0.6);
 }
 
 .tb-btn-primary:hover {
   background: var(--tb-coral-hover);
   border-color: var(--tb-coral-hover);
   color: #ffffff;
-  box-shadow: 0 12px 22px -10px rgba(233, 92, 71, 0.55);
+  box-shadow: 0 12px 22px -10px rgba(232, 89, 12, 0.55);
 }
 
 .tb-btn-ghost {
@@ -261,7 +261,7 @@
   position: absolute;
   inset: auto 0 0 0;
   height: 1px;
-  background: rgba(15, 56, 74, 0.08);
+  background: rgba(27, 31, 36, 0.08);
   pointer-events: none;
 }
 
@@ -274,8 +274,8 @@
   gap: 1.25rem;
   background: var(--tb-bg-soft);
   border-radius: 14px;
-  box-shadow: 0 12px 30px -22px rgba(15, 56, 74, 0.35),
-    0 1px 0 rgba(15, 56, 74, 0.06);
+  box-shadow: 0 12px 30px -22px rgba(27, 31, 36, 0.35),
+    0 1px 0 rgba(27, 31, 36, 0.06);
 }
 
 .tb-brand {
@@ -294,7 +294,7 @@
   border-radius: 7px;
   background: linear-gradient(135deg, var(--tb-teal-bright) 0%, var(--tb-teal-deep) 100%);
   position: relative;
-  box-shadow: 0 6px 14px -6px rgba(15, 84, 92, 0.45);
+  box-shadow: 0 6px 14px -6px rgba(28, 26, 23, 0.45);
 }
 
 .tb-brand-mark::after {
@@ -560,11 +560,11 @@
   z-index: 1;
   width: 280px;
   height: 500px;
-  background: #15384a;
+  background: #1b1f24;
   border-radius: 36px;
   padding: 10px;
   box-shadow:
-    0 30px 60px -25px rgba(15, 84, 92, 0.45),
+    0 30px 60px -25px rgba(28, 26, 23, 0.45),
     0 1.5px 0 rgba(255, 255, 255, 0.2) inset,
     0 -1.5px 0 rgba(0, 0, 0, 0.4) inset;
 }
@@ -594,7 +594,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 18px;
-  background: #15384a;
+  background: #1b1f24;
   border-radius: 999px;
   z-index: 3;
 }
@@ -635,7 +635,7 @@
   justify-content: space-around;
   align-items: center;
   height: 44px;
-  border-top: 1px solid rgba(15, 56, 74, 0.08);
+  border-top: 1px solid rgba(27, 31, 36, 0.08);
   background: #ffffff;
 }
 
@@ -643,7 +643,7 @@
   width: 18px;
   height: 18px;
   border-radius: 5px;
-  background: rgba(15, 56, 74, 0.18);
+  background: rgba(27, 31, 36, 0.18);
 }
 
 .tb-phone-tabbar span.is-active {
@@ -677,7 +677,7 @@
   align-items: center;
   padding: 3px 8px;
   border-radius: 999px;
-  background: rgba(0, 133, 126, 0.12);
+  background: rgba(232, 89, 12, 0.12);
   color: var(--tb-teal-deep);
   font-size: 0.58rem;
   font-weight: 700;
@@ -685,7 +685,7 @@
 }
 
 .tb-phone-pill--coral {
-  background: rgba(237, 116, 100, 0.18);
+  background: rgba(232, 89, 12, 0.18);
   color: var(--tb-coral);
 }
 
@@ -696,7 +696,7 @@
 
 .tb-phone-card {
   background: var(--tb-bg-soft);
-  border: 1px solid rgba(15, 56, 74, 0.1);
+  border: 1px solid rgba(27, 31, 36, 0.1);
   border-radius: 10px;
   padding: 8px 10px;
   display: flex;
@@ -720,7 +720,7 @@
 }
 
 .tb-phone-card--teal {
-  background: linear-gradient(135deg, rgba(0, 133, 126, 0.92), rgba(15, 84, 92, 0.95));
+  background: linear-gradient(135deg, rgba(232, 89, 12, 0.92), rgba(28, 26, 23, 0.95));
   border-color: transparent;
   color: #ffffff;
 }
@@ -758,7 +758,7 @@
 }
 
 .tb-phone-card--locked {
-  background: rgba(15, 56, 74, 0.04);
+  background: rgba(27, 31, 36, 0.04);
   border-style: dashed;
   position: relative;
 }
@@ -849,7 +849,7 @@
   width: 22px;
   height: 22px;
   border-radius: 6px;
-  background: rgba(0, 133, 126, 0.15);
+  background: rgba(232, 89, 12, 0.15);
   color: var(--tb-teal-deep);
   font-weight: 800;
   font-size: 0.7rem;
@@ -867,12 +867,12 @@
   font-weight: 700;
   font-size: 0.7rem;
   text-align: center;
-  box-shadow: 0 6px 14px -8px rgba(237, 116, 100, 0.6);
+  box-shadow: 0 6px 14px -8px rgba(232, 89, 12, 0.6);
 }
 
 .tb-phone-divider {
   height: 1px;
-  background: rgba(15, 56, 74, 0.1);
+  background: rgba(27, 31, 36, 0.1);
   margin: 8px 0;
 }
 
@@ -1019,7 +1019,7 @@
 .tb-pillar-card:hover {
   border-color: var(--tb-teal);
   transform: translateY(-3px);
-  box-shadow: 0 30px 60px -40px rgba(15, 84, 92, 0.35);
+  box-shadow: 0 30px 60px -40px rgba(28, 26, 23, 0.35);
 }
 
 .tb-pillar-head {
@@ -1036,7 +1036,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 8px;
-  background: rgba(0, 133, 126, 0.12);
+  background: rgba(232, 89, 12, 0.12);
   color: var(--tb-teal-deep);
   font-size: 0.78rem;
   font-weight: 700;
@@ -1050,9 +1050,9 @@
   text-transform: uppercase;
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
-  background: rgba(237, 116, 100, 0.13);
+  background: rgba(232, 89, 12, 0.13);
   color: var(--tb-coral);
-  border: 1px solid rgba(237, 116, 100, 0.32);
+  border: 1px solid rgba(232, 89, 12, 0.32);
 }
 
 .tb-pillar-card h3 {
@@ -1402,8 +1402,8 @@
   color: var(--tb-teal-deep);
   padding: 0.22rem 0.6rem;
   border-radius: 999px;
-  background: rgba(0, 133, 126, 0.12);
-  border: 1px solid rgba(0, 133, 126, 0.28);
+  background: rgba(232, 89, 12, 0.12);
+  border: 1px solid rgba(232, 89, 12, 0.28);
 }
 
 .tb-outcome-time {
@@ -1556,7 +1556,7 @@
   letter-spacing: 0.04em;
   font-size: 1.05rem;
   margin: 0 auto 1rem;
-  box-shadow: 0 16px 32px -16px rgba(15, 84, 92, 0.5);
+  box-shadow: 0 16px 32px -16px rgba(28, 26, 23, 0.5);
 }
 
 .tb-team-role {
@@ -1692,7 +1692,7 @@
 .tb-form input:focus,
 .tb-form textarea:focus {
   border-color: var(--tb-teal-deep);
-  box-shadow: 0 0 0 3px rgba(0, 133, 126, 0.14);
+  box-shadow: 0 0 0 3px rgba(232, 89, 12, 0.14);
 }
 
 .tb-form textarea {

@@ -6,25 +6,25 @@
  */
 
 .tb-notfound {
-  --tb-bg: #f6f3ee;
+  --tb-bg: #faf9f7;
   --tb-bg-soft: #ffffff;
-  --tb-bg-warm: #efeae0;
-  --tb-ink: #15384a;
-  --tb-ink-soft: #4a5b66;
-  --tb-ink-dim: #76858d;
-  --tb-line: rgba(15, 56, 74, 0.10);
-  --tb-line-strong: rgba(15, 56, 74, 0.18);
-  --tb-teal: #00857e;
-  --tb-teal-deep: #0f545c;
-  --tb-teal-bright: #0fb8a3;
-  --tb-coral: #ed7464;
-  --tb-coral-hover: #e95c47;
-  --tb-radius: 22px;
+  --tb-bg-warm: #f4f1ec;
+  --tb-ink: #1b1f24;
+  --tb-ink-soft: #4a463f;
+  --tb-ink-dim: #6e6a63;
+  --tb-line: rgba(27, 31, 36, 0.10);
+  --tb-line-strong: rgba(27, 31, 36, 0.16);
+  --tb-teal: #e8590c;
+  --tb-teal-deep: #c2410c;
+  --tb-teal-bright: #fb7a3c;
+  --tb-coral: #e8590c;
+  --tb-coral-hover: #c94a05;
+  --tb-radius: 16px;
   --tb-radius-sm: 12px;
-  --tb-radius-btn: 12px;
-  --tb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+  --tb-radius-btn: 10px;
+  --tb-font: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
     Roboto, "Helvetica Neue", Arial, sans-serif;
-  --tb-font-display: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont,
+  --tb-font-display: "Proxima Nova", "DM Sans", -apple-system, BlinkMacSystemFont,
     "Segoe UI", system-ui, Roboto, sans-serif;
 
   /* Mirror the Landing/AuthShell scope-overrides so the Enpply global form
@@ -32,7 +32,7 @@
      values on this surface even after a previously-signed-in dark theme. */
   --bg: #ffffff;
   --text: var(--tb-ink);
-  --border: rgba(15, 56, 74, 0.18);
+  --border: rgba(27, 31, 36, 0.18);
 
   position: relative;
   min-height: 100vh;
@@ -91,7 +91,7 @@
   border-radius: 7px;
   background: linear-gradient(135deg, var(--tb-teal-bright) 0%, var(--tb-teal-deep) 100%);
   position: relative;
-  box-shadow: 0 6px 14px -6px rgba(15, 84, 92, 0.45);
+  box-shadow: 0 6px 14px -6px rgba(28, 26, 23, 0.45);
 }
 
 .tb-notfound .tb-brand-mark::after {
@@ -195,14 +195,14 @@
   background: var(--tb-coral);
   color: #ffffff;
   border-color: var(--tb-coral);
-  box-shadow: 0 8px 18px -10px rgba(237, 116, 100, 0.6);
+  box-shadow: 0 8px 18px -10px rgba(232, 89, 12, 0.6);
 }
 
 .tb-notfound .tb-btn-primary:hover {
   background: var(--tb-coral-hover);
   border-color: var(--tb-coral-hover);
   color: #ffffff;
-  box-shadow: 0 12px 22px -10px rgba(233, 92, 71, 0.55);
+  box-shadow: 0 12px 22px -10px rgba(232, 89, 12, 0.55);
 }
 
 .tb-notfound .tb-btn-ghost {

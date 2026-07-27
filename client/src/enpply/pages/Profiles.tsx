@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "../api";
 import type { Education, Experience, Profile, ProfileBulletsView } from "../types";
 import KeyboardTextarea from "../components/KeyboardTextarea";
+import { IconIdCard } from "../../ui/icons";
 
 function emptyExperience(): Experience {
   return {
@@ -244,7 +245,7 @@ export default function Profiles() {
 
   return (
     <>
-      <h1>Profiles</h1>
+      <h1><IconIdCard />Profiles</h1>
       <p className="sub">Manually maintain base profiles used for résumé, cover letter, and answers.</p>
 
       {error && <p className="error">{error}</p>}

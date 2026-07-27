@@ -4,6 +4,7 @@ import KeyboardTextarea from "../components/KeyboardTextarea";
 import type { LlmProvider } from "../types";
 import { DEFAULT_LLM_MODEL, LLM_MODELS_BY_PROVIDER, LLM_PROVIDER_LABELS } from "../llmDefaults";
 import BulletsExperiment from "./BulletsExperiment";
+import { IconFlask } from "../../ui/icons";
 
 type PlaygroundTab = "chat" | "bullets";
 
@@ -136,7 +137,7 @@ export default function Playground() {
 
   return (
     <>
-      <h1>Playground</h1>
+      <h1><IconFlask />Playground</h1>
 
       <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", borderBottom: "1px solid var(--border, rgba(255,255,255,0.12))" }}>
         {([
