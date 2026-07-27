@@ -39,11 +39,10 @@ export default function Login() {
   return (
     <AuthShell
       title="Welcome back"
-      subtitle="Sign in to continue to your TealBridge workspace."
+      subtitle="Sign in to continue to your Tryvera workspace."
       footer={
         <>
-          New here?{" "}
-          <Link to="/">See what TealBridge does</Link>
+          New here? <Link to="/">See what Tryvera does</Link>
         </>
       }
     >

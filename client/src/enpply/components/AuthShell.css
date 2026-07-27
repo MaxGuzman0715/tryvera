@@ -1,47 +1,45 @@
 /*
- * Auth surfaces (Login, Setup) — share the cream + deep-teal palette of
- * the marketing landing (Disciple-inspired). Scoped under `.tb-auth` so
- * the styles can't bleed into the signed-in Enpply app.
+ * Auth surfaces (Login, Setup) — Tryvera palette, scoped under `.tb-auth` so
+ * nothing bleeds into the signed-in app. Signing in should not feel like
+ * crossing between two products, so the accent, neutrals and radii match the
+ * dashboard tokens in styles.css.
  *
- * Tokens duplicated from Landing.css on purpose — kept in sync manually
- * because both surfaces own their own scoped palette. Extract into a
- * shared tb-theme.css if a third TealBridge surface ever shows up.
+ * The `tb-` prefix is historical; Login.tsx and Setup.tsx target these class
+ * names. Renaming them would be churn rather than design, so the names stay
+ * and only the values changed.
  */
 
 .tb-auth {
-  --tb-bg: #f6f3ee;
+  --tb-bg: #f9fafb;
   --tb-bg-soft: #ffffff;
-  --tb-bg-warm: #efeae0;
-  --tb-bg-mint: #dfede8;
-  --tb-bg-deep: #0f545c;
-  --tb-ink: #15384a;
-  --tb-ink-soft: #4a5b66;
-  --tb-ink-dim: #76858d;
-  --tb-line: rgba(15, 56, 74, 0.10);
-  --tb-line-strong: rgba(15, 56, 74, 0.18);
-  --tb-teal: #00857e;
-  --tb-teal-deep: #0f545c;
-  --tb-teal-bright: #0fb8a3;
-  --tb-coral: #ed7464;
-  --tb-coral-hover: #e95c47;
-  --tb-danger: #c14a3a;
-  --tb-radius: 22px;
-  --tb-radius-sm: 12px;
-  --tb-radius-btn: 12px;
-  --tb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  --tb-font-display: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", system-ui, Roboto, sans-serif;
+  --tb-bg-warm: #fff4ed;
+  --tb-ink: #1b1f24;
+  --tb-ink-soft: #6b7280;
+  --tb-ink-dim: #9ca3af;
+  --tb-line: #e5e7eb;
+  --tb-line-strong: #e5e7eb;
+  --tb-hairline: #f1f2f4;
+  --tb-accent: #e8590c;
+  --tb-accent-deep: #c2410c;
+  --tb-accent-hover: #c94a05;
+  --tb-accent-soft: #fff4ed;
+  --tb-danger: #b91c1c;
+  --tb-radius: 14px;
+  --tb-radius-sm: 10px;
+  --tb-radius-btn: 9px;
+  --tb-font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --tb-font-display: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /*
-   * Override the Enpply global tokens used by `styles.css` form rules.
-   * That stylesheet has `input[type="email"] { background: var(--bg) !important }`
-   * and similar rules — the only way to keep the wrapper light without
-   * !important spam is to redefine the source variables in this scope.
+   * Override the global tokens used by `styles.css` form rules. That
+   * stylesheet has `input[type="email"] { background: var(--bg) !important }`
+   * and similar — redefining the source variables in this scope is the only
+   * way to control the wrapper without !important spam.
    */
   --bg: #ffffff;
+  --surface: #ffffff;
   --text: var(--tb-ink);
-  --border: rgba(15, 56, 74, 0.18);
+  --border: var(--tb-line);
 
   position: relative;
   min-height: 100vh;
@@ -64,7 +62,7 @@
 }
 
 .tb-auth a:hover {
-  color: var(--tb-teal);
+  color: var(--tb-accent);
 }
 
 /* ── Top nav ────────────────────────────────────────────────────────── */
@@ -91,22 +89,20 @@
 }
 
 .tb-auth .tb-brand-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 7px;
-  background: linear-gradient(135deg, var(--tb-teal-bright) 0%, var(--tb-teal-deep) 100%);
-  position: relative;
-  box-shadow: 0 6px 14px -6px rgba(15, 84, 92, 0.45);
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--tb-accent);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(232, 89, 12, 0.32);
 }
 
-.tb-auth .tb-brand-mark::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border-radius: 3px;
-  background: rgba(245, 245, 243, 0.96);
-  border-top: 2px solid var(--tb-teal-deep);
-  border-bottom: 2px solid var(--tb-teal-deep);
+.tb-auth .tb-brand-mark svg {
+  width: 15px;
+  height: 15px;
 }
 
 .tb-auth-back {
@@ -116,7 +112,7 @@
 }
 
 .tb-auth-back:hover {
-  color: var(--tb-teal-deep);
+  color: var(--tb-accent-deep);
 }
 
 /* ── Centered card ──────────────────────────────────────────────────── */
@@ -138,7 +134,7 @@
   border-radius: var(--tb-radius);
   background: var(--tb-bg-soft);
   border: 1px solid var(--tb-line);
-  box-shadow: 0 30px 80px -40px rgba(15, 84, 92, 0.25);
+  box-shadow: 0 30px 80px -40px rgba(16, 24, 40, 0.14);
 }
 
 .tb-auth-title {
@@ -170,7 +166,7 @@
 }
 
 .tb-auth-foot a {
-  color: var(--tb-teal-deep);
+  color: var(--tb-accent-deep);
   font-weight: 600;
 }
 
@@ -202,9 +198,9 @@
 }
 
 .tb-auth-form input:focus {
-  border-color: var(--tb-teal-deep);
+  border-color: var(--tb-accent-deep);
   background: var(--tb-bg-soft);
-  box-shadow: 0 0 0 3px rgba(0, 133, 126, 0.14);
+  box-shadow: 0 0 0 3px rgba(232, 89, 12, 0.14);
 }
 
 .tb-auth-form input:disabled {
@@ -216,9 +212,9 @@
   margin: 0.85rem 0 0;
   padding: 0.7rem 0.9rem;
   border-radius: var(--tb-radius-sm);
-  background: rgba(193, 74, 58, 0.08);
-  border: 1px solid rgba(193, 74, 58, 0.32);
-  color: #8d2f22;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
   font-size: 0.9rem;
 }
 
@@ -231,23 +227,23 @@
   gap: 0.45rem;
   padding: 0.92rem 1.4rem;
   border-radius: var(--tb-radius-btn);
-  border: 1px solid var(--tb-coral);
-  background: var(--tb-coral);
+  border: 1px solid var(--tb-accent);
+  background: var(--tb-accent);
   color: #ffffff;
   font-family: inherit;
   font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 8px 18px -10px rgba(237, 116, 100, 0.6);
+  box-shadow: 0 8px 18px -10px rgba(232, 89, 12, 0.3);
   transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .tb-auth-submit:hover:not(:disabled) {
-  background: var(--tb-coral-hover);
-  border-color: var(--tb-coral-hover);
+  background: var(--tb-accent-hover);
+  border-color: var(--tb-accent-hover);
   color: #ffffff;
   transform: translateY(-1px);
-  box-shadow: 0 12px 22px -10px rgba(233, 92, 71, 0.55);
+  box-shadow: 0 12px 22px -10px rgba(232, 89, 12, 0.36);
 }
 
 .tb-auth-submit:active:not(:disabled) {

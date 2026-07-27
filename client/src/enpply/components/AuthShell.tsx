@@ -1,17 +1,17 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { IconMark } from "../../ui/icons";
 import "./AuthShell.css";
 
 /**
- * Shared shell for `/login` and `/setup` so the auth surfaces match the
- * TealBridge marketing landing instead of being framed by the signed-in
- * Enpply nav. Renders the brand, a back-to-home link, and a centered card
- * for whatever form the page wants to show.
+ * Shared shell for `/login` and `/setup`. These render outside the signed-in
+ * layout, so they carry the brand themselves: mark, name, a back-to-home link
+ * and a centered card for whatever form the page wants to show.
  *
- * Tokens are duplicated from Landing.css on purpose — both files own their
- * scoped palette (`.tb-landing` / `.tb-auth`) and the duplication is small
- * (one block, see AuthShell.css). Extract into a shared tb-theme.css if a
- * third TealBridge surface ever shows up.
+ * The palette is scoped under `.tb-auth` (see AuthShell.css) and mirrors the
+ * app's Tryvera tokens, so signing in is not a jump between two visual worlds.
+ * The `tb-` class prefix is kept because Setup.tsx and Login.tsx both target
+ * these class names — renaming them would be churn, not design.
  */
 
 type Props = {
@@ -29,9 +29,11 @@ export default function AuthShell({ title, subtitle, children, footer }: Props) 
   return (
     <div className="tb-auth">
       <header className="tb-auth-nav">
-        <Link to="/" className="tb-brand" aria-label="TealBridge home">
-          <span className="tb-brand-mark" aria-hidden="true" />
-          <span className="tb-brand-name">TealBridge</span>
+        <Link to="/" className="tb-brand" aria-label="Tryvera home">
+          <span className="tb-brand-mark" aria-hidden="true">
+            <IconMark />
+          </span>
+          <span className="tb-brand-name">Tryvera</span>
         </Link>
         <Link to="/" className="tb-auth-back">
           ← Back to home
