@@ -1036,10 +1036,17 @@
       .ri.neutral { background: #f3f4f6; color: #6b7280; }
 
       .rt { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; gap: 1px; }
-      .rt b { font-size: 12.8px; font-weight: 640; color: #1b1f24; letter-spacing: -.003em; }
+      .rt b {
+        display: block; font-size: 12.8px; font-weight: 640; color: #1b1f24;
+        letter-spacing: -.003em; line-height: 1.3;
+      }
+      /* The description wraps rather than truncating: if the row ever gets narrow
+         (long profile name, zoomed page), an ellipsised subtitle can collapse to
+         nothing, which reads as a missing description. Wrapping degrades to two
+         short lines instead of disappearing. */
       .rt span {
-        font-size: 11px; color: #6b7280; line-height: 1.35; font-weight: 400;
-        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        display: block; font-size: 11px; color: #6b7280; line-height: 1.35;
+        font-weight: 400; white-space: normal; overflow-wrap: anywhere;
       }
 
       .rowchev {
@@ -1439,7 +1446,7 @@
             </div>
 
             <div class="grp">
-              <details class="disc">
+              <details class="disc" open>
                 <summary>
                   <span class="ri"><svg viewBox="0 0 24 24"><use href="#ic-doc"/></svg></span>
                   <span class="rt"><b>Documents</b><span>What to generate</span></span>
