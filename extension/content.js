@@ -838,325 +838,572 @@
       :host { all: initial; }
       * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
 
-      /* ---- palette ---- */
-      /* teal #0f7c82 primary · ink #16262b text · slate #64777e muted */
+      /* ---- Tryvify palette ----
+         #E8590C primary · #C94A05 primary-hover · #FFF4ED soft fill
+         #FFD9BF soft border · #1B1F24 ink · #6B7280 muted · #E5E7EB border
+
+         Icon strategy: child <svg><use> wherever the markup is ours to keep, and
+         CSS mask pseudo-elements on any element whose textContent JS rewrites
+         (#go, #moreBtn, .fldbtn) — a pseudo-element survives textContent
+         assignment, a child node would be destroyed by it. */
+      :host {
+        --ic-doc: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8.5 13h7M8.5 17h5"/></svg>');
+        --ic-bolt: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 2 4 13.5h6.5L10 22l9.5-11.5H13z"/></svg>');
+        --ic-copy: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="12" height="12" rx="2.2"/><path d="M15.5 5.5v-1a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h1"/></svg>');
+        --ic-chevd: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>');
+        --ic-chevr: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>');
+        --ic-upload: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5V3.8M8.2 7.6 12 3.8l3.8 3.8"/><path d="M4.5 15v3.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V15"/></svg>');
+        --ic-dl: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.8v11.7M8.2 11.7 12 15.5l3.8-3.8M4.5 15v3.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V15"/></svg>');
+        --ic-key: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4"/><path d="m10.4 12.6 8.1-8.1M16.5 6.5l2.5 2.5M14 9l2.5 2.5"/></svg>');
+        --ic-refresh2: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11a8.5 8.5 0 0 0-14.6-5L3.5 8.3"/><path d="M3.5 4v4.3h4.3M3.5 13a8.5 8.5 0 0 0 14.6 5l2.4-2.3"/><path d="M20.5 20v-4.3h-4.3"/></svg>');
+      }
+
+      .wrap { display: block; }
 
       .panel {
-        width: 264px; background: #fff; color: #16262b;
-        border: 1px solid #e2e9eb; border-radius: 14px;
-        box-shadow: 0 12px 40px rgba(15,40,46,.22), 0 2px 8px rgba(15,40,46,.10);
-        overflow: hidden; font-size: 12.5px; line-height: 1.4;
-        /* Grow with content (the field list) but never exceed the viewport; the
-           body scrolls only as a last resort past that. */
+        width: 316px; background: #fff; color: #1b1f24;
+        border: 1px solid #e5e7eb; border-radius: 14px;
+        box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 10px 30px -8px rgba(16,24,40,.18);
+        overflow: hidden; font-size: 12.5px; line-height: 1.45;
         display: flex; flex-direction: column; max-height: 92vh;
       }
 
       /* ---- header ---- */
       .hd {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 12px 14px; cursor: grab; user-select: none;
-        background: linear-gradient(135deg, #14888e 0%, #0c5b60 100%); color: #fff;
+        display: flex; align-items: center; gap: 9px; flex: 0 0 auto;
+        padding: 11px 12px; cursor: grab; user-select: none;
+        background: #fff; border-bottom: 1px solid #f1f2f4;
       }
       .hd.dragging { cursor: grabbing; }
-      .brand { display: flex; align-items: center; gap: 7px; min-width: 0; }
-      .logo {
-        display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
-        width: 22px; height: 22px; border-radius: 7px;
-        background: rgba(255,255,255,.18); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
-        font-size: 12px; font-weight: 800;
+
+      /* drag grip — a dot grid drawn in CSS, no glyph */
+      .draghint {
+        flex: 0 0 auto; width: 9px; height: 13px; cursor: grab; font-size: 0; padding: 0;
+        background-image: radial-gradient(#cbd0d6 1.1px, transparent 1.2px);
+        background-size: 4px 4px; background-position: 0 1px;
       }
-      .brand .ttl { font-size: 13.5px; font-weight: 700; letter-spacing: .2px; flex: 0 0 auto; }
-      /* extension version badge — from the manifest, single source of truth */
-      .brand .ver {
-        font-size: 9.5px; font-weight: 600; color: #fff; opacity: .7; flex: 0 0 auto;
-        padding: 1px 5px; border-radius: 999px; background: rgba(255,255,255,.14);
-      }
-      .brand .ver:empty { display: none; }
-      /* active profile chip in the header, right of the title */
-      .hdprof {
-        display: inline-flex; align-items: center; gap: 5px; min-width: 0;
-        padding: 2px 7px 2px 3px; border-radius: 999px;
-        background: rgba(255,255,255,.16); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
-      }
-      .hdprof .av {
-        width: 17px; height: 17px; font-size: 9px; background: rgba(255,255,255,.92); color: #0c5b60;
-      }
-      .hdprof strong {
-        font-size: 11px; font-weight: 600; color: #fff; opacity: .95;
-        max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      }
-      .hdprof.hidden { display: none; }
-      .hd .tools { display: flex; align-items: center; gap: 4px; }
-      .draghint { opacity: .65; font-size: 14px; letter-spacing: -1px; cursor: grab; padding: 0 2px; }
-      .iconbtn.spin { animation: enpplify-spin .8s linear infinite; }
+
+      .brand { display: flex; align-items: center; gap: 7px; min-width: 0; flex: 1 1 auto; }
+      .logo { display: none; }
+      .brand .ttl { font-size: 14px; font-weight: 680; letter-spacing: -.012em; flex: 0 0 auto; }
+
+      .hd .tools { display: flex; align-items: center; gap: 2px; flex: 0 0 auto; }
       .iconbtn {
-        border: none; background: transparent; color: #fff;
+        border: none; background: transparent; color: #9ca3af; padding: 0; font-size: 0;
         width: 26px; height: 26px; border-radius: 7px; cursor: pointer;
-        font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center;
-        transition: background .12s;
+        display: flex; align-items: center; justify-content: center;
+        transition: background .12s, color .12s;
       }
-      .iconbtn:hover { background: rgba(255,255,255,.20); }
+      .iconbtn svg { width: 15px; height: 15px; }
+      .iconbtn:hover:not(:disabled) { background: #f3f4f6; color: #1b1f24; }
+      .iconbtn:disabled { opacity: .5; cursor: default; }
+      .iconbtn.spin svg { animation: enpplify-spin .8s linear infinite; }
 
       /* ---- body ---- */
-      .bd { padding: 11px 12px; display: flex; flex-direction: column; gap: 9px; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+      .bd {
+        padding: 0; display: flex; flex-direction: column;
+        flex: 1 1 auto; min-height: 0; overflow-y: auto; background: #f9fafb;
+      }
       .bd.hidden { display: none; }
       .hidden { display: none !important; }
+      .bd::-webkit-scrollbar { width: 8px; }
+      .bd::-webkit-scrollbar-thumb { background: #e0e3e7; border-radius: 4px; }
 
-      /* foldable "more" region (memory + extras) */
-      .more { display: flex; flex-direction: column; gap: 8px; }
+      #auth { padding: 18px 14px; }
+      #app { display: flex; flex-direction: column; }
 
-      /* avatar circle (used in the header profile chip) */
-      .av {
-        display: inline-flex; align-items: center; justify-content: center;
-        width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
-        background: #e3f1f1; color: #0f7c82; font-weight: 700; font-size: 11px;
-        text-transform: uppercase;
-      }
-
-      /* section card */
-      .sec { display: flex; flex-direction: column; gap: 7px; }
-      .seclabel {
-        display: flex; align-items: center; gap: 6px;
-        font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
-        color: #8a9a9f; margin: 0;
-      }
-      .seclabel .n {
-        display: inline-flex; align-items: center; justify-content: center;
-        width: 15px; height: 15px; border-radius: 50%; background: #e3f1f1; color: #0f7c82;
-        font-size: 9px; font-weight: 800;
-      }
-
-      /* pill checkboxes */
-      .toggles { display: flex; gap: 8px; }
-      label.chip {
-        flex: 1; display: flex; align-items: center; gap: 7px; cursor: pointer;
-        padding: 7px 9px; border: 1px solid #dbe4e6; border-radius: 9px;
-        background: #fff; font-size: 12.5px; color: #385056; transition: all .12s;
-      }
-      label.chip:hover { border-color: #b9d4d6; }
-      label.chip:has(input:checked) { border-color: #0f7c82; background: #f0f8f8; color: #0c5b60; font-weight: 600; }
-      label.chip input { width: 15px; height: 15px; accent-color: #0f7c82; cursor: pointer; }
-      label.row {
-        display: flex; align-items: center; gap: 8px; cursor: pointer;
-        font-size: 12.5px; color: #38505e;
-      }
-      label.row input { width: 15px; height: 15px; accent-color: #0f7c82; cursor: pointer; }
-      .row.disabled, .chip.disabled { opacity: .4; pointer-events: none; }
-
-      /* buttons */
-      .btnrow { display: flex; gap: 7px; }
-      button.btn {
-        flex: 1; min-width: 0; display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-        padding: 6px 8px; border-radius: 8px; border: 1px solid transparent;
-        font-size: 11.5px; font-weight: 600; cursor: pointer; transition: all .12s; white-space: nowrap;
-        overflow: hidden; text-overflow: ellipsis;
-      }
-      button.btn:disabled { opacity: .5; cursor: default; }
-      button.btn.disabled { opacity: .45; pointer-events: none; }
-
-      button.primary { background: #0f7c82; color: #fff; box-shadow: 0 1px 2px rgba(15,124,130,.3); }
-      button.primary:hover:not(:disabled) { background: #0c6469; }
-
-      /* one-click "Fill all": full-width, stronger emphasis than the split row */
-      button.fillall {
-        font-weight: 700; letter-spacing: .2px;
-        background: linear-gradient(135deg, #14888e 0%, #0c5b60 100%); color: #fff;
-      }
-      button.fillall:hover:not(:disabled) { filter: brightness(1.06); background: linear-gradient(135deg, #14888e 0%, #0c5b60 100%); }
-
-      button.fill { background: #16262b; color: #fff; }
-      button.fill:hover:not(:disabled) { background: #0c1719; }
-      button.fill.alt { background: #fff; color: #0f7c82; border-color: #bcdcde; }
-      button.fill.alt:hover:not(:disabled) { background: #f0f8f8; }
-
-      button.ghost { background: #f4f7f8; color: #46606a; border-color: #e2e9eb; font-weight: 500; }
-      button.ghost:hover:not(:disabled) { background: #e9eff1; color: #16262b; }
-
-      /* split Fill buttons: a main button + an attached caret (per button) */
-      .split { flex: 1; display: flex; min-width: 0; }
-      .split .splitmain {
-        flex: 1; min-width: 0; border-right: none;
-        border-top-right-radius: 0; border-bottom-right-radius: 0;
-      }
-      .split .splitcaret {
-        flex: 0 0 auto; width: 30px; padding: 10px 0; font-size: 13px;
-        border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: 1px solid #cfe3e4;
-      }
-      .splitcaret.open { background: #0f7c82; color: #fff; border-color: #0f7c82; }
-      .fldmenu {
-        display: flex; flex-direction: column; gap: 6px;
-        border: 1px solid #e2e9eb; border-radius: 10px; padding: 7px; background: #fbfdfd;
-        /* The list scrolls INSIDE itself (capped), so the Attach / memory / status
-           controls below the Easy Fill & Q&A buttons stay visible without
-           scrolling the whole panel. */
-        max-height: 50vh; overflow-y: auto;
-      }
-      .fldmenu::-webkit-scrollbar { width: 8px; }
-      .fldmenu::-webkit-scrollbar-thumb { background: #d4dee0; border-radius: 4px; }
-      .fldloading, .fldempty { font-size: 12px; color: #64777e; padding: 8px 4px; text-align: center; }
-      button.flditem {
-        display: flex; flex-direction: column; gap: 2px; align-items: stretch; text-align: left;
-        border: 1px solid #e6edee; border-radius: 8px; background: #fff; padding: 7px 9px;
-        cursor: pointer; transition: all .12s; width: 100%;
-      }
-      button.flditem:hover:not(:disabled) { border-color: #bcdcde; background: #f4fafa; }
-      button.flditem:disabled { opacity: .6; cursor: default; }
-      button.flditem.done { border-color: #abd9bd; background: #f1faf4; }
-      .fldtop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-      .fldlabel { font-size: 12px; font-weight: 600; color: #16262b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .fldval { font-size: 11.5px; color: #64777e; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .fldtag { flex: 0 0 auto; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; padding: 2px 6px; border-radius: 999px; }
-      .fldtag.heu { background: #e3f1f1; color: #0c5b60; }
-      .fldtag.ai { background: #efe6fb; color: #6b3fa0; }
-      .fldval.muted { font-style: italic; color: #8a9a9f; }
-      .fldtag.saved { background: #e3f1f1; color: #0c5b60; }
-      .fldtag.reuse { background: #e6f5ec; color: #1f7a44; }
-      .fldqinput { width: 100%; font-family: inherit; font-size: 12px; color: #16262b; border: 1px solid #dbe4e6; border-radius: 7px; padding: 6px 7px; }
-      .fldqinput:focus { outline: none; border-color: #0f7c82; }
-      .answerrow.addrow { background: #f7fafa; border-style: dashed; }
-
-      /* editable answer rows (per-field Fill / Generate / Reusable) */
-      .answerrow { display: flex; flex-direction: column; gap: 6px; border: 1px solid #e6edee; border-radius: 8px; background: #fff; padding: 8px 9px; }
-      .answerrow.done { border-color: #abd9bd; background: #f1faf4; }
-      .answerrow .fldtop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-      .fldinput { width: 100%; resize: vertical; min-height: 34px; font-family: inherit; font-size: 12px; line-height: 1.4; color: #16262b; border: 1px solid #dbe4e6; border-radius: 7px; padding: 6px 7px; background: #fff; }
-      .fldinput:focus { outline: none; border-color: #0f7c82; }
-      .fldacts { display: flex; gap: 6px; flex-wrap: wrap; }
-      .fldbtn { flex: 1; min-width: 54px; padding: 6px 8px; border-radius: 7px; border: 1px solid #dbe4e6; background: #f4f7f8; color: #38505e; font-size: 11.5px; font-weight: 600; cursor: pointer; }
-      .fldbtn:hover:not(:disabled) { background: #e9eff1; color: #0f7c82; }
-      .fldbtn:disabled { opacity: .55; cursor: default; }
-      .fldbtn.fill { background: #0f7c82; color: #fff; border-color: #0f7c82; }
-      .fldbtn.fill:hover:not(:disabled) { background: #0c6469; color: #fff; }
-
-      .linkbtn {
-        align-self: flex-start; border: none; background: none; padding: 0;
-        color: #0f7c82; cursor: pointer; font-size: 11.5px; font-weight: 600;
-      }
-      .linkbtn:hover { text-decoration: underline; }
-
-      /* Copy output path — a full-width, visible button (not a tiny link) */
-      button.cppath {
-        width: 100%; display: inline-flex; align-items: center; justify-content: center;
-        gap: 8px; padding: 9px 12px; font-size: 12.5px; font-weight: 600;
-      }
-      .cpicon {
-        width: 14px; height: 14px; flex: 0 0 auto; border: 1.6px solid currentColor;
-        border-radius: 3px; position: relative; opacity: .85;
-      }
-      /* a small "page" notch so the square reads as a copy/clipboard glyph */
-      .cpicon::after {
-        content: ""; position: absolute; top: -3px; left: 3px; width: 8px; height: 4px;
-        border: 1.6px solid currentColor; border-bottom: none; border-radius: 2px 2px 0 0;
-        background: #fff;
-      }
-
-      /* drop zone */
-      .drop {
-        border: 1.5px dashed #c2d2d5; border-radius: 10px; padding: 11px;
-        text-align: center; font-size: 11.5px; color: #64777e; cursor: default; transition: all .12s;
-      }
-      .drop.over { border-color: #0f7c82; background: #eef7f7; color: #0c5b60; }
-
-      /* prominent job header (company + role) — sits above the status line */
+      /* ---- job context band, flush under the header ---- */
       .jobhd {
-        background: linear-gradient(135deg, #0f7c82, #0c5b60);
-        border-radius: 11px; padding: 10px 12px; margin-bottom: 8px;
-        box-shadow: 0 2px 8px rgba(15,40,46,.18);
+        padding: 9px 13px; background: #fff; border-bottom: 1px solid #f1f2f4;
+        display: flex; flex-direction: column; gap: 1px; flex: 0 0 auto;
       }
       .jobhd.hidden { display: none; }
       .jobco {
-        font-size: 14.5px; font-weight: 800; color: #fff; line-height: 1.25;
+        font-size: 11px; color: #6b7280; line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
       .jobrole {
-        font-size: 12px; font-weight: 600; color: #d6eef0; line-height: 1.3; margin-top: 2px;
+        font-size: 12.5px; font-weight: 640; color: #1b1f24; line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
       .jobrole:empty { display: none; }
 
-      /* status */
-      .statusline { display: flex; align-items: center; gap: 8px; min-height: 18px; }
-      .statusline:empty, .statusline .status:empty { }
-      #statusline { margin-bottom: 2px; }
+      /* ---- status line ---- */
+      .statusline {
+        display: flex; align-items: center; gap: 7px; flex: 0 0 auto;
+        padding: 10px 12px 0;
+      }
+      .statusline:not(:has(.status:not(:empty))):not(:has(.spinner:not(.hidden))) { display: none; }
+      #statusline { margin-bottom: 0; }
       .spinner {
-        width: 14px; height: 14px; flex: 0 0 auto;
-        border: 2px solid #d4dee0; border-top-color: #0f7c82; border-radius: 50%;
-        animation: enpplify-spin .7s linear infinite;
+        width: 12px; height: 12px; flex: 0 0 auto;
+        border: 1.8px solid #ffd9bf; border-top-color: #e8590c; border-radius: 50%;
+        animation: enpplify-spin .8s linear infinite;
       }
       @keyframes enpplify-spin { to { transform: rotate(360deg); } }
-      .status { margin: 0; font-size: 12px; color: #64777e; }
-      .status.err { color: #c0362c; }
-      .status.ok { color: #0f8a4a; }
-      .hint { color: #8a9a9f; font-size: 11px; margin: 0; text-align: center; }
+      .status { margin: 0; font-size: 11.5px; color: #6b7280; line-height: 1.4; }
+      .status.err { color: #b91c1c; }
+      .status.ok { color: #15803d; }
 
-      /* divider */
-      .sep { height: 1px; background: #eef2f3; margin: 1px 0; }
+      .hint { color: #9ca3af; font-size: 11px; margin: 0; text-align: center; line-height: 1.5; }
 
-      /* memory card */
-      .mem { background: #f7fafa; border: 1px solid #e7eef0; border-radius: 11px; padding: 11px; }
+      /* ---- sections ---- */
+      .sec { display: flex; flex-direction: column; padding: 11px 12px; gap: 10px; }
+      .sec + .sec { padding-top: 0; }
+      .seclabel { display: none; }
+      .sep { display: none; }
+
+      /* ---- buttons (base) ---- */
+      .btnrow { display: flex; gap: 7px; }
+      /* a row holding only hidden children collapses instead of leaving a gap */
+      .btnrow:not(:has(> :not(.hidden))) { display: none; }
+
+      button.btn {
+        flex: 1; min-width: 0; display: inline-flex; align-items: center; justify-content: center;
+        gap: 6px; padding: 8px 10px; border-radius: 8px; border: 1px solid #e5e7eb;
+        background: #fff; color: #374151; font-family: inherit;
+        font-size: 11.8px; font-weight: 580; cursor: pointer; transition: all .12s;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      button.btn:hover:not(:disabled):not(.disabled) { background: #f9fafb; border-color: #d1d5db; }
+      button.btn:disabled { opacity: .45; cursor: default; }
+      button.btn.disabled { opacity: .45; pointer-events: none; }
+
+      /* ---- hero: the two primary actions ---- */
+      .hero {
+        background: #fff; border: 1px solid #e5e7eb; border-radius: 11px;
+        padding: 11px; display: flex; flex-direction: column; gap: 7px;
+      }
+      .hero .btnrow { flex-direction: column; }
+
+      button.primary {
+        background: #e8590c; border-color: #e8590c; color: #fff;
+        box-shadow: 0 1px 2px rgba(232,89,12,.28);
+        font-size: 13px; font-weight: 650; padding: 11px 12px; letter-spacing: -.005em;
+      }
+      button.primary:hover:not(:disabled):not(.disabled) { background: #c94a05; border-color: #c94a05; }
+      button.primary::before {
+        content: ""; width: 16px; height: 16px; flex: 0 0 auto; background: currentColor;
+        -webkit-mask: var(--ic-doc) center/contain no-repeat; mask: var(--ic-doc) center/contain no-repeat;
+      }
+
+      button.fillall {
+        background: #fff; border-color: #ffd9bf; color: #c2410c;
+        box-shadow: none; font-size: 13px; font-weight: 650; padding: 11px 12px;
+      }
+      button.fillall:hover:not(:disabled):not(.disabled) { background: #fff4ed; border-color: #ffd9bf; }
+      button.fillall::before {
+        -webkit-mask: var(--ic-bolt) center/contain no-repeat; mask: var(--ic-bolt) center/contain no-repeat;
+      }
+
+      button.ghost { background: #fff; color: #374151; border-color: #e5e7eb; font-weight: 560; }
+      button.ghost:hover:not(:disabled):not(.disabled) { background: #f9fafb; border-color: #d1d5db; }
+
+      /* leading glyphs for the secondary actions in the Documents drawer */
+      #dl::before {
+        content: ""; width: 13px; height: 13px; flex: 0 0 auto; background: #6b7280;
+        -webkit-mask: var(--ic-dl) center/contain no-repeat; mask: var(--ic-dl) center/contain no-repeat;
+      }
+      #regen::before {
+        content: ""; width: 13px; height: 13px; flex: 0 0 auto; background: #6b7280;
+        -webkit-mask: var(--ic-refresh2) center/contain no-repeat; mask: var(--ic-refresh2) center/contain no-repeat;
+      }
+      #pw::before {
+        content: ""; width: 13px; height: 13px; flex: 0 0 auto; background: #6b7280;
+        -webkit-mask: var(--ic-key) center/contain no-repeat; mask: var(--ic-key) center/contain no-repeat;
+      }
+
+      /* ---- unified row group ---- */
+      .grp { border: 1px solid #e5e7eb; border-radius: 11px; background: #fff; overflow: hidden; }
+      .grp > * + * { border-top: 1px solid #f1f2f4; }
+
+      /* every control inside the group renders as a full-width row lockup */
+      .grp button.btn {
+        display: flex; align-items: center; justify-content: flex-start; text-align: left;
+        gap: 10px; width: 100%; padding: 10px 11px;
+        border: none; border-radius: 0; background: #fff; color: #1b1f24;
+        font-size: 12.5px; font-weight: 580; white-space: normal; overflow: visible;
+      }
+      .grp button.btn:hover:not(:disabled):not(.disabled) { background: #fafbfc; border: none; }
+      .grp button.btn::before { content: none; }
+
+      .ri {
+        width: 30px; height: 30px; border-radius: 8px; flex: 0 0 auto;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: #fff4ed; color: #e8590c;
+      }
+      .ri svg { width: 15px; height: 15px; }
+      .ri.neutral { background: #f3f4f6; color: #6b7280; }
+
+      .rt { min-width: 0; flex: 1 1 auto; display: flex; flex-direction: column; gap: 1px; }
+      .rt b { font-size: 12.8px; font-weight: 640; color: #1b1f24; letter-spacing: -.003em; }
+      .rt span {
+        font-size: 11px; color: #6b7280; line-height: 1.35; font-weight: 400;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+
+      .rowchev {
+        width: 15px; height: 15px; flex: 0 0 auto; background: #c3c8cf;
+        -webkit-mask: var(--ic-chevr) center/contain no-repeat; mask: var(--ic-chevr) center/contain no-repeat;
+      }
+
+      /* split row: the lockup is the main button, the caret sits beside it */
+      .rowsplit { display: flex; align-items: stretch; background: #fff; }
+      .rowsplit:hover { background: #fafbfc; }
+      .grp .rowsplit button.btn { background: transparent; }
+      .split { display: contents; }
+      .grp .splitmain { flex: 1 1 auto; min-width: 0; }
+      .grp .splitcaret {
+        flex: 0 0 auto; width: 38px; padding: 0; justify-content: center;
+        font-size: 0; color: #c3c8cf; background: transparent;
+      }
+      .grp .splitcaret::after {
+        content: ""; width: 15px; height: 15px; background: currentColor;
+        -webkit-mask: var(--ic-chevr) center/contain no-repeat; mask: var(--ic-chevr) center/contain no-repeat;
+        transition: transform .16s ease;
+      }
+      .grp .splitcaret:hover:not(:disabled) { color: #6b7280; background: transparent; }
+      .splitcaret.open { color: #e8590c; }
+      .splitcaret.open::after { transform: rotate(90deg); }
+
+      /* ---- native disclosure for Documents (no JS) ---- */
+      details.disc { display: block; }
+      details.disc > summary {
+        list-style: none; cursor: pointer;
+        display: flex; align-items: center; gap: 10px; padding: 10px 11px; background: #fff;
+      }
+      details.disc > summary::-webkit-details-marker { display: none; }
+      details.disc > summary::marker { content: ""; }
+      details.disc > summary:hover { background: #fafbfc; }
+      .discchev {
+        width: 15px; height: 15px; flex: 0 0 auto; background: #c3c8cf;
+        -webkit-mask: var(--ic-chevd) center/contain no-repeat; mask: var(--ic-chevd) center/contain no-repeat;
+        transition: transform .16s ease;
+      }
+      details.disc[open] > summary .discchev { transform: rotate(180deg); }
+
+      /* ---- drawer ---- */
+      .drawer {
+        padding: 0 11px 11px; display: flex; flex-direction: column; gap: 8px;
+        background: #fcfcfd; border-top: 1px solid #f1f2f4;
+      }
+
+      /* ---- chips + checkbox rows ---- */
+      .toggles { display: flex; gap: 7px; }
+      label.chip {
+        flex: 1; display: flex; align-items: center; gap: 7px; cursor: pointer;
+        padding: 7px 9px; border: 1px solid #e5e7eb; border-radius: 8px;
+        background: #fff; font-size: 11.8px; color: #4b5563; transition: all .12s;
+      }
+      label.chip:hover { border-color: #d1d5db; }
+      label.chip:has(input:checked) {
+        border-color: #ffd9bf; background: #fff4ed; color: #9a3412; font-weight: 600;
+      }
+      label.chip input { width: 14px; height: 14px; accent-color: #e8590c; cursor: pointer; flex: 0 0 auto; }
+      label.row { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 11.5px; color: #6b7280; }
+      label.row input { width: 14px; height: 14px; accent-color: #e8590c; cursor: pointer; flex: 0 0 auto; }
+      .row.disabled, .chip.disabled { opacity: .4; pointer-events: none; }
+
+      /* ---- Copy path — keeps .cpicon + .cptext (JS rewrites .cptext only) ---- */
+      button.cppath { gap: 6px; }
+      .cpicon {
+        width: 13px; height: 13px; flex: 0 0 auto; background: #6b7280;
+        -webkit-mask: var(--ic-copy) center/contain no-repeat; mask: var(--ic-copy) center/contain no-repeat;
+      }
+      .cptext { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+      /* ---- More toggle — JS writes its textContent and aria-expanded ---- */
+      #moreBtn { justify-content: center; }
+      #moreBtn::after {
+        content: ""; width: 13px; height: 13px; flex: 0 0 auto; background: currentColor;
+        -webkit-mask: var(--ic-chevd) center/contain no-repeat; mask: var(--ic-chevd) center/contain no-repeat;
+        opacity: .6; transition: transform .16s ease;
+      }
+      #moreBtn[aria-expanded="true"]::after { transform: rotate(180deg); }
+      .more { display: flex; flex-direction: column; gap: 8px; }
+
+      /* ---- drill-in sub-view ----
+         While a list is open the panel becomes that list: the hero, the row group
+         and the "more" region hide, and a back bar appears. Pure CSS on top of the
+         existing hidden/open classes — the open/close JS is untouched. */
+      .fldnav {
+        display: none; align-items: center; gap: 8px;
+        padding: 9px 12px; background: #fff; border-bottom: 1px solid #f1f2f4;
+        margin: 0 -12px;
+      }
+      .sec:has(#fldMenu:not(.hidden)) .fldnav { display: flex; }
+      .fldnav .navttl { font-size: 13px; font-weight: 660; }
+      .fldnav .navttl { display: none; }
+      .sec:has(#flCaret.open) .fldnav .navttl.t-easy { display: block; }
+      .sec:has(#aiCaret.open) .fldnav .navttl.t-qa { display: block; }
+      .backbtn {
+        width: 26px; height: 26px; flex: 0 0 auto; padding: 0; font-size: 0;
+        border: 1px solid #e5e7eb; background: #fff; border-radius: 7px; color: #4b5563;
+        display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+      }
+      .backbtn svg { width: 14px; height: 14px; }
+      .backbtn:hover { background: #f9fafb; border-color: #d1d5db; }
+
+      #app:has(#fldMenu:not(.hidden)) > .jobhd,
+      #app:has(#fldMenu:not(.hidden)) > .statusline,
+      #app:has(#fldMenu:not(.hidden)) > .sec.first { display: none; }
+      .sec:has(#fldMenu:not(.hidden)) > .grp,
+      .sec:has(#fldMenu:not(.hidden)) > #moreBtn,
+      .sec:has(#fldMenu:not(.hidden)) > #moreWrap { display: none; }
+      .sec:has(#fldMenu:not(.hidden)) { padding-top: 0; }
+
+      /* ---- the list ---- */
+      .fldmenu {
+        display: flex; flex-direction: column; gap: 7px;
+        border: none; border-radius: 0; padding: 0; background: transparent;
+        max-height: 60vh; overflow-y: auto;
+      }
+      .fldmenu::-webkit-scrollbar { width: 8px; }
+      .fldmenu::-webkit-scrollbar-thumb { background: #e0e3e7; border-radius: 4px; }
+
+      .fldloading, .fldempty {
+        font-size: 12px; color: #6b7280; padding: 20px 14px; text-align: center; line-height: 1.5;
+      }
+      .fldempty::before {
+        content: ""; display: block; width: 30px; height: 30px; margin: 0 auto 10px;
+        background: #e8590c;
+        -webkit-mask: var(--ic-bolt) center/contain no-repeat; mask: var(--ic-bolt) center/contain no-repeat;
+      }
+      .fldloading::before {
+        content: ""; display: block; width: 22px; height: 22px; margin: 0 auto 10px;
+        border: 2px solid #ffd9bf; border-top-color: #e8590c; border-radius: 50%;
+        animation: enpplify-spin .8s linear infinite;
+      }
+
+      /* password / instant rows */
+      button.flditem {
+        display: flex; flex-direction: column; gap: 5px; align-items: stretch; text-align: left;
+        border: 1px solid #e5e7eb; border-radius: 9px; background: #fff; padding: 9px;
+        cursor: pointer; transition: all .12s; width: 100%; font-family: inherit;
+      }
+      button.flditem:hover:not(:disabled) { border-color: #d1d5db; background: #fafbfc; }
+      button.flditem:disabled { opacity: .6; cursor: default; }
+      button.flditem.done { border-color: #bbf7d0; background: #f0fdf4; }
+
+      .fldtop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .fldlabel {
+        font-size: 11.8px; font-weight: 620; color: #1b1f24; min-width: 0;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .fldval {
+        font-size: 11.5px; color: #4b5563; background: #f9fafb; border: 1px solid #f1f2f4;
+        border-radius: 6px; padding: 5px 7px; line-height: 1.45;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .fldval.muted { font-style: normal; color: #9ca3af; }
+
+      .fldtag {
+        flex: 0 0 auto; font-size: 9px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .05em; padding: 3px 7px; border-radius: 999px;
+      }
+      .fldtag.heu { background: #f3f4f6; color: #6b7280; }
+      .fldtag.ai { background: #fff4ed; color: #c2410c; }
+      .fldtag.saved { background: #f0fdf4; color: #15803d; }
+      .fldtag.reuse { background: #eff6ff; color: #1d4ed8; }
+
+      /* editable answer rows */
+      .answerrow {
+        display: flex; flex-direction: column; gap: 6px;
+        border: 1px solid #e5e7eb; border-radius: 9px; background: #fff; padding: 9px;
+      }
+      .answerrow.done { border-color: #bbf7d0; background: #f0fdf4; }
+      .answerrow .fldtop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .answerrow.addrow { background: #fcfcfd; border-style: dashed; border-color: #e5e7eb; }
+
+      .fldinput, .fldqinput {
+        width: 100%; font-family: inherit; font-size: 11.8px; line-height: 1.45; color: #1b1f24;
+        border: 1px solid #e5e7eb; border-radius: 7px; padding: 7px 8px; background: #fff;
+      }
+      .fldinput { resize: vertical; min-height: 34px; }
+      .fldinput::placeholder, .fldqinput::placeholder { color: #9ca3af; }
+      .fldinput:focus, .fldqinput:focus {
+        outline: none; border-color: #e8590c; box-shadow: 0 0 0 3px rgba(232,89,12,.12);
+      }
+
+      .fldacts { display: flex; gap: 5px; flex-wrap: wrap; }
+      .fldbtn {
+        flex: 1; min-width: 52px; padding: 5px 8px; border-radius: 6px;
+        border: 1px solid #e5e7eb; background: #fff; color: #6b7280; font-family: inherit;
+        font-size: 10.5px; font-weight: 570; cursor: pointer; white-space: nowrap; transition: all .12s;
+      }
+      .fldbtn:hover:not(:disabled) { background: #f9fafb; color: #374151; border-color: #d1d5db; }
+      .fldbtn:disabled { opacity: .55; cursor: default; }
+      .fldbtn.fill { background: #e8590c; color: #fff; border-color: #e8590c; }
+      .fldbtn.fill:hover:not(:disabled) { background: #c94a05; border-color: #c94a05; color: #fff; }
+      .fldbtn.gen { background: #fff9f5; color: #c2410c; border-color: #ffd9bf; }
+      .fldbtn.gen:hover:not(:disabled) { background: #fff4ed; color: #c2410c; border-color: #ffd9bf; }
+      .fldbtn.save { color: #374151; font-weight: 620; }
+      .fldbtn.copy { color: #6b7280; }
+      .fldbtn.del { color: #b91c1c; }
+      .fldbtn.del:hover:not(:disabled) { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+      /* "→ Profile" promotes an answer to the reusable store — blue, matching the
+         .fldtag.reuse badge, and given its own line since the label is long. */
+      .fldbtn.toprofile {
+        flex: 1 0 100%; background: #f8fbff; color: #1d4ed8; border-color: #dbeafe;
+      }
+      .fldbtn.toprofile:hover:not(:disabled) { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+
+      .linkbtn {
+        align-self: flex-start; border: none; background: none; padding: 0; font-family: inherit;
+        color: #c2410c; cursor: pointer; font-size: 11.5px; font-weight: 600;
+      }
+      .linkbtn:hover { text-decoration: underline; }
+
+      /* ---- drop zone ---- */
+      .drop {
+        border: 1.5px dashed #ffd9bf; border-radius: 9px; padding: 14px 10px;
+        text-align: center; font-size: 11.3px; color: #b45309; background: #fffaf6;
+        cursor: default; transition: all .12s;
+      }
+      .drop::before {
+        content: ""; display: block; width: 18px; height: 18px; margin: 0 auto 6px;
+        background: #e8590c;
+        -webkit-mask: var(--ic-upload) center/contain no-repeat; mask: var(--ic-upload) center/contain no-repeat;
+      }
+      .drop.over { border-color: #e8590c; background: #fff4ed; color: #9a3412; }
+
+      /* ---- memory card ---- */
+      .mem {
+        background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 9px; padding: 10px;
+        display: flex; flex-direction: column; gap: 5px;
+      }
       .memhd {
-        display: flex; align-items: center; gap: 6px;
-        font-size: 10px; text-transform: uppercase; letter-spacing: .6px; font-weight: 700;
-        color: #8a9a9f; margin-bottom: 8px;
+        display: flex; align-items: center; gap: 6px; margin-bottom: 3px;
+        font-size: 9.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: #9ca3af;
       }
-      .memhd::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #c2d2d5; }
-      .memjob { font-size: 12.5px; font-weight: 700; color: #16262b; margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .memjob.empty { font-weight: 400; color: #aab6ba; }
-      .mem.has::before { } /* reserved */
-      .memrow { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 2.5px 0; }
-      .memrow > span:first-child { color: #64777e; }
-      .memval { color: #16262b; font-weight: 600; }
-      .memval.yes { color: #0f8a4a; }
-      .memval.no { color: #aab6ba; font-weight: 400; }
-      .memval.mono { font-weight: 400; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 10.5px; color: #46606a; }
-      .membtns { display: flex; gap: 14px; margin-top: 8px; }
+      .memjob {
+        font-size: 11px; font-weight: 620; color: #374151; margin-bottom: 3px;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .memjob.empty { font-weight: 400; color: #9ca3af; }
+      .memrow { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 11px; }
+      .memrow > span:first-child { color: #6b7280; flex: 0 0 auto; }
+      .memval {
+        color: #1b1f24; font-weight: 600; text-align: right; min-width: 0;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .memval.yes { color: #15803d; }
+      .memval.no { color: #9ca3af; font-weight: 400; }
+      .memval.mono {
+        font-weight: 400; font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 10px; color: #6b7280;
+      }
+      .membtns { display: flex; gap: 12px; margin-top: 5px; }
 
-      /* footer */
-      .foot { display: flex; justify-content: center; }
-      .minbtn {
-        border: none; background: none; color: #8a9a9f;
-        padding: 4px 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; border-radius: 6px;
+      /* ---- persistent footer ---- */
+      .foot {
+        flex: 0 0 auto; border-top: 1px solid #f1f2f4; background: #fcfcfd;
+        padding: 8px 10px; display: flex; align-items: center; gap: 7px;
       }
-      .minbtn:hover { background: #f1f5f6; color: #0f7c82; }
+      .fmark {
+        width: 22px; height: 22px; border-radius: 7px; background: #e8590c; color: #fff;
+        display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+        box-shadow: 0 1px 2px rgba(232,89,12,.32);
+      }
+      .fmark svg { width: 13px; height: 13px; }
+      .fname { font-size: 11.5px; font-weight: 650; flex: 0 0 auto; }
+      .ver {
+        font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 9.5px;
+        color: #9ca3af; flex: 0 0 auto;
+      }
+      .ver:empty { display: none; }
+      .fdot {
+        width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto;
+        background: #15803d; box-shadow: 0 0 0 2.5px rgba(21,128,61,.14);
+      }
+      /* signed out: the profile chip is hidden, so the dot reports it */
+      .foot:has(.hdprof.hidden) .fdot { background: #9ca3af; box-shadow: 0 0 0 2.5px rgba(156,163,175,.16); }
+
+      .hdprof {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px; min-width: 0;
+        padding: 3px 8px 3px 3px; border-radius: 999px;
+        background: #fff; border: 1px solid #e5e7eb; flex: 0 1 auto;
+      }
+      .hdprof.hidden { display: none; }
+      .av {
+        display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+        width: 18px; height: 18px; border-radius: 50%;
+        background: #fff4ed; color: #c94a05; font-weight: 700; font-size: 9px; text-transform: uppercase;
+      }
+      .hdprof strong {
+        font-size: 11px; font-weight: 600; color: #374151;
+        max-width: 92px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .minbtn {
+        border: none; background: none; color: #9ca3af; padding: 0; font-size: 0;
+        width: 24px; height: 24px; cursor: pointer; border-radius: 6px; flex: 0 0 auto;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      .foot:has(.hdprof.hidden) .minbtn { margin-left: auto; }
+      .minbtn::after {
+        content: ""; width: 14px; height: 14px; background: currentColor;
+        -webkit-mask: var(--ic-chevd) center/contain no-repeat; mask: var(--ic-chevd) center/contain no-repeat;
+      }
+      .minbtn:hover { background: #f3f4f6; color: #6b7280; }
 
       /* ---- minimized circle (FAB) ---- */
       .wrap.minimized .panel { display: none; }
       .wrap:not(.minimized) .fab { display: none; }
       .fab {
-        width: 50px; height: 50px; border-radius: 50%; border: none; cursor: grab;
-        background: linear-gradient(135deg, #16949a, #0c5b60); color: #fff;
-        font-weight: 800; font-size: 19px; position: relative;
+        width: 50px; height: 50px; border-radius: 50%; border: none; cursor: grab; padding: 0;
+        background: #e8590c; color: #fff; position: relative;
         display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 6px 20px rgba(12,91,96,.38);
-        transition: transform .12s, filter .12s;
+        box-shadow: 0 3px 10px rgba(232,89,12,.4), 0 1px 3px rgba(16,24,40,.2);
+        transition: transform .12s, background .12s;
       }
-      .fab:hover { filter: brightness(1.07); transform: translateY(-1px); }
+      .fab:hover { background: #c94a05; transform: translateY(-1px); }
       .fab.dragging { cursor: grabbing; }
+      .fabtxt { display: inline-flex; align-items: center; justify-content: center; font-size: 0; }
+      .fabtxt svg { width: 23px; height: 23px; }
       .fabdot {
-        position: absolute; top: 5px; right: 5px; width: 11px; height: 11px;
-        border-radius: 50%; background: #3ddc84; border: 2.5px solid #0c5b60;
+        position: absolute; top: 2px; right: 2px; width: 12px; height: 12px;
+        border-radius: 50%; background: #22c55e; border: 2px solid #fff;
       }
       .fabdot.hidden { display: none; }
+
+      button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible {
+        outline: 2px solid #e8590c; outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .spinner, .iconbtn.spin svg, .fldloading::before { animation: none; }
+        * { transition: none !important; }
+      }
     </style>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <g id="ic-mark" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5h16M8.5 13.2 11 15.7l5-5.4"/><path d="M4 7.5v9a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-9"/></g>
+      <g id="ic-doc" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7M8.5 13h7M8.5 17h5"/></g>
+      <g id="ic-clip" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 12.3 19.2a5 5 0 0 1-7.1-7.1l8-8a3.4 3.4 0 0 1 4.8 4.8l-7.9 8a1.7 1.7 0 0 1-2.4-2.4l7-7"/></g>
+      <g id="ic-bolt" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 2 4 13.5h6.5L10 22l9.5-11.5H13z"/></g>
+      <g id="ic-spark" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 13.9 9 19.7 10.9 13.9 12.8 12 18.6 10.1 12.8 4.3 10.9 10.1 9z"/><path d="M18.6 3v3.4M20.3 4.7h-3.4M5.6 16v2.6M6.9 17.3H4.3"/></g>
+      <g id="ic-refresh" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 11a8.5 8.5 0 0 0-14.6-5L3.5 8.3"/><path d="M3.5 4v4.3h4.3M3.5 13a8.5 8.5 0 0 0 14.6 5l2.4-2.3"/><path d="M20.5 20v-4.3h-4.3"/></g>
+      <g id="ic-minus" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></g>
+      <g id="ic-chevl" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></g>
+    </defs></svg>
+
     <div class="wrap minimized" id="wrap">
-      <button class="fab" id="fab" type="button" title="Open Enpplify"><span class="fabtxt">E</span><span class="fabdot hidden" id="fabdot"></span></button>
+      <button class="fab" id="fab" type="button" title="Open Tryvify"><span class="fabtxt"><svg viewBox="0 0 24 24"><use href="#ic-mark"/></svg></span><span class="fabdot hidden" id="fabdot"></span></button>
       <div class="panel" id="panel">
       <div class="hd" id="hd">
+        <span class="draghint" title="Drag to move"></span>
         <span class="brand">
-          <span class="logo">E</span>
-          <span class="ttl">Enpplify</span>
-          <span class="ver" id="ver" title="Extension version"></span>
-          <span class="hdprof" id="hdprof" title="Active profile"><span class="av" id="avatar">—</span><strong id="prof">—</strong></span>
+          <span class="logo"></span>
+          <span class="ttl">Tryvify</span>
         </span>
         <span class="tools">
-          <span class="draghint" title="Drag to move">⠿</span>
-          <button class="iconbtn" id="refresh" type="button" title="Reload data from the server">⟳</button>
-          <button class="iconbtn" id="minTop" type="button" title="Minimize to circle">–</button>
+          <button class="iconbtn" id="refresh" type="button" title="Reload data from the server"><svg viewBox="0 0 24 24"><use href="#ic-refresh"/></svg></button>
+          <button class="iconbtn" id="minTop" type="button" title="Minimize to circle"><svg viewBox="0 0 24 24"><use href="#ic-minus"/></svg></button>
         </span>
       </div>
       <div class="bd" id="bd">
         <div id="auth" class="hidden">
-          <p class="hint" style="text-align:left">Sign in from the Enpplify toolbar popup, then reopen this panel.</p>
+          <p class="hint" style="text-align:left">Sign in from the Tryvify toolbar popup, then reopen this panel.</p>
         </div>
         <div id="app" class="hidden">
           <div class="jobhd hidden" id="jobHd">
@@ -1167,23 +1414,16 @@
             <span class="spinner hidden" id="sp"></span>
             <p class="status" id="st"></p>
           </div>
-          <div class="sec">
+
+          <div class="sec first">
             <p class="seclabel"><span class="n">1</span> Generate documents</p>
-            <div class="toggles">
-              <label class="chip" id="grRow"><input type="checkbox" id="gr" /> Résumé</label>
-              <label class="chip"><input type="checkbox" id="gc" /> Cover letter</label>
-            </div>
-            <label class="row" id="baseRow"><input type="checkbox" id="base" /> Use my base résumé instead</label>
-            <div class="btnrow">
-              <button class="btn primary" id="go">Generate</button>
-              <button class="btn ghost hidden" id="regen" type="button" title="Discard the existing documents and generate them again">↻ Force regenerate</button>
-            </div>
-            <div class="btnrow">
-              <button class="btn ghost cppath" id="cp" type="button">
-                <span class="cpicon" aria-hidden="true"></span>
-                <span class="cptext">Copy path</span>
-              </button>
-              <button class="btn ghost" id="dl" type="button" title="Download the generated files to this computer">⬇ Download</button>
+            <div class="hero">
+              <div class="btnrow">
+                <button class="btn primary" id="go">Generate documents</button>
+              </div>
+              <div class="btnrow">
+                <button class="btn primary fillall" id="fillAll" type="button" title="Fill this page: AI-answer questions, attach an already-generated résumé/CV, Easy Fill the basics, and fill passwords. Does not generate — use Generate for that.">Fill application</button>
+              </div>
             </div>
           </div>
 
@@ -1191,22 +1431,68 @@
 
           <div class="sec">
             <p class="seclabel"><span class="n">2</span> Fill this page</p>
-            <div class="btnrow">
-              <button class="btn primary fillall" id="fillAll" type="button" title="Fill this page: AI-answer questions, attach an already-generated résumé/CV, Easy Fill the basics, and fill passwords. Does not generate — use Generate for that.">⚡ Fill all</button>
-              <button class="btn ghost" id="rs">Attach résumé &amp; CV</button>
+
+            <div class="fldnav">
+              <button class="backbtn" id="fldBack" type="button" title="Back"><svg viewBox="0 0 24 24"><use href="#ic-chevl"/></svg></button>
+              <span class="navttl t-easy">Easy Fill</span>
+              <span class="navttl t-qa">Q&amp;A</span>
             </div>
-            <div class="btnrow">
-              <div class="split">
-                <button class="btn fill alt splitmain" id="fl">Easy Fill</button>
-                <button class="btn fill alt splitcaret" id="flCaret" type="button" title="Easy Fill list — profile answers (add / edit)">▾</button>
+
+            <div class="grp">
+              <details class="disc">
+                <summary>
+                  <span class="ri"><svg viewBox="0 0 24 24"><use href="#ic-doc"/></svg></span>
+                  <span class="rt"><b>Documents</b><span>What to generate</span></span>
+                  <span class="discchev"></span>
+                </summary>
+                <div class="drawer">
+                  <div class="toggles">
+                    <label class="chip" id="grRow"><input type="checkbox" id="gr" /> Résumé</label>
+                    <label class="chip"><input type="checkbox" id="gc" /> Cover letter</label>
+                  </div>
+                  <label class="row" id="baseRow"><input type="checkbox" id="base" /> Use my base résumé instead</label>
+                  <div class="btnrow">
+                    <button class="btn ghost cppath" id="cp" type="button">
+                      <span class="cpicon" aria-hidden="true"></span>
+                      <span class="cptext">Copy path</span>
+                    </button>
+                    <button class="btn ghost" id="dl" type="button" title="Download the generated files to this computer">Download</button>
+                  </div>
+                  <div class="btnrow">
+                    <button class="btn ghost hidden" id="regen" type="button" title="Discard the existing documents and generate them again">Force regenerate</button>
+                  </div>
+                </div>
+              </details>
+
+              <button class="btn" id="rs" type="button">
+                <span class="ri"><svg viewBox="0 0 24 24"><use href="#ic-clip"/></svg></span>
+                <span class="rt"><b>Attach résumé &amp; CV</b><span>Upload the documents to this page</span></span>
+                <span class="rowchev"></span>
+              </button>
+
+              <div class="rowsplit">
+                <div class="split">
+                  <button class="btn fill alt splitmain" id="fl">
+                    <span class="ri"><svg viewBox="0 0 24 24"><use href="#ic-bolt"/></svg></span>
+                    <span class="rt"><b>Easy Fill</b><span>Instant basics — no AI</span></span>
+                  </button>
+                  <button class="btn fill alt splitcaret" id="flCaret" type="button" title="Easy Fill list — profile answers (add / edit)"></button>
+                </div>
               </div>
-              <div class="split">
-                <button class="btn fill alt splitmain" id="ai">Q&amp;A</button>
-                <button class="btn fill alt splitcaret" id="aiCaret" type="button" title="Q&amp;A list — page questions + saved answers (add / generate)">▾</button>
+
+              <div class="rowsplit">
+                <div class="split">
+                  <button class="btn fill alt splitmain" id="ai">
+                    <span class="ri"><svg viewBox="0 0 24 24"><use href="#ic-spark"/></svg></span>
+                    <span class="rt"><b>Q&amp;A</b><span>AI answers for this form</span></span>
+                  </button>
+                  <button class="btn fill alt splitcaret" id="aiCaret" type="button" title="Q&amp;A list — page questions + saved answers (add / generate)"></button>
+                </div>
               </div>
             </div>
+
             <div class="fldmenu hidden" id="fldMenu"></div>
-            <button class="btn ghost" id="moreBtn" type="button" aria-expanded="false" title="Show more">More ▾</button>
+            <button class="btn ghost" id="moreBtn" type="button" aria-expanded="false" title="Show more">More</button>
 
             <!-- Everything below is foldable to keep the panel short. -->
             <div class="more hidden" id="moreWrap">
@@ -1215,7 +1501,7 @@
               <p class="hint">Review every field, then submit manually.</p>
 
               <div class="mem" id="mem">
-                <div class="memhd">Enpplify memory</div>
+                <div class="memhd">Run memory</div>
                 <div class="memjob" id="memJob">—</div>
                 <div class="memrow"><span>Run</span><span class="memval" id="memRun">none yet</span></div>
                 <div class="memrow"><span>Résumé</span><span class="memval" id="memR">—</span></div>
@@ -1229,9 +1515,14 @@
             </div>
           </div>
         </div>
-        <div class="foot">
-          <button class="minbtn" id="min" type="button" title="Minimize to circle">▾ Minimize</button>
-        </div>
+      </div>
+      <div class="foot">
+        <span class="fmark"><svg viewBox="0 0 24 24"><use href="#ic-mark"/></svg></span>
+        <span class="fname">Tryvify</span>
+        <span class="ver" id="ver" title="Extension version"></span>
+        <span class="fdot" aria-hidden="true"></span>
+        <span class="hdprof" id="hdprof" title="Active profile"><span class="av" id="avatar">—</span><strong id="prof">—</strong></span>
+        <button class="minbtn" id="min" type="button" title="Minimize to circle"></button>
       </div>
       </div>
     </div>
@@ -1404,7 +1695,9 @@
   function setMoreOpen(open) {
     moreOpen = open;
     moreWrap.classList.toggle("hidden", !open);
-    moreBtn.textContent = open ? "Less ▴" : "More ▾";
+    // Text only — the chevron is a CSS pseudo-element keyed off aria-expanded,
+    // so it survives this textContent assignment.
+    moreBtn.textContent = open ? "Less" : "More";
     moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
   }
   moreBtn.addEventListener("click", () => setMoreOpen(!moreOpen));
@@ -1579,7 +1872,7 @@
   baseEl.addEventListener("change", () => {
     if (baseEl.checked && !baseResumeAvailable()) {
       baseEl.checked = false;
-      setStatus("No base résumé uploaded — add one in Enpply → Enpplify settings.", "err");
+      setStatus("No base résumé uploaded — add one in Tryvera → Tryvify settings.", "err");
       return;
     }
     // A hand-toggle is a per-page override of the profile default.
@@ -1702,7 +1995,7 @@
   pwBtn.addEventListener("click", () => {
     const r = fillPasswords();
     if (r.ok) setStatus(`Filled ${r.count} password field(s). Review, then submit manually.`, "ok");
-    else if (r.reason === "no-password") setStatus("No autofill password set — add one on the Enpplify settings page.", "err");
+    else if (r.reason === "no-password") setStatus("No autofill password set — add one on the Tryvify settings page.", "err");
     else setStatus("No password fields detected on this page.", "err");
   });
 
@@ -1896,7 +2189,7 @@
         const pr = fillPasswords();
         if (pr.ok) parts.push(`${pr.count} password field(s)`);
       } else {
-        parts.push("set an autofill password in Enpplify settings to fill the password fields");
+        parts.push("set an autofill password in Tryvify settings to fill the password fields");
       }
     }
 
@@ -1953,6 +2246,11 @@
     aiCaret.classList.remove("open");
     openMenuMode = null;
   }
+
+  // Easy Fill and Q&A render as full sub-views (the CSS hides the rest of the
+  // body while #fldMenu is open), so the back arrow is the way out. It reuses
+  // closeFieldMenu — same state transition the carets already perform.
+  $("fldBack").addEventListener("click", closeFieldMenu);
 
   /**
    * Canonical question text for a field — MUST mirror the server's questionOf()
@@ -2084,7 +2382,7 @@
   async function qaAiGenerate(fields) {
     if (activeAppId) return send("enpplify:fillMap", { appId: activeAppId, fields, mode: "ai" });
     if (!currentProfileId) {
-      return { ok: false, error: "No profile selected. Open the Enpplify popup and pick a profile." };
+      return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
     }
     return send("enpplify:fillMapProfile", { profileId: currentProfileId, fields, mode: "ai", context: qaPageContext() });
   }
@@ -2255,7 +2553,7 @@
     item.innerHTML =
       `<span class="fldtop"><span class="fldlabel">${escapeHtml(label)}</span>` +
       `<span class="fldtag heu">password</span></span>` +
-      `<span class="fldval${ready ? "" : " muted"}">${ready ? "••••••••" : "Set an autofill password in Enpplify settings"}</span>`;
+      `<span class="fldval${ready ? "" : " muted"}">${ready ? "••••••••" : "Set an autofill password in Tryvify settings"}</span>`;
     if (!ready) { item.disabled = true; return item; }
     item.addEventListener("click", () => {
       try {
@@ -2533,7 +2831,7 @@
         authView.classList.remove("hidden");
         appView.classList.add("hidden");
         hdProf.classList.add("hidden");
-        setStatus("Sign in from the Enpplify popup, then reopen.", "err");
+        setStatus("Sign in from the Tryvify popup, then reopen.", "err");
         return;
       }
       authView.classList.add("hidden");
@@ -2720,7 +3018,7 @@
     // A run exists. Keep the primary button as "Generate" (clicking it loads the
     // existing run without overwriting); the explicit "Regenerate (force)" button
     // — shown via enableFillActions — is what actually re-runs.
-    goBtn.textContent = "Generate";
+    goBtn.textContent = "Generate documents";
   }
 
   // Set when this run pre-existed (you already applied) rather than being freshly
@@ -2952,7 +3250,7 @@
     // Reset run-bound UI — the old run belonged to the previous profile.
     stopPolling();
     setBusy(false);
-    goBtn.textContent = "Generate";
+    goBtn.textContent = "Generate documents";
     enableFillActions("");
     updateMemory(null);
     showCopyPath("");

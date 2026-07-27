@@ -61,6 +61,10 @@ sp          st          statusline  vc          ver         vr          wrap
 `statusline` — are styling/structure anchors and must also stay, since layout
 rules and the drag handler target them.
 
+**Added by the redesign (stage 1):** `fldBack` — the back arrow on the Easy Fill
+/ Q&A sub-views, bound to the existing `closeFieldMenu()`. The `<defs>` sprite
+also introduces `ic-*` ids; those are SVG symbols, not scriptable elements.
+
 Type constraints that JS assumes:
 - `gr`, `gc`, `base`, `autoEnabled`-style toggles are `<input type="checkbox">` —
   code reads `.checked`.
