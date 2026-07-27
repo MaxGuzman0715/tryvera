@@ -1020,10 +1020,15 @@
       /* every control inside the group renders as a full-width row lockup */
       .grp button.btn {
         display: flex; align-items: center; justify-content: flex-start; text-align: left;
-        gap: 10px; width: 100%; padding: 10px 11px;
+        gap: 10px; padding: 10px 11px;
         border: none; border-radius: 0; background: #fff; color: #1b1f24;
         font-size: 12.5px; font-weight: 580; white-space: normal; overflow: visible;
       }
+      /* A row that IS a single button spans the group. The split rows size their
+         main button by flex instead (see .rowsplit), because a percentage width
+         inside a flex chain resolves against the wrong box and collapses the
+         button to its min-content width. */
+      .grp > button.btn { width: 100%; }
       .grp button.btn:hover:not(:disabled):not(.disabled) { background: #fafbfc; border: none; }
       .grp button.btn::before { content: none; }
 
@@ -1040,13 +1045,13 @@
         display: block; font-size: 12.8px; font-weight: 640; color: #1b1f24;
         letter-spacing: -.003em; line-height: 1.3;
       }
-      /* The description wraps rather than truncating: if the row ever gets narrow
-         (long profile name, zoomed page), an ellipsised subtitle can collapse to
-         nothing, which reads as a missing description. Wrapping degrades to two
-         short lines instead of disappearing. */
+      /* Wraps rather than ellipsising, so a narrow row degrades to two short
+         lines instead of vanishing. break-word (not anywhere) — anywhere lets the
+         min-content width fall to a single character, which lets a flex ancestor
+         squeeze the column to nothing. */
       .rt span {
         display: block; font-size: 11px; color: #6b7280; line-height: 1.35;
-        font-weight: 400; white-space: normal; overflow-wrap: anywhere;
+        font-weight: 400; white-space: normal; overflow-wrap: break-word;
       }
 
       .rowchev {
@@ -1058,10 +1063,13 @@
       .rowsplit { display: flex; align-items: stretch; background: #fff; }
       .rowsplit:hover { background: #fafbfc; }
       .grp .rowsplit button.btn { background: transparent; }
-      .split { display: contents; }
-      .grp .splitmain { flex: 1 1 auto; min-width: 0; }
+      /* A real flex box, not display:contents — contents made the main button's
+         percentage width resolve against the wrong containing block, collapsing
+         it to min-content and shredding the label one character per line. */
+      .split { display: flex; align-items: stretch; flex: 1 1 auto; min-width: 0; }
+      .grp .splitmain { flex: 1 1 auto; min-width: 0; width: auto; }
       .grp .splitcaret {
-        flex: 0 0 auto; width: 38px; padding: 0; justify-content: center;
+        flex: 0 0 38px; width: 38px; padding: 0; justify-content: center;
         font-size: 0; color: #c3c8cf; background: transparent;
       }
       .grp .splitcaret::after {
