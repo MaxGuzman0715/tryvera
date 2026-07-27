@@ -22,6 +22,19 @@ import NotFound from "./marketing/pages/NotFound";
 import LoadingScreen from "./marketing/components/LoadingScreen";
 import { AuthProvider, useAuth } from "./enpply/auth/AuthContext";
 import { RequireAdmin, RequireAuth } from "./enpply/auth/RequireAuth";
+import {
+  IconChart,
+  IconFlask,
+  IconGear,
+  IconIdCard,
+  IconList,
+  IconMark,
+  IconPlug,
+  IconSend,
+  IconSignOut,
+  IconSliders,
+  IconUsers,
+} from "./ui/icons";
 
 /**
  * Routes the React Router knows about. Anything not matching one of these
@@ -60,67 +73,105 @@ function Layout({ children }: { children: ReactNode }) {
     navigate("/login", { replace: true });
   }
 
+  const navClass = ({ isActive }: { isActive: boolean }) => (isActive ? "active" : "");
+  const initial = (user?.email ?? "?").trim().charAt(0).toUpperCase();
+
   return (
     <div className="layout">
       <GlobalSpinner />
       <GenerationToasts />
-      <header className="nav">
-        <div className="nav-inner">
-          <span className="brand">TealBridge</span>
-          {user ? (
+      {user ? (
+        <aside className="sidebar">
+          <div className="sidebar-brand">
+            <span className="sidebar-mark">
+              <IconMark />
+            </span>
+            <span className="brand">Tryvera</span>
+          </div>
+
+          <p className="nav-group">Apply</p>
+          <nav className="nav-links">
+            <NavLink to="/apply" className={navClass}>
+              <IconSend />
+              Job Apply
+            </NavLink>
+            <NavLink to="/logs" className={navClass}>
+              <IconList />
+              Application Logs
+            </NavLink>
+          </nav>
+
+          {isAdmin && (
             <>
+              <p className="nav-group">Library</p>
               <nav className="nav-links">
-                {isAdmin && (
-                  <NavLink end to="/" className={({ isActive }) => (isActive ? "active" : "")}>
-                    Profiles
-                  </NavLink>
-                )}
-                <NavLink to="/apply" className={({ isActive }) => (isActive ? "active" : "")}>
-                  Job Apply
+                <NavLink end to="/" className={navClass}>
+                  <IconIdCard />
+                  Profiles
                 </NavLink>
-                <NavLink to="/logs" className={({ isActive }) => (isActive ? "active" : "")}>
-                  Application Logs
-                </NavLink>
-                <NavLink to="/settings" className={({ isActive }) => (isActive ? "active" : "")}>
-                  Settings
-                </NavLink>
-                <NavLink to="/enpplify" className={({ isActive }) => (isActive ? "active" : "")}>
-                  Enpplify
-                </NavLink>
-                {isAdmin && (
-                  <NavLink to="/config" className={({ isActive }) => (isActive ? "active" : "")}>
-                    Config
-                  </NavLink>
-                )}
-                {isAdmin && (
-                  <NavLink to="/playground" className={({ isActive }) => (isActive ? "active" : "")}>
-                    Playground
-                  </NavLink>
-                )}
-                {isAdmin && (
-                  <NavLink to="/users" className={({ isActive }) => (isActive ? "active" : "")}>
-                    Users
-                  </NavLink>
-                )}
-                {isAdmin && (
-                  <NavLink to="/analytics" className={({ isActive }) => (isActive ? "active" : "")}>
-                    Analytics
-                  </NavLink>
-                )}
               </nav>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginLeft: "auto" }}>
-                <span className="mono" style={{ fontSize: "0.78rem", opacity: 0.8 }}>
-                  {user.email} ({user.role})
-                </span>
-                <button type="button" className="btn small" onClick={() => void handleLogout()}>
-                  Sign out
-                </button>
-              </div>
             </>
-          ) : null}
-        </div>
-      </header>
-      <main className="page">{children}</main>
+          )}
+
+          {isAdmin && (
+            <>
+              <p className="nav-group">Admin</p>
+              <nav className="nav-links">
+                <NavLink to="/users" className={navClass}>
+                  <IconUsers />
+                  Users
+                </NavLink>
+                <NavLink to="/analytics" className={navClass}>
+                  <IconChart />
+                  Analytics
+                </NavLink>
+                <NavLink to="/config" className={navClass}>
+                  <IconSliders />
+                  Config
+                </NavLink>
+                <NavLink to="/playground" className={navClass}>
+                  <IconFlask />
+                  Playground
+                </NavLink>
+              </nav>
+            </>
+          )}
+
+          <p className="nav-group">Settings</p>
+          <nav className="nav-links">
+            <NavLink to="/settings" className={navClass}>
+              <IconGear />
+              Settings
+            </NavLink>
+            <NavLink to="/enpplify" className={navClass}>
+              <IconPlug />
+              Tryvify
+            </NavLink>
+          </nav>
+
+          <div className="sidebar-foot">
+            <div className="sidebar-user">
+              <span className="sidebar-avatar">{initial}</span>
+              <span className="sidebar-user-text">
+                <b title={user.email}>{user.email}</b>
+                <span>{user.role}</span>
+              </span>
+            </div>
+            <button
+              type="button"
+              className="btn small"
+              style={{ width: "100%", marginTop: "0.4rem" }}
+              onClick={() => void handleLogout()}
+            >
+              <IconSignOut />
+              Sign out
+            </button>
+          </div>
+        </aside>
+      ) : null}
+      <div className="workspace">
+        <main className="page">{children}</main>
+      </div>
     </div>
   );
 }
@@ -137,8 +188,10 @@ function AppShell() {
       applyAppUiTheme(personal);
       return;
     }
+    // Light is the product default now; dark applies only when explicitly
+    // chosen. Same preference field, same API, inverted fallback.
     void api.getSettings().then((s) => {
-      applyAppUiTheme(s.ui_theme === "light" ? "light" : "dark");
+      applyAppUiTheme(s.ui_theme === "dark" ? "dark" : "light");
     });
   }, [user]);
 
