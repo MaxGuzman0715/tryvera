@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CV</title>
+    <style>
+      :root {
+        --navy: #1a2d4a;
+        --navy-deep: #0f1a2e;
+        --body: #2d3748;
+        --muted: #4a5568;
+        --rule: #cbd5e1;
+        --paper: #ffffff;
+        --hint: #718096;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.cv-doc.theme-rhazel {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 9.75pt;
+        line-height: 1.42;
+        color: var(--body);
+        background: var(--paper);
+      }
+      body.doc.cv-doc.theme-rhazel .sheet {
+        max-width: 7.2in;
+        margin: 0 auto;
+        padding: 0 0 0.35in;
+      }
+      body.doc.cv-doc.theme-rhazel .cv-label {
+        text-align: center;
+        font-size: 7.5pt;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+      }
+      body.doc.cv-doc.theme-rhazel .content h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 17pt;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--navy);
+      }
+      body.doc.cv-doc.theme-rhazel .content p.resume-headline {
+        margin: 0.3rem 0 0.15rem;
+        text-align: center;
+        font-size: 10pt;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--navy);
+      }
+      body.doc.cv-doc.theme-rhazel .content p.contact-line {
+        margin: 0 0 0.45rem;
+        text-align: center;
+        font-size: 8.75pt;
+        color: var(--navy);
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        padding-bottom: 0.45rem;
+        border-bottom: 4px solid var(--navy);
+      }
+      body.doc.cv-doc.theme-rhazel .content h2 {
+        margin: 0.7rem 0 0.32rem;
+        padding-top: 0.45rem;
+        border-top: 1px solid var(--rule);
+        font-size: 9.5pt;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--navy);
+      }
+      body.doc.cv-doc.theme-rhazel .content h2:first-of-type {
+        margin-top: 0.25rem;
+        border-top: none;
+        padding-top: 0;
+      }
+      body.doc.cv-doc.theme-rhazel .content h3 {
+        margin: 0.42rem 0 0.1rem;
+        font-size: 10pt;
+        font-weight: 700;
+        color: var(--navy-deep);
+      }
+      body.doc.cv-doc.theme-rhazel .content p.template-hint {
+        display: none;
+      }
+      body.doc.cv-doc.theme-rhazel .content p {
+        margin: 0.16rem 0;
+      }
+      body.doc.cv-doc.theme-rhazel .content p.bullet {
+        margin-left: 0.14in;
+        text-indent: -0.09in;
+      }
+      body.doc.cv-doc.theme-rhazel .content p.spacer {
+        margin: 0.06rem 0;
+        height: 0.18rem;
+      }
+      body.doc.cv-doc.theme-rhazel .resume-role-row {
+        display: grid;
+        grid-template-columns: 0.88in 1fr;
+        gap: 0.14in 0.18in;
+        align-items: start;
+        margin: 0.32rem 0 0.24rem;
+      }
+      body.doc.cv-doc.theme-rhazel .resume-role-dates {
+        margin: 0.08rem 0 0;
+        font-size: 8.75pt;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--navy);
+      }
+      body.doc.cv-doc.theme-rhazel .resume-role-main h3 {
+        margin-top: 0;
+        color: var(--navy);
+      }
+    </style>
+  </head>
+  <body class="doc cv-doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

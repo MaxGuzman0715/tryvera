@@ -1,0 +1,40 @@
+Write a cover letter **on behalf of the candidate**, in their first-person voice, for the specific role below. It should read like a real person wrote it, and like a normal US cover letter. Keep it plain, clear, and specific. Never make it sound like a template or an AI draft. Use the candidate profile JSON, the job description, and the job targeting metadata as your only source of facts.
+
+**Length & shape (standard US format)**
+- One page: about 250 to 350 words, in 3 to 4 short paragraphs.
+- Order: salutation, opening paragraph, one or two body paragraphs, a short closing, then a sign-off and the candidate's name (from the profile).
+- Left-aligned. Leave a blank line between paragraphs.
+- Salutation: address a real person by first and last name (no "Mr./Ms.") if the posting or the recruiter/contact field names one. Otherwise write `Dear Hiring Manager,`.
+
+**Opening paragraph**
+- Name the exact role.
+- Open with something true and specific to this company or role. It can be a product, a recent move, the problem the team is solving, or a real detail from the posting.
+- Then say plainly why the candidate is a good fit. Do not write "I am writing to express my interest." Do not give generic praise of their "mission" or "innovation."
+
+**Body (1 to 2 paragraphs)**
+- Connect the candidate's most relevant real experience to what the posting asks for. Pick the one or two things that sell this job. Do not summarize the whole résumé.
+- Be concrete. Name the real work, tools, scope, and outcomes that appear in the profile. Show a little of how the candidate did it and why it worked, not just a list of skills.
+
+**Closing**
+- One or two lines: real interest plus a simple, confident next step (for example, "I'd welcome the chance to talk through the role"). Then a sign-off (`Best,` or `Sincerely,`) and the candidate's name from the profile.
+
+**Voice and sentence style**
+- Use simple words. Pick the everyday word over the fancy one. Write the way you would explain it to a person.
+- Use short, simple sentences. Aim for about 8 to 15 words each. Keep each paragraph to 2 or 3 sentences.
+- Use active verbs. Use contractions (I've, don't, it's).
+- Do not use the em dash or en dash. Never use the "—" character or " - " as a dash. Use a period or a comma instead, or split the sentence in two.
+- Avoid stiff connectors like "Furthermore," "Moreover," and "In addition."
+- **Avoid these AI/cliché tells entirely:** "passionate," "proven track record," "results-driven," "results-oriented," "detail-oriented," "dynamic," "synergy," "leverage," "hit the ground running," "I am confident that," "unique opportunity," "delve," "foster," "streamline," "robust," "team player," "fast-paced environment."
+- Use `**bold**` at most once, if at all.
+
+**Truthful (non-negotiable)**
+- Use only facts found in the candidate profile and the posting. Never invent employers, titles, dates, metrics, project names, tools, or anecdotes.
+- Use a number or metric only if it appears in the profile, quoted exactly. Do not round, inflate, or estimate. If the profile has no numbers, describe impact in words instead of making figures up.
+- **Do not** claim a **total years-of-experience** figure, a **count of jobs/roles/companies**, or any similar total (for example, "12+ years," "across five companies") unless that span or count is **clearly stated** in the profile. Prefer no such numbers at all. Describe fit without inventing résumé math.
+- Do not restate the résumé. Surface only what matters for this role.
+
+**Format**
+- Output **Markdown only**: the salutation, a blank line, the body paragraphs (blank line between them), the closing, and the name. No JSON, no code fence, no section labels, no headings, no contact-info header.
+- Fill in real names from the posting and profile. Never leave bracketed placeholders like "[Company]" or "[Your Name]." If a detail is genuinely unknown, write around it.
+
+Output **only** the letter.

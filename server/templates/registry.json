@@ -1,0 +1,41 @@
+{
+  "documentation": "How to add or edit themes: read README.md in this folder. Restart the server after changing this file.",
+  "themes": [
+    {
+      "id": "rhazel",
+      "label": "Rhazel - Navy centered — centered navy header, thick rule, timeline rows",
+      "resume": "resume-rhazel.html",
+      "coverLetter": "cv-rhazel.html"
+    },
+    {
+      "id": "rohit",
+      "label": "Rohit - Grey & gold — grey header band, gold rule, wide caps sections",
+      "resume": "resume-rohit.html",
+      "coverLetter": "cv-rohit.html"
+    },
+    {
+      "id": "classic",
+      "label": "Serif - Classic serif — minimal, all-caps sections (print-style)",
+      "resume": "resume-classic.html",
+      "coverLetter": "cv-classic.html"
+    },
+    {
+      "id": "purple",
+      "label": "Lavender - Purple — soft lavender sheet, plum accents",
+      "resume": "resume-purple.html",
+      "coverLetter": "cv-purple.html"
+    },
+    {
+      "id": "navy-center",
+      "label": "Glenn - Navy center — white sheet, centered name & headline, thick rule",
+      "resume": "resume-navy-center.html",
+      "coverLetter": "cv-navy-center.html"
+    },
+    {
+      "id": "beige-band",
+      "label": "Puyang - Beige band — centered header, tan section bands, timeline & grids",
+      "resume": "resume-beige-band.html",
+      "coverLetter": "cv-beige-band.html"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+.Net Fullstack Lead With VUE
+.Net Fullstack Lead With VUE
+talentmovers inc
+Mckinney, TX • On-site
+
+
+1-Click Apply
+
+
+
+Contractor
+
+Posted 21 days ago
+
+Job description
+Title : .Net Fullstack Lead
+
+Location : Mckinney ,TX
+
+Pay Rate : On C2C
+
+Mandatory skills: Vue.JS , React (or), .Net Core
+
+12+ years Required
+
+Technical Leadership & Architecture:
+
+Lead the technical design and architecture of complex full-stack applications, ensuring scalability, performance, security, and maintainability.
+
+Provide expert technical guidance and mentorship to a team of full-stack developers, fostering a culture of continuous learning and best practices.
+
+Collaborate with product managers, UX/UI designers, and other stakeholders to translate business requirements into technical specifications and actionable development plans.
+
+Conduct code reviews, define coding standards, and ensure adherence to architectural principles and quality guidelines.
+
+Full Stack Development:
+
+Hands-on development of responsive and intuitive user interfaces using Vue.js (Vue 2/3, Vuex, Vue Router), HTML5, CSS3, and JavaScript/TypeScript.
+
+Design, develop, and maintain robust back-end services and APIs using .NET (C#, ASP.NET Core, .NET Framework).
+
+Implement efficient data storage solutions, working with SQL Server or other relational/NoSQL databases, and optimizing database performance.
+
+Develop and integrate RESTful APIs to facilitate seamless communication between front-end and back-end components.
+
+Project & Process Management:
+
+Actively participate in the full software development lifecycle, from concept and design to deployment and support, adhering to Agile methodologies (Scrum, Kanban).
+
+Estimate development efforts, prioritize tasks, and manage project timelines and deliverables effectively.
+
+Identify and mitigate technical risks, proactively addressing issues and ensuring smooth project execution.
+
+DevOps & Quality Assurance:
+
+Champion DevOps practices, including continuous integration and continuous deployment (CI/CD) pipelines.
+
+Implement comprehensive testing strategies (unit, integration, end-to-end) to ensure code quality and application stability.
+
+Monitor application performance, troubleshoot issues, and optimize solutions for maximum efficiency and reliability.
+
+Innovation & Research:
+
+Stay current with emerging technologies, industry trends, and best practices in full-stack development, especially within the Vue.js and .NET ecosystems.
+
+Evaluate and recommend new tools, frameworks, and processes to improve development efficiency and product quality.
+
+Required Qualifications
+
+Bachelor's degree in Computer Science, Software Engineering, or a related field.
+
+10+ years of experience in software development, with at least 3+ years in a Technical Lead or Senior Full Stack Developer role.
+
+Expert proficiency in front-end development with Vue.js (Vue 2/3), Vuex, Vue Router, and a strong understanding of JavaScript/TypeScript, HTML5, and CSS3.
+
+Extensive experience in back-end development with .NET (C#, ASP.NET Core, .NET Framework), including experience with Entity Framework, LINQ, and RESTful API design.
+
+Strong knowledge of database design, development, and optimization with Microsoft SQL Server.
+
+Experience in MAUI Dev has added Advantage.
+
+Proficiency with version control systems, particularly Git.
+
+Experience with cloud platforms (e.g., Azure, AWS) and understanding of cloud-native development principles.
+
+Familiarity with CI/CD pipelines and DevOps practices.
+
+Excellent problem-solving, analytical, and communication skills, with the ability to articulate complex technical concepts to both technical and non-technical audiences.
+
+Proven ability to lead, mentor, and motivate development teams.
+
+Preferred Qualifications
+
+Master's degree in a relevant field.
+
+Experience with other front-end frameworks like React or Angular (understanding their paradigms).
+
+Knowledge of microservices architecture.
+
+Experience with containerization technologies (Docker, Kubernetes).
+
+Familiarity with automated testing frameworks and practices.
+
+
+Report

@@ -1,0 +1,49 @@
+{
+  "signal_quality": "high",
+  "clearance_required": true,
+  "clearance_level": "ability_to_obtain",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 45,
+    "FE": 35,
+    "Database": 10,
+    "AI_ML": 10
+  },
+  "K1": {
+    "hard": {
+      "BE": [
+        "typescript",
+        "nodejs"
+      ],
+      "FE": [
+        "react"
+      ],
+      "Database": [
+        "postgresql",
+        "elasticsearch"
+      ],
+      "Cloud": [
+        "aws"
+      ],
+      "AI_ML": [
+        "agentic_ai_rag"
+      ]
+    },
+    "soft": [
+      "5+ years professional software development experience",
+      "Prior experience working in a user-facing product role"
+    ]
+  },
+  "K2": [
+    "Tailwind",
+    "OpenSearch",
+    "search indexing",
+    "search ranking",
+    "query parsing",
+    "tokenization",
+    "graph-shaped data",
+    "AI-native product development",
+    "user research / customer feedback"
+  ],
+  "competency_signals": []
+}

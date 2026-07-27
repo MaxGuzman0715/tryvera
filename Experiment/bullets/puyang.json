@@ -1,0 +1,137 @@
+{
+  "id": "puyang",
+  "basic": {
+    "fullName": "Pu Yang",
+    "title": "Senior Machine Learning Engineer / Data Scientist",
+    "email": "mkom0650@gmail.com",
+    "phone": "(253) 236-6873",
+    "location": "New York, NY",
+    "summary": "I have 6 years of experience.\nSenior Machine Learning Engineer/Scientist with experience building and shipping high-scale ML systems across search, ranking, recommendation, ads, integrity, multimodal ML, computer vision, and LLM-powered products. Strong background in end-to-end production ML, spanning retrieval, modeling, experimentation, low-latency serving, and deployment for consumer platforms. Most effective in problems at the intersection of relevance, personalization, conversational AI, multimodal understanding, and business impact. Ph.D. in Operations Research from Cornell.",
+    "linkedin": "https://linkedin.com/in/pu-yang-3329a957"
+  },
+  "experience": [
+    {
+      "company": "Airbnb",
+      "title": "Machine Learning Engineer",
+      "startDate": "Sep 2024",
+      "endDate": "Present",
+      "bullets": [
+        "- Converersational search and listing discovery system",
+        "Led development of an LLM-powered agent for conversational listing-discovery system that let guests search and refine listings in natural language, combining LLM-based query understanding, grounded retrieval, reranking, and multi-turn state management.",
+        "Integrated real-time availability, pricing, and listing metadata services into the conversational stack using AWS microservices, gRPC, Redis, and Aurora/PostgreSQL to keep recommendations fresh and bookable.",
+        "Implemented low-latency serving for LLM-based query understanding and tool-call extraction using FastAPI, gRPC, vLLM/SGLang, Docker, and EKS.",
+        "Deployed GPU-backed inference for grounded listing Q&A and conversational explanations using vLLM on EKS with autoscaling, batching, and observability.",
+        "Improved serving efficiency by separating smaller transformer-based understanding services from larger grounded generation services using EKS autoscaling, Redis caching, and vLLM batching.",
+        "Designed guardrail and validation layers using typed business rules, response validators, retrieval-backed evidence checks, and CloudWatch monitoring.",
+        "Optimized code and leveraged ONNX for model inference on computationally heavy components processing large datasets, cutting processing time and accelerating data throughput.",
+        "Built offline review-understanding pipelines to infer latent attributes such as quietness, family-friendliness, and workspace quality using Spark/EMR and S3/Athena.",
+        "Established offline and online evaluation pipelines for query understanding, tool-call extraction, retrieval relevance, reranking quality, grounded answer quality, and latency using LLM-as-Judge, schema/tool accuracy, argument recall, MLflow, Spark, and A/B experimentation dashboards.",
+        "Drove A/B experimentation and rollout for conversational discovery features using feature flags, traffic ramping, CloudWatch, Datadog, and offline/online eval dashboards.",
+        "Framed multi-turn conversational search as a structured generation task in which the model consumed prior user/assistant turns, including intermediate tool calls, and predicted the final normalized tool call after the latest user refinement.",
+        "Generated synthetic multi-turn training conversations from real search/session logs using GPT-4o and GPT-5 to expand coverage of paraphrases, slot overwrites, clarification turns, and edge-case tool-call patterns.",
+        "Benchmarked GPT-4/4o/5-class models for multi-turn query understanding and tool-call extraction, then distilled the workflow into fine-tuned SLMs for lower-latency, lower-cost production serving.",
+        "Ran end-to-end experiments across frontier-model teacher pipelines, short vs. long dialogue histories, reasoning vs. non-reasoning prompts, and multiple student SLM families, optimizing final tool-call extraction quality rather than proxy generation metrics.",
+        "Fine-tuned open-weight SLMs (llama, qwen, etc) for conversational query understanding and tool-call extraction using SFT, LoRA, and RL-style post-training, and served them with vLLM/SGLang on AWS Kubernetes, first via hosted inference providers and later on self-hosted GPU pods.",
+        "Iterated on prompt design and post-training objectives to reduce hallucinated arguments, improve safeguard behavior and schema adherence, and strengthen query understanding under ambiguous or incomplete travel requests.",
+        "Tracked prompt, fine-tuning, and evaluation experiments in Weights & Biases and MLflow across frontier-model baselines, synthetic-data variants, and distilled SLM checkpoints.",
+        "Automated training, reindexing, and deployment workflows for conversational retrieval and ranking models using Airflow/MWAA, SageMaker Pipelines, Terraform, and Jenkins.",
+        "Built end-to-end production observability across query understanding, retrieval, ranking, and generation using Datadog, OpenTelemetry, Grafana, CloudWatch, and LLM tracing tools to monitor latency, failures, schema violations, low-confidence outputs, and retrieval-quality regressions. ",
+        "",
+        "- AI-powered customer support automation",
+        "Led design of a multi-agent customer support automation system in which specialized agents handled intake, triage, issue understanding, retrieval, workflow execution, and escalation across chat and voice.",
+        "Architected task-oriented conversational agents for issue understanding, slot extraction, clarification generation, and next-best-action selection across complex support workflows.",
+        "Built routing and decisioning agents for cancellation, refund, account, and policy cases, deciding whether to auto-resolve, retrieve knowledge, invoke workflows, or escalate.",
+        "Implemented workflow-execution agents for cancellations, refunds, article delivery, SMS/app follow-ups, and case handoff by connecting conversational decisions to backend support actions.",
+        "Built a human-in-the-loop escalation framework with confidence thresholds, fallback logic, and safe routing for sensitive or low-confidence cases.",
+        "Developed evaluation and optimization frameworks for multi-agent support quality, measuring resolution accuracy, workflow success, escalation quality, and end-to-end automation performance.",
+        "Fine-tuned intent, routing, and retrieval models on AWS GPU infrastructure / SageMaker, tracking experiments in MLflow and Weights & Biases to improve support-model accuracy and shorten iteration cycles.",
+        "Built real-time monitoring and alerting for support ML services using CloudWatch, Datadog, and SNS/SQS/Kinesis, reducing downtime across chat and voice automation pipelines.",
+        "Automated data validation, training, and deployment workflows with Airflow / MWAA, Kubeflow or SageMaker Pipelines, accelerating experimentation and productionization.",
+        "Built and managed a feature store with SageMaker Feature Store, improving feature reuse and online/offline consistency for routing, policy, and retrieval models.",
+        "Developed FastAPI and gRPC inference services, containerized with Docker and deployed on EKS / ECS, enabling low-latency real-time support automation.",
+        "Processed large-scale support and policy data with PySpark on EMR and SparkSQL, loading curated datasets into S3 / Redshift / Athena for analytics and model training.",
+        "Built semantic retrieval pipelines over help-center and policy content using OpenSearch, embeddings, reranking, and Redis caching, improving resolution quality for natural-language support requests."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Yelp",
+      "title": "Applied Scientist",
+      "startDate": "Jun 2023",
+      "endDate": "Jul 2024",
+      "bullets": [
+        "Led development of ML-driven auction and RTB components for Yelp Ads using Python, SQL, PySpark/Spark, Pandas, NumPy, scikit-learn, XGBoost/LightGBM/PyTorch, building models for pCTR, relevance scoring, bid adjustment, and pacing-aware auction optimization.",
+        "Built end-to-end data and experimentation workflows over large-scale ads logs using Spark / Hive / Airflow / Kafka-style streaming + batch pipelines, generating training datasets, attribution features, and auction diagnostics for model iteration and launch readiness.",
+        "Improved auction robustness via probability calibration, score normalization, exploration-exploitation controls, budget pacing constraints, and guardrail-aware ranking objectives, increasing consistency across heterogeneous local categories and traffic segments.",
+        "Implemented advertiser and user features spanning location, vertical, query intent, business attributes, historical engagement, temporal demand patterns, device/platform, and budget state, and integrated them into low-latency online scoring / feature-serving paths.",
+        "Designed and analyzed A/B tests, quasi-offline replay, bucketed diagnostics, and slice-based error analysis to understand impacts on CTR, CPC, conversion proxy metrics, lead quality, spend distribution, and long-tail advertiser fairness.",
+        "Worked cross-functionally with backend / serving engineers, data platform, ML infra, product managers, and revenue stakeholders to launch auction improvements with strong operational discipline around latency SLAs, rollout safety, monitoring, and rollback mechanisms.",
+        "Built dashboards and alerting for auction fill, pacing smoothness, CPC volatility, model calibration drift, feature freshness, and traffic mix changes using standard observability tooling and internal analytics platforms.",
+        "Supported the expansion of ads optimization into Services / home-services lead flows, where ranking and pacing had to adapt to project-based demand, lead-value heterogeneity, and multi-channel acquisition sources."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "YouTube",
+      "title": "Software Engineer",
+      "startDate": "Oct 2021",
+      "endDate": "Mar 2023",
+      "bullets": [
+        "Built backend and ranking components for non-video result selection in YouTube Search using C++ / Java / Python, distributed serving systems, gRPC / Protobuf APIs, and large-scale search / ranking pipelines, supporting channels, playlists, entity cards, and structured modules.",
+        "Implemented multi-stage retrieval and blending logic combining lexical, semantic, and rules/constraint-based signals to rank heterogeneous objects under tight latency, relevance, and UI composition constraints.",
+        "Developed ranking features from query text, embeddings, entity signals, engagement history, freshness, creator quality, topical authority, and personalization signals, and integrated them into online search serving and experimentation flows.",
+        "Built data pipelines and offline analysis workflows with SQL, Python, Spark / Beam-style distributed processing, TensorFlow / ML inference integrations, and large-scale search logs, enabling rapid experimentation on non-video search quality.",
+        "Migrated data and ML workflows from AWS to GCP.",
+        "Partnered with search infra, ranking ML, frontend / rendering, trust & safety, and PM / UX teams to ship end-to-end search experiences with strong guardrails around latency, correctness, trust, and user satisfaction.",
+        "Built containerized batch and streaming jobs for ML workloads using Docker and Kubernetes, orchestrated via Kubeflow pipelines, which improved pipeline consistency and reduced deployment effort."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Facebook AI",
+      "title": "Research Scientist",
+      "startDate": "Sep 2019",
+      "endDate": "Jun 2021",
+      "bullets": [
+        "Built multimodal misinformation detection models for Facebook and Instagram using text, image, and engagement signals with Python, PyTorch, Transformers, and Spark/SQL-based data pipelines.",
+        "Developed classification and ranking signals for harmful-content detection and review prioritization using PyTorch, embedding-based models, feature engineering, and large-scale training/evaluation workflows.",
+        "Applied computer vision and NLP techniques for image matching, cross-post detection, and policy-enforcement support using CNN/Transformer-style encoders, similarity search, and multimodal modeling.",
+        "Built large-scale training and inference data pipelines with SQL, Hive, Spark/PySpark, Presto, and ETL workflows, generating features from posts, reshares, engagement events, user reports, and account-history signals.",
+        "Developed supervised and weakly supervised classifiers for integrity risk scoring using logistic regression, gradient-boosted trees, deep neural networks, and ranking/classification pipelines, balancing recall for harmful content against precision for enforcement.",
+        "Contributed to multimodal and media-matching workflows for near-duplicate images, reposted media, and caption-linked misinformation, integrating image embeddings, text features, metadata joins, and similarity search into review candidate pipelines.",
+        "Supported graph- and behavior-aware detection by engineering features from social interactions, reshare chains, account connectivity, temporal activity patterns, and anomaly signals, helping detect coordinated or repeat misinformation spread.",
+        "Built evaluation and model-analysis notebooks with Jupyter, Matplotlib, Seaborn, SciPy, and internal analytics tools, measuring precision, recall, ROC-AUC, PR-AUC, calibration, and policy-threshold performance across languages and content segments.",
+        "Improved labeling and training-set construction using human-review data, external fact-checker outcomes, rule-based heuristics, and active-learning-style sampling, increasing reviewer efficiency and model coverage on emerging misinformation narratives.",
+        "Partnered with product and integrity teams to deploy model outputs into ranking, reviewer triage, warning-label, and distribution-reduction systems, helping connect research models to real enforcement actions.",
+        "Helped harden production ML workflows through feature validation, data quality checks, score monitoring, threshold tuning, and experiment analysis, improving stability during high-volume events such as public-health and election-related spikes.",
+        "Wrote maintainable ML and data code in Python and SQL, contributed to shared libraries and experiment utilities, and collaborated through Git, code review, unit testing, and internal workflow tools in a fast-moving integrity engineering environment.",
+        "Worked in a company-wide integrity environment that, by Q4 2020, reported disabling 1.3 billion fake accounts and removing 100+ coordinated inauthentic behavior networks over the prior three years."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [],
+  "education": [
+    {
+      "school": "Cornell University",
+      "degree": "Ph.D.",
+      "field": "Operations Research",
+      "startDate": "2014",
+      "endDate": "2019"
+    },
+    {
+      "school": "Cornell University",
+      "degree": "M.S.",
+      "field": "Operations Research",
+      "startDate": "2012",
+      "endDate": "2014"
+    },
+    {
+      "school": "Peking University",
+      "degree": "B.A.",
+      "field": "Economics",
+      "startDate": "2009",
+      "endDate": "2012"
+    }
+  ]
+}

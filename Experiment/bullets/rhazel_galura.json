@@ -1,0 +1,1599 @@
+{
+  "id": "rhazel_galura",
+  "basic": {
+    "fullName": "Rhazel Anne Galura",
+    "title": "Senior Fullstack AI Engineer",
+    "email": "galurarhazel7@gmail.com",
+    "location": "Philippines (GMT+8) | Remote / Distributed Teams",
+    "linkedin": "https://www.linkedin.com/in/rhazel-galura-7127013b9/",
+    "summary": "Hands-on AI fullstack engineer who builds AI products that actually ship. Six-plus years turning messy data, product ideas, and business needs into production-ready AI systems for US/EU enterprises and early-stage startups, across backend services, APIs, data pipelines, LLM and agent workflows, model deployment, and production reliability, with a focus on regulated domains like healthcare and finance."
+  },
+  "experience": [
+    {
+      "company": "QTX / Accenture",
+      "location": "Remote",
+      "title": "Senior AI Fullstack Engineer / AI Consultant",
+      "startDate": "Oct 2025",
+      "endDate": "Jun 2026",
+      "bullets": [
+        "Built a production-grade GenAI assistant PoC for BaptistCare (Australian aged care): a RAG system over clinical and policy documents on Azure OpenAI and Azure AI Search, with a FastAPI backend and a streaming React/Next.js UI.",
+        "Designed the document-intelligence pipeline (Azure Document Intelligence, semantic chunking, embeddings, hybrid retrieval) and an evaluation framework measuring retrieval recall, answer faithfulness, and latency.",
+        "Led the Whiddon data platform: an Azure Synapse medallion warehouse, Azure Data Factory ingestion across 5-7 source systems, master data management, and Power BI executive reporting with row-level security.",
+        "Built predictive analytics for resident deterioration risk and funding/staffing forecasts, and set the architecture for event-driven real-time integration via Azure Service Bus."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Accenture",
+      "location": "Remote",
+      "title": "Senior AI Fullstack Engineer",
+      "startDate": "Jan 2020",
+      "endDate": "Jun 2026",
+      "bullets": [
+        "Led production ML/AI systems for a Fortune 500 US financial-services client, improving fraud detection accuracy by +18%.",
+        "Built and deployed LLM applications (chat assistants, document QA) using fine-tuned models and RAG pipelines, plus agent-based workflows for enterprise automation.",
+        "Fine-tuned LLMs on domain data and built prompt-engineering frameworks to improve accuracy and reduce hallucinations and cost.",
+        "As primary ML/AI lead for a healthcare startup, built core AI features 0->1 (clinical/document assistants, recommendation systems, CV medical-document pipelines), cutting model latency ~30% and scaling to tens of thousands of users.",
+        "Delivered AI across fintech, e-commerce, and logistics: NLP systems, RAG and fine-tuning pipelines, and computer-vision automation, from pilot to production."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Python",
+    "FastAPI",
+    "REST APIs",
+    "microservices",
+    "Java",
+    "React",
+    "PyTorch",
+    "TensorFlow",
+    "scikit-learn",
+    "Hugging Face Transformers",
+    "LLM fine-tuning (LoRA)",
+    "RAG pipelines",
+    "embeddings",
+    "prompt engineering",
+    "agent architectures",
+    "LangChain-style orchestration",
+    "vector databases",
+    "NLP",
+    "computer vision (OCR, YOLO, OpenCV)",
+    "recommendation systems",
+    "Azure OpenAI",
+    "Azure (Synapse, Data Factory, AI Search)",
+    "AWS (S3, EC2, Lambda, SageMaker)",
+    "GCP (Vertex AI, BigQuery)",
+    "Docker",
+    "CI/CD (GitHub Actions)",
+    "model deployment & monitoring",
+    "SQL",
+    "ETL/ELT",
+    "Power BI"
+  ],
+  "education": [
+    {
+      "school": "University of the Philippines Diliman",
+      "degree": "Master of Engineering (MEng)",
+      "field": "Artificial Intelligence",
+      "startDate": "2019",
+      "endDate": "2021"
+    },
+    {
+      "school": "University of the Philippines Diliman",
+      "degree": "Bachelor of Science (BS)",
+      "field": "Computer Science",
+      "startDate": "2016",
+      "endDate": "2019"
+    }
+  ],
+  "note": "Phase-1 bullet corpus keyed by company, then stack. Index 0 is the coreline. Every group is 5 IC5 lines (strong verb lead, named tech, judgment/consequence, one scale signal; inferred scale flagged (est.)). QTX / Accenture: non-data-eng stacks anchored to the BaptistCare GenAI PoC; Data_Eng + Analytics_BI anchored to the Whiddon data platform. Accenture: Fortune 500 fraud ML, LLM/RAG apps, healthcare 0->1 startup, and fintech/ecommerce/logistics consulting.",
+  "companies": {
+    "QTX / Accenture": {
+      "project": "BaptistCare GenAI Chatbot PoC (non-data-eng) & Whiddon Data Platform (data-eng/analytics)",
+      "stacks": {
+        "shared": {
+          "domain": "Shared",
+          "tier": 2,
+          "bullets": [
+            "Partnered with BaptistCare and Whiddon clinical, operations, finance, and compliance stakeholders to turn aged-care documentation and reporting pain into scoped, shippable AI and data deliverables.",
+            "Mentored client and QTX engineers through code reviews and architecture sessions on RAG, evaluation, and Azure data patterns, raising the team's bar for production AI in a regulated setting.",
+            "Shaped PoC scope with executive stakeholders, pushing back on an over-broad wishlist to a narrow, measurable slice that proved value before BaptistCare committed to a full build.",
+            "Drove architecture and data-governance reviews across security and privacy teams (Australian Privacy Act, My Health Records Act) before any system touched resident data.",
+            "Communicated clearly across distributed AU/US/EU teams, translating clinical and regulatory constraints into engineering decisions without losing delivery pace."
+          ]
+        },
+        "python_fastapi": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the FastAPI backend for BaptistCare's GenAI assistant, orchestrating retrieval, prompt assembly, and streaming GPT-4 responses for care workers and clinical managers across the provider's NSW/ACT sites.",
+            "Redesigned blocking Azure OpenAI and Azure AI Search calls as async endpoints after the event loop stalled under concurrent queries, holding first-token latency under the 5s target on facility-grade Wi-Fi.",
+            "Drove Pydantic request/response models as the contract with the React frontend, ending the payload drift that had produced silent 422s mid-conversation.",
+            "Implemented SSE token streaming with graceful handling of interrupted streams, backend timeouts, and content refusals, so a frozen half-response could never reach a nurse mid-shift.",
+            "Hardened the API with AAD-claim middleware enforcing per-facility document access, closing a path where a worker at one facility could retrieve another facility's resident content."
+          ]
+        },
+        "python": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Python services behind BaptistCare's document-intelligence pipeline, turning clinical PDFs and policy docs into searchable, access-tagged chunks for the RAG assistant.",
+            "Rewrote a per-document processing loop into batched async tasks after a large policy-library ingest timed out, cutting a multi-hour reindex to (est.) under 30 minutes.",
+            "Redesigned ad-hoc dict handling into typed dataclasses for the chunk/metadata schema, surfacing extraction errors at parse time instead of as bad clinical answers.",
+            "Built the intent-classification layer that routed queries to the right document collection, preventing the model from mixing clinical and administrative content in one answer.",
+            "Added typed validation and structured logging so a malformed scanned document was quarantined rather than silently polluting the clinical knowledge base."
+          ]
+        },
+        "python_django": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected a Django admin (est.) for BaptistCare managers to manage document collections and review query audit logs, giving control over the assistant's knowledge base for (est.) hundreds of staff.",
+            "Redesigned slow ORM access behind the audit dashboard with select_related/prefetch_related and caching after N+1 queries pushed loads past (est.) 3s.",
+            "Moved document re-indexing to Celery workers so a large upload could no longer block the synchronous request pool during business hours.",
+            "Hardened the Django admin with AAD-backed row-level permissions so managers only saw collections for facilities they governed.",
+            "Owned DRF serializers exposing collection config to the FastAPI layer, enforcing versioned contracts so the two services evolved without breaking each other."
+          ]
+        },
+        "python_flask": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Flask internal-tools service (est.) exposing evaluation metrics and ingestion status to the QTX team, serving (est.) a dozen engineers and reviewers.",
+            "Diagnosed Flask worker crashes from leaked SQLAlchemy sessions and switched to scoped_session teardown, ending the nightly restarts.",
+            "Replaced the dev server with Gunicorn behind gevent workers after blocking I/O capped throughput at (est.) 40 req/s.",
+            "Decomposed a monolith into Flask blueprints with isolated error handlers so a failing metrics endpoint stopped taking the whole tool down.",
+            "Added Marshmallow validation at the boundary, cutting malformed-payload 500s that had hidden real issues in the eval pipeline."
+          ]
+        },
+        "java_springboot": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected a Spring Boot integration service (est.) bridging the BaptistCare assistant to legacy care-management APIs, isolating the PoC from brittle downstream systems.",
+            "Redesigned synchronous downstream calls onto @Async executors after a slow care-system API backed up the Tomcat thread pool.",
+            "Drove Spring Boot Actuator health and readiness probes so the orchestrator stopped routing traffic to pods still warming caches.",
+            "Cut integration defects with Testcontainers tests around the care-system adapter, catching a wiring regression before the clinical demo.",
+            "Hardened the service with constructor injection and Bean Validation, closing a null-handling class of bugs in document-metadata mapping."
+          ]
+        },
+        "java": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a Java service (est.) handling document-event processing for the BaptistCare pipeline, keeping ingestion reliable across (est.) thousands of clinical documents.",
+            "Diagnosed a JVM GC pause that stalled batch indexing, tuning G1GC and removing a synchronized hot path.",
+            "Rebuilt a fragile shared util into a versioned Java module so the indexing and API teams could ship independently.",
+            "Hardened concurrent document handling after a race corrupted chunk state, replacing a naive map with ConcurrentHashMap and proving it under load.",
+            "Added metrics and structured logging so an indexing failure was attributable in minutes, not a multi-hour hunt."
+          ]
+        },
+        "typescript": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the TypeScript BFF and shared types between the Next.js chat UI and the FastAPI backend, keeping streaming, auth, and document APIs in one type-safe contract.",
+            "Modeled chat and streaming states as discriminated unions so the compiler rejected impossible UI states, like rendering tokens before a session existed.",
+            "Drove a shared TypeScript types package across frontend and BFF, ending the contract drift that broke the streaming protocol during the PoC.",
+            "Eliminated runtime payload errors by enforcing zod validation at the BFF boundary against the FastAPI responses.",
+            "Owned the strict-mode tsconfig migration, removing implicit-any escape hatches that had hidden null-handling defects in auth token refresh."
+          ]
+        },
+        "nodejs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a Node.js BFF (est.) aggregating auth, document-status, and chat calls for the BaptistCare UI, collapsing multiple round-trips per screen into one.",
+            "Diagnosed event-loop stalls during document-status polling with clinic.js and moved JSON transforms to worker threads.",
+            "Rebuilt request-scoped context with AsyncLocalStorage, fixing log correlation across the streaming path.",
+            "Throttled the Azure AI Search dependency with a bounded queue and circuit breaker so slow retrieval couldn't cascade timeouts to users.",
+            "Migrated large document-upload handling to Node.js streams, ending OOM crashes on big policy PDFs."
+          ]
+        },
+        "nestjs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected a NestJS API layer (est.) for the assistant's admin surfaces, giving the PoC clean module boundaries for chat, documents, and audit.",
+            "Drove DI-scoped providers so feature areas evolved independently without colliding in the shared codebase.",
+            "Eliminated inconsistent auth with NestJS guards and interceptors, closing endpoints that had skipped AAD entitlement checks.",
+            "Diagnosed a memory leak from request-scoped providers and switched to transient scope.",
+            "Standardized error shaping with a global exception filter so the UI received consistent, auditable errors."
+          ]
+        },
+        "go": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Go service (est.) for high-throughput document-event processing in the BaptistCare pipeline, sustaining ingestion bursts during bulk policy uploads.",
+            "Diagnosed a goroutine leak with pprof and added context.Context deadlines so abandoned indexing requests stopped piling up.",
+            "Redesigned a hot serialization path with sync.Pool, cutting allocation churn and GC pauses.",
+            "Standardized the Go services with shared tracing and rate-limiting middleware on Azure Container Apps.",
+            "Hardened concurrent state with sync.RWMutex after a data race corrupted ingestion counters."
+          ]
+        },
+        "rust": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Rust component (est.) for latency-sensitive text chunking in the document pipeline, using zero-copy parsing to keep per-document processing fast.",
+            "Replaced a slow Python preprocessing step with a Rust module after it bottlenecked bulk ingestion, cutting per-doc time (est.) 60%.",
+            "Eliminated a memory-safety class of crashes by porting a C parsing helper to Rust and leaning on the borrow checker.",
+            "Drove serde-based zero-copy parsing, removing per-chunk heap allocations that capped throughput.",
+            "Hardened the FFI boundary with cargo-fuzz tests, closing a panic path malformed PDFs had triggered."
+          ]
+        },
+        "dotnet_csharp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected an ASP.NET Core service (est.) integrating the assistant with BaptistCare's Microsoft-stack systems, fitting the project's Azure AD and Fluent UI alignment.",
+            "Diagnosed thread-pool starvation from sync-over-async calls and refactored to end-to-end async/await Task pipelines.",
+            "Redesigned EF Core queries into projected DTOs, cutting an audit report from minutes to seconds.",
+            "Drove a Channels-based producer/consumer for document-event ingestion, replacing a lock-heavy queue.",
+            "Hardened access with Managed Identity and Key Vault, removing secrets from app config."
+          ]
+        },
+        "ruby_on_rails": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a Rails internal tool (est.) for BaptistCare reviewers to curate the assistant's knowledge base, serving (est.) dozens of clinical reviewers.",
+            "Diagnosed N+1 queries with Bullet and added includes and counter caches, cutting dashboard load from (est.) 4s to under 600ms.",
+            "Moved long-running re-index triggers to Sidekiq so a slow job stopped tying up Puma workers.",
+            "Redesigned fat ActiveRecord models into service objects after callbacks corrupted review state.",
+            "Hardened mass-assignment with strong parameters and policy objects."
+          ]
+        },
+        "php_laravel": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Laravel microsite (est.) for BaptistCare staff onboarding to the assistant, sustaining launch-week traffic without touching clinical systems.",
+            "Diagnosed slow Eloquent queries with the debugbar and added eager loading and indexes.",
+            "Moved email and webhook fan-out to Laravel queues on Redis so a third-party outage didn't block signups.",
+            "Redesigned controllers into form requests and jobs, isolating validation from fatal errors.",
+            "Hardened the app with CSRF protection and signed URLs."
+          ]
+        },
+        "c_cpp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a C++ component (est.) for fast OCR post-processing in the document pipeline, validating extracted text before chunking on a system where bad input meant wrong clinical answers.",
+            "Diagnosed segfaults under load with AddressSanitizer and fixed a buffer overrun aborting extraction.",
+            "Redesigned manual memory ownership into RAII with smart pointers, ending leaks that OOM-killed the worker.",
+            "Cut per-document parse time (est.) 40% with std::move semantics and reserved buffers.",
+            "Hardened the parser against malformed scans with bounds checks and libFuzzer."
+          ]
+        },
+        "scripting": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Bash and PowerShell automation orchestrating the BaptistCare PoC's Azure deploys and reindex runbooks, replacing a manual checklist prone to missed steps.",
+            "Diagnosed silently failing deploy scripts and added set -euo pipefail with trap cleanup so a failed step halted the rollout.",
+            "Automated document-batch reprocessing with idempotent scripts wrapping the Azure CLI.",
+            "Replaced a brittle cron of one-off scripts with one parameterized tool and structured logging.",
+            "Hardened secret handling after keys leaked into logs, moving them to Key Vault references."
+          ]
+        },
+        "react": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Architected BaptistCare's React/Next.js assistant UI with Fluent UI, delivering a streaming chat experience for care workers, clinical managers, and admins across the provider's facilities.",
+            "Redesigned token rendering to buffer SSE chunks and update the DOM without excessive re-renders, fixing the jank that hit on facility-grade Wi-Fi as responses streamed.",
+            "Diagnosed AAD token expiry interrupting nurses mid-conversation and implemented silent MSAL refresh, so sessions survived the interrupt-driven aged-care workflow.",
+            "Built role-based views (worker/manager/admin) gated on Entra ID group membership, so each role rendered only the controls and endpoints it was authorized for.",
+            "Drove WCAG 2.1 AA compliance — keyboard nav, focus management on appended messages, screen-reader support — for a diverse aged-care staff population."
+          ]
+        },
+        "nextjs": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Next.js app for the BaptistCare assistant, using SSR and route-level code splitting to keep first paint fast on aged-care facility networks.",
+            "Redesigned client-heavy screens as server components after hydration cost hurt LCP, cutting shipped JS (est.) 40%.",
+            "Diagnosed slow document-upload screens and implemented async status polling with a webhook fallback so the UI confirmed indexing without blocking.",
+            "Drove next/image and bundle optimization, removing the oversized assets that were the top LCP regression.",
+            "Hardened API routes with edge-middleware AAD checks, closing an unauthenticated path to an internal admin view."
+          ]
+        },
+        "vue": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built a Vue internal console (est.) for BaptistCare content managers to manage document collections, kept responsive during bulk-upload review.",
+            "Redesigned prop-drilled state into Pinia stores after cross-component bugs multiplied.",
+            "Diagnosed reactivity leaks from un-cleaned watchers and moved to watchEffect with explicit teardown.",
+            "Cut initial load (est.) 50% with Vue async components and lazy routes.",
+            "Hardened forms with VeeValidate schema rules so invalid collection edits couldn't reach the backend."
+          ]
+        },
+        "angular": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned an Angular admin portal (est.) for BaptistCare compliance reporting, smooth on dense audit tables.",
+            "Redesigned change detection to OnPush with observables after the UI lagged on large logs, cutting render time (est.) 60%.",
+            "Diagnosed memory growth from un-unsubscribed observables and added a takeUntil teardown across components.",
+            "Drove lazy-loaded modules and route preloading to shrink the initial bundle.",
+            "Hardened forms with typed reactive FormGroups and async validators."
+          ]
+        },
+        "svelte": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built an embedded Svelte widget (est.) for inline document citations in the assistant, shipping (est.) 70% less JS than the main framework.",
+            "Redesigned shared state into Svelte stores after prop chains grew unwieldy across citation components.",
+            "Diagnosed layout thrash on the citation panel and used Svelte transitions with will-change.",
+            "Cut bundle size further with SvelteKit route-level splitting.",
+            "Hardened SSR hydration by guarding browser-only APIs."
+          ]
+        },
+        "swift": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built a Swift iOS companion (est.) for BaptistCare care workers to query the assistant on the floor, holding a crash-free rate above (est.) 99.7%.",
+            "Diagnosed main-thread hitches with Instruments and moved work off the UI thread with async/await.",
+            "Redesigned massive view controllers into MVVM with Combine, untangling chat state.",
+            "Cut cold-start time (est.) 30% by deferring non-critical SDK init.",
+            "Hardened offline draft integrity with checksum validation after corrupt files caused failures."
+          ]
+        },
+        "objc": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned legacy Objective-C modules (est.) in the BaptistCare iOS companion, kept stable while the Swift migration ran.",
+            "Diagnosed retain cycles with the leaks instrument and broke them with weak references in blocks.",
+            "Redesigned a fragile delegate web into a cleaner notification flow.",
+            "Bridged Objective-C and Swift with nullability annotations so new code consumed old modules safely.",
+            "Hardened a UIKit category broken by an OS update with a contained subclass."
+          ]
+        },
+        "kotlin": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built the Kotlin Android companion (est.) for BaptistCare staff, crash-free above (est.) 99.6% across a fragmented device base.",
+            "Diagnosed ANRs from main-thread I/O and moved work to coroutines on Dispatchers.IO.",
+            "Redesigned callback-heavy loading into Kotlin Flow with StateFlow.",
+            "Cut APK size (est.) 20% by replacing a heavy library with a focused module.",
+            "Hardened null handling with sealed classes for chat states."
+          ]
+        },
+        "flutter": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built a cross-platform Flutter companion (est.) from one codebase, shipping iOS and Android in (est.) half the time two native teams would take.",
+            "Diagnosed jank with the Flutter DevTools timeline and added const widgets and RepaintBoundary for 60fps.",
+            "Redesigned setState screens into Riverpod providers, removing rebuild storms.",
+            "Cut startup time (est.) 35% with deferred loading on mid-tier Android devices.",
+            "Hardened platform-channel calls to native auth SDKs with typed error handling."
+          ]
+        },
+        "react_native": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned a React Native companion (est.) sharing (est.) 80% of code across iOS and Android while keeping native auth modules.",
+            "Diagnosed bridge congestion dropping frames and migrated the hot list to Fabric with FlatList windowing.",
+            "Redesigned navigation onto react-navigation with lazy screens.",
+            "Cut JS bundle (est.) 30% with Hermes and inline-requires.",
+            "Hardened the native module boundary with typed TurboModule specs."
+          ]
+        },
+        "agentic_ai_rag": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Architected the RAG pipeline behind BaptistCare's clinical assistant, grounding every GPT-4 answer in the provider's own indexed policy and care documents so it answered on BaptistCare's protocols, not generic training data.",
+            "Redesigned naive top-k retrieval into hybrid (vector + BM25) search with re-ranking and citation tracking after answers cited the wrong policy, lifting answer faithfulness on the 150-200-pair eval set.",
+            "Diagnosed context-window overflow that truncated clinical clauses in GPT-4's 32k window, adding semantic chunking and history truncation to end hallucinated mixes of real and confabulated policy.",
+            "Drove an intent-routing agent step that sent each query to the right document collection (care plans vs policy vs compliance), preventing clinical and admin content from mixing in one answer.",
+            "Hardened the system with a grounding check that refused low-confidence answers, closing the path where a confident wrong reply could misstate care guidance in a clinical setting."
+          ]
+        },
+        "llm_finetuning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the prompt-engineering and intent-tuning frameworks for the assistant, improving routing accuracy and cutting irrelevant retrieval across (est.) thousands of staff queries.",
+            "Redesigned a brittle few-shot classifier into a tuned zero-shot approach after categories drifted, stabilizing query routing.",
+            "Built an eval harness with golden Q/A sets curated with clinical staff, catching prompt regressions before they shipped wrong answers.",
+            "Diagnosed prompt-induced hallucination where the model blended sources, reshaping the system prompt to enforce a hard boundary between grounding context and the question.",
+            "Hardened cost and latency by trimming prompt scaffolding and few-shot examples, staying within the context budget without losing accuracy."
+          ]
+        },
+        "classical_ml": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the XGBoost predictive-analytics module for BaptistCare, flagging resident deterioration risk and staffing pressure from historical care-event, incident, and assessment data.",
+            "Redesigned leaky features after the model looked strong offline but failed live, removing post-event signals and restoring honest, deployable performance.",
+            "Drove a scikit-learn pipeline with proper train/val/test splits and cross-validation, ending the overfit models that had raised false risk flags.",
+            "Diagnosed class imbalance hiding true deterioration cases, applying class weights and calibrated thresholds so precision at the top of the risk list held.",
+            "Cut scoring cost (est.) 40% by pruning low-importance features via SHAP with no measurable accuracy loss, surfacing outputs as manager-dashboard flags rather than chat answers."
+          ]
+        },
+        "computer_vision": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built the document-AI extraction stage with Azure Document Intelligence, turning scanned clinical PDFs and forms into structured, chunk-ready text for the RAG index.",
+            "Redesigned a fixed-size chunker into semantic chunking on headings and numbered clauses after care protocols were split mid-procedure, keeping multi-paragraph guidance intact.",
+            "Diagnosed poor OCR on low-quality scans and added preprocessing plus confidence thresholds so unreadable pages were flagged, not silently mis-extracted.",
+            "Drove a quality gate validating extracted structure before indexing, blocking headers, footers, and page numbers from polluting search.",
+            "Hardened the pipeline against corrupt uploads with decode validation so one bad document couldn't crash a batch."
+          ]
+        },
+        "nlp": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the NLP layer powering query understanding and embedding, using text-embedding-ada-002 to represent both documents and queries in a 1536-dimensional space.",
+            "Redesigned relevance after staff couldn't find content by partial phrasing, tuning hybrid retrieval and analyzers to lift recall on the eval set.",
+            "Diagnosed near-duplicate policy chunks cluttering results and added embedding-based dedup.",
+            "Drove the intent classifier that categorized queries (care plan / policy / compliance / operational) before retrieval, cutting irrelevant results.",
+            "Hardened tokenization for clinical abbreviations and formatting so domain terms weren't dropped at the embedding step."
+          ]
+        },
+        "recommendation_sys": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built a ranking layer (est.) surfacing the most relevant policies and next actions to BaptistCare staff based on role and query context.",
+            "Redesigned a popularity baseline into a context-aware ranker after stale suggestions dominated, lifting the relevance of surfaced guidance.",
+            "Diagnosed over-surfacing of a few common documents and added exploration so less-seen but relevant policies got impressions.",
+            "Drove offline evaluation with guardrail metrics before any ranking change reached staff.",
+            "Hardened against training-serving skew by aligning the ranking-time feature pipeline with offline training."
+          ]
+        },
+        "robotics_planning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built a constrained scheduling optimizer (est.) for BaptistCare staffing recommendations, packing shift coverage against skill, ratio, and availability constraints.",
+            "Redesigned a greedy heuristic into a constraint-solver formulation after coverage gaps appeared, modeling staff-to-resident ratio rules explicitly.",
+            "Diagnosed oscillating schedules and added hysteresis so the planner stabilized instead of reshuffling.",
+            "Drove a probabilistic care-load forecast, replacing fixed estimates that under-provisioned high-acuity periods.",
+            "Hardened the planner with a feasibility fallback so an over-constrained week produced a best-effort plan, not none."
+          ]
+        },
+        "ai_safety": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned safety and guardrails for the BaptistCare assistant, building the red-team suite that gated releases against (est.) 150+ adversarial and privacy-probe prompts before clinical use.",
+            "Redesigned a thin filter into layered grounding, refusal, and PII checks after a probe surfaced cross-facility content, closing the prompt-injection and data-leak path.",
+            "Diagnosed over-refusal blocking legitimate care queries and recalibrated thresholds so safety didn't degrade usefulness.",
+            "Drove citation and faithfulness evidence for every answer, the non-negotiable that let clinical leadership trust the system.",
+            "Hardened high-stakes answers with human-in-the-loop review and audit logging under Australian privacy obligations."
+          ]
+        },
+        "model_serving": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the model-serving path for the assistant, orchestrating Azure OpenAI GPT-4 inference with streaming and holding first-token latency under the 5s target.",
+            "Redesigned synchronous inference into streamed, backpressured requests after concurrent load spiked latency, keeping the UI responsive on facility networks.",
+            "Diagnosed retrieval-plus-inference tail latency and added embedding caching and warm connections so peak usage didn't time out.",
+            "Drove Azure API Management in front of the LLM for rate limiting, throttling, versioning, and centralized logging.",
+            "Hardened serving with timeouts and a safe fallback so an Azure OpenAI hiccup degraded gracefully instead of hanging a clinician's query."
+          ]
+        },
+        "experiment_tracking": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Built the evaluation framework and experiment tracking for the PoC, scoring retrieval recall, answer faithfulness, correctness, and latency against a 150-200-pair clinical eval set.",
+            "Redesigned ad-hoc demo checks into tracked, reproducible eval runs so every prompt/retrieval change had measurable before/after evidence for leadership.",
+            "Drove versioning of prompts, chunking configs, and retrieval params so a quality change always traced to its exact configuration.",
+            "Diagnosed irreproducible eval scores from an unversioned dataset and pinned the eval set, restoring trustworthy numbers.",
+            "Hardened the promotion path with eval gates so a regression couldn't be demoed as an improvement."
+          ]
+        },
+        "model_monitoring": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned production monitoring via Azure Monitor / Application Insights, tracking latency, error rates, refusals, and usage across BaptistCare staff.",
+            "Diagnosed silent retrieval-quality drift after a document refresh by monitoring grounding/citation rates, surfacing it before users felt it.",
+            "Redesigned noisy threshold alerts into rate-based alerts so the team stopped ignoring alarms.",
+            "Drove request tracing across the FastAPI to retrieval to LLM path, turning multi-step incident hunts into a single trace.",
+            "Hardened answer-quality tracking by logging which documents grounded each answer, giving an audit trail for clinical review."
+          ]
+        },
+        "kubernetes": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the containerized deployment of the assistant on Azure Container Apps / AKS, scaling the FastAPI and pipeline services for BaptistCare's staff load.",
+            "Diagnosed cold-start latency on scale-up and pre-warmed pods with readiness gates so traffic only hit warmed services.",
+            "Redesigned resource requests/limits and autoscaling after OOMs during bulk document ingestion.",
+            "Drove network policies and per-environment isolation so the PoC's resident-data services were contained.",
+            "Hardened rollouts with health-gated deploys so a bad build didn't take the clinical demo down."
+          ]
+        },
+        "cicd": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the CI/CD pipelines (GitHub Actions) shipping the BaptistCare PoC to Azure, with automated tests and eval gates before deploy.",
+            "Cut pipeline time (est.) 50% by parallelizing tests and caching dependencies.",
+            "Redesigned manual approvals into automated quality and eval gates so a retrieval regression couldn't ship.",
+            "Drove staged deploys with rollback so a bad release reverted without manual intervention.",
+            "Hardened the pipeline by moving secrets to Key Vault and signing build artifacts."
+          ]
+        },
+        "docker": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the Docker images for the assistant's services, making one build run identically from local dev through Azure.",
+            "Cut image size (est.) 60% with multi-stage builds, speeding deploys.",
+            "Diagnosed nondeterministic behavior from un-pinned dependencies and locked versions so models ran identically across environments.",
+            "Redesigned the Dockerfile for layer caching, turning multi-minute rebuilds into seconds.",
+            "Hardened images by running as non-root and scanning for CVEs in CI."
+          ]
+        },
+        "terraform": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the IaC (Terraform / Bicep) defining the BaptistCare PoC's Azure footprint so environments were reproducible, not hand-built.",
+            "Redesigned a monolithic state into per-service modules with remote state and locking.",
+            "Diagnosed plans that would have recreated live resources and added lifecycle guards plus plan review.",
+            "Drove tagging and cost-allocation policy into modules for spend visibility.",
+            "Hardened drift control with scheduled plan checks catching manual portal changes."
+          ]
+        },
+        "observability": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Built observability with Application Insights, giving request tracing, latency, and error visibility that cut incident triage time on the PoC.",
+            "Diagnosed blind spots where slow retrieval went unnoticed and instrumented per-stage latency metrics.",
+            "Redesigned noisy alerts into SLO-based ones to end alert fatigue.",
+            "Drove distributed tracing across services so a slow dependency was pinpointed from one trace.",
+            "Hardened readiness with synthetic checks before clinical demos."
+          ]
+        },
+        "azure": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Architected the assistant entirely on Azure — OpenAI, AI Search, Document Intelligence, Blob Storage, Key Vault, API Management, App Service/Container Apps — aligned with BaptistCare's Microsoft ecosystem.",
+            "Diagnosed cost from always-on capacity and right-sized App Service / Container Apps with autoscale.",
+            "Redesigned access with Managed Identities and Key Vault, removing connection strings from config.",
+            "Drove Azure AD / Entra ID auth and per-facility security filters end to end so resident data stayed scoped.",
+            "Hardened the footprint with API Management rate limiting and Private Endpoints for data services under healthcare privacy rules."
+          ]
+        },
+        "aws": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Stood up an AWS reference deployment (est.) of the assistant (S3, Lambda, OpenSearch) to evaluate portability beyond Azure.",
+            "Cut cost (est.) 30% with right-sizing and Savings Plans on the eval environment.",
+            "Diagnosed a single-AZ dependency and added cross-AZ redundancy.",
+            "Redesigned IAM to least-privilege for the document-processing roles.",
+            "Drove S3-event-driven ingestion, replacing a polling loop."
+          ]
+        },
+        "gcp": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Built a GCP evaluation deployment (est.) using Vertex AI and BigQuery to benchmark embedding and retrieval options against the Azure stack.",
+            "Cut BigQuery cost (est.) 40% with partitioned, clustered tables for eval analytics.",
+            "Diagnosed GKE node-pool waste and right-sized autoscaling pools.",
+            "Redesigned access with VPC Service Controls and IAM conditions.",
+            "Drove Pub/Sub-to-BigQuery streaming for eval telemetry."
+          ]
+        },
+        "vector_db": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the vector store (Azure AI Search) behind the assistant's retrieval, serving nearest-neighbor search over (est.) tens of thousands of clinical and policy chunks.",
+            "Diagnosed poor recall from default indexing and tuned vector plus hybrid (BM25) search with re-ranking, fixing wrong-document answers.",
+            "Redesigned embedding refresh into incremental upserts so new policies became searchable in minutes, not a full reindex.",
+            "Drove metadata filtering (facility, document type, access tags) alongside vector search so results respected per-facility access control.",
+            "Hardened the index against drift after an embedding-model change by versioning embeddings so old and new vectors weren't mixed."
+          ]
+        },
+        "elasticsearch": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the keyword/BM25 side of hybrid retrieval in Azure AI Search, combining it with vector search for better recall on clinical terminology.",
+            "Redesigned analyzers and field boosting after staff couldn't find policies by partial name.",
+            "Diagnosed deep-pagination timeouts and switched to search_after.",
+            "Drove zero-downtime reindexing behind aliases when chunking config changed.",
+            "Hardened cluster stability by tuning shard counts and bulk indexing during bulk uploads."
+          ]
+        },
+        "redis": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a Redis cache (est.) fronting embedding and retrieval lookups, absorbing repeated queries to keep latency under the 5s target.",
+            "Diagnosed a cache stampede on hot policy queries and added jittered TTLs with lock-on-miss.",
+            "Redesigned eviction with a proper maxmemory policy to stop OOM-driven drops.",
+            "Drove a move to clustered Redis after a single node capped throughput.",
+            "Hardened availability with replicas and Sentinel failover."
+          ]
+        },
+        "postgresql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a PostgreSQL store (est.) for the assistant's app data (sessions, audit, collection config), serving BaptistCare staff at low latency.",
+            "Diagnosed a slow audit query with EXPLAIN ANALYZE and added partial and composite indexes, cutting p99 from (est.) 800ms to under 50ms.",
+            "Redesigned a growing audit table into partitioned ranges.",
+            "Drove a zero-downtime migration with a non-locking backfill on a live table.",
+            "Hardened against connection exhaustion with PgBouncer pooling."
+          ]
+        },
+        "mysql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a MySQL store (est.) behind a reporting-adjacent service, keeping (est.) millions of audit rows consistent.",
+            "Diagnosed full-table scans with the slow-query log and added covering indexes.",
+            "Redesigned read scaling with replicas and a read/write split.",
+            "Drove an online schema change with gh-ost to avoid locking a live table.",
+            "Hardened integrity with foreign keys and strict mode."
+          ]
+        },
+        "mongodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a MongoDB store (est.) for flexible document metadata and chunk records across (est.) tens of thousands of clinical documents.",
+            "Diagnosed slow queries from missing indexes with explain() and added compound indexes.",
+            "Redesigned an unbounded-array document that hit the 16MB limit into referenced documents.",
+            "Drove a sharded cluster on a high-cardinality key after a hot shard bottlenecked writes.",
+            "Hardened consistency with majority write concern."
+          ]
+        },
+        "dynamodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned DynamoDB tables (est.) caching session and entitlement state for the assistant at single-digit-ms reads.",
+            "Redesigned scattered tables into a single-table design with GSIs matched to the query shapes.",
+            "Diagnosed throttling from a hot partition key and redistributed with a composite key.",
+            "Drove on-demand capacity for spiky usage.",
+            "Hardened freshness with TTL on session items."
+          ]
+        },
+        "cassandra": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a Cassandra store (est.) capturing high-volume assistant interaction events with no single point of failure.",
+            "Redesigned tables around query patterns after a bad partition key created unbounded partitions.",
+            "Diagnosed read latency from tombstone buildup and tuned compaction and TTLs.",
+            "Drove tunable consistency at QUORUM after stale reads.",
+            "Hardened against hot nodes with token-aware routing."
+          ]
+        },
+        "sql_server": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a SQL Server store (est.) for an audit/reporting-adjacent workload in the Microsoft-aligned BaptistCare stack.",
+            "Diagnosed a parameter-sniffing regression from the execution plan and fixed it with OPTION RECOMPILE.",
+            "Redesigned heavy reporting onto a read replica with columnstore indexes.",
+            "Drove indexed views to speed aggregations.",
+            "Hardened data protection with row-level security and TDE."
+          ]
+        },
+        "neo4j": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Built a Neo4j knowledge graph (est.) linking policies, procedures, and care entities to power multi-hop answers the flat index couldn't.",
+            "Redesigned multi-hop Cypher queries with proper indexes, cutting traversals from seconds to milliseconds.",
+            "Diagnosed memory blowups on unbounded traversals and added depth limits.",
+            "Drove a graph model after relational joins couldn't express policy dependency paths.",
+            "Hardened availability with a causal cluster."
+          ]
+        },
+        "etl_pipelines": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Architected Whiddon's Azure Data Factory ingestion across 5-7 source systems (care management, finance/ERP, payroll, HR, incidents, AN-ACC), landing raw data in a bronze layer on Data Lake Gen2.",
+            "Redesigned full reloads into watermark-based incremental extraction so finance and care data pulled only new or modified records each run.",
+            "Diagnosed silent row drops from a type mismatch and added validation with dead-letter queuing so bad records were quarantined, not lost from a regulated dataset.",
+            "Drove idempotent pipelines so a failed nightly run could be safely retried without duplicating data for 2,300 residents.",
+            "Hardened ingestion with file-integrity checks (row counts, checksums) on the SFTP payroll exports before loading."
+          ]
+        },
+        "spark": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Synapse Spark transformation jobs building Whiddon's silver layer, standardizing and deduplicating data from 5-7 aged-care source systems for 2,300 residents and 3,000+ staff.",
+            "Diagnosed skew that stalled a resident-matching join on a few high-volume facilities, salting keys and broadcasting small dimensions to bring nightly runs back inside the window.",
+            "Redesigned RDD-style transforms into the DataFrame API with predicate pushdown, cutting Spark cluster cost on the medallion pipeline.",
+            "Drove idempotent, watermark-aware Spark jobs so a re-run never double-counted care events into the gold layer.",
+            "Hardened data quality with schema validation in Spark, quarantining malformed records instead of corrupting downstream KPIs."
+          ]
+        },
+        "airflow": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the pipeline orchestration (Azure Data Factory / Synapse Pipelines) running scheduled ingestion and transformation across Whiddon's medallion architecture to hit the morning reporting SLA.",
+            "Diagnosed a scheduling bottleneck delaying downstream loads and tuned dependencies and parallelism so a late source feed didn't produce empty dashboards.",
+            "Redesigned monolithic pipelines into modular, idempotent activities with retries, ending the manual reruns that ate the team's time.",
+            "Drove data-dependency triggers replacing time-based scheduling so transformations ran only once their sources landed.",
+            "Hardened orchestration with failure alerting via Azure Monitor and dead-letter handling for records that failed validation."
+          ]
+        },
+        "dbt": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the SQL transformation layer (dbt-style models in Synapse) turning bronze data into Whiddon's silver and gold tables with tested, agreed KPI definitions.",
+            "Redesigned copy-pasted SQL into layered, referenced models after teams produced conflicting numbers, enforcing one definition of 'occupied bed' and 'care hours'.",
+            "Drove data tests (uniqueness, not-null, relationships) into the pipeline, catching the bad joins that had shipped wrong figures to leadership.",
+            "Diagnosed slow full rebuilds and switched heavy models to incremental materialization.",
+            "Hardened metric trust with documented lineage so a changed definition's downstream consumers were known."
+          ]
+        },
+        "databricks": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Whiddon's Synapse lakehouse (medallion bronze/silver/gold on Data Lake Gen2 in Parquet), the single governed source replacing spreadsheets and ad-hoc queries.",
+            "Redesigned full-refresh jobs into incremental MERGE upserts, cutting daily compute and landing gold tables hours earlier.",
+            "Diagnosed runaway cluster cost from idle sessions and moved scheduled work to job clusters with autoscale and auto-terminate.",
+            "Drove partitioning and file optimization on the hottest tables, cutting query times that had made dashboards unusable at peak.",
+            "Hardened data quality with table constraints and expectations, blocking malformed batches from reaching reporting."
+          ]
+        },
+        "snowflake": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Synapse data-warehouse layer serving Whiddon's executive reporting across facilities and service lines, the unified model the organisation never had.",
+            "Diagnosed runaway compute and right-sized Synapse SQL pools with auto-pause so idle dashboards stopped burning cost.",
+            "Redesigned full-scan queries with clustering/distribution keys and result caching, cutting the slowest report from minutes to seconds.",
+            "Drove a curated gold-layer mart per reporting domain so Power BI queried pre-aggregated tables, not millions of raw rows.",
+            "Hardened access with role-based grants and row-level security so facility managers saw only their data."
+          ]
+        },
+        "kafka": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Architected the event-driven ESB (Azure Service Bus) that moved Whiddon from nightly batch to near-real-time, publishing admissions, incidents, AN-ACC assessments, and roster changes as events.",
+            "Redesigned batch-only integration into pub/sub topics so the warehouse, alerting, and dashboards processed events within seconds, not after the nightly run.",
+            "Diagnosed consumer-lag risk and partitioned topics with idempotent consumers so an event was never double-processed.",
+            "Drove a schema/contract approach with dead-letter queuing so a bad producer change couldn't break every consumer.",
+            "Hardened delivery so a slow consumer applied backpressure instead of dropping operational events."
+          ]
+        },
+        "flink": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Built the near-real-time stream processing (est.) over the Service Bus event flow, computing live occupancy, funding position, and incident signals for operational decisions.",
+            "Redesigned windowing to event-time with watermarks after out-of-order events skewed live counts.",
+            "Diagnosed growing checkpoint times that risked stability and tuned the state backend with incremental checkpoints.",
+            "Drove exactly-once processing so a care event wasn't double-counted into live funding figures.",
+            "Hardened the job against backpressure from a slow sink so a downstream stall didn't silently stop ingestion."
+          ]
+        },
+        "powerbi": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned Whiddon's Power BI reporting on a single centralized semantic model over the Synapse gold layer, so every team worked from the same KPI definitions.",
+            "Built complex DAX for AN-ACC funding calculations (classification weightings, indexation), rolling 28/90-day quality averages, and funding forecasts on resident mix.",
+            "Diagnosed dashboards timing out on millions of rows and moved to a star schema with pre-aggregated tables plus incremental refresh, cutting refresh from hours to minutes.",
+            "Drove row-level security via AAD groups with facility / regional / organisation tiers, enforced at the dataset so it applied across every report.",
+            "Delivered executive, AN-ACC funding, workforce, quality/safety, and financial dashboards with drill-through, the evidence base leadership used for regulatory reporting."
+          ]
+        },
+        "sql_analytics": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the analytical SQL over Whiddon's warehouse answering executive and regulatory questions across 2,300 residents and 3,000+ staff, turning raw operational data into decision-ready KPIs.",
+            "Redesigned slow ad-hoc queries with window functions and CTEs, replacing nested subqueries that ran for minutes.",
+            "Diagnosed conflicting KPI numbers from inconsistent joins and standardized grain and canonical IDs so 'occupied bed' meant one thing org-wide.",
+            "Drove reusable, documented metric definitions so finance and operations stopped computing the same KPI differently.",
+            "Hardened heavy reporting with partition pruning and pre-aggregates feeding the gold layer."
+          ]
+        },
+        "tableau": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Built a Tableau reporting option (est.) evaluated against Power BI for Whiddon's executive dashboards, serving (est.) leadership across facilities.",
+            "Diagnosed dashboards timing out on live connections and switched to extracts with incremental refresh.",
+            "Redesigned a sprawling workbook into parameter-driven views to end conflicting numbers.",
+            "Drove a certified data source so teams stopped building disagreeing extracts.",
+            "Hardened access with row-level security so regional leads saw only their facilities."
+          ]
+        },
+        "looker": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Built a LookML model (est.) evaluated for Whiddon self-serve analytics, giving consistent governed metrics over the warehouse.",
+            "Redesigned duplicated SQL into reusable explores and dimensions to remove conflicting definitions.",
+            "Diagnosed slow dashboards and added aggregate awareness with rollups.",
+            "Drove persistent derived tables for expensive joins.",
+            "Hardened governance with access grants and a certified model."
+          ]
+        }
+      }
+    },
+    "Accenture": {
+      "project": "Fortune 500 fraud ML, enterprise LLM/RAG apps, healthcare 0->1 startup, and AI/data consulting",
+      "stacks": {
+        "shared": {
+          "domain": "Shared",
+          "tier": 2,
+          "bullets": [
+            "Partnered with US Fortune 500 product, engineering, risk, and business teams to deliver production AI under enterprise security and compliance constraints.",
+            "Mentored engineers on LLM evaluation, RAG, and ML-pipeline practices across multiple client engagements, raising reliability standards from prototype to production.",
+            "Shaped AI solution scope with clients across fintech, healthcare, e-commerce, and logistics, steering pilots toward measurable production outcomes instead of demos.",
+            "Drove architecture and deployment reviews for scaling AI systems, weighing latency, cost, and reliability trade-offs before committing to a design.",
+            "Communicated across distributed US and EU teams as the primary technical contact, keeping stakeholders aligned through fast iteration from pilot to production."
+          ]
+        },
+        "python_fastapi": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the FastAPI backends for Accenture's LLM applications and the healthcare startup's product, orchestrating RAG, agent workflows, and model inference for tens of thousands of users.",
+            "Redesigned blocking model and tool calls as async endpoints after latency spiked under load, contributing to the ~30% latency cut that made real-time AI features viable.",
+            "Drove Pydantic-typed API contracts between AI services and frontends/integrations, ending the schema drift that broke client integrations across engagements.",
+            "Implemented streaming, backpressured inference so a slow LLM call couldn't exhaust the request pool for the Fortune 500 client.",
+            "Hardened the APIs with auth and per-tenant access controls for regulated finance and healthcare data."
+          ]
+        },
+        "python": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Python ML/AI codebase across Accenture engagements — fraud models, LLM pipelines, CV, and data pipelines — shipping production systems for a Fortune 500 financial client.",
+            "Rewrote a per-record inference loop into vectorized batch processing after a fraud-scoring job missed its SLA, cutting runtime sharply.",
+            "Redesigned untyped data handling into typed dataclasses with mypy gating, removing a class of silent data bugs in the fraud pipeline.",
+            "Built reusable Python libraries for RAG, evaluation, and prompt frameworks shared across client projects.",
+            "Profiled hot paths with cProfile and parallelized with multiprocessing, cutting a training-data prep job from hours to minutes."
+          ]
+        },
+        "python_django": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected a Django backend (est.) for an enterprise-automation tool on Accenture's agent workflows, serving (est.) hundreds of internal users.",
+            "Redesigned N+1 ORM access with select_related/prefetch_related and caching, cutting page loads from (est.) 3s to under 400ms.",
+            "Moved long-running AI jobs to Celery workers so they didn't block the request pool.",
+            "Hardened the Django admin with role-based permissions for regulated data.",
+            "Owned DRF serializers with versioned contracts so AI services and the app evolved independently."
+          ]
+        },
+        "python_flask": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Flask service (est.) exposing model inference and eval metrics for an Accenture client, serving internal teams.",
+            "Diagnosed worker crashes from leaked SQLAlchemy sessions and fixed them with scoped_session teardown.",
+            "Replaced the dev server with Gunicorn and gevent workers after blocking I/O capped throughput.",
+            "Decomposed a monolith into Flask blueprints with isolated error handlers.",
+            "Added Marshmallow validation to cut malformed-payload 500s."
+          ]
+        },
+        "java_springboot": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected Spring Boot services (est.) integrating Accenture's AI systems into a Fortune 500 client's Java enterprise stack, isolating AI from legacy core systems.",
+            "Redesigned synchronous downstream calls onto @Async executors after a slow core system backed up the thread pool.",
+            "Drove Spring Boot Actuator health and readiness probes for reliable enterprise deploys.",
+            "Cut integration defects with Testcontainers tests around the legacy adapter.",
+            "Hardened the service with constructor injection and Bean Validation."
+          ]
+        },
+        "java": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned Java services (est.) in the Fortune 500 client's stack handling high-volume transaction processing that fed the fraud models.",
+            "Diagnosed a GC pause stalling batch scoring and tuned G1GC, removing a synchronized hot path.",
+            "Rebuilt a shared util into a versioned module so teams shipped independently.",
+            "Hardened concurrent processing after a race corrupted state, using ConcurrentHashMap proven under load.",
+            "Added metrics and structured logging so a scoring failure was attributable in minutes."
+          ]
+        },
+        "typescript": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the TypeScript layer (est.) for AI-feature frontends and BFFs across Accenture engagements, keeping API contracts type-safe.",
+            "Modeled API and loading states as discriminated unions to reject impossible UI states at compile time.",
+            "Drove shared types between frontend and services, ending contract drift.",
+            "Eliminated runtime payload errors with zod validation at boundaries.",
+            "Owned the strict-mode tsconfig migration, removing implicit-any defects."
+          ]
+        },
+        "nodejs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a Node.js BFF (est.) aggregating AI service calls for a client's web app, collapsing round-trips per screen.",
+            "Diagnosed event-loop stalls with clinic.js and moved CPU-bound work to worker threads.",
+            "Rebuilt request-scoped context with AsyncLocalStorage for log correlation.",
+            "Throttled a slow downstream with a bounded queue and circuit breaker.",
+            "Migrated large payload handling to Node.js streams to end OOM crashes."
+          ]
+        },
+        "nestjs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected a NestJS API (est.) for an enterprise-automation product, giving clean module boundaries.",
+            "Drove DI-scoped providers for independent feature evolution.",
+            "Eliminated inconsistent auth with NestJS guards and interceptors.",
+            "Diagnosed a request-scoped memory leak and switched to transient scope.",
+            "Standardized error shaping with a global exception filter."
+          ]
+        },
+        "go": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Go service (est.) for high-throughput event processing feeding the fraud pipeline, sustaining bursts.",
+            "Diagnosed a goroutine leak with pprof and added context.Context deadlines.",
+            "Redesigned a hot path with sync.Pool to cut GC pauses.",
+            "Standardized Go services with shared tracing and rate-limiting middleware.",
+            "Hardened concurrent state with sync.RWMutex after a data race."
+          ]
+        },
+        "rust": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Rust component (est.) for latency-sensitive feature computation in the fraud pipeline, using zero-copy parsing.",
+            "Replaced a slow Python step with a Rust module, cutting per-event time (est.) 60%.",
+            "Eliminated a memory-safety crash class by porting a C helper to Rust.",
+            "Drove serde zero-copy parsing to remove per-event allocations.",
+            "Hardened the FFI boundary with cargo-fuzz tests."
+          ]
+        },
+        "dotnet_csharp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected an ASP.NET Core service (est.) integrating AI into a client's .NET enterprise stack.",
+            "Diagnosed thread-pool starvation from sync-over-async and refactored to async/await.",
+            "Redesigned EF Core queries into projected DTOs, cutting a report from minutes to seconds.",
+            "Drove a Channels-based ingestion pipeline replacing a lock-heavy queue.",
+            "Hardened access with Managed Identity and Key Vault."
+          ]
+        },
+        "ruby_on_rails": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a Rails internal tool (est.) for an Accenture client's operations team.",
+            "Diagnosed N+1 queries with Bullet and added includes and counter caches.",
+            "Moved long-running jobs to Sidekiq.",
+            "Redesigned fat ActiveRecord models into service objects.",
+            "Hardened mass-assignment with strong parameters and policy objects."
+          ]
+        },
+        "php_laravel": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Laravel service (est.) for an e-commerce consulting client's customer-facing flows.",
+            "Diagnosed slow Eloquent queries with the debugbar and added eager loading and indexes.",
+            "Moved email and webhook fan-out to queues on Redis.",
+            "Redesigned controllers into form requests and jobs.",
+            "Hardened the app with CSRF protection and signed URLs."
+          ]
+        },
+        "c_cpp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned a C++ component (est.) for fast OCR and image post-processing in the CV document pipelines.",
+            "Diagnosed segfaults under load with AddressSanitizer and fixed a buffer overrun.",
+            "Redesigned manual memory ownership into RAII with smart pointers.",
+            "Cut per-image parse time (est.) 40% with std::move and reserved buffers.",
+            "Hardened the parser against malformed input with libFuzzer."
+          ]
+        },
+        "scripting": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Bash automation for Accenture's ML pipelines — training, deploy, and batch-scoring runbooks across clients.",
+            "Diagnosed silently failing scripts and added set -euo pipefail with trap cleanup.",
+            "Automated retraining and deploy steps with idempotent scripts wrapping cloud CLIs.",
+            "Replaced one-off cron scripts with a parameterized tool and structured logging.",
+            "Hardened secret handling after keys leaked into logs."
+          ]
+        },
+        "react": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built React frontend features for the healthcare startup, integrating AI capabilities (assistants, recommendations) into user-facing clinical and admin workflows.",
+            "Redesigned re-render-heavy components with the Profiler and memoization after UI lag on clinical workflow screens.",
+            "Diagnosed state tangles across AI features and moved shared state into a reducer/store pattern.",
+            "Drove component reuse so AI features shipped into multiple product surfaces without duplication.",
+            "Hardened error handling with boundaries so a failing AI widget degraded gracefully instead of blanking the screen."
+          ]
+        },
+        "nextjs": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned a Next.js app (est.) for an Accenture client, using SSR for fast, indexable AI-feature pages.",
+            "Redesigned client-fetched pages as server components to cut shipped JS.",
+            "Diagnosed an ISR cache stampede and added stale-while-revalidate.",
+            "Drove next/image and bundle optimization to fix LCP regressions.",
+            "Hardened API routes with edge-middleware auth."
+          ]
+        },
+        "vue": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built a Vue internal console (est.) for an Accenture client's AI-ops team.",
+            "Redesigned prop-drilled state into Pinia stores.",
+            "Diagnosed reactivity leaks from un-cleaned watchers and moved to watchEffect with teardown.",
+            "Cut initial load (est.) 50% with async components and lazy routes.",
+            "Hardened forms with VeeValidate schema rules."
+          ]
+        },
+        "angular": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned an Angular enterprise portal (est.) for a Fortune 500 client's internal AI tooling.",
+            "Redesigned change detection to OnPush with observables, cutting render time (est.) 60%.",
+            "Diagnosed memory growth from un-unsubscribed observables and added takeUntil teardown.",
+            "Drove lazy-loaded modules and preloading to shrink the bundle.",
+            "Hardened forms with typed reactive FormGroups and async validators."
+          ]
+        },
+        "svelte": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built an embedded Svelte widget (est.) surfacing model outputs inside a client product.",
+            "Redesigned shared state into Svelte stores.",
+            "Diagnosed layout thrash and used Svelte transitions with will-change.",
+            "Cut bundle with SvelteKit route-level splitting.",
+            "Hardened SSR hydration by guarding browser-only APIs."
+          ]
+        },
+        "swift": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built a Swift iOS app (est.) surfacing the healthcare startup's AI features to clinicians, crash-free above (est.) 99.7%.",
+            "Diagnosed main-thread hitches with Instruments and moved work off the UI thread with async/await.",
+            "Redesigned view controllers into MVVM with Combine.",
+            "Cut cold-start time (est.) 30% by deferring SDK init.",
+            "Hardened offline data integrity with checksum validation."
+          ]
+        },
+        "objc": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned legacy Objective-C modules (est.) in a client iOS app while the Swift migration ran.",
+            "Diagnosed retain cycles with the leaks instrument and broke them with weak references.",
+            "Redesigned a fragile delegate web into a notification flow.",
+            "Bridged Objective-C and Swift with nullability annotations.",
+            "Hardened a UIKit category broken by an OS update with a subclass."
+          ]
+        },
+        "kotlin": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built the Kotlin Android app (est.) for the healthcare startup's AI features, crash-free above (est.) 99.6%.",
+            "Diagnosed ANRs from main-thread I/O and moved work to coroutines on Dispatchers.IO.",
+            "Redesigned callback loading into Kotlin Flow with StateFlow.",
+            "Cut APK size (est.) 20% by replacing a heavy library.",
+            "Hardened null handling with sealed classes."
+          ]
+        },
+        "flutter": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built a cross-platform Flutter app (est.) shipping iOS and Android AI features from one codebase.",
+            "Diagnosed jank with DevTools and added const widgets and RepaintBoundary for 60fps.",
+            "Redesigned setState screens into Riverpod providers.",
+            "Cut startup (est.) 35% with deferred loading.",
+            "Hardened platform-channel calls with typed error handling."
+          ]
+        },
+        "react_native": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned a React Native app (est.) sharing (est.) 80% of code across iOS and Android for a consulting client.",
+            "Diagnosed bridge congestion dropping frames and migrated to Fabric with FlatList windowing.",
+            "Redesigned navigation onto react-navigation with lazy screens.",
+            "Cut JS bundle (est.) 30% with Hermes and inline-requires.",
+            "Hardened the native module boundary with typed TurboModule specs."
+          ]
+        },
+        "agentic_ai_rag": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Architected RAG and agent-based LLM applications for Accenture's Fortune 500 client and consulting engagements — chat assistants and document QA grounded in enterprise data.",
+            "Redesigned naive retrieval into hybrid search with re-ranking and citations after answers drifted off-source, improving faithfulness on the eval set.",
+            "Drove tool-use agent workflows that called enterprise APIs instead of hallucinating, enabling reliable automation.",
+            "Diagnosed context overflow and added chunking and history management to stop hallucinated answers.",
+            "Hardened pipelines with grounding and guardrail checks before deploying to regulated finance and healthcare users."
+          ]
+        },
+        "llm_finetuning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned LLM fine-tuning on domain-specific datasets for the Fortune 500 client, improving response accuracy and reducing hallucinations.",
+            "Redesigned full fine-tunes into LoRA and instruction tuning after GPU cost grew, cutting training cost (est.) 70% at matched quality.",
+            "Built an eval harness with golden sets and an LLM-judge, catching regressions before production.",
+            "Diagnosed objective issues in an early tuning run and reshaped the reward to recover genuine quality.",
+            "Hardened training data with dedup and leakage checks after train/test overlap inflated metrics."
+          ]
+        },
+        "classical_ml": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Led fraud-detection ML for the Fortune 500 financial client, improving detection accuracy by +18% over the prior system.",
+            "Redesigned leaky features after strong offline metrics didn't hold live, restoring deployable performance.",
+            "Drove a scikit-learn/XGBoost pipeline with proper validation, ending the overfit models that had raised false positives.",
+            "Diagnosed class imbalance hiding true fraud and applied class weights and calibrated thresholds.",
+            "Cut scoring cost (est.) 40% by pruning low-importance features via SHAP with no accuracy loss."
+          ]
+        },
+        "computer_vision": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Developed computer-vision pipelines for document processing and visual inspection across finance and healthcare clients, using OpenCV, YOLO, and Tesseract.",
+            "Redesigned a slow per-image CNN pass into batched GPU inference, cutting per-document processing from seconds to milliseconds and helping the ~30% latency win.",
+            "Diagnosed poor OCR on low-quality medical scans and added preprocessing plus confidence thresholds.",
+            "Drove a quality gate blocking unreadable captures before downstream extraction.",
+            "Hardened pipelines against corrupt uploads with decode validation."
+          ]
+        },
+        "nlp": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built NLP systems — chatbots, classification pipelines, NER, and embeddings-based search — across fintech, e-commerce, and logistics clients.",
+            "Redesigned a brittle keyword matcher into a transformer classifier, lifting precision.",
+            "Diagnosed multilingual failures and added language detection and per-locale handling.",
+            "Drove embedding-based semantic search and near-duplicate dedup.",
+            "Hardened tokenization for domain terms so they weren't dropped at the embedding step."
+          ]
+        },
+        "recommendation_sys": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built recommendation systems for the healthcare startup — workflow prioritization and decision support — surfacing next actions to clinical staff.",
+            "Redesigned a popularity baseline into a context-aware ranker, lifting relevance.",
+            "Diagnosed feedback loops over-surfacing common items and added exploration.",
+            "Drove A/B evaluation with guardrail metrics before shipping ranking changes.",
+            "Hardened against training-serving skew by aligning feature pipelines."
+          ]
+        },
+        "robotics_planning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built a routing and scheduling optimizer (est.) for a logistics consulting client, packing deliveries against time-window and capacity constraints.",
+            "Redesigned a greedy heuristic into a constraint-solver formulation after missed delivery windows.",
+            "Diagnosed oscillating plans and added hysteresis to stabilize them.",
+            "Drove a probabilistic ETA model replacing fixed estimates.",
+            "Hardened the planner with a feasibility fallback for over-constrained days."
+          ]
+        },
+        "ai_safety": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned evaluation and guardrails for LLM systems in regulated finance and healthcare, building red-team suites that gated releases.",
+            "Redesigned thin filters into layered grounding and PII checks after probes surfaced leaks.",
+            "Diagnosed over-refusal degrading usefulness and recalibrated thresholds.",
+            "Drove explainability and citation evidence required for client trust and compliance.",
+            "Hardened high-stakes outputs with human-in-the-loop review and audit logging."
+          ]
+        },
+        "model_serving": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned model serving across engagements (AWS SageMaker, GCP Vertex AI), deploying fraud, LLM, and CV models for real-time and batch inference.",
+            "Redesigned synchronous inference into batched and streamed serving, contributing to the ~30% latency cut for the healthcare startup.",
+            "Diagnosed cold-start latency on GPU scale-up and pre-warmed endpoints.",
+            "Drove canary and shadow rollouts, catching a regressed model before full traffic.",
+            "Hardened serving with timeouts and fallbacks for graceful degradation."
+          ]
+        },
+        "experiment_tracking": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned experiment tracking and the model registry (MLflow / Weights & Biases) across teams, giving reproducible runs and a clear path to production.",
+            "Redesigned ad-hoc notebook experiments into tracked runs with logged params, metrics, and artifacts.",
+            "Drove a feature store to keep training and serving features consistent.",
+            "Diagnosed irreproducible results from untracked data versions and wired in dataset versioning.",
+            "Hardened promotion with registry stages and approval gates."
+          ]
+        },
+        "model_monitoring": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Built drift and performance monitoring for production models across clients, catching degradations before business impact like fraud-recall drops.",
+            "Diagnosed silent accuracy drops from distribution shift and built data-drift alerts.",
+            "Redesigned threshold alerts into population-stability metrics to cut false pages.",
+            "Drove automated retraining triggers tied to drift signals.",
+            "Hardened monitoring with delayed-label backfill so true accuracy was measured, not guessed."
+          ]
+        },
+        "kubernetes": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned containerized model deployment on Kubernetes across Accenture clients, scaling inference services reliably.",
+            "Diagnosed cold-start latency and pre-warmed pods with readiness gates.",
+            "Redesigned resource requests/limits and autoscaling after OOMs.",
+            "Drove network policies and namespace isolation for regulated workloads.",
+            "Hardened rollouts with health-gated deploys."
+          ]
+        },
+        "cicd": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned CI/CD pipelines (GitHub Actions, GitLab CI) for ML systems across clients, automating build, test, and deploy.",
+            "Cut pipeline time (est.) 50% by parallelizing tests and caching dependencies.",
+            "Redesigned manual approvals into automated quality and eval gates.",
+            "Drove staged deploys with rollback for safe ML releases.",
+            "Hardened pipelines by moving secrets to a vault and signing artifacts."
+          ]
+        },
+        "docker": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned Docker images for ML/AI services, making builds reproducible across dev and cloud.",
+            "Cut image size (est.) 60% with multi-stage builds.",
+            "Diagnosed nondeterminism from un-pinned dependencies and locked CUDA and library versions.",
+            "Redesigned Dockerfiles for layer caching, turning multi-minute rebuilds into seconds.",
+            "Hardened images by running as non-root and scanning for CVEs."
+          ]
+        },
+        "terraform": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned Terraform IaC (est.) defining client AI infrastructure across AWS and GCP for reproducible environments.",
+            "Redesigned monolithic state into per-service modules with remote state and locking.",
+            "Diagnosed destructive plans and added lifecycle guards and plan review.",
+            "Drove tagging and cost-allocation policy into modules.",
+            "Hardened drift control with scheduled plan checks."
+          ]
+        },
+        "observability": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Built observability for production AI systems (metrics, logs, traces), cutting incident triage time across clients.",
+            "Diagnosed blind spots where inference slowdowns went unnoticed and instrumented per-stage latency.",
+            "Redesigned noisy alerts into SLO-based ones to end alert fatigue.",
+            "Drove distributed tracing across model and data services.",
+            "Hardened readiness with synthetic checks before client demos."
+          ]
+        },
+        "aws": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Architected AI systems on AWS (S3, EC2, Lambda, SageMaker) across Accenture clients, from training to real-time serving.",
+            "Cut cost (est.) 30% with right-sizing, Savings Plans, and spot instances for batch training.",
+            "Diagnosed a single-AZ dependency and added cross-AZ redundancy.",
+            "Redesigned IAM to least-privilege for data and model access.",
+            "Drove S3-event-driven ingestion, replacing a polling loop."
+          ]
+        },
+        "gcp": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Built AI workloads on GCP (Vertex AI, BigQuery) for clients, training and serving models and analyzing large datasets.",
+            "Cut BigQuery cost (est.) 40% with partitioned, clustered tables and slot reservations.",
+            "Diagnosed GKE node-pool waste and right-sized autoscaling pools.",
+            "Redesigned access with VPC Service Controls and IAM conditions.",
+            "Drove Pub/Sub-to-BigQuery streaming, replacing brittle batch loads."
+          ]
+        },
+        "azure": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Stood up Azure workloads (est.) (Azure ML, AKS) for a client preferring the Microsoft stack.",
+            "Cut cost (est.) 35% with reserved instances and autoscale.",
+            "Diagnosed Azure SQL throttling at peak and added read replicas.",
+            "Redesigned access with Managed Identities and Key Vault.",
+            "Drove infrastructure into Bicep templates."
+          ]
+        },
+        "vector_db": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the vector stores behind Accenture's RAG systems (Pinecone/Weaviate-class), serving nearest-neighbor search over (est.) millions of enterprise document embeddings.",
+            "Diagnosed poor recall from a default index and tuned HNSW parameters to fix bad retrieval.",
+            "Redesigned embedding refresh into incremental upserts so new documents became searchable in minutes.",
+            "Drove metadata filtering alongside vector search so results respected client access constraints.",
+            "Hardened the index against drift after an embedding-model change by versioning embeddings."
+          ]
+        },
+        "elasticsearch": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned Elasticsearch/OpenSearch search powering enterprise document QA and hybrid retrieval across client systems.",
+            "Redesigned relevance with custom analyzers and field boosting after poor partial-match recall.",
+            "Diagnosed deep-pagination timeouts and switched to search_after.",
+            "Drove zero-downtime reindexing behind index aliases.",
+            "Hardened cluster stability by tuning shard counts and bulk indexing."
+          ]
+        },
+        "redis": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a Redis cache fronting inference and retrieval lookups, absorbing (est.) 90% of repeat reads to hold latency.",
+            "Diagnosed a cache stampede on hot keys and added jittered TTLs with lock-on-miss.",
+            "Redesigned eviction with a proper maxmemory policy.",
+            "Drove a move to clustered Redis after a node capped throughput.",
+            "Hardened availability with replicas and Sentinel failover."
+          ]
+        },
+        "postgresql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned PostgreSQL stores for application and feature data across Accenture AI products, serving tens of thousands of users.",
+            "Diagnosed a slow query with EXPLAIN ANALYZE and added partial and composite indexes, cutting p99 from (est.) 800ms to under 50ms.",
+            "Redesigned a large event table into partitioned ranges.",
+            "Drove zero-downtime migrations with non-locking backfills.",
+            "Hardened against connection exhaustion with PgBouncer pooling."
+          ]
+        },
+        "mysql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a MySQL store (est.) behind a client application, keeping (est.) millions of rows consistent.",
+            "Diagnosed full-table scans with the slow-query log and added covering indexes.",
+            "Redesigned read scaling with replicas and a read/write split.",
+            "Drove an online schema change with gh-ost to avoid locking.",
+            "Hardened integrity with foreign keys and strict mode."
+          ]
+        },
+        "mongodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a MongoDB store (est.) for flexible document and feature records in an AI product.",
+            "Diagnosed slow queries with explain() and added compound indexes.",
+            "Redesigned an oversized document into referenced documents.",
+            "Drove a sharded cluster after a hot shard bottlenecked writes.",
+            "Hardened consistency with majority write concern."
+          ]
+        },
+        "dynamodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned DynamoDB tables (est.) for session and feature caching at single-digit-ms reads.",
+            "Redesigned scattered tables into a single-table design with GSIs.",
+            "Diagnosed a hot partition key and redistributed with a composite key.",
+            "Drove on-demand capacity for spiky load.",
+            "Hardened freshness with TTL on items."
+          ]
+        },
+        "cassandra": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a Cassandra store (est.) capturing high-volume event data with no single point of failure.",
+            "Redesigned tables around query patterns after unbounded partitions.",
+            "Diagnosed tombstone-driven latency and tuned compaction and TTLs.",
+            "Drove QUORUM consistency after stale reads.",
+            "Hardened against hot nodes with token-aware routing."
+          ]
+        },
+        "sql_server": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a SQL Server store (est.) for a Microsoft-stack client's reporting workload.",
+            "Diagnosed parameter sniffing from the execution plan and fixed it with OPTION RECOMPILE.",
+            "Redesigned reporting onto a read replica with columnstore indexes.",
+            "Drove indexed views to speed aggregations.",
+            "Hardened with row-level security and TDE."
+          ]
+        },
+        "neo4j": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Built a Neo4j graph (est.) for entity-relationship analysis in a fraud-adjacent use case, surfacing rings relational joins couldn't.",
+            "Redesigned multi-hop Cypher queries with indexes.",
+            "Diagnosed unbounded traversals and added depth limits.",
+            "Drove a graph model for fraud-ring detection.",
+            "Hardened availability with a causal cluster."
+          ]
+        },
+        "etl_pipelines": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Established foundational data infrastructure across ETL, APIs, and cloud for the healthcare startup, with secure data handling aligned to healthcare requirements.",
+            "Redesigned full reloads into incremental change-data-capture, cutting load windows.",
+            "Diagnosed silent row drops from type mismatches and added validation with reject queues.",
+            "Drove idempotent, restartable loads with checkpointing.",
+            "Hardened reconciliation with end-to-end record counts."
+          ]
+        },
+        "spark": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Spark jobs building training corpora and features from large client datasets for the fraud and LLM pipelines.",
+            "Diagnosed skew stalling joins and salted keys plus broadcast the small side.",
+            "Redesigned RDD transforms into the DataFrame API with predicate pushdown.",
+            "Drove idempotent, watermark-aware jobs to avoid double counting.",
+            "Hardened quality with schema validation quarantining bad records."
+          ]
+        },
+        "kafka": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Kafka event backbone for event-driven AI pipelines, decoupling producers from inference and analytics consumers.",
+            "Diagnosed consumer lag and repartitioned topics and tuned consumers.",
+            "Redesigned into idempotent keyed consumers to remove duplicates.",
+            "Drove a schema registry with compatibility checks.",
+            "Hardened delivery with dead-letter topics and replay tooling."
+          ]
+        },
+        "airflow": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Airflow orchestration running daily training and data pipelines across client engagements.",
+            "Diagnosed a scheduler bottleneck and tuned parallelism and pools.",
+            "Redesigned monolithic DAGs into modular, idempotent tasks with retries.",
+            "Drove data-dependency sensors replacing time-based scheduling.",
+            "Hardened alerting with SLA misses and on-failure callbacks."
+          ]
+        },
+        "snowflake": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned a Snowflake warehouse (est.) for a client's analytics and feature data.",
+            "Diagnosed runaway credits and right-sized warehouses with auto-suspend.",
+            "Redesigned full-scan queries with clustering keys and result caching.",
+            "Drove zero-copy clones for analyst sandboxes.",
+            "Hardened access with role-based grants and row-access policies."
+          ]
+        },
+        "databricks": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned a Databricks lakehouse (est.) for a client's ML feature and training data on Delta Lake.",
+            "Redesigned full refreshes into incremental MERGE upserts.",
+            "Diagnosed idle-cluster cost and moved to job clusters with autoscale.",
+            "Drove Z-ordering and OPTIMIZE on hot tables.",
+            "Hardened quality with Delta constraints and expectations."
+          ]
+        },
+        "dbt": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned a dbt transformation layer (est.) producing tested, documented analytics tables for a client.",
+            "Redesigned copy-pasted SQL into layered models with ref() and macros.",
+            "Drove dbt tests into CI to catch bad joins before they shipped wrong numbers.",
+            "Diagnosed slow rebuilds and switched to incremental materialization.",
+            "Hardened metric trust with snapshots and exposures."
+          ]
+        },
+        "flink": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Built Flink stream jobs (est.) computing real-time features and aggregates for a fraud use case.",
+            "Redesigned windowing to event-time with watermarks after out-of-order events.",
+            "Diagnosed checkpoint growth and tuned the state backend.",
+            "Drove exactly-once sinks to avoid double counting.",
+            "Hardened against backpressure with buffer tuning and alerting."
+          ]
+        },
+        "sql_analytics": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned analytical SQL turning client data into decision-ready metrics across fraud, e-commerce, and logistics engagements.",
+            "Redesigned slow queries with window functions and CTEs.",
+            "Diagnosed wrong metrics from sloppy joins and standardized grain and keys.",
+            "Drove reusable, documented query templates.",
+            "Hardened heavy reporting with partition pruning and pre-aggregates."
+          ]
+        },
+        "powerbi": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Built Power BI reporting (est.) for a client's executive metrics over the warehouse.",
+            "Diagnosed slow visuals from a flat model and moved to a star schema for fast DAX.",
+            "Cut refresh time with incremental refresh policies.",
+            "Drove a shared dataset with certified measures.",
+            "Hardened access with row-level security roles."
+          ]
+        },
+        "tableau": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Built Tableau dashboards (est.) for a client's business stakeholders off governed sources.",
+            "Diagnosed live-connection timeouts and switched to extracts with incremental refresh.",
+            "Redesigned a sprawling workbook into parameter-driven views.",
+            "Drove a certified data source.",
+            "Hardened access with row-level security."
+          ]
+        },
+        "looker": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Built a LookML model (est.) for a client's self-serve analytics.",
+            "Redesigned duplicated SQL into reusable explores and dimensions.",
+            "Diagnosed slow dashboards and added aggregate awareness with rollups.",
+            "Drove persistent derived tables for expensive joins.",
+            "Hardened governance with access grants and a certified model."
+          ]
+        }
+      }
+    }
+  }
+}

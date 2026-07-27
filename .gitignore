@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.DS_Store
+
+
+
+output/
+.env
+*.log
+data
+
+# editor scratch files and packaged extension zips (kept out of VCS)
+*.tmp.*
+extension v*.zip
+
+# Profile + bullet-store data under Experiment/bullets holds candidate PII, so it
+# stays local (mirrors how data/ is handled). Only the rohit_kumar demo profile
+# is tracked, as the worked example for the bullets-based tailoring system.

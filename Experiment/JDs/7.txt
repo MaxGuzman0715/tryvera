@@ -1,0 +1,57 @@
+Senior / Staff Software Engineer, Motion Planning
+Waabi
+Dallas, TX • On-site, Remote
+
+
+1-Click Apply
+
+
+
+$158K - $269K/yr
+
+Full-time
+
+Posted 29 days ago
+
+Job description
+Waabi, founded by AI visionary Raquel Urtasun, is the leader in Physical AI. With a world-class team, we're unlocking the next era of autonomous transportation with technology that's powering commercial autonomous trucks and robotaxis. Waabi is backed by and partners with world leaders in AI, automotive, logistics, and deep tech.
+
+With offices in Toronto, San Francisco, Dallas, and Pittsburgh, Waabi is growing quickly and looking for diverse, innovative and collaborative candidates who want to impact the world in a positive way. To learn more visit: www.waabi.ai
+
+You will...
+- Design and develop motion planning software and algorithms, building the brain which orchestrates decision making in dynamic, uncertain and interactive traffic scenarios.
+- Be part of a team of multidisciplinary Engineers and Research Scientists using an AI-first approach to enable safe self-driving at scale.
+- Participate and share ideas in technical and architecture discussions, collaborating with researchers and engineers to build a reliable autonomy stack for self-driving vehicles.
+ 
+Qualifications:
+- MS/PhD or Bachelor degree with a minimum of 4 years of industry experience in Computer Science, Robotics and/or similar technical field(s) of study.
+- Experience in planning/decision making  approaches (e.g., optimal control, optimization based approaches, search methods, probabilistic decision making).
+- Production-quality coding skill in Python or C++.
+- Solid problem solving skills using linear algebra, geometry, statistics & probability.
+- Ability to rapidly prototype and test new algorithms.
+- Open-minded and collaborative team player with the willingness to help others.
+- Able to maintain progress towards long-term goals while working on short-term problems.
+- Passionate about self-driving technologies, solving hard problems, and creating innovative solutions.
+ 
+Bonus/nice to have:
+- Experience working in self-driving field.
+- Experience in optimization.
+The US yearly salary range for this role is: $158,000 - $269,000 USD in addition to competitive perks & benefits. Waabi US Inc.’s yearly salary ranges are determined based on several factors in accordance with the Company’s compensation practices. The salary base range is reflective of the minimum and maximum target for new hire salaries for the position across all US locations.  Note: The Company provides additional compensation for employees in this role, including equity incentive awards and an annual performance bonus.
+
+
+Perks/Benefits:
+- Competitive compensation and equity awards.
+- Health and Wellness benefits encompassing Medical, Dental and Vision coverage (for full-time employees only).
+- Unlimited Vacation.
+- Flexible hours and Work from Home support.
+- Daily drinks, snacks and catered meals (when in office).
+- Regularly scheduled team building activities and social events both on-site, off-site & virtually.
+- As we grow, this list continues to evolve! 
+
+Waabi is a technology start-up building technologies to transform the way the world moves. Join our talented team to be a part of the future and to make an impact!
+
+Waabi is an equal opportunity employer. We celebrate diversity and are committed to creating a supportive, inclusive, and accessible workplace for all our employees. We seek applicants of all backgrounds and identities, across race, color, ethnicity, national origin or ancestry, age, citizenship, religion, sex, sexual orientation, gender identity or expression, military or veteran status, marital status, pregnancy or parental status, caregiver status, disability, or any other characteristic protected by law. We make workplace accommodations for qualified individuals with disabilities as required by applicable law. If reasonable accommodation is needed to participate in the job application or interview process please let our recruiting team know.
+We may use artificial intelligence (AI) tools to support parts of the hiring process, such as reviewing applications, analyzing resumes, or assessing responses. These tools assist our recruitment team but do not replace human judgment. Final hiring decisions are ultimately made by humans. If you would like more information about how your data is processed, please contact us.
+
+
+Report

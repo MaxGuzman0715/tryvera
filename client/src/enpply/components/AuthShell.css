@@ -1,0 +1,261 @@
+/*
+ * Auth surfaces (Login, Setup) — share the cream + deep-teal palette of
+ * the marketing landing (Disciple-inspired). Scoped under `.tb-auth` so
+ * the styles can't bleed into the signed-in Enpply app.
+ *
+ * Tokens duplicated from Landing.css on purpose — kept in sync manually
+ * because both surfaces own their own scoped palette. Extract into a
+ * shared tb-theme.css if a third TealBridge surface ever shows up.
+ */
+
+.tb-auth {
+  --tb-bg: #f6f3ee;
+  --tb-bg-soft: #ffffff;
+  --tb-bg-warm: #efeae0;
+  --tb-bg-mint: #dfede8;
+  --tb-bg-deep: #0f545c;
+  --tb-ink: #15384a;
+  --tb-ink-soft: #4a5b66;
+  --tb-ink-dim: #76858d;
+  --tb-line: rgba(15, 56, 74, 0.10);
+  --tb-line-strong: rgba(15, 56, 74, 0.18);
+  --tb-teal: #00857e;
+  --tb-teal-deep: #0f545c;
+  --tb-teal-bright: #0fb8a3;
+  --tb-coral: #ed7464;
+  --tb-coral-hover: #e95c47;
+  --tb-danger: #c14a3a;
+  --tb-radius: 22px;
+  --tb-radius-sm: 12px;
+  --tb-radius-btn: 12px;
+  --tb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --tb-font-display: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, Roboto, sans-serif;
+
+  /*
+   * Override the Enpply global tokens used by `styles.css` form rules.
+   * That stylesheet has `input[type="email"] { background: var(--bg) !important }`
+   * and similar rules — the only way to keep the wrapper light without
+   * !important spam is to redefine the source variables in this scope.
+   */
+  --bg: #ffffff;
+  --text: var(--tb-ink);
+  --border: rgba(15, 56, 74, 0.18);
+
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--tb-bg);
+  color: var(--tb-ink);
+  font-family: var(--tb-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tb-auth * {
+  box-sizing: border-box;
+}
+
+.tb-auth a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tb-auth a:hover {
+  color: var(--tb-teal);
+}
+
+/* ── Top nav ────────────────────────────────────────────────────────── */
+
+.tb-auth-nav {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.tb-auth .tb-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 1.05rem;
+  color: var(--tb-ink);
+}
+
+.tb-auth .tb-brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--tb-teal-bright) 0%, var(--tb-teal-deep) 100%);
+  position: relative;
+  box-shadow: 0 6px 14px -6px rgba(15, 84, 92, 0.45);
+}
+
+.tb-auth .tb-brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 3px;
+  background: rgba(245, 245, 243, 0.96);
+  border-top: 2px solid var(--tb-teal-deep);
+  border-bottom: 2px solid var(--tb-teal-deep);
+}
+
+.tb-auth-back {
+  font-size: 0.92rem;
+  color: var(--tb-ink-soft);
+  font-weight: 500;
+}
+
+.tb-auth-back:hover {
+  color: var(--tb-teal-deep);
+}
+
+/* ── Centered card ──────────────────────────────────────────────────── */
+
+.tb-auth-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem 4rem;
+  gap: 1rem;
+}
+
+.tb-auth-card {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2.5rem 2.25rem;
+  border-radius: var(--tb-radius);
+  background: var(--tb-bg-soft);
+  border: 1px solid var(--tb-line);
+  box-shadow: 0 30px 80px -40px rgba(15, 84, 92, 0.25);
+}
+
+.tb-auth-title {
+  margin: 0;
+  font-family: var(--tb-font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tb-ink);
+}
+
+.tb-auth-sub {
+  margin: 0.6rem 0 0;
+  color: var(--tb-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.tb-auth-body {
+  margin-top: 1.6rem;
+}
+
+.tb-auth-foot {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--tb-ink-dim);
+  text-align: center;
+  max-width: 28rem;
+}
+
+.tb-auth-foot a {
+  color: var(--tb-teal-deep);
+  font-weight: 600;
+}
+
+/* ── Form primitives ────────────────────────────────────────────────── */
+
+.tb-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.tb-auth-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--tb-ink);
+  margin-top: 0.5rem;
+}
+
+.tb-auth-form input {
+  font-family: inherit;
+  font-size: 0.96rem;
+  color: var(--tb-ink);
+  background: var(--tb-bg);
+  border: 1px solid var(--tb-line-strong);
+  border-radius: 10px;
+  padding: 0.78rem 0.9rem;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.tb-auth-form input:focus {
+  border-color: var(--tb-teal-deep);
+  background: var(--tb-bg-soft);
+  box-shadow: 0 0 0 3px rgba(0, 133, 126, 0.14);
+}
+
+.tb-auth-form input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tb-auth-error {
+  margin: 0.85rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--tb-radius-sm);
+  background: rgba(193, 74, 58, 0.08);
+  border: 1px solid rgba(193, 74, 58, 0.32);
+  color: #8d2f22;
+  font-size: 0.9rem;
+}
+
+.tb-auth-submit {
+  margin-top: 1.4rem;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.92rem 1.4rem;
+  border-radius: var(--tb-radius-btn);
+  border: 1px solid var(--tb-coral);
+  background: var(--tb-coral);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -10px rgba(237, 116, 100, 0.6);
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tb-auth-submit:hover:not(:disabled) {
+  background: var(--tb-coral-hover);
+  border-color: var(--tb-coral-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px -10px rgba(233, 92, 71, 0.55);
+}
+
+.tb-auth-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.tb-auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

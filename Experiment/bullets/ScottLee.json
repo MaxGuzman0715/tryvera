@@ -1,0 +1,75 @@
+{
+  "id": "ScottLee",
+  "basic": {
+    "fullName": "Scott Lee",
+    "title": "Customer Service Representative",
+    "email": "fl1925010@gmail.com",
+    "location": "Orlando, Florida, United States",
+    "linkedin": "https://linkedin.com/in/scott-lee-4702b895"
+  },
+  "experience": [
+    {
+      "company": "Peacock TV",
+      "title": "Customer Service Representative",
+      "startDate": "Jul 2020",
+      "endDate": "Present",
+      "bullets": [
+        ""
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Walt Disney World",
+      "title": "Materials Attendant",
+      "startDate": "Apr 2023",
+      "endDate": "Apr 2026",
+      "bullets": [
+        ""
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "GolfNow, a division of Golf Channel",
+      "title": "Member Care Team",
+      "startDate": "Nov 2018",
+      "endDate": "Jul 2020",
+      "bullets": [
+        ""
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "The Walt Disney Company",
+      "title": "Warehouse Associate",
+      "startDate": "Aug 2018",
+      "endDate": "Nov 2018",
+      "bullets": [
+        ""
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Customer Service",
+    "Materials Handling",
+    "Inventory Management",
+    "Warehouse Operations",
+    "Logistics Coordination",
+    "Supply Chain Support",
+    "Team Collaboration",
+    "Problem Solving",
+    "Communication Skills",
+    "Member Support",
+    "Order Fulfillment",
+    "Operations Support"
+  ],
+  "education": [
+    {
+      "school": "University of Wisconsin-Stout",
+      "degree": "Bachelor's Degree",
+      "field": "Golf Enterprise Management and Business Administration Minor",
+      "startDate": "2008",
+      "endDate": "2012"
+    }
+  ]
+}

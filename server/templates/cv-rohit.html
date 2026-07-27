@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CV</title>
+    <style>
+      :root {
+        --ink: #1a1a1a;
+        --muted: #4a4a4a;
+        --rule: #d4d4d4;
+        --header-grey: #ececec;
+        --gold: #bda37e;
+        --paper: #ffffff;
+        --hint: #718096;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.cv-doc.theme-rohit {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 9.75pt;
+        line-height: 1.42;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      body.doc.cv-doc.theme-rohit .sheet {
+        max-width: 7.2in;
+        margin: 0 auto;
+        padding: 0 0 0.35in;
+      }
+      body.doc.cv-doc.theme-rohit .cv-label {
+        text-align: center;
+        font-size: 7.5pt;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+      }
+      body.doc.cv-doc.theme-rohit .content h1 {
+        margin: 0;
+        padding: 0.48rem 0 0.32rem;
+        text-align: center;
+        font-size: 19pt;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: var(--header-grey);
+      }
+      body.doc.cv-doc.theme-rohit .content p.resume-headline {
+        margin: 0;
+        padding: 0 0 0.35rem;
+        text-align: center;
+        font-size: 10.5pt;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        color: var(--ink);
+        background: var(--header-grey);
+      }
+      body.doc.cv-doc.theme-rohit .content p.contact-line {
+        margin: 0 0 0.5rem;
+        padding: 0 0 0.55rem;
+        text-align: center;
+        font-size: 8.75pt;
+        color: var(--muted);
+        background: var(--header-grey);
+        border-bottom: 5px solid var(--gold);
+      }
+      body.doc.cv-doc.theme-rohit .content h2 {
+        margin: 0.65rem 0 0.3rem;
+        padding-bottom: 0.18rem;
+        font-size: 9.25pt;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+        border-bottom: 1px solid var(--rule);
+      }
+      body.doc.cv-doc.theme-rohit .content h2:first-of-type {
+        margin-top: 0.38rem;
+      }
+      body.doc.cv-doc.theme-rohit .content h3 {
+        margin: 0.38rem 0 0.1rem;
+        font-size: 10pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      body.doc.cv-doc.theme-rohit .content p.template-hint {
+        display: none;
+      }
+      body.doc.cv-doc.theme-rohit .content p {
+        margin: 0.16rem 0;
+      }
+      body.doc.cv-doc.theme-rohit .content p.bullet {
+        margin-left: 0.14in;
+        text-indent: -0.09in;
+      }
+      body.doc.cv-doc.theme-rohit .content p.spacer {
+        margin: 0.06rem 0;
+        height: 0.18rem;
+      }
+      body.doc.cv-doc.theme-rohit .resume-role-row {
+        display: grid;
+        grid-template-columns: 1fr 2.1fr;
+        gap: 0.16in 0.24in;
+        align-items: start;
+        margin: 0.32rem 0 0.26rem;
+      }
+      body.doc.cv-doc.theme-rohit .resume-role-dates {
+        margin: 0.1rem 0 0;
+        font-size: 8.75pt;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      body.doc.cv-doc.theme-rohit .resume-role-main h3 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body class="doc cv-doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

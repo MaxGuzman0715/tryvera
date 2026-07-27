@@ -1,0 +1,28 @@
+Software Engineer
+MSR Technology Group
+Plano, TX
+
+
+1-Click Apply
+
+
+
+Full-time
+
+Posted 29 days ago
+
+Job description
+Development
+Recent hands own software development experience using programming languages such as Rust, Go, C/C++, JavScript
+Recent hands own software development experience in scripting languages such as Bash, PoweShell, Perl etc.
+Recent experience in using DevOps CI/CD tools such as Git, Jenkins, Artifactory, SonarQube, BurpSuite, TruffleHog etc.
+Software development experience using web protocols such as gRPC, REST and WebSocket.
+Design
+Deep knowledge of OOA/OOD concepts.
+Cloud
+Cloud software development using containers such as Docker, Kubernetes etc., serverless computing using CDN, Lambda etc., and infrastructure as code using Terraform, YAML, etc.
+Deep understanding of cloud systems and hands own experience in setting up, managing, and troubleshooting cloud network and software deployments.
+Mobile
+Mobile application development experience for Android and iOS platforms using Objective C, Swift, Java, Flutter, etc.
+
+Report

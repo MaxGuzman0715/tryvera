@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="popup.css" />
+    <title>Enpplify</title>
+  </head>
+  <body>
+    <header class="hdr">
+      <span class="brand">Enpplify</span>
+      <button id="signOut" class="link hidden" type="button">Sign out</button>
+    </header>
+
+    <!-- Signed-out: sign-in form -->
+    <section id="authView" class="view">
+      <label class="field">
+        <span>API base</span>
+        <input id="apiBase" type="text" placeholder="https://tealbridge.online" autocomplete="off" />
+      </label>
+      <label class="field">
+        <span>Email</span>
+        <input id="email" type="email" autocomplete="username" />
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input id="password" type="password" autocomplete="current-password" />
+      </label>
+      <button id="signIn" class="primary" type="button">Sign in</button>
+    </section>
+
+    <!-- Signed-in: profile picker -->
+    <section id="appView" class="view hidden">
+      <p class="who">Signed in as <strong id="userEmail"></strong></p>
+      <label class="field">
+        <span>Profile for applications</span>
+        <select id="profile"></select>
+      </label>
+      <p class="hint" id="profileHint"></p>
+
+      <label class="row-inline">
+        <input type="checkbox" id="autoEnabled" />
+        <span>Use a custom download folder for "Copy path"</span>
+      </label>
+      <label class="field">
+        <input id="autoDir" type="text" placeholder="e.g. C:\Users\you\Downloads\enpply" autocomplete="off" />
+      </label>
+      <p class="hint">When set, "Copy output path" in the page panel copies this folder instead of the server's output path (mirrors Enpply's auto-download dir).</p>
+    </section>
+
+    <p id="status" class="status" role="status"></p>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

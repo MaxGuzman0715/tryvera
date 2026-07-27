@@ -1,0 +1,182 @@
+{
+  "id": "srinivas_govindan",
+  "basic": {
+    "fullName": "Srinivas Govindan",
+    "title": "Staff Machine Learning Engineer",
+    "email": "sgovindan3238@gmail.com",
+    "phone": "(646) 503-7553",
+    "location": "Newark, CA",
+    "summary": "Hands-on AI/ML leader with 10+ years building production-grade systems that drive measurable business impact. I turn complex ML challenges into scalable, real-world solutions—leading teams to deliver multimodal agents, real-time inference systems, and computer vision pipelines serving millions of users. Deep experience across the full stack: data engineering, model development, MLOps, and applied data science.",
+    "linkedin": "https://www.linkedin.com/in/srinivas-prasad-govindan-182b1316"
+  },
+  "experience": [
+    {
+      "company": "Meta",
+      "location": "New York, NY",
+      "title": "Staff Machine Learning Engineer, Ads Ranking ML",
+      "startDate": "Aug 2013",
+      "endDate": "Present",
+      "bullets": [
+        "Ads Ranking ML is the core monetization engine powering Facebook, Instagram, Messenger, and Audience Network. Most recently, tech lead for the end-to-end ML stack of a conversational advertiser copilot — defining agent contracts, the teacher → student distillation playbook, and shared eval standards adopted across sub-teams. Built on Meta's internal data, training, serving, and observability infrastructure throughout.",
+        "",
+        "- Earlier ads ranking work (2013 – 2022)",
+        "Contributed to the evolution of ad CTR / conversion prediction from classical models (logistic regression with feature crosses, GBDTs) toward large-scale deep ranking — including sparse-feature embedding tables and hashing strategies for high-cardinality ad / advertiser / audience signals.",
+        "Drove experimentation rigor on ranker A/B tests — guarding against metric peeking, novelty effects, and network interference — and partnered with science on counterfactual offline evaluators that accelerated ranker iteration cycles.",
+        "Worked on auction-side modeling (bid-landscape estimation, calibration, value-aware optimization) and on cold-start strategies for new advertisers and creatives.",
+        "",
+        "- Conversational advertiser copilot — architecture & multi-agent orchestration",
+        "Made the 0→1 architectural call to break the original single-prompt design into a 7-agent orchestration graph (router, retrieval, planner, creative-gen, ranker, policy, memory) with typed I/O contracts between every node — unlocking per-component evals, controllability, and clean policy isolation.",
+        "Defined service-to-service plumbing patterns over gRPC with retry / timeout / circuit-breaker middleware; full per-step execution traces via OpenTelemetry.",
+        "Designed the session-state layer over Meta's internal hot-cache + durable-store primitives, using typed normalized campaign schemas so prior valid state persists across refinement turns.",
+        "",
+        "- Modeling",
+        "Productionized a two-stage modeling pattern — frontier LLM teachers used for offline research and benchmarking, distilled into fine-tuned open-weight SLMs (Llama-family) for serving — cutting p95 latency 3× and inference cost 5× versus the initial production baseline.",
+        "Led training of a multi-turn tool-call extraction model (fine-tuned Llama) that emits normalized API calls — update_budget, set_geo, update_tone — conditioned on prior turns and intermediate tool outputs; PEFT / LoRA / TRL on PyTorch, served via Meta's internal low-latency LLM runtime.",
+        "Drove fine-tuning of Llama-family SLMs for ad-copy generation (headlines, primary text, CTAs, tone-constrained rewrites, policy-safe paraphrases) on FSDP, benchmarked against frontier LLM teachers in offline eval.",
+        "Stood up an RLHF pipeline (SFT → DPO via TRL + custom PyTorch reward models) over preference signals from advertiser acceptance, human quality ratings, policy compliance, brand-tone fit, and pairwise rewrite annotations — lifting suggestion acceptance materially over SFT-only baselines.",
+        "",
+        "- Data, retrieval, ranking, policy",
+        "Defined the synthetic multi-turn data-generation approach — paraphrases, slot overwrites, contradictory follow-ups, edge-case tool sequences — distilled from anonymized workflow traces using large-model teachers; led design of the QC pipeline (JSON-schema validation, diversity filters, slot-replay tests, policy sanity checks, dedup, human spot review) and an experiment registry linking dataset version → model version.",
+        "Architected a hybrid retrieval stack — lexical (BM25-style) + dense semantic (FAISS) + a learned reranker — over policy docs, ad templates, product metadata, and historical creative.",
+        "Drove design of a campaign knowledge graph (advertiser → campaign → audience → geo → creative → policy) used for grounding and policy lookups, backed by Meta's internal graph and relational stores.",
+        "Led the team that shipped creative / template / audience rankers — gradient-boosted baseline migrating to a deep PyTorch ranker over batch-derived features (semantic relevance, vertical match, historical acceptance, policy risk, recency, session preferences) — improving NDCG, MRR, precision@k, and acceptance-weighted rank quality over retrieval-only baselines.",
+        "Architected a 3-tier policy validator (rules engine → gradient-boosted classifier → LLM-judge fallback) wired in as a first-class orchestration agent and grounded by RAG over the policy KB + structured policy graph, blocking unsafe content before it surfaces.",
+        "",
+        "- Data platform & feature store",
+        "Drove design of the streaming interaction-log pipeline (chat turns, tool calls, accept / reject events, policy outcomes) on Meta's internal stream-processing platform at millions of events / day; batch ETL on the internal Spark-based compute and scheduler, landing partitioned columnar tables on Meta's internal data lake; analyst and ML access via the internal warehouse and federated SQL.",
+        "Defined data-quality contracts (schema and value-level expectations + transform tests) with lineage tracked through Meta's internal lineage tooling, plus PII scrubbing / hashing pipelines and access governance via internal data-access controls.",
+        "Led design of the online + offline feature store on Meta's internal feature-store primitives, hitting sub-10 ms p99 reads at request time; guaranteed training / serving parity via shared feature definitions, point-in-time joins, and per-feature TTL / freshness SLAs; definitions versioned in source control with CI validation, drift and null-rate regressions tracked on internal observability dashboards.",
+        "",
+        "- Serving, eval, observability",
+        "Drove inference-stack optimization — request batching, KV-cache reuse, quantization, and GPU autoscaling on Meta's internal serving platform — to hit sub-second p95 latency at the 5× cost reduction noted above.",
+        "Defined the eval harness covering tool-call exact match, slot-level accuracy, overwrite / carry-forward correctness, retrieval recall@k, grounding faithfulness, NDCG / MRR, policy violation rate, and per-stage latency; versioned golden sets and regression suites tracked through Meta's internal experiment-tracking platform.",
+        "Led design of online-experiment plumbing — feature-flag allocator + canary + holdout cohorts + counterfactual analysis — across history length, teacher prompts, tool-call schemas, SLM families, rerankers, KG on / off, multi-agent vs single-agent, policy ordering, and clarification thresholds; measured setup time, completion rate, acceptance rate, manual corrections, policy-safe success, satisfaction, session dropoff, and cost per successful session.",
+        "Established observability across the agent graph — p50 / p95 / p99 latency, token latency, retrieval misses, hallucination spikes, tool-call schema failures, policy block rate, acceptance regressions, GPU utilization, and cache hit rate — via OpenTelemetry tracing into Meta's internal metrics and dashboarding stack, with runbooks, alerts, and on-call dashboards.",
+        "",
+        "- Platform engineering",
+        "Drove CI design — code, tests, lint, image build, plus long-running training and eval jobs — running unit, integration, and eval-regression suites on every change; artifacts shipped through Meta's internal container and deploy infrastructure, with canary + shadow deploys and automated rollback on p95 latency, error rate, policy violation rate, or acceptance regression breaches.",
+        "Versioned prompts, tool schemas, and agent configs in source control, gated behind eval-CI golden-set regression thresholds before any production rollout.",
+        "Defined dev / staging / prod separation and IaC-style infra definitions on Meta's internal infra primitives, with drift detection in CI; LLM inference on A100 / H100 GPU pools, training on spot + reserved-capacity fallback; per-team cost attribution via internal cost-tracking tooling.",
+        "Partnered cross-functionally with product, infra, and research; mentored engineers and led technical reviews advancing generative and multimodal AI across the org."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "University of Wisconsin–Madison",
+      "location": "Madison, WI",
+      "title": "Graduate Research Assistant",
+      "startDate": "Aug 2011",
+      "endDate": "Aug 2013",
+      "bullets": [
+        "Built ML pipelines for content recommendation and ad personalization, applying ASR and summarization models to analyze viewer engagement at scale.",
+        "Prototyped biometric verification features for secure user onboarding—facial recognition, OCR-based document extraction, and anti-spoofing—in collaboration with industry partners.",
+        "Designed predictive models for behavioral anomaly detection using multi-view tracking and engineered temporal / spatial features.",
+        "Built automated data-processing workflows in Python and Hadoop to enable A/B testing and offline content optimization studies."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "LinkedIn",
+      "location": "Mountain View, CA",
+      "title": "Software Engineering Intern",
+      "startDate": "Jun 2012",
+      "endDate": "Aug 2012",
+      "bullets": [
+        "Built data tooling for member-facing analytics and abuse detection, using SQL and early ML techniques on large-scale member activity data.",
+        "Shipped internal dashboards for data and pipeline health, integrating real-time visualizations and automated reporting.",
+        "Optimized backend data processing with distributed systems and caching frameworks to improve throughput and reliability."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Microsoft",
+      "location": "Hyderabad, India",
+      "title": "Software Design Engineer",
+      "startDate": "Nov 2009",
+      "endDate": "Aug 2011",
+      "bullets": [
+        "Developed and maintained backend features for Windows Live within the Windows group: feature work, bug fixes, data workflows, and performance optimization on SQL Server, SSIS, and SSAS."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Google",
+      "location": "Bangalore, India",
+      "title": "Summer Developer Intern",
+      "startDate": "May 2009",
+      "endDate": "Jul 2009",
+      "bullets": [
+        "Backend development and prototyping in Google's summer developer program."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Programming",
+    "Python, C / C++, Bash, CUDA, SQL",
+    "",
+    "LLMs & Multimodal Models",
+    "LLaMA, Mistral, Phi-2, Falcon, Qwen, Qwen2-VL, Ultravox, Claude, GPT, Gemma, SigLip",
+    "",
+    "Generative AI",
+    "RAG, LoRA / QLoRA, Unsloth, chatbots, vision-language models, VAEs, Stable Diffusion, GANs (DCGAN, WGAN, WGAN-GP), Vision Transformers, SAM, synthetic data generation",
+    "",
+    "Prompt Engineering",
+    "Few-shot, Chain-of-Thought, function calling, prompt caching, KV caching",
+    "",
+    "Multi-Agent & Automation",
+    "Agentic workflows, LangGraph, agent orchestration, ReAct agents, multi-agent coordination, workflow automation, task routing, decision logic, alerting systems",
+    "",
+    "NLP & Retrieval",
+    "BERT, GPT, NER, summarization, translation, text generation, BM25, TF-IDF, semantic search, contextual retrieval, LangChain, LlamaIndex, LangGraph, LangSmith, LangServe, FAISS, Pinecone, ChromaDB",
+    "",
+    "Computer Vision",
+    "YOLO, Faster R-CNN, Mask R-CNN, DeepLabv3, OpenCV, Detectron2, Albumentations, GStreamer, VQA, liveness detection, anti-spoofing, OCR (Tesseract), MRZ / barcode scanning",
+    "",
+    "3D & Tracking",
+    "PyTorch3D, Open3D, SORT, Deep SORT, Multi-View Tracking (MVT), Re-Identification (ReID), SIFT, ORB, pose estimation, Siamese networks, minutiae extraction",
+    "",
+    "ML / DL Frameworks",
+    "PyTorch, scikit-learn, Hugging Face (Transformers, PEFT), Unsloth, OpenVINO, DLStreamer",
+    "",
+    "Data Engineering & Pipelines",
+    "Apache Spark, Kafka, Airflow, dbt, Hadoop / Hive, Presto / Trino, Flink, batch & streaming ETL, schema design, data lake / lakehouse architecture, partitioning & compaction strategies, Parquet / ORC, change-data-capture (CDC)",
+    "",
+    "Data Science & Experimentation",
+    "A/B testing, causal inference, statistical modeling, hypothesis testing, lift estimation, feature analysis, exploratory data analysis (pandas, NumPy, statsmodels), metric design, dashboarding",
+    "",
+    "MLOps & Infrastructure",
+    "Git, Docker, Kubernetes, MLflow, CI / CD, model versioning, model & data monitoring, drift detection, shadow / canary deployments, model quantization, DDP (Distributed Data Parallel), edge deployment, on-device inference, LangServe, Ollama, llama.cpp, Groq",
+    "",
+    "Cloud & Deployment",
+    "AWS (EC2, S3, Lambda, SageMaker, Bedrock), GCP, Azure",
+    "",
+    "Web Frameworks",
+    "Flask, FastAPI, RESTful APIs, SDK development (Android / iOS)",
+    "",
+    "Databases & Storage",
+    "PostgreSQL, MySQL, MongoDB, FAISS, Pinecone, ChromaDB",
+    "",
+    "IoT & Real-Time Systems",
+    "Sensor fusion, load cells, weight sensors, RTSP streaming, real-time processing",
+    "",
+    "Domain Expertise",
+    "Financial systems, biometric verification, KYC / compliance, ads & content integrity, recommendation systems"
+  ],
+  "education": [
+    {
+      "school": "University of Wisconsin–Madison",
+      "degree": "M.S.",
+      "field": "Computer Science",
+      "startDate": "2011",
+      "endDate": "2013"
+    },
+    {
+      "school": "National Institute of Technology, Tiruchirappalli (NIT Trichy)",
+      "degree": "B.Tech",
+      "field": "Computer Science",
+      "startDate": "2005",
+      "endDate": "2009"
+    }
+  ]
+}

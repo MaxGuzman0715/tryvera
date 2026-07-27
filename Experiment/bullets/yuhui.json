@@ -1,0 +1,163 @@
+{
+  "id": "yuhuiouyang",
+  "basic": {
+    "fullName": "Yuhui Ouyang",
+    "title": "Principal Machine Learning Engineer",
+    "email": "Yuhui.ouyang1986@gmail.com",
+    "phone": "(838) 232-8289",
+    "location": "New York City Metropolitan Area",
+    "summary": "I have 11 years of experience.\nPrincipal Machine Learning Engineer with experience building and shipping large-scale ML, ranking, reinforcement learning, multi-agent AI systems, and LLM-powered production platforms across ads, conversational AI, retrieval, optimization, recommendation, and quantitative finance. Strong background in end-to-end ML architecture spanning distributed training, retrieval systems, RLHF, ranking, experimentation, feature platforms, low-latency serving, and cloud-scale infrastructure. Most effective in problems at the intersection of multi-objective optimization, reinforcement learning, agent orchestration, personalization, ranking systems, and generative AI productionization.",
+    "linkedin": "https://www.linkedin.com/in/yuhui-ouyang-ba7a3a23"
+  },
+  "experience": [
+    {
+      "company": "Meta",
+      "title": "Senior Staff Machine Learning Engineer",
+      "startDate": "Apr 2020",
+      "endDate": "Present",
+      "bullets": [
+        "- Conversational advertiser copilot and multi-agent AI platform",
+        "Technical owner of end-to-end ML architecture for conversational advertiser copilot powering ad campaign generation, optimization, retrieval, policy validation, and advertiser workflows.",
+        "Led 0-to-1 transition from monolithic prompting into a modular multi-agent orchestration graph, enabling component-level evaluation, controllability, policy isolation, and production scalability.",
+        "Architected multi-agent orchestration system with specialized agents for routing, retrieval, planning, creative generation, ranking, memory, and policy validation using LangGraph and Pydantic contracts.",
+        "Built multi-turn tool-call extraction system using fine-tuned Llama models and Transformers, predicting normalized API actions such as budget updates, geo targeting, and campaign modifications from conversational history.",
+        "Fine-tuned open-weight LLMs and SLMs using PyTorch, PEFT, LoRA, and TRL for structured generation, tool calling, ad copy generation, and conversational reasoning tasks.",
+        "Implemented RLHF pipeline using SFT and DPO with custom reward models trained on advertiser acceptance, policy compliance, rewrite preferences, and human quality signals.",
+        "Designed two-stage modeling strategy combining frontier teacher models such as GPT-4o and Claude with distilled open-weight production SLMs, reducing latency by 3x and cost by 5x.",
+        "Served production inference workloads using vLLM with quantization, batching, KV-cache reuse, autoscaling GPU infrastructure, and low-latency structured generation.",
+        "Built hybrid retrieval stack using Elasticsearch BM25 retrieval, FAISS semantic retrieval, reranking models, and Redis caching over policy documents, templates, metadata, and historical creatives.",
+        "Designed campaign knowledge graph using Neo4j and normalized Postgres schemas connecting advertisers, campaigns, audiences, creatives, geographies, and policy entities.",
+        "Built session-state and memory layer using Redis and Postgres with typed schema validation and durable multi-turn conversational state management.",
+        "Implemented production-grade service orchestration using gRPC, retry middleware, circuit breakers, timeout handling, and distributed tracing with OpenTelemetry.",
+        "Generated large-scale synthetic multi-turn conversational training datasets using GPT-4o and Claude teacher models with slot overwrites, paraphrases, edge-case workflows, and contradictory refinements.",
+        "Built training-data QC pipelines including schema validation, replay testing, policy checks, deduplication, and experiment lineage tracking.",
+        "Architected multi-stage policy validation pipeline combining rules engines, XGBoost classifiers, LLM judges, and RAG-grounded policy reasoning.",
+        "Migrated production inference from hosted APIs to self-hosted GPU infrastructure using vLLM on EKS with autoscaling, canary deployments, and MLflow model registry integration.",
+        "Built streaming interaction logging platform using Kafka/MSK ingesting tool calls, chat interactions, policy events, and advertiser feedback at millions of events per day.",
+        "Developed large-scale batch ETL pipelines using Spark on EMR, Airflow/MWAA orchestration, Delta Lake, Parquet, Snowflake, S3, and Trino federated querying.",
+        "Built online and offline feature store infrastructure using Feast with Redis online serving and Snowflake offline storage supporting sub-10ms online reads.",
+        "Implemented point-in-time feature correctness, feature drift monitoring, schema validation, and training-serving parity guarantees.",
+        "Built comprehensive evaluation harness measuring tool-call accuracy, retrieval recall, grounding faithfulness, ranking quality, latency, policy violations, and conversational correctness.",
+        "Ran large-scale online A/B experimentation across model families, prompt strategies, retrieval systems, orchestration architectures, policy ordering, and clarification thresholds.",
+        "Established production observability using Datadog, Grafana, Prometheus, OpenTelemetry, and distributed tracing across all agent steps and inference components.",
+        "Built CI/CD and ML deployment infrastructure using GitHub Actions, Jenkins, Docker, Helm, Argo CD, MLflow, Terraform, and EKS.",
+        "Managed large-scale GPU infrastructure on A100 and H100 clusters with autoscaling, spot capacity fallback, chargeback controls, and production cost optimization."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "AQR Capital Management",
+      "title": "Vice President, Global Asset Allocation",
+      "startDate": "Aug 2016",
+      "endDate": "Mar 2020",
+      "bullets": [
+        "Built large-scale quantitative research and portfolio optimization systems for systematic trading strategies across equities, rates, FX, credit, commodities, and macro asset classes.",
+        "Led migration of monolithic research infrastructure into containerized, reproducible distributed pipelines enabling cloud-scale portfolio research and backtesting.",
+        "Built market-data lake on GCS ingesting cross-asset datasets including prices, returns, FX, rates, futures, credit, macro, broker, and alternative data.",
+        "Built distributed ETL and orchestration pipelines using Spark on Dataproc, Cloud Workflows, Cloud Composer/Airflow, and BigQuery.",
+        "Developed point-in-time correct feature engineering pipelines eliminating look-ahead bias in historical backtesting workflows.",
+        "Engineered cross-asset feature libraries covering momentum, carry, value, volatility, trend, liquidity, macro-regime, and seasonality factors.",
+        "Trained return forecasting and regime detection models using XGBoost, LightGBM, PyTorch, Bayesian methods, and hierarchical statistical models.",
+        "Built distributed hyperparameter optimization infrastructure using Optuna across Compute Engine worker pools.",
+        "Implemented portfolio optimization systems including mean-variance optimization, risk parity, volatility targeting, transaction-cost-aware optimization, and slippage adjustment.",
+        "Architected distributed backtesting engine using Ray and Spark, reducing full-sample cross-asset backtests from multiple days to hours.",
+        "Built large-scale model training and deployment infrastructure using Vertex AI, Docker, GKE, Artifact Registry, MLflow, and W&B.",
+        "Developed real-time signal generation and portfolio construction services using FastAPI, gRPC, Redis/Memorystore, and distributed cloud infrastructure.",
+        "Built production reconciliation, drift monitoring, PnL validation, and exposure monitoring workflows.",
+        "Implemented CI/CD infrastructure with GitHub Actions, Jenkins, Docker, Terraform, and automated canary rollouts.",
+        "Established observability and production monitoring using Datadog, Cloud Logging, Cloud Monitoring, runbooks, and on-call alerting systems."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Goldman Sachs",
+      "title": "FICC Strat (FX Options & Macro CVA)",
+      "startDate": "Apr 2014",
+      "endDate": "Aug 2016",
+      "bullets": [
+        "Built real-time FX options pricing systems using stochastic volatility models including SABR and Heston.",
+        "Developed quantitative infrastructure for trading desk pricing, risk analytics, and derivatives modeling.",
+        "Improved pricing latency and quote turnaround time for sales and trading workflows.",
+        "Worked on macro CVA and derivatives pricing systems for FICC trading operations."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Goldman Sachs",
+      "title": "Summer Associate, FICC Strats",
+      "startDate": "Jun 2013",
+      "endDate": "Aug 2013",
+      "bullets": [
+        "Prototyped PDE-based interest rate derivatives pricer adopted by the rates trading desk.",
+        "Worked on quantitative modeling and numerical methods for derivatives pricing."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Chinese Academy of Sciences",
+      "title": "Intern Research Assistant",
+      "startDate": "Feb 2009",
+      "endDate": "May 2009",
+      "bullets": [
+        "Developed image segmentation algorithms for medical imaging applications using variational methods.",
+        "Conducted research in image processing and computer vision techniques."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Large Language Models (LLaMA, GPT, Qwen)",
+    "RLHF (SFT, PPO, DPO, GRPO)",
+    "Multi-Agent Systems",
+    "LangGraph",
+    "Retrieval-Augmented Generation (RAG)",
+    "PyTorch",
+    "Transformers",
+    "LoRA / QLoRA",
+    "Distributed Training (FSDP, DeepSpeed)",
+    "Ranking Systems",
+    "Recommendation Systems",
+    "Reinforcement Learning",
+    "Contextual Bandits",
+    "XGBoost",
+    "LightGBM",
+    "Spark",
+    "Ray",
+    "Kafka",
+    "Redis",
+    "Postgres",
+    "Neo4j",
+    "Snowflake",
+    "Airflow",
+    "Kubernetes",
+    "Docker",
+    "Terraform",
+    "AWS",
+    "GCP",
+    "MLflow",
+    "Weights & Biases",
+    "Feature Stores",
+    "vLLM",
+    "FastAPI",
+    "gRPC",
+    "Datadog",
+    "Grafana",
+    "OpenTelemetry"
+  ],
+  "education": [
+    {
+      "school": "Carnegie Mellon University",
+      "degree": "Ph.D.",
+      "field": "Mathematical Finance",
+      "startDate": "2009",
+      "endDate": "2013"
+    },
+    {
+      "school": "Sichuan University",
+      "degree": "B.S.",
+      "field": "Mathematics",
+      "startDate": "2005",
+      "endDate": "2009"
+    }
+  ]
+}

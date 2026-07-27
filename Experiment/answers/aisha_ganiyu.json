@@ -1,0 +1,65 @@
+{
+  "items": [
+    {
+      "question": "Are you Hispanic or Latino?",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the country where this role is based?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Are you open to relocation?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Disability status",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Gender",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Preferred work arrangement (onsite / hybrid / remote)?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Race / Ethnicity",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Veteran status",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "What is your earliest available start date?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "What is your notice period?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    },
+    {
+      "question": "Will you now or in the future require visa sponsorship for employment?",
+      "answer": "",
+      "updated_at": "2026-06-24T02:55:20+09:00"
+    }
+  ],
+  "seeded": true
+}

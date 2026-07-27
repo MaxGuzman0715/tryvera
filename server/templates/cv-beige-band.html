@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CV</title>
+    <style>
+      :root {
+        --heading: #5a4f47;
+        --body: #2a2624;
+        --muted: #5c534c;
+        --beige-band: #f2ebe2;
+        --tan-rule: #c4a57e;
+        --paper: #ffffff;
+        --meter-track: #e8dfd4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.cv-doc.theme-beige-band {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 9.75pt;
+        line-height: 1.45;
+        color: var(--body);
+        background: var(--paper);
+      }
+      body.doc.cv-doc.theme-beige-band .sheet {
+        max-width: 7.2in;
+        margin: 0 auto;
+        padding: 0 0 0.35in;
+      }
+      body.doc.cv-doc.theme-beige-band .cv-label {
+        text-align: center;
+        font-size: 7.5pt;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 0.32rem;
+      }
+      body.doc.cv-doc.theme-beige-band .content h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 19pt;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        color: var(--heading);
+      }
+      body.doc.cv-doc.theme-beige-band .content p.resume-headline {
+        margin: 0.28rem 0 0.15rem;
+        text-align: center;
+        font-size: 10.5pt;
+        font-weight: 400;
+        color: var(--body);
+      }
+      body.doc.cv-doc.theme-beige-band .content p.contact-line {
+        margin: 0 0 0.48rem;
+        text-align: center;
+        font-size: 9pt;
+        color: var(--muted);
+        padding-bottom: 0.38rem;
+      }
+      body.doc.cv-doc.theme-beige-band .content h2 {
+        margin: 0.85rem 0 0;
+        padding: 0.38rem 0.5rem 0.34rem;
+        background: var(--beige-band);
+        text-align: center;
+        font-size: 9.75pt;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: none;
+        color: var(--heading);
+        position: relative;
+      }
+      body.doc.cv-doc.theme-beige-band .content h2::after {
+        content: "";
+        display: block;
+        width: 38%;
+        max-width: 2.1in;
+        margin: 0.28rem auto 0;
+        border-bottom: 1px solid var(--tan-rule);
+      }
+      body.doc.cv-doc.theme-beige-band .content h2 + * {
+        margin-top: 0.38rem;
+      }
+      body.doc.cv-doc.theme-beige-band .content h3 {
+        margin: 0.3rem 0 0.1rem;
+        font-size: 9.75pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--body);
+      }
+      body.doc.cv-doc.theme-beige-band .content p.template-hint {
+        display: none;
+      }
+      body.doc.cv-doc.theme-beige-band .content p {
+        margin: 0.16rem 0;
+      }
+      body.doc.cv-doc.theme-beige-band .content p.bullet {
+        margin-left: 0.14in;
+        text-indent: -0.09in;
+        padding-left: 0.09in;
+        text-align: left;
+      }
+      body.doc.cv-doc.theme-beige-band .content p.spacer {
+        margin: 0.06rem 0;
+        height: 0.18rem;
+      }
+      body.doc.cv-doc.theme-beige-band .content > p:not(.bullet):not(.contact-line):not(.resume-headline):not(.spacer) {
+        text-align: justify;
+      }
+      body.doc.cv-doc.theme-beige-band .content .resume-role-main > p:not(.bullet) {
+        text-align: justify;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-role-row {
+        display: grid;
+        grid-template-columns: 0.9in 1fr;
+        gap: 0.16in 0.2in;
+        align-items: start;
+        margin: 0.32rem 0 0.24rem;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-role-dates {
+        margin: 0.1rem 0 0;
+        font-size: 8.75pt;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--heading);
+        line-height: 1.4;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-role-main {
+        min-width: 0;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-role-main h3 {
+        margin-top: 0;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.2in 0.16in;
+        margin: 0.35rem 0 0.3rem;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.2in 0.24in;
+        margin: 0.35rem 0 0.3rem;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-grid-col .edu-years {
+        margin: 0 0 0.1rem;
+        font-size: 8.75pt;
+        color: var(--muted);
+        text-align: center;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-grid-col .edu-school {
+        margin: 0 0 0.08rem;
+        font-size: 9.25pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: center;
+        color: var(--body);
+      }
+      body.doc.cv-doc.theme-beige-band .resume-grid-col .edu-detail {
+        margin: 0;
+        font-size: 9pt;
+        text-align: center;
+        line-height: 1.35;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-grid-col .skill-col-line {
+        margin: 0.06rem 0;
+        font-size: 9.25pt;
+        text-align: left;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-lang-bars {
+        margin: 0.35rem 0 0.3rem;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-lang-row {
+        display: grid;
+        grid-template-columns: 1.1in 1fr;
+        align-items: center;
+        gap: 0.18in;
+        margin: 0.2rem 0;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-lang-name {
+        font-size: 9.25pt;
+        color: var(--body);
+      }
+      body.doc.cv-doc.theme-beige-band .resume-lang-meter {
+        height: 4px;
+        background: var(--meter-track);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      body.doc.cv-doc.theme-beige-band .resume-lang-fill {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--tan-rule), #a88962);
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body class="doc cv-doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

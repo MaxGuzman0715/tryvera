@@ -1,0 +1,277 @@
+/*
+ * 404 surface — same TealBridge cream + deep-teal language as Landing
+ * and AuthShell. Tokens duplicated under `.tb-notfound` (kept in sync
+ * with Landing.css / AuthShell.css). Extract into a shared theme file
+ * if a fourth surface ever shows up.
+ */
+
+.tb-notfound {
+  --tb-bg: #f6f3ee;
+  --tb-bg-soft: #ffffff;
+  --tb-bg-warm: #efeae0;
+  --tb-ink: #15384a;
+  --tb-ink-soft: #4a5b66;
+  --tb-ink-dim: #76858d;
+  --tb-line: rgba(15, 56, 74, 0.10);
+  --tb-line-strong: rgba(15, 56, 74, 0.18);
+  --tb-teal: #00857e;
+  --tb-teal-deep: #0f545c;
+  --tb-teal-bright: #0fb8a3;
+  --tb-coral: #ed7464;
+  --tb-coral-hover: #e95c47;
+  --tb-radius: 22px;
+  --tb-radius-sm: 12px;
+  --tb-radius-btn: 12px;
+  --tb-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --tb-font-display: "Proxima Nova", "Inter", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, Roboto, sans-serif;
+
+  /* Mirror the Landing/AuthShell scope-overrides so the Enpply global form
+     rules (`input { background: var(--bg) !important }`) resolve to light
+     values on this surface even after a previously-signed-in dark theme. */
+  --bg: #ffffff;
+  --text: var(--tb-ink);
+  --border: rgba(15, 56, 74, 0.18);
+
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--tb-bg);
+  color: var(--tb-ink);
+  font-family: var(--tb-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tb-notfound * {
+  box-sizing: border-box;
+}
+
+.tb-notfound a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tb-notfound a:hover {
+  color: var(--tb-teal);
+}
+
+.tb-notfound .mono {
+  font-family: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", monospace;
+}
+
+/* ── Top nav ────────────────────────────────────────────────────────── */
+
+.tb-notfound-nav {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.tb-notfound .tb-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 1.05rem;
+  color: var(--tb-ink);
+}
+
+.tb-notfound .tb-brand-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--tb-teal-bright) 0%, var(--tb-teal-deep) 100%);
+  position: relative;
+  box-shadow: 0 6px 14px -6px rgba(15, 84, 92, 0.45);
+}
+
+.tb-notfound .tb-brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 3px;
+  background: rgba(245, 245, 243, 0.96);
+  border-top: 2px solid var(--tb-teal-deep);
+  border-bottom: 2px solid var(--tb-teal-deep);
+}
+
+.tb-notfound-back {
+  font-size: 0.92rem;
+  color: var(--tb-ink-soft);
+  font-weight: 500;
+}
+
+.tb-notfound-back:hover {
+  color: var(--tb-teal-deep);
+}
+
+/* ── Body ───────────────────────────────────────────────────────────── */
+
+.tb-notfound-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem 5rem;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tb-notfound-eyebrow {
+  margin: 0 0 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tb-teal);
+}
+
+.tb-notfound-title {
+  margin: 0;
+  font-family: var(--tb-font-display);
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--tb-ink);
+  line-height: 1.1;
+}
+
+.tb-notfound-sub {
+  margin: 1.25rem 0 0;
+  color: var(--tb-ink-soft);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  max-width: 540px;
+}
+
+.tb-notfound-path {
+  margin: 1.5rem 0 0;
+  padding: 0.7rem 1rem;
+  background: var(--tb-bg-warm);
+  border: 1px solid var(--tb-line);
+  border-radius: var(--tb-radius-sm);
+  color: var(--tb-ink);
+  font-size: 0.92rem;
+  word-break: break-all;
+  max-width: 100%;
+}
+
+/* ── Buttons (mirrors landing primary/ghost) ─────────────────────── */
+
+.tb-notfound .tb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.78rem 1.35rem;
+  border-radius: var(--tb-radius-btn);
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease,
+    color 0.18s ease, box-shadow 0.18s ease;
+  text-decoration: none;
+}
+
+.tb-notfound .tb-btn:hover {
+  transform: translateY(-1px);
+}
+
+.tb-notfound .tb-btn-primary {
+  background: var(--tb-coral);
+  color: #ffffff;
+  border-color: var(--tb-coral);
+  box-shadow: 0 8px 18px -10px rgba(237, 116, 100, 0.6);
+}
+
+.tb-notfound .tb-btn-primary:hover {
+  background: var(--tb-coral-hover);
+  border-color: var(--tb-coral-hover);
+  color: #ffffff;
+  box-shadow: 0 12px 22px -10px rgba(233, 92, 71, 0.55);
+}
+
+.tb-notfound .tb-btn-ghost {
+  background: transparent;
+  color: var(--tb-ink);
+  border-color: var(--tb-line-strong);
+}
+
+.tb-notfound .tb-btn-ghost:hover {
+  border-color: var(--tb-teal-deep);
+  color: var(--tb-teal-deep);
+}
+
+.tb-notfound .tb-btn-lg {
+  padding: 1rem 1.8rem;
+  font-size: 1rem;
+}
+
+.tb-notfound-actions {
+  margin: 2rem 0 0;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Suggested destinations ─────────────────────────────────────────── */
+
+.tb-notfound-suggest {
+  margin: 3rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+  width: 100%;
+  max-width: 560px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+@media (min-width: 720px) {
+  .tb-notfound-suggest {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tb-notfound-suggest a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--tb-radius-sm);
+  background: var(--tb-bg-soft);
+  border: 1px solid var(--tb-line);
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.tb-notfound-suggest a:hover {
+  border-color: var(--tb-teal);
+  transform: translateY(-1px);
+}
+
+.tb-notfound-suggest strong {
+  color: var(--tb-ink);
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.tb-notfound-suggest span {
+  color: var(--tb-ink-soft);
+  font-size: 0.85rem;
+}

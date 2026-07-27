@@ -1,0 +1,44 @@
+I gave you my resume.
+Update this resume for the target role using only the candidate profile JSON and the Job targeting metadata JSON below (company_name, role_name, role_summary, key_requirements, keywords — you do not receive the full job description or application Q&A).
+keywords is string[][] (array of groups):
+
+Each inner array is one JD match signal. If it has multiple strings, those are equivalent alternatives in the same class (e.g. several vector DBs listed as examples — covering one of them in your experience can satisfy that signal; mention more if you honestly used more).
+A single string in a group (e.g. ["Kubernetes"]) is a standalone term, not an OR-list.
+Goals: maximum ATS relevance and a dominant match signal.
+
+Do not rewrite the whole document: aggressively rework the skills section and experience bullets so the role fit is unmistakable. (The summary follows the special SUMMARY rule below — high-level, driven by role_summary, not keyword-stuffed.)
+Match the role hard using key_requirements, keywords, and role_summary: weave relevant tech stacks, skills, and themes from the extraction throughout the resume; do not copy-paste lists, but make sure they show up in multiple places. Keep experience truthful to the profile (companies, dates, projects).
+Embed keywords directly in experience bullets, not just the skills section. The skills section alone is not enough — every keyword group that fits real experience must appear inside an experience bullet (or the summary) as part of an actual accomplishment. Skills-only mentions read as filler to ATS and recruiters; in-context mentions inside bullets read as evidence. Surface each keyword/tool in the narrative where it was actually used, then mirror it in the skills list as a tag.
+Keyword coverage: Across skills and experience bullets (NOT the summary — see the summary rule below), hit as many keyword groups as plausibly fit real experience — prioritize terms that match the profile; do not invent projects. For OR-groups, weave in at least one member per group when any member is truthful; if several apply, mention more than one naturally. Push coverage toward the high end of what's defensible.
+Reframe wording to align with the target company and period; rewrite phrasing rather than paraphrase lightly.
+Prior experience bullets should read junior or mid–senior level. For intern roles, use only ~2 lines based on what was originally there.
+At least 10 bullets per non-intern company — this is a hard floor, not a target. More than 20 bullets for the latest 2 companies.
+Each non-intern experience: at minimum 10 bullets, scaling above 20 for the most recent two roles where appropriate; each bullet rich, senior-flavored, and anchored around the project intro line that was originally there. Make accomplishments sound consequential.
+Include VALID and REASONABLE IMPACT METRICS for about 3–4 lines scattered across the resume (not everywhere) — pick the lines where metrics land with the most weight.
+Leave items you did not update as implied unchanged so a recruiter sees a complete picture.
+Do not make an experience block that reads like a verbatim copy of the extraction — that raises doubts. Disguise the alignment in natural narrative.
+SUMMARY (special rule — overrides the keyword guidance above for the summary only):
+ALWAYS write a substantive 2-4 sentence summary; never leave it blank. Anchor it to role_summary (a high-level, stack-free description of the role): convey THAT core focus — the kind of work the role is about — framed by what the candidate's real bullets and profile show. Keep it at the level of disciplines and outcomes so it reads as a general profile summary, NOT an obviously tailored one. Do NOT name specific stacks, frameworks, tools, protocols, or any individual keyword/key_requirement in the summary; detailed stacks and keywords belong in the skills section and experience bullets. Everything must be backed by the candidate's real profile and experience.
+SKILLS (special rule):
+Build the skills list from the candidate's OWN stack (profile skills + what the bullets actually show), ordered by the candidate's strength and relevance — NOT by the JD. Do NOT reproduce the JD's keyword/preferred list as a set or in its order; that 1:1 mirroring is an obvious tell. Lead with the candidate's core, genuine strengths and fold matching JD terms in naturally among them rather than front-loading them in the JD's order. Include a JD keyword only when the résumé genuinely supports it, written as the canonical technology name (e.g. "SQL" or "PostgreSQL" — never the JD's phrasing like "SQL-based data systems"). Deduplicate; never list JD prose or duties as a "skill".
+Rules:
+
+Use truthful content from the profile only; do not invent employers, dates, or degrees.
+Match key_requirements and keywords (including grouped alternatives) from the metadata wherever they plausibly fit real experience — lean in, don't be shy. Surface them inside bullets first, skills list second.
+One clean professional tone; single predefined style (no HTML).
+Keep company name and dates unchanged.
+For title, only make high-level normalization (engineer/scientist/ops) when needed; if title is already close to role, keep it. Where normalization is allowed, choose the variant that best mirrors the target role.
+Keep project core thought per company; adapt implementation details/skills to align tightly with the extracted role.
+!!! Review the metrics and numbers you use in summary and experience. Use only valid ones.Return JSON with exactly this shape:
+{
+"summary": "2-4 sentences. dont mention number of years of exp",
+"skills": ["skill1", "skill2"],
+"experience_updates": [
+{ "index": 0, "title": "Software Engineer", "bullets": ["...", "..."] }
+]
+}Rules for experience_updates:
+
+index maps to candidate profile.experience index.
+include updates only for entries you want to change.
+do not include company/start/end in output.
+Output JSON only.

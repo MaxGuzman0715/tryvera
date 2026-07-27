@@ -1,0 +1,124 @@
+{
+  "project": "Max Streaming Platform — Warner Bros. Discovery",
+  "note": "Index 0 in each bullets array is the coreline. Tier 1 = 5 lines, Tier 2 = 2 lines.",
+  "stacks": {
+
+    "typescript": {
+      "domain": "BE",
+      "tier": 1,
+      "bullets": [
+        "Built the Max platform's unified TypeScript API layer merging HBO Max and Discovery+ backend services, keeping full backward compatibility across 40+ endpoints for 90M+ subscribers.",
+        "Modeled Max's subscriber tiers (ad-supported, standard, premium) as TypeScript discriminated unions across web, mobile, and TV surfaces, catching invalid access transitions at compile time instead of runtime.",
+        "Designed shared TypeScript interface packages used across frontend, backend, and BFF layers to support platform consolidation without breaking existing client integrations.",
+        "Built TypeScript validation layers for Max's subscription and auth APIs, enforcing type-safe contracts at service boundaries and cutting cross-team integration bugs during the 9-month launch.",
+        "Set up TypeScript linting standards and monorepo config adopted across engineering teams, reducing code review friction during the platform migration."
+      ]
+    },
+
+    "nodejs": {
+      "domain": "BE",
+      "tier": 1,
+      "bullets": [
+        "Built and scaled core Node.js APIs on the Max platform to handle burst traffic during premier content releases, sustaining high availability through massive RPS spikes across 90M+ subscribers.",
+        "Built Node.js BFF services for the HBO Max and Discovery+ consolidation, keeping backward compatibility for web, mobile, and connected TV clients while rolling out shared platform capabilities.",
+        "Built and maintained background Node.js pipelines for content metadata ingestion and catalog sync across WBD's global streaming portfolio.",
+        "Pre-scaled Node.js services ahead of major content releases to handle traffic spikes that autoscaling alone could not keep up with during simultaneous linear and digital drops.",
+        "Ran load testing and fault injection on Node.js services to confirm the Max platform could sustain the day-one HBO Max subscriber migration without downtime."
+      ]
+    },
+
+    "react": {
+      "domain": "FE",
+      "tier": 1,
+      "bullets": [
+        "Built and optimized React experiences across the Max platform, helping drive a 20-30% improvement in app start times, video start times, and navigation response at launch across web and connected TV for 90M+ subscribers.",
+        "Built a new React sign-in flow for connected TV that removed remote-based credential entry, improving CTV activation rates on the platform's most conversion-critical user journey.",
+        "Helped build a unified React codebase across WBD's streaming apps, enabling shared feature rollouts and design updates while keeping per-brand customization for color, layout, and UI.",
+        "Built React frontend systems to support Max's expansion into Latin America, Europe, and Asia, adapting UI surfaces for regional languages, RTL layouts, and locale-specific content.",
+        "Built in-player React UI that let users browse episodes and get personalized recommendations without leaving the video player, reducing content drop-off on connected TV surfaces."
+      ]
+    },
+
+    "postgresql": {
+      "domain": "Database",
+      "tier": 2,
+      "bullets": [
+        "Helped design PostgreSQL schemas for Max's subscriber access model across ad-supported, standard, and premium tiers on web, mobile, and connected TV for 90M+ global subscribers.",
+        "Helped plan the database migration for the HBO Max subscriber consolidation, keeping schema compatibility between the merged HBO Max and Discovery+ datasets with no downtime."
+      ]
+    },
+
+    "elasticsearch": {
+      "domain": "Database",
+      "tier": 2,
+      "bullets": [
+        "Built and maintained Elasticsearch indexing for content discovery and catalog search across Max's global portfolio, covering hundreds of thousands of titles as the platform expanded from the US to LATAM, Europe, and Asia.",
+        "Extended Elasticsearch search configuration for each regional launch, adapting indexing and relevance tuning for new market languages and regional content libraries."
+      ]
+    },
+
+    "aws": {
+      "domain": "Cloud",
+      "tier": 2,
+      "bullets": [
+        "Helped pre-scale Max's AWS infrastructure ahead of major content releases, coordinating EKS capacity increases that kept the platform available during simultaneous linear and digital drops with massive RPS spikes across 90M+ subscribers.",
+        "Helped implement the Operational Metadata (OMD) schema across 1M+ AWS and Kubernetes resources, enabling cost allocation, observability tagging, and faster incident triage across WBD's streaming infrastructure."
+      ]
+    },
+
+    "go": {
+      "domain": "BE",
+      "tier": 1,
+      "bullets": [
+        "Built Go authentication and authorization microservices for the Max platform, handling multi-tier subscriber access across ad-supported, standard, and premium tiers on web, mobile, and connected TV for 90M+ subscribers.",
+        "Helped standardize Go microservices on EKS across the Max platform, improving service consistency, cost efficiency, and observability across a large distributed system.",
+        "Built Go services to handle burst traffic during Max's premier content releases, keeping the platform stable through simultaneous RPS spikes that autoscaling alone could not manage.",
+        "Built Go services to support Max's expansion into Latin America, Europe, and Asia, adapting business logic for regional infrastructure, latency profiles, and compliance needs.",
+        "Added observability instrumentation to Go services across the Max platform, enabling fast incident detection during high-stakes content events and the HBO Max subscriber migration."
+      ]
+    },
+
+    "python": {
+      "domain": "BE",
+      "tier": 1,
+      "bullets": [
+        "Built and maintained Python data pipelines for content metadata ingestion, catalog sync, and reporting across WBD's global portfolio, scaling from a US-only catalog to multi-region coverage across LATAM, Europe, and Asia.",
+        "Built Python ETL pipelines for the Max catalog consolidation, merging HBO Max and Discovery+ content schemas to power the unified discovery and search surface at launch.",
+        "Helped build Python tooling for promotional pricing on the Max platform, decoupling campaign config from the deployment cycle and removing weeks of engineering work per campaign.",
+        "Built Python reporting systems that aggregated subscriber and content data across WBD's global portfolio, giving the business visibility into platform health during major migration and launch events.",
+        "Scaled Python pipeline infrastructure for Max's regional expansion, updating ingestion and catalog sync jobs to handle new regional libraries, localized metadata, and compliance needs across LATAM, Europe, and Asia."
+      ]
+    },
+
+    "cicd": {
+      "domain": "DevOps",
+      "tier": 2,
+      "bullets": [
+        "Helped build CI/CD pipeline infrastructure for the Max platform, enabling continuous deployment across microservices under a hard 9-month deadline while keeping production releases zero-downtime.",
+        "Helped set deployment standards and operational readiness processes for Max's subscriber-facing services, supporting a reliable release cadence as the platform scaled globally across LATAM, Europe, and Asia."
+      ]
+    },
+
+    "observability": {
+      "domain": "DevOps",
+      "tier": 2,
+      "bullets": [
+        "Built observability tooling across Max's EKS-based microservices, enabling consistent monitoring, fast incident triage, and pre-scaling decisions ahead of major content drops for 90M+ subscribers.",
+        "Ran operational readiness reviews and fault injection tests for Max's premier content events, confirming observability coverage and platform resilience before the Succession finale and House of the Dragon premiere."
+      ]
+    },
+
+    "java": {
+      "domain": "BE",
+      "tier": 1,
+      "bullets": [
+        "Built Java payment failure alerting for the Max platform, surfacing proactive payment notifications in-app on connected TV for the first time and cutting silent payment failures across 90M+ subscriber accounts.",
+        "Helped build Java subscription management services for ad-supported, standard, and premium tiers, handling account state transitions across web, mobile, and connected TV throughout the Max platform launch.",
+        "Built Java tooling that decoupled promotional pricing configuration from engineering deployment, removing weeks of overhead per campaign across WBD's global streaming portfolio.",
+        "Helped build Java backend services for Max's expansion into Latin America, Europe, and Asia, adapting subscription and payment flows for regional pricing, currency handling, and compliance needs.",
+        "Helped build Java auth systems during the HBO Max and Discovery+ consolidation, keeping subscriber access working throughout the day-one migration with no downtime."
+      ]
+    }
+
+  }
+}

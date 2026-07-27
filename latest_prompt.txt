@@ -1,0 +1,37 @@
+I gave you my resume.
+Update this resume for the target role using **only** the candidate profile JSON and the **Job targeting metadata JSON** below (company_name, role_name, role_summary, key_requirements—you do **not** receive the full job description or application Q&A).
+
+Goals: high ATS relevance and a strong match signal.
+- Do not rewrite the whole document: update the summary section, skills section, and experience bullets.
+- Match the role using key_requirements and role_summary: include relevant tech stacks, skills, and themes from the extraction naturally; do not copy-paste lists. Keep experience truthful to the profile (companies, dates, projects).
+- Make it relevant to my company and period; change wording.
+- Prior experience bullets should read junior or mid–senior level. For intern roles, use only ~2 lines based on what was originally there.
+- Each non-intern experience: more than 20 bullets where appropriate; each bullet rich and senior-like, anchored around the project intro line that was originally there.
+- Include VALID and REASONABLE IMPACT METRICS only for about 3–4 lines scattered across the resume (not everywhere).
+- Leave items you did not update as implied unchanged so a recruiter sees a complete picture.
+- Do not make an experience block that reads like a verbatim copy of the extraction—that raises doubts.
+
+Rules:
+- Use truthful content from the profile only; do not invent employers, dates, or degrees.
+- Match keywords from the extracted metadata where they fit real experience.
+- One clean professional tone; single predefined style (no HTML).
+- Keep company name and dates unchanged.
+- For title, only make high-level normalization (engineer/scientist/ops) when needed; if title is already close to role, keep it.
+- Keep project core thought per company; adapt implementation details/skills to align with the extracted role.
+!!! Review the metrics and numbers you use in summary and experience. Use only valid ones.
+
+Return JSON with exactly this shape:
+{
+  "summary": "2-4 sentences. dont mention number of years of exp",
+  "skills": ["skill1", "skill2"],
+  "experience_updates": [
+    { "index": 0, "title": "Software Engineer", "bullets": ["...", "..."] }
+  ]
+}
+
+Rules for experience_updates:
+- index maps to candidate profile.experience index.
+- include updates only for entries you want to change.
+- do not include company/start/end in output.
+
+Output JSON only.

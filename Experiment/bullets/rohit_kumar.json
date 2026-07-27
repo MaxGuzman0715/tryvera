@@ -1,0 +1,1592 @@
+{
+  "id": "rohit_kumar",
+  "basic": {
+    "fullName": "Rohit Kumar",
+    "title": "Senior Software Engineer",
+    "email": "rohitkumar.softwaredev@gmail.com",
+    "phone": "437 269 7684",
+    "location": "Mississauga, Ontario, Canada | Remote | Hybrid within a 20-mile radius of Mississauga",
+    "linkedin": "https://www.linkedin.com/in/kumarr3205/"
+  },
+  "experience": [
+    {
+      "company": "Warner Bros. Discovery",
+      "location": "Remote / US ",
+      "title": "Senior Software Engineer",
+      "startDate": "Jun 2022 ",
+      "endDate": "Present",
+      "bullets": [
+        "Contribute to the CNN editorial team as a Software Engineer.",
+        "Engineered core backend components for CNN’s Editorial Content Management System (CMS) using JavaScript and Python, facilitating the creation, publishing, and dynamic rendering of news articles.",
+        "Designed a scalable media management service utilizing AWS S3 and NoSQL databases to efficiently store, retrieve, and reuse images, videos, and text blocks across cnn.com.",
+        "Developed robust content delivery APIs to ensure seamless integration between the editorial backend and diverse mobile and web platforms.",
+        "Streamlined the release of new CMS features by integrating continuous deployment pipelines with Kubernetes, utilizing Git and Unix scripting to automate rollouts and production patches.",
+        ""
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "RBC",
+      "location": "Toronto, Ontario, Canada ",
+      "title": "Senior Software Engineer",
+      "startDate": "May 2020",
+      "endDate": "May 2022",
+      "bullets": [
+        "Developed core payment routing algorithms and decision-making modules for the High-Value Payments system using Core Java and Spring.",
+        "Engineered secure, high-throughput data processing pipelines to accurately route sensitive transactions to intended beneficiaries across 50+ countries.",
+        "Integrated Kafka event streaming to handle real-time payment requests and dynamically process frequently changing business rule codes.",
+        "Optimized backend database interactions using Oracle SQL, ensuring strict data integrity and rapid information retrieval for critical, high-volume financial transactions."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Rogers Communications Inc",
+      "location": "Brampton, Ontario, Canada",
+      "title": "Software Engineer",
+      "startDate": "Apr 2018",
+      "endDate": "May 2020",
+      "bullets": [
+        "Spearheaded the development of new account creations, encompassing diverse service packages like phone, internet, and TV.",
+        "Developed backend provisioning services for automated account creation and service package (phone, internet, TV) activation using Java and the Spring framework.",
+        "Designed and implemented RESTful APIs and SOAP web services to process customer orders and synchronize state changes across multiple backend legacy systems.",
+        "Utilized Oracle DB and complex SQL queries to manage customer account states, ensuring accurate billing and service configurations.",
+        "Deployed and managed microservices within Kubernetes clusters, utilizing Horizontal Pod Autoscaling (HPA) to maintain backend performance for order management during peak promotional periods."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Amica Mutual Insurance",
+      "location": "Toronto, Ontario, Canada ",
+      "title": "Software Engineer",
+      "startDate": "Apr 2014",
+      "endDate": "Apr 2018",
+      "bullets": [
+        "Designed and implemented core functionalities within Guidewire ClaimCenter, focusing on automating the end-to-end claims resolution workflow and billing processes.",
+        "Acted as a functional lead by interacting directly with business stakeholders to gather requirements and define technical specifications for new claim routing rules.",
+        "Developed scalable data processing jobs using PySpark to analyze historical claims data, identifying and resolving critical bottlenecks in the claims lifecycle.",
+        "Integrated Machine Learning models (TensorFlow/Python) into the ClaimCenter pipeline to automate risk assessment, enhancing the accuracy of automated claim routing.",
+        "Improved system stability by refactoring legacy Java code and optimizing multi-threading techniques, ensuring high performance during peak claim periods."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [],
+  "education": [
+    {
+      "school": "Carleton University",
+      "degree": "B.S.",
+      "field": "Computer Science",
+      "startDate": "2010",
+      "endDate": "2014"
+    }
+  ],
+  "companies": {
+    "Warner Bros. Discovery": {
+      "project": "Max Streaming Platform",
+      "stacks": {
+        "python_django": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the Django service powering Max's promotional-pricing admin, replacing a deploy-gated config flow so marketing could ship campaigns to 90M+ subscribers without an engineering release.",
+            "Redesigned the Django ORM access path behind the campaign dashboard after N+1 queries pushed p95 past 4s, using select_related/prefetch_related plus a Redis cache to land it under 400ms.",
+            "Moved the pricing app's slow currency-conversion work onto Celery workers, so one stalled third-party call could no longer exhaust the synchronous request pool during launch week.",
+            "Hardened the Django admin with django-guardian row-level permissions, closing a gap that had let any staff account edit live subscription pricing across regions.",
+            "Owned the Django REST Framework serializers for the pricing API and enforced schema versioning, so the LATAM and Europe rollouts (est. 12 client teams) integrated without breaking the US contract."
+          ]
+        },
+        "python_flask": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the Flask service fronting Max's internal content-ops tooling, serving est. 800 editorial and QA users with sub-300ms reads during premier-week catalog churn.",
+            "Diagnosed memory growth that crashed the Flask workers nightly, tracing it to per-request SQLAlchemy sessions never closed and switching to scoped_session teardown.",
+            "Replaced Flask's default dev server with Gunicorn behind gevent workers after blocking I/O capped throughput at est. 40 req/s, lifting it past 600 req/s on the same pods.",
+            "Carved the monolithic Flask app into blueprints with per-blueprint error handlers, so a failing reporting endpoint stopped taking the whole tool offline.",
+            "Added Marshmallow request validation at the Flask boundary, cutting a class of malformed-payload 500s that had been masking real data-quality issues in catalog ingestion."
+          ]
+        },
+        "python_fastapi": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built Max's FastAPI metadata service handling est. 5k req/s of catalog lookups across hundreds of thousands of titles, using async endpoints to keep p99 under 120ms.",
+            "Redesigned blocking database calls as async SQLAlchemy with asyncpg after the event loop stalled under load, eliminating the request queuing that spiked latency during content drops.",
+            "Drove adoption of Pydantic models as the single contract between FastAPI services and TypeScript clients, ending the schema drift that had caused silent field mismatches across est. 8 teams.",
+            "Instrumented the FastAPI app with dependency-injected request tracing, so a slow downstream recommendation call was attributable in minutes instead of a multi-team incident hunt.",
+            "Added backpressure via a bounded async semaphore around the rights-check dependency, preventing a slow partner API from cascading 504s through the whole metadata tier."
+          ]
+        },
+        "python": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Python data pipelines feeding Max's catalog sync and reporting across WBD's global library, processing est. hundreds of GB nightly without missing the morning business SLA.",
+            "Rewrote the catalog-merge job that unified HBO Max and Discovery+ schemas, replacing ad-hoc dict munging with typed dataclasses so launch-day mismatches surfaced at parse time.",
+            "Profiled the ingestion job with cProfile and replaced a per-row API loop with batched multiprocessing.Pool calls, cutting a 6-hour run to under 40 minutes.",
+            "Decoupled promotional-pricing config from the deploy cycle with a Python tooling layer, removing est. two weeks of engineering work per campaign.",
+            "Added typing.Protocol interfaces and mypy gating to the pipeline package, stopping a recurring class of None-handling bugs that had silently dropped regional titles."
+          ]
+        },
+        "java_springboot": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the Spring Boot subscription service managing account state for ad-supported, standard, and premium tiers across all devices for 90M+ subscribers.",
+            "Redesigned tier transitions as a Spring State Machine after race conditions let users briefly hold two tiers at once, eliminating the double-entitlement bug during plan changes.",
+            "Cut payment-webhook handling latency by moving synchronous processing to @Async listeners with a bounded executor, so a slow processor no longer backed up Tomcat's thread pool.",
+            "Drove the rollout of Spring Boot Actuator health checks and readiness probes across est. 20 services, so EKS stopped routing traffic to pods still warming their caches.",
+            "Replaced field injection with constructor injection and Testcontainers integration tests, catching a wiring regression that would have shipped a broken auth path to production."
+          ]
+        },
+        "java": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Java services behind Max's payment-failure alerting, surfacing in-app notices on connected TV for the first time and cutting silent failures across 90M+ accounts.",
+            "Diagnosed a JVM pause that froze checkout for seconds under load, tuning the G1GC heap and removing a synchronized block that serialized every payment thread.",
+            "Rebuilt the promotional-pricing engine in Java to read campaign rules from config, removing est. two weeks of deploy overhead per regional campaign.",
+            "Hardened currency and rounding logic with BigDecimal after float math caused cent-level billing drift across LATAM launches, closing a reconciliation gap finance had flagged.",
+            "Decomposed a shared Java util jar that forced lockstep releases, so the payments and auth teams could ship independently instead of coordinating every deploy."
+          ]
+        },
+        "typescript": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected Max's shared TypeScript API layer merging HBO Max and Discovery+ services, keeping 40+ endpoints backward compatible for 90M+ subscribers.",
+            "Modeled subscriber tiers as discriminated unions so the compiler rejected invalid access transitions, catching at build time bugs that had previously reached connected-TV production.",
+            "Drove shared TypeScript interface packages across frontend, backend, and BFF layers, ending the contract drift that broke client integrations during the 9-month consolidation.",
+            "Eliminated a class of runtime payload errors by enforcing zod validation at service boundaries, turning silent bad-data 500s into typed, rejected requests.",
+            "Owned the strict-mode and tsconfig migration adopted org-wide, removing implicit-any escape hatches that had hidden null-handling defects across est. 15 repos."
+          ]
+        },
+        "nodejs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the core Node.js APIs on Max that absorbed premier-release traffic spikes, sustaining availability through massive simultaneous RPS across 90M+ subscribers.",
+            "Diagnosed event-loop stalls during content drops with clinic.js, moving CPU-bound JSON transforms to worker threads so latency stopped ballooning under burst load.",
+            "Rebuilt request-scoped context propagation with AsyncLocalStorage, fixing log correlation that had made cross-service incident triage nearly impossible.",
+            "Throttled a downstream catalog dependency with a bounded queue and circuit breaker, stopping a slow partner from cascading timeouts through the BFF tier.",
+            "Migrated catalog-sync ingestion to Node.js Transform streams, ending the out-of-memory crashes that hit when a region's payload exceeded est. 2GB."
+          ]
+        },
+        "nestjs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the NestJS BFF aggregating subscription, catalog, and entitlement calls for Max clients, collapsing est. 5 round-trips per screen into one for connected-TV apps.",
+            "Drove a module-and-provider structure with DI scopes that let est. 6 squads own their NestJS feature modules without colliding in a shared codebase.",
+            "Eliminated repeated auth boilerplate with NestJS guards and interceptors, closing inconsistent entitlement checks that had let some endpoints skip tier validation.",
+            "Diagnosed a memory leak from request-scoped providers holding references, switching to transient scope and stopping the slow RSS climb that forced nightly restarts.",
+            "Standardized error shaping with a global NestJS exception filter, so clients stopped receiving inconsistent error payloads across est. 30 endpoints."
+          ]
+        },
+        "go": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Go authentication and authorization microservices on Max, gating tiered access for 90M+ subscribers across web, mobile, and connected TV.",
+            "Diagnosed a goroutine leak that exhausted memory under load with pprof, adding context.Context deadlines so abandoned auth requests stopped piling up.",
+            "Redesigned a hot token-validation path with a sync.Pool of buffers and a worker pool, cutting allocation churn that had driven GC pauses during peak drops.",
+            "Standardized Go services on EKS with shared middleware for tracing and rate limiting, replacing the per-team copies that had drifted out of sync.",
+            "Hardened concurrent cache access after a data race corrupted entitlement state, replacing a naive map with sync.RWMutex and proving it clean under the race detector."
+          ]
+        },
+        "rust": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the Rust edge service that signs and validates Max playback tokens at est. 20k req/s, using Tokio async to hold p99 under 5ms without a GC pause.",
+            "Replaced a latency-sensitive Go shim with a Rust axum service after tail latency hurt CTV start times, cutting p99 by est. 60% on the same hardware.",
+            "Eliminated a memory-safety class of crashes by porting a C++ manifest parser to Rust, leaning on the borrow checker to remove the use-after-free that had caused playback aborts.",
+            "Drove zero-copy parsing with serde and bytes in the token service, removing per-request heap allocations that had capped throughput under burst load.",
+            "Hardened the FFI boundary to the legacy DRM library with explicit unsafe blocks and fuzz tests (cargo-fuzz), closing a panic path that took down a pod under malformed input."
+          ]
+        },
+        "dotnet_csharp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the ASP.NET Core service handling Max's partner-billing reconciliation, processing est. millions of daily ledger events with end-of-day accuracy finance signed off on.",
+            "Diagnosed thread-pool starvation from sync-over-async calls, refactoring to end-to-end async/await Task pipelines and clearing the request timeouts under load.",
+            "Redesigned EF Core queries that loaded full entity graphs into projected DTOs, cutting a reconciliation report from minutes to seconds and dropping SQL Server load.",
+            "Drove a Channels-based producer/consumer pipeline for ledger ingestion, replacing a lock-heavy queue that had serialized throughput on a single core.",
+            "Hardened the C# money handling with decimal and explicit rounding policy after rounding drift caused cent-level partner disputes across regions."
+          ]
+        },
+        "ruby_on_rails": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Rails service running Max's internal content-rights workflow for est. 500 ops users, keeping approvals flowing during the premier-week catalog surge.",
+            "Diagnosed N+1 queries dragging the rights dashboard with Bullet, adding includes and counter caches to cut page load from est. 5s to under 700ms.",
+            "Moved long-running rights checks to Sidekiq jobs, so a slow partner API stopped tying up Puma workers and blocking the approval queue.",
+            "Redesigned fat ActiveRecord models into service objects after callbacks fired in unpredictable order, removing the hidden side effects that corrupted rights state.",
+            "Hardened mass-assignment with strong parameters and policy objects, closing a path that had let a form set rights fields it should never have touched."
+          ]
+        },
+        "php_laravel": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Laravel service powering Max's marketing landing and lead-capture pages, sustaining est. 50k req/min during launch promos without degrading checkout.",
+            "Diagnosed slow Eloquent queries with the debugbar and added eager loading plus indexed columns, cutting a campaign report from est. 8s to under 1s.",
+            "Moved email and webhook fan-out to Laravel queues on Redis, so a third-party outage stopped blocking the synchronous request that captured signups.",
+            "Redesigned tangled controller logic into form requests and jobs, isolating validation so a malformed promo payload no longer threw fatal errors to users.",
+            "Hardened the app with Laravel's CSRF and signed URLs after a campaign link was tampered with, closing the parameter-forgery path on est. 12 active promos."
+          ]
+        },
+        "c_cpp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the C++ media-probe component that validated ingested assets across hundreds of thousands of titles, catching malformed streams before they reached playback.",
+            "Diagnosed intermittent segfaults under load with Valgrind and AddressSanitizer, fixing the buffer overrun that had aborted ingestion on est. 1 in 5k assets.",
+            "Redesigned manual malloc/free ownership into RAII with smart pointers, eliminating the leaks that grew the probe's RSS until the pod was OOM-killed.",
+            "Cut per-asset probe time est. 40% by replacing a naive copy loop with std::move semantics and a reserved std::vector, removing reallocation churn.",
+            "Hardened the parser against untrusted input with bounds checks and fuzzing (libFuzzer), closing the crash path a corrupt partner upload had triggered in production."
+          ]
+        },
+        "scripting": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Bash automation that orchestrated Max's release-night runbook across est. 30 services, replacing a manual checklist that had caused missed steps under pressure.",
+            "Diagnosed flaky deploy scripts failing silently, adding set -euo pipefail and trap-based cleanup so a failed step stopped the rollout instead of half-applying it.",
+            "Automated pre-scaling capacity changes with idempotent shell scripts wrapping the AWS CLI, removing the manual EKS scaling that had been error-prone before premier drops.",
+            "Replaced a brittle cron of one-off scripts with a single parameterized tool and structured logging, cutting on-call time spent decoding what a job actually did.",
+            "Hardened secret handling in the scripts after keys leaked into logs, piping through redaction and moving credentials to the env-injected store."
+          ]
+        },
+        "react": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Drove the React performance work that cut Max's app-start and video-start times 20-30% at launch across web and connected TV for 90M+ subscribers.",
+            "Redesigned a janky browse grid with react-window virtualization, dropping DOM nodes est. 80% and removing the scroll stutter on memory-constrained TV devices.",
+            "Diagnosed avoidable re-renders with the Profiler and moved shared state into a useReducer state machine, eliminating the input lag on the sign-in flow.",
+            "Built a connected-TV sign-in path with code-split React.lazy/Suspense routes, removing remote-typed credentials and lifting activation on the most conversion-critical journey.",
+            "Contained widget failures with ErrorBoundary so a broken recommendation rail degraded gracefully instead of blanking the whole home screen for est. millions of sessions."
+          ]
+        },
+        "nextjs": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned Max's Next.js marketing and title-detail pages, using SSR and ISR to serve est. 30M monthly visits with sub-2s LCP and indexable content.",
+            "Redesigned client-fetched pages as server components after hydration cost hurt LCP, cutting JS shipped to the browser est. 45% on the title-detail route.",
+            "Diagnosed a cache-stampede on ISR revalidation during a premier drop, adding a stale-while-revalidate window so a spike no longer hammered the origin.",
+            "Drove route-level code splitting and next/image optimization, removing the oversized hero images that had been the top LCP regression in field data.",
+            "Hardened the API routes with edge-middleware auth checks, closing an unauthenticated path that had exposed a draft campaign page before its embargo."
+          ]
+        },
+        "vue": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Vue internal console used by est. 800 content-ops staff, keeping it responsive during premier-week catalog churn across thousands of titles.",
+            "Redesigned prop-drilled state into Pinia stores after cross-component bugs multiplied, giving a single source of truth that ended the stale-UI complaints.",
+            "Diagnosed reactivity leaks from un-cleaned watchers, moving to watchEffect with explicit teardown so the long-lived console stopped degrading over a shift.",
+            "Cut initial load est. 50% with Vue async components and route-level lazy loading, removing the monolithic bundle that had slowed every page.",
+            "Hardened form handling with VeeValidate schema rules, replacing scattered manual checks that had let invalid rights edits reach the backend."
+          ]
+        },
+        "angular": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Angular partner-portal serving est. 200 distributor accounts, sustaining smooth interaction on dense rights and reporting tables.",
+            "Redesigned change detection to OnPush with observables after the UI lagged on large tables, cutting render time est. 60% on the rights grid.",
+            "Diagnosed memory growth from un-unsubscribed observables, introducing a takeUntil teardown pattern that stopped the leak across est. 40 components.",
+            "Drove lazy-loaded feature modules and route preloading, shrinking the initial Angular bundle so first paint stopped blocking on the reporting module.",
+            "Hardened forms with typed reactive FormGroups and async validators, closing the invalid-submission path that had created bad partner records."
+          ]
+        },
+        "svelte": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built Max's lightweight embedded player UI in Svelte, shipping est. 70% less JS than the prior framework so it loaded fast on low-end connected-TV browsers.",
+            "Redesigned global state into Svelte stores after prop chains grew unwieldy, giving the player and rail components a clean shared reactive source.",
+            "Diagnosed layout thrash on the episode rail and used Svelte transitions with will-change hints, removing the dropped frames on TV-grade GPUs.",
+            "Cut bundle size further with SvelteKit route-level code splitting, so the detail overlay no longer pulled in the full catalog browser on first paint.",
+            "Hardened SSR hydration mismatches by guarding browser-only APIs, fixing the flash-of-broken-UI that hit est. 1 in 10 cold loads."
+          ]
+        },
+        "swift": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the Swift playback and entitlement layer in Max's iOS app, holding a crash-free rate above est. 99.8% across millions of devices through the launch.",
+            "Diagnosed main-thread hitches with Instruments and moved image decoding off the UI thread with async/await, removing the scroll stutter on the browse screen.",
+            "Redesigned massive view controllers into MVVM with Combine, untangling the state that had caused intermittent wrong-tier UI after plan changes.",
+            "Cut cold-start time est. 30% by deferring non-critical SDK init and using lazy stored properties, getting users to content faster on older iPhones.",
+            "Hardened offline-download integrity with checksum validation after corrupt files caused playback failures, closing the silent-corruption path in the queue."
+          ]
+        },
+        "objc": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the legacy Objective-C modules still shipping in Max's iOS app, keeping est. 30% of the codebase stable while the Swift migration ran in parallel.",
+            "Diagnosed retain cycles with the leaks instrument and broke them with weak references in blocks, stopping the memory growth that crashed long sessions.",
+            "Redesigned a fragile delegate web into a cleaner notification flow, removing the ordering bugs that had caused inconsistent playback state.",
+            "Bridged Objective-C and Swift cleanly with nullability annotations and lightweight generics, so the new code consumed old modules without crash-prone casts.",
+            "Hardened a category that swizzled UIKit after it broke an OS update, replacing the risky method swizzle with a contained subclass."
+          ]
+        },
+        "kotlin": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the Kotlin playback stack in Max's Android app, sustaining a crash-free rate above est. 99.7% across a fragmented device base of millions.",
+            "Diagnosed ANRs from main-thread disk I/O and moved work to coroutines on Dispatchers.IO, clearing the freezes that had spiked uninstall rates.",
+            "Redesigned callback-heavy data loading into Kotlin Flow with StateFlow, removing the race conditions that showed stale entitlement state after upgrades.",
+            "Cut method count and APK size est. 20% by replacing a heavy library with a focused Kotlin module, easing the dex-limit pressure on low-end devices.",
+            "Hardened null handling at the JNI and network boundary with explicit nullable types, closing the NPE class that dominated the crash dashboard."
+          ]
+        },
+        "flutter": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built Max's cross-platform Flutter companion app from one codebase, shipping iOS and Android in est. half the time two native teams would have taken.",
+            "Diagnosed jank with the Flutter DevTools timeline and added const widgets plus RepaintBoundary, holding a steady 60fps on the content rail.",
+            "Redesigned setState-driven screens into Riverpod providers, removing the rebuild storms that had drained battery and lagged navigation.",
+            "Cut startup time est. 35% with deferred loading and a trimmed widget tree, getting first frame up faster on mid-tier Android hardware.",
+            "Hardened platform-channel calls to native DRM with typed error handling, closing a path where a failed handshake silently showed a black screen."
+          ]
+        },
+        "react_native": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the React Native shell powering Max's secondary mobile surfaces, sharing est. 80% of code across iOS and Android while keeping native playback.",
+            "Diagnosed bridge congestion that dropped frames during scroll, migrating the hot list to the new Fabric architecture and FlatList windowing to recover smoothness.",
+            "Redesigned navigation onto react-navigation with lazy screens, removing the memory bloat that had crashed the app after deep browsing sessions.",
+            "Cut JS bundle size est. 30% with Hermes and inline-requires, improving cold start on the low-end devices common in new launch regions.",
+            "Hardened the native module boundary with typed TurboModule specs, closing the silent type-mismatch crashes between JS and the DRM SDK."
+          ]
+        },
+        "agentic_ai_rag": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Architected Max's content-ops RAG assistant over the rights and catalog corpus, cutting est. 60% of manual lookups for an 800-person ops team.",
+            "Redesigned naive top-k retrieval into hybrid BM25-plus-vector search with reranking after answers cited wrong titles, lifting answer relevance on the eval set.",
+            "Drove a tool-use agent loop with guarded function calls so the assistant queried live entitlement APIs instead of hallucinating tier rules.",
+            "Diagnosed context-window overflow that truncated rights clauses, adding semantic chunking and a citation step so every answer linked its source.",
+            "Hardened the pipeline with a grounding check that refused low-confidence answers, closing the path where a confident wrong reply could misroute a rights decision."
+          ]
+        },
+        "llm_finetuning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the fine-tuning of a small model for Max's metadata tagging, reaching est. 92% field accuracy and removing a costly per-call dependence on a frontier API.",
+            "Redesigned full fine-tunes into LoRA adapters after GPU cost ballooned, cutting training spend est. 70% while matching quality on the holdout set.",
+            "Built an eval harness with golden sets and an LLM-judge, replacing vibe checks that had let a regression ship and mistag a batch of titles.",
+            "Diagnosed reward hacking in an early RLHF pass where the model gamed length, reshaping the reward and recovering genuine quality on human ratings.",
+            "Hardened the data pipeline with dedup and leakage checks after train/test overlap inflated metrics, restoring trustworthy offline numbers."
+          ]
+        },
+        "classical_ml": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the XGBoost churn model for Max, scoring 90M+ subscribers weekly and giving retention a ranked save-list that beat the prior rules by est. 18% lift.",
+            "Redesigned leaky features after the model looked great offline but failed live, removing post-event signals and restoring honest, deployable performance.",
+            "Drove a scikit-learn feature pipeline with proper train/val/test splits and cross-validation, ending the overfit models that had embarrassed earlier launches.",
+            "Diagnosed class imbalance that hid real churners, applying calibrated thresholds and class weights so precision at the top of the list actually held up.",
+            "Cut scoring cost est. 50% by pruning low-importance features via SHAP, shrinking the model with no measurable accuracy loss."
+          ]
+        },
+        "recommendation_sys": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned Max's home-rail recommender serving 90M+ subscribers, lifting content engagement est. 12% over the popularity baseline it replaced.",
+            "Redesigned a pure collaborative-filtering model into a two-tower retrieval-plus-ranking system, fixing the cold-start gap that had buried new titles.",
+            "Diagnosed a feedback loop that over-recommended already-popular shows, adding exploration so the catalog's long tail stopped being starved of impressions.",
+            "Drove online A/B evaluation with guardrail metrics, catching a ranker that raised clicks but cut completion before it could ship widely.",
+            "Hardened the feature store against training-serving skew after live CTR diverged from offline, aligning the pipelines and recovering predicted lift."
+          ]
+        },
+        "computer_vision": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built Max's automated thumbnail and scene-detection pipeline over hundreds of thousands of titles, replacing manual frame selection for est. thousands of new assets monthly.",
+            "Redesigned a slow per-frame CNN pass into batched GPU inference with ONNX Runtime, cutting per-title processing from minutes to seconds.",
+            "Diagnosed poor detection on dark scenes, augmenting training data and adjusting thresholds so the model stopped picking black frames as thumbnails.",
+            "Drove a quality gate using SSIM and face-coverage checks, blocking the off-brand auto-thumbnails that had occasionally shipped to the storefront.",
+            "Hardened the pipeline against corrupt media with frame-decode validation, closing the path where one bad asset crashed a whole batch job."
+          ]
+        },
+        "nlp": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the NLP service classifying and tagging Max's catalog descriptions, processing hundreds of thousands of titles to power search and discovery facets.",
+            "Redesigned a brittle keyword matcher into a fine-tuned transformer classifier, lifting tag precision est. 25% and cutting the manual correction queue.",
+            "Diagnosed multilingual failures after LATAM launch, adding language detection and per-locale models so Spanish and Portuguese titles stopped getting English tags.",
+            "Drove embedding-based dedup of near-duplicate synopses, collapsing the redundant catalog rows that had cluttered search results.",
+            "Hardened the pipeline against tokenization edge cases that dropped accented text, fixing the silent data loss on non-ASCII titles."
+          ]
+        },
+        "robotics_planning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the constrained scheduling optimizer that planned Max's content-encoding fleet, packing est. thousands of daily jobs to hit release deadlines under capacity limits.",
+            "Redesigned a greedy scheduler into a constraint-solver formulation after deadline misses, modeling priorities and resource limits to eliminate the launch-eve scramble.",
+            "Diagnosed thrashing where the planner reshuffled jobs endlessly, adding hysteresis and cost-to-switch so the plan stabilized instead of oscillating.",
+            "Drove a probabilistic ETA model for encode duration, replacing fixed estimates that had under-provisioned GPUs before premier drops.",
+            "Hardened the planner against infeasible inputs with a fallback relaxation, so an over-subscribed day produced a best-effort plan instead of no plan at all."
+          ]
+        },
+        "ai_safety": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the safety evaluation for Max's content-ops LLM assistant, building the red-team suite that gated every release against est. 200 adversarial probes.",
+            "Redesigned a thin keyword filter into a layered guardrail after a jailbreak leaked an internal rights clause, closing the prompt-injection path.",
+            "Diagnosed over-refusal that blocked legitimate ops queries, recalibrating thresholds so safety stopped degrading the tool's day-to-day usefulness.",
+            "Drove interpretability probes on the retrieval step to show why answers were grounded, giving rights stakeholders evidence before they trusted automation.",
+            "Hardened logging and human-in-the-loop review for high-stakes answers, ensuring a rights decision always had an auditable trail."
+          ]
+        },
+        "spark": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Spark jobs aggregating Max viewing data across 90M+ subscribers, producing the daily engagement tables the business depended on by morning.",
+            "Diagnosed skew that stalled a join on a few hot title keys, salting the keys and broadcasting the small side to cut runtime from est. 3 hours to 40 minutes.",
+            "Redesigned wide RDD transformations into the DataFrame API with predicate pushdown, letting Catalyst prune scans and halving cluster cost.",
+            "Cut shuffle spill that crashed executors by tuning partition counts and switching to Kryo serialization, stabilizing the nightly run under peak volume.",
+            "Hardened the pipeline against late-arriving data with idempotent writes and watermarking, ending the double-counted metrics finance had flagged."
+          ]
+        },
+        "kafka": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Kafka backbone carrying Max's playback and entitlement events at est. peak 200k msg/s, decoupling producers from the analytics and billing consumers.",
+            "Diagnosed consumer lag that delayed billing during drops, repartitioning hot topics and tuning fetch sizes to drain the backlog in minutes.",
+            "Redesigned at-least-once handling into idempotent consumers with keyed compaction, eliminating the duplicate entitlement events that had double-charged edge cases.",
+            "Drove a schema registry with Avro and compatibility checks, stopping a producer change that would have broken every downstream consumer.",
+            "Hardened delivery with a dead-letter topic and replay tooling, so poison messages stopped halting a partition for the whole pipeline."
+          ]
+        },
+        "databricks": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Max's Databricks lakehouse for engagement analytics, serving est. 100 analysts and ML jobs off Delta tables built from raw event streams.",
+            "Redesigned full-refresh jobs into Delta Lake incremental MERGE upserts, cutting daily compute est. 65% and landing tables hours earlier.",
+            "Diagnosed runaway cluster cost from idle interactive sessions, moving scheduled work to job clusters with autoscaling and auto-termination.",
+            "Drove Delta Z-ordering and OPTIMIZE on the hottest tables, cutting query times that had made the engagement dashboard unusable at peak.",
+            "Hardened data quality with Delta constraints and expectations, blocking the malformed batches that had silently corrupted downstream reports."
+          ]
+        },
+        "airflow": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Airflow orchestration running est. 300 daily tasks behind Max's catalog and reporting pipelines, keeping the morning SLA through launch surges.",
+            "Diagnosed a scheduler bottleneck that delayed every DAG, tuning parallelism and pools and moving heavy work to the KubernetesPodOperator to isolate it.",
+            "Redesigned monolithic DAGs into modular, idempotent tasks with proper retries, ending the manual reruns that had eaten on-call time.",
+            "Drove explicit data-dependency sensors to replace fragile time-based scheduling, so a late upstream feed no longer produced empty downstream tables.",
+            "Hardened alerting with SLA misses and on-failure callbacks, so a stuck task paged the right team instead of surfacing as a stale dashboard."
+          ]
+        },
+        "dbt": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Max's dbt transformation layer turning raw events into est. 200 modeled tables, giving analysts a tested, documented source of truth.",
+            "Redesigned copy-pasted SQL into layered dbt models with ref() and macros, removing the duplicated logic that had caused conflicting metric definitions.",
+            "Drove dbt tests for uniqueness, not-null, and relationships into CI, catching the bad joins that had previously shipped wrong numbers to the business.",
+            "Diagnosed slow warehouse spend from full rebuilds, switching heavy models to incremental materialization and cutting daily runtime sharply.",
+            "Hardened metric trust with dbt snapshots and exposures, so a changed definition was tracked and its dashboard consumers were known."
+          ]
+        },
+        "flink": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Max's Flink stream jobs computing real-time concurrency and engagement during premier drops, giving ops live numbers within seconds at est. 200k events/s.",
+            "Redesigned tumbling windows into event-time windows with watermarks after out-of-order events skewed counts, restoring accurate live metrics.",
+            "Diagnosed growing checkpoint times that risked job stability, tuning RocksDB state backend and incremental checkpoints to keep recovery fast.",
+            "Drove exactly-once sinks with the two-phase commit connector, eliminating the double-counted concurrency spikes that had misled capacity decisions.",
+            "Hardened the job against backpressure from a slow sink with buffer tuning and alerting, so a downstream stall no longer silently stalled ingestion."
+          ]
+        },
+        "snowflake": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Snowflake marts powering Max's executive engagement dashboards, serving est. 100 analysts off curated, governed tables.",
+            "Diagnosed runaway credits and right-sized warehouses with auto-suspend, cutting spend without slowing the queries that mattered.",
+            "Redesigned slow reports with clustering keys and materialized views, turning a multi-minute dashboard into a sub-second one.",
+            "Drove zero-copy clones for analyst sandboxes, replacing full-copy datasets that had quietly multiplied storage cost.",
+            "Hardened governance with role-based grants and row-access policies, stopping regional analysts from seeing other markets' numbers."
+          ]
+        },
+        "etl_pipelines": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the ETL merging HBO Max and Discovery+ catalogs into one schema for launch, reconciling hundreds of thousands of titles without losing rights metadata.",
+            "Redesigned a fragile full-reload ETL into incremental change-data-capture, cutting the load window est. 70% and avoiding nightly full-table churn.",
+            "Diagnosed silent row drops from a type mismatch, adding schema validation and reject queues so bad records were quarantined, not lost.",
+            "Drove idempotent, restartable loads with checkpointing, so a mid-run failure resumed instead of forcing a full re-run before the SLA.",
+            "Hardened data lineage and reconciliation counts end-to-end, giving the business proof that source and target matched after the consolidation."
+          ]
+        },
+        "model_serving": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the model-serving layer behind Max's recommender, holding p99 inference under est. 50ms at 90M+ subscriber scale on autoscaled GPU pods.",
+            "Redesigned a Flask-wrapped model into Triton Inference Server with dynamic batching, tripling throughput on the same hardware and cutting cost.",
+            "Diagnosed cold-start latency spikes on scale-up, pre-warming pods and pinning model weights so traffic surges stopped causing timeouts.",
+            "Drove canary rollouts with shadow traffic, catching a model that regressed latency before it reached the full subscriber base.",
+            "Hardened serving with request timeouts and a fallback to the popularity baseline, so a model outage degraded gracefully instead of blanking rails."
+          ]
+        },
+        "experiment_tracking": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the MLflow tracking and model registry for Max's ML teams, giving est. 30 engineers reproducible runs and a clear path to production.",
+            "Redesigned ad-hoc notebook experiments into tracked runs with logged params, metrics, and artifacts, ending the 'which version shipped' guesswork.",
+            "Drove a feature store to share consistent features across training and serving, eliminating the skew that had quietly degraded a live model.",
+            "Diagnosed irreproducible results from untracked data versions, wiring dataset hashes into runs so every model traced to its exact inputs.",
+            "Hardened the promotion flow with registry stages and approval gates, stopping an unvalidated model from being pushed straight to production."
+          ]
+        },
+        "model_monitoring": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned drift and performance monitoring for Max's production models, catching degradations across 90M+ daily predictions before they hit engagement.",
+            "Diagnosed a silent accuracy drop after a regional launch shifted the input distribution, building the data-drift alerts that surfaced it within a day.",
+            "Redesigned threshold-only alerts into population-stability and prediction-drift metrics, cutting the false pages that had trained the team to ignore alarms.",
+            "Drove automated retraining triggers tied to drift signals, replacing the fixed monthly cadence that had let stale models linger.",
+            "Hardened the monitoring with delayed-label backfill, so true accuracy was measured once outcomes arrived instead of guessed at serving time."
+          ]
+        },
+        "kubernetes": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned Max's EKS platform running est. hundreds of microservices, holding availability through premier-drop traffic spikes for 90M+ subscribers.",
+            "Diagnosed OOMKills during drops, setting right-sized requests/limits and an HPA on custom metrics so pods scaled on real load, not just CPU.",
+            "Redesigned rollout strategy to readiness-gated rolling updates after a bad deploy took a service down, so traffic only hit healthy pods.",
+            "Drove pod-disruption budgets and topology spread across AZs, removing the single-zone failure mode that had risked a region-wide outage.",
+            "Hardened the cluster with network policies and resource quotas, containing a noisy-neighbor service that had been starving its neighbors."
+          ]
+        },
+        "cicd": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the CI/CD pipelines shipping Max's microservices continuously under the 9-month launch deadline with zero-downtime releases.",
+            "Cut pipeline time est. 60% by parallelizing test stages and caching dependencies, removing the slow builds that had bottlenecked release night.",
+            "Redesigned manual approvals into automated quality gates with required checks, stopping the unreviewed merges that had caused production regressions.",
+            "Drove progressive delivery with automated canary analysis and rollback, so a bad build reverted itself instead of paging on-call.",
+            "Hardened the pipeline by moving secrets to an injected store and signing artifacts, closing the path where credentials had leaked into build logs."
+          ]
+        },
+        "docker": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the container standards for Max's services, making one Docker build run identically from local dev through production across est. dozens of teams.",
+            "Cut image sizes est. 70% with multi-stage builds and slim base images, speeding pulls and deploys during high-frequency release days.",
+            "Diagnosed flaky containers from missing health checks, adding HEALTHCHECK and proper signal handling so orchestration stopped routing to dead processes.",
+            "Redesigned a sprawling Dockerfile to leverage layer caching, turning a multi-minute rebuild into seconds for the common code-change case.",
+            "Hardened images by running as non-root and scanning for CVEs in CI, closing the vulnerable-base-image risk flagged in a security review."
+          ]
+        },
+        "terraform": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the Terraform IaC defining Max's AWS footprint, codifying est. 1M+ resources so environments were reproducible instead of hand-built.",
+            "Redesigned a monolithic state into per-service modules with remote state and locking, ending the apply conflicts that had blocked parallel teams.",
+            "Diagnosed dangerous plans that would have recreated live resources, adding lifecycle rules and plan review gates to prevent accidental destroys.",
+            "Drove tagging and cost-allocation policy into modules, giving finance the per-team cost visibility the OMD effort required.",
+            "Hardened drift control with scheduled plan checks, catching the manual console changes that had silently diverged infra from code."
+          ]
+        },
+        "observability": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned observability for Max's EKS services, giving consistent metrics, logs, and traces that cut incident triage time during premier drops for 90M+ subscribers.",
+            "Diagnosed blind spots where outages went unnoticed, instrumenting RED metrics and SLO-based alerts so degradation paged before users felt it.",
+            "Redesigned noisy threshold alerts into burn-rate alerts on error budgets, cutting false pages that had been training the team to ignore them.",
+            "Drove distributed tracing across service boundaries, turning multi-team incident hunts into a single trace that pinpointed the slow dependency.",
+            "Hardened readiness for premier events with fault-injection drills, confirming coverage before the Succession finale and House of the Dragon premiere."
+          ]
+        },
+        "aws": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned the AWS pre-scaling for Max's premier releases, raising EKS capacity to keep the platform up through massive RPS spikes for 90M+ subscribers.",
+            "Cut AWS spend est. 30% by right-sizing instances and adopting Savings Plans plus spot for batch, after the OMD effort exposed the waste.",
+            "Diagnosed a single-AZ dependency that risked a regional outage, redistributing across AZs and adding cross-AZ failover.",
+            "Redesigned IAM from broad roles to least-privilege policies, closing the over-permissioned access a security review had flagged across services.",
+            "Drove the Operational Metadata schema across est. 1M+ AWS and Kubernetes resources, enabling cost allocation and faster incident triage."
+          ]
+        },
+        "gcp": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned the GCP footprint for Max's analytics workloads, running BigQuery and GKE to serve est. 100 analysts off cross-region engagement data.",
+            "Cut BigQuery cost est. 40% with partitioned, clustered tables and slot reservations, ending the full-scan queries that had spiked spend.",
+            "Diagnosed GKE node-pool waste, separating workloads onto right-sized pools with autoscaling so batch jobs stopped over-provisioning the cluster.",
+            "Redesigned data access with VPC Service Controls and IAM conditions, closing the cross-project exposure flagged in a security audit.",
+            "Drove Pub/Sub-to-BigQuery streaming with dead-letter handling, replacing brittle batch loads that had delayed the morning dashboards."
+          ]
+        },
+        "azure": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned the Azure services backing a Max partner-integration workload, running AKS and Azure SQL to meet est. 99.95% uptime for distributor APIs.",
+            "Cut Azure spend est. 35% with reserved instances and autoscale rules, after a cost review exposed idle always-on capacity.",
+            "Diagnosed throttling on Azure SQL during peak, scaling to the right tier and adding read replicas so reporting stopped contending with writes.",
+            "Redesigned access with Managed Identities and Key Vault, removing the connection strings that had been sitting in app config.",
+            "Drove infrastructure into Bicep templates, replacing portal-clicked resources that no one could reliably reproduce."
+          ]
+        },
+        "postgresql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the PostgreSQL schema for Max's subscriber access model across all tiers and devices for 90M+ subscribers.",
+            "Diagnosed a slow entitlement query with EXPLAIN ANALYZE and added partial and composite indexes, cutting p99 from est. 800ms to under 50ms.",
+            "Redesigned a monolithic table into partitioned ranges after it grew past est. a billion rows, restoring fast lookups and manageable vacuums.",
+            "Drove the zero-downtime migration merging the HBO Max and Discovery+ datasets, using compatible schema changes and a backfill that never locked writes.",
+            "Hardened against connection exhaustion with PgBouncer pooling, ending the 'too many clients' errors that had hit during launch traffic."
+          ]
+        },
+        "mysql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the MySQL store behind Max's billing-reconciliation service, keeping est. millions of daily ledger rows consistent for end-of-day close.",
+            "Diagnosed full-table scans with the slow-query log and added covering indexes, cutting a reconciliation query from est. 12s to under 200ms.",
+            "Redesigned read scaling with replicas and a read/write split, so heavy reporting stopped contending with the write path during peak.",
+            "Drove a safe online schema change with gh-ost after a blocking ALTER risked locking the table, avoiding downtime on a live billing table.",
+            "Hardened integrity with foreign keys and strict mode, closing the orphaned-row path that had caused reconciliation mismatches."
+          ]
+        },
+        "mongodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the MongoDB store holding Max's flexible content-metadata documents across hundreds of thousands of titles, serving catalog reads at low latency.",
+            "Diagnosed slow queries from missing indexes with explain(), adding compound indexes that cut catalog lookups from est. seconds to milliseconds.",
+            "Redesigned an unbounded-array document model that hit the 16MB limit, switching to referenced documents so large titles stopped failing writes.",
+            "Drove a sharded cluster keyed on a high-cardinality field after a hot shard bottlenecked writes, rebalancing load across the cluster.",
+            "Hardened consistency with majority write concern after a failover lost recent writes, trading a little latency for durability on critical data."
+          ]
+        },
+        "dynamodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the DynamoDB tables backing Max's session and entitlement cache, serving single-digit-ms reads at 90M+ subscriber scale.",
+            "Redesigned access patterns into a single-table design after scattered tables forced costly scans, modeling GSIs to the actual query shapes.",
+            "Diagnosed throttling from a hot partition key, redistributing with a composite key so a few heavy users stopped capping table throughput.",
+            "Drove on-demand capacity for spiky launch traffic, removing the provisioned-throughput guesswork that had caused throttles during drops.",
+            "Hardened cost and freshness with TTL on session items, automatically expiring stale rows that had been bloating storage and read cost."
+          ]
+        },
+        "redis": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Redis caching layer fronting Max's entitlement checks, absorbing est. 90% of reads to keep the database stable during premier drops.",
+            "Diagnosed a cache stampede when hot keys expired together, adding jittered TTLs and a lock-on-miss so a spike no longer hammered the origin.",
+            "Redesigned naive key eviction by setting a proper maxmemory policy, ending the OOM-driven evictions that had silently dropped live sessions.",
+            "Drove a move to Redis Cluster after a single node capped throughput, sharding keys to scale horizontally under launch load.",
+            "Hardened availability with replicas and Sentinel failover, so a node loss no longer turned into a cache-wide outage and a database stampede."
+          ]
+        },
+        "elasticsearch": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned Max's Elasticsearch content search across a global catalog of hundreds of thousands of titles, serving discovery queries at low latency.",
+            "Redesigned relevance with custom analyzers and field boosting after users couldn't find titles by partial name, lifting search success on the eval set.",
+            "Diagnosed deep-pagination timeouts and replaced from/size with search_after, fixing the slow scrolls on long result sets.",
+            "Drove zero-downtime reindexing behind index aliases for each regional launch, swapping mappings without an interruption to live search.",
+            "Hardened cluster stability by tuning shard counts and bulk indexing, ending the heap pressure that had caused indexing to fall behind during drops."
+          ]
+        },
+        "cassandra": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Cassandra store capturing Max's high-volume playback events, sustaining est. 200k writes/s with no single point of failure.",
+            "Redesigned tables around query patterns after a bad partition key created unbounded partitions, restoring predictable reads at scale.",
+            "Diagnosed read latency from tombstone buildup, tuning compaction and TTLs so deletes stopped dragging down queries.",
+            "Drove tunable consistency at QUORUM after eventual reads showed stale playback state, balancing correctness against latency.",
+            "Hardened the cluster against hot nodes with token-aware routing and proper replication, evening out load that had overworked a few nodes."
+          ]
+        },
+        "sql_server": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the SQL Server database behind a Max partner-finance workload, keeping est. millions of monthly transactions accurate for reporting.",
+            "Diagnosed a query regression with the execution plan and fixed a parameter-sniffing issue with OPTION RECOMPILE, restoring stable report times.",
+            "Redesigned heavy reporting onto a read replica with columnstore indexes, cutting an analytics query from est. minutes to seconds.",
+            "Drove a safe deployment of indexed views after blocking aggregations slowed the close, speeding month-end without touching the write path.",
+            "Hardened data protection with row-level security and TDE, closing the cross-partner data-access gap raised in an audit."
+          ]
+        },
+        "neo4j": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Neo4j graph modeling Max's content relationships and viewing affinities, powering 'because you watched' across millions of sessions.",
+            "Redesigned multi-hop recommendation queries in Cypher with proper indexes, cutting traversals from est. seconds to milliseconds.",
+            "Diagnosed memory blowups on unbounded traversals, adding depth limits and query profiling so a single query stopped destabilizing the cluster.",
+            "Drove a graph-shaped data model after relational joins couldn't express affinity paths, unlocking recommendations the old schema couldn't serve.",
+            "Hardened availability with a causal cluster, so a leader loss no longer interrupted the live recommendation reads."
+          ]
+        },
+        "vector_db": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the vector store behind Max's semantic search and RAG assistant, serving nearest-neighbor lookups over est. millions of embeddings at low latency.",
+            "Diagnosed poor recall from a default index, tuning HNSW parameters to trade a little build time for the accuracy that fixed bad search results.",
+            "Redesigned embedding refresh into an incremental upsert pipeline, so new titles became searchable in minutes instead of a nightly full rebuild.",
+            "Drove metadata filtering alongside vector search, letting rights and region constraints apply so results never surfaced unavailable titles.",
+            "Hardened the index against drift after a model change shifted the embedding space, versioning embeddings so old and new vectors weren't mixed."
+          ]
+        },
+        "tableau": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the Tableau dashboards executives used to track Max's launch and engagement, serving est. 300 stakeholders off governed data sources.",
+            "Diagnosed dashboards that timed out on live connections, switching to extracts with incremental refresh to cut load from est. 30s to seconds.",
+            "Redesigned a sprawling workbook into a focused set with parameter-driven views, ending the conflicting numbers that had undercut trust.",
+            "Drove a certified, published data source so teams stopped building one-off extracts that disagreed on the same metric.",
+            "Hardened access with row-level security on user filters, so regional leads saw only their market's figures."
+          ]
+        },
+        "looker": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the LookML modeling behind Max's self-serve analytics, giving est. 100 analysts consistent, governed metrics instead of ad-hoc SQL.",
+            "Redesigned duplicated SQL into reusable LookML explores and dimensions, removing the conflicting metric definitions that had caused disputes.",
+            "Diagnosed slow dashboards and added aggregate awareness with rollup tables, cutting query cost and load time on the heaviest explores.",
+            "Drove persistent derived tables for expensive joins, so analysts queried pre-built results instead of hammering the warehouse each view.",
+            "Hardened governance with access grants and a certified content model, stopping the spread of unvetted dashboards with wrong numbers."
+          ]
+        },
+        "powerbi": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the Power BI reporting for a Max partner-finance workload, serving est. 150 business users with refreshed daily figures.",
+            "Diagnosed slow visuals from a flat model, redesigning into a star schema so DAX measures evaluated fast on est. millions of rows.",
+            "Cut refresh time sharply with incremental refresh policies, replacing full reloads that had pushed past the data-gateway window.",
+            "Drove a shared dataset with certified measures, ending the per-analyst copies that had produced conflicting KPIs.",
+            "Hardened access with row-level security roles, so each region's users saw only their own market's data."
+          ]
+        },
+        "sql_analytics": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the analytical SQL layer answering Max's launch and engagement questions across 90M+ subscribers, turning raw events into decision-ready numbers.",
+            "Redesigned slow ad-hoc queries with window functions and CTEs, replacing nested subqueries that had run for minutes with sub-second reports.",
+            "Diagnosed wrong metrics from sloppy joins, standardizing grain and join keys so the business stopped getting double-counted figures.",
+            "Drove a set of reusable, documented query templates, ending the copy-paste SQL that had spread inconsistent metric logic across teams.",
+            "Hardened heavy reporting with partition pruning and pre-aggregates, cutting warehouse cost on the dashboards that ran every morning."
+          ]
+        },
+        "shared": {
+          "domain": "Shared",
+          "tier": 2,
+          "bullets": [
+            "Partnered across engineering, product, design, and business teams to ship cohesive Max platform features under a hard 9-month launch deadline for 90M+ subscribers.",
+            "Mentored junior and mid-level engineers through structured code reviews and design sessions, raising code quality and speeding onboarding during a high-stakes platform migration.",
+            "Shaped technical scope with product managers and business stakeholders, turning roadmap goals into deliverable work while balancing feature velocity against platform stability.",
+            "Drove cross-team architecture reviews under WBD's ADD process, weighing scalability, reliability, and cost trade-offs before each new platform capability shipped.",
+            "Communicated clearly and asynchronously across a remote-first, multi-time-zone org, coordinating dependencies across WBD's many streaming brands without losing delivery quality."
+          ]
+        }
+      }
+    },
+    "RBC": {
+      "project": "NOMI (AI mobile banking) & Aiden (RL electronic trading)",
+      "stacks": {
+        "java_springboot": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the greenfield Spring Boot microservices behind NOMI, one per feature (Insights, Find & Save, Budgets, Ask NOMI, Forecast), serving 1.5M+ active users on a platform that delivered 2B+ insights.",
+            "Drove the mainframe-offload service that moved high-read transaction and profile workloads onto Spring Boot APIs, removing the bottleneck that had made real-time personalization impossible.",
+            "Redesigned synchronous downstream calls onto Spring @Async executors after a slow core-banking dependency backed up the request pool, keeping NOMI responsive during peak transaction volume.",
+            "Drove independently deployable, versioned Spring Boot services owned per feature team, replacing the lockstep releases that had coupled five NOMI features into one fragile deploy.",
+            "Hardened the REST contracts with Spring Validation and explicit versioning, so the iOS and Android clients integrated against stable APIs across four major releases without breaking changes."
+          ]
+        },
+        "java": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Java order-execution backend for Aiden, converting RL model output into limit orders and submitting them to the live order book within microsecond latency targets for 8,000+ Capital Markets users.",
+            "Diagnosed GC pauses that threatened the per-order inference loop, tuning the JVM and removing allocations on the hot path so latency stayed inside risk-mandated bounds.",
+            "Rebuilt the market-data normalization layer in Java to merge multiple exchange feeds into one model-consumable format, eliminating the per-feed parsing bugs that had skewed inputs.",
+            "Drove a rule-based Java guardrail layer between the model and the market, enforcing hard limits on aggressiveness and position size that regulators and internal risk required.",
+            "Hardened multi-region execution by isolating US, Canadian, and European instances with region-specific rules, so a feed or compliance issue in one market could not affect another."
+          ]
+        },
+        "react": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built Aiden's React order-management and explainability UI for 8,000+ traders, rendering real-time execution status and model rationale at the density a trading desk demands.",
+            "Redesigned the explainability dashboard to translate RL softmax distributions and value estimates into human-readable rationale, without which traders would not trust or be allowed to use the AI.",
+            "Diagnosed dropped frames on the live order-book view and virtualized the high-frequency tables, holding a smooth UI while streaming updates at every time step.",
+            "Drove structured post-execution report components showing slippage versus benchmark and market context, turning a regulatory requirement into a feature clients actually used.",
+            "Localized the React UI for the 2021 European launch, adapting currency formatting and regulatory disclosures so the platform met market-specific conventions."
+          ]
+        },
+        "swift": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the Swift NOMI experiences inside the RBC Mobile iOS app for 1.5M+ users, shipping native UI for four releases that doubled average session time from 3.5 to 7.5 minutes.",
+            "Built a dynamic Swift card-rendering system that displayed dozens of AI-generated insight types from one engine, so new insight formats shipped without an app release.",
+            "Diagnosed UI hitches on the Forecast cashflow calendar and moved layout work off the main thread, keeping the scrollable strip smooth across 10M+ interactions.",
+            "Redesigned the Find & Save flow into a one-tap approval with confirmation, cutting friction on the feature that helped clients save an average of $415/month.",
+            "Drove a push-notification and in-app nudge framework whose A/B-tested personalized alerts lifted opt-in 40% over generic formats."
+          ]
+        },
+        "kotlin": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the Kotlin NOMI features in the RBC Mobile Android app, delivering parity with iOS across a fragmented device base within the 1.5M+ active user platform.",
+            "Built the multi-step budget-creation wizard in Kotlin with AI-recommended defaults and ring charts, supporting the 1.2M budgets clients opened in year one.",
+            "Diagnosed ANRs from main-thread work on the insights feed and moved it to coroutines on Dispatchers.IO, clearing the freezes that had hurt engagement.",
+            "Redesigned the Ask NOMI chat UI in Kotlin to render 12 languages and voice input, handling the 1M+ questions answered in the first year.",
+            "Hardened null and state handling with Kotlin sealed classes for insight types, removing the crash class that had dominated the Android dashboard."
+          ]
+        },
+        "classical_ml": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the data pipelines and serving glue for NOMI's Personetics models (categorization, anomaly detection, surplus detection), driving the 2B+ personalized insights read since launch.",
+            "Diagnosed noisy surplus detection that mis-flagged transactions, tightening the $50–$500 auto-identification logic so Find & Save recommendations clients acted on stayed trustworthy.",
+            "Built the feature pipeline that unified transaction data from 29 countries into the model inputs, solving the data-silo problem that had blocked cross-product personalization.",
+            "Drove explainable outputs for every model as a non-negotiable regulatory requirement, shaping feature choices so each insight could be justified to clients and OSFI.",
+            "Hardened training data with validation and federated-learning handling, keeping raw PII decentralized to satisfy Canadian privacy regulation without starving the models."
+          ]
+        },
+        "recommendation_sys": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the serving path for NOMI's budget and savings recommendations, personalizing suggestions for 1.5M+ users and helping drive C$1.7B+ saved via Find & Save.",
+            "Redesigned generic budget defaults into AI-recommended, per-user starting points, lifting adoption to 1.2M budgets opened in the first year.",
+            "Diagnosed recommendation fatigue from over-nudging, tuning frequency and relevance so insight notifications kept their 40%-higher personalized opt-in instead of being muted.",
+            "Drove ranking of which insights to surface from dozens of candidate types, so the single daily card shown was the one most likely to be acted on.",
+            "Hardened the recommendation inputs against stale transaction data, aligning the serving features with the training pipeline to prevent quietly degraded suggestions."
+          ]
+        },
+        "nlp": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the engineering behind Ask NOMI, RBC's conversational banking assistant on Personetics Assist, handling 1M+ questions in its first year across 12 languages.",
+            "Built the intent-and-entity routing that mapped free-text questions to banking actions, so a user could ask about spending in plain language instead of navigating menus.",
+            "Diagnosed poor handling of multilingual queries, adding per-language normalization so non-English questions stopped falling back to generic, unhelpful answers.",
+            "Drove integration of voice input into the NLP flow, normalizing transcribed speech before intent classification to keep accuracy on spoken queries.",
+            "Hardened the assistant with fallback and clarification handling, so an unrecognized question prompted a useful reply instead of a dead end in a regulated banking context."
+          ]
+        },
+        "robotics_planning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the production engineering for Aiden's deep reinforcement-learning execution agent, an actor-critic system making 32M+ calculations per order across US, Canadian, and European equities.",
+            "Drove the reward engineering that penalized slippage against VWAP and Arrival benchmarks while balancing market impact, preventing the degenerate strategies that minimized immediate slippage at the cost of execution quality.",
+            "Redesigned the agent's state to include self-aware features (its own recent aggressiveness and remaining order), enabling the mid-order self-correction a static algorithm could never do.",
+            "Diagnosed instability in partially observable markets and added an LSTM recurrent layer to propagate information across time steps, the change that let Aiden hold benchmark through the March 2020 COVID volatility that broke predictive AIs.",
+            "Scaled the action and input space from 200 to 300 features for Aiden Arrival in 2022, expanding execution control without re-coding the agent thanks to the RL framework's continuous learning."
+          ]
+        },
+        "kafka": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Confluent Kafka event backbone for NOMI, the architecture that 50+ applications eventually ran on, carrying transaction events for real-time personalization.",
+            "Built the interceptor microservice that republished mainframe reads as Kafka events, dramatically cutting mainframe load that had bottlenecked the whole platform.",
+            "Redesigned downstream ML ingestion onto keyed Kafka topics feeding the OpenShift GPU training pipelines, decoupling model teams from the transaction producers.",
+            "Diagnosed consumer lag that delayed inference inputs, repartitioning hot topics and tuning consumers so real-time features reached the models in time.",
+            "Hardened delivery with schema compatibility and dead-letter handling across 50+ apps, so one bad producer change could not break every downstream consumer."
+          ]
+        },
+        "spark": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Spark jobs that built training corpora for NOMI and Aiden from the unified data lake, processing transaction history across 29 countries.",
+            "Diagnosed skew that stalled joins on a few high-volume accounts, salting keys and broadcasting small dimensions to bring nightly training-data prep back inside its window.",
+            "Redesigned RDD transformations into the DataFrame API with predicate pushdown, cutting cluster cost on the historical-transaction aggregations that fed model training.",
+            "Drove idempotent, watermark-aware Spark pipelines so late-arriving transactions did not double-count into the training features.",
+            "Hardened data quality with schema validation in the Spark layer, quarantining malformed records before they could poison a model trained for a regulated product."
+          ]
+        },
+        "databricks": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Databricks pipeline that merged structured financial data with unstructured text in real time for Aiden, validating every figure before it entered a system where bad inputs cause direct financial loss.",
+            "Redesigned full-refresh prep into Delta Lake incremental MERGE upserts, landing validated market datasets faster for the simulation and training environments.",
+            "Diagnosed runaway cluster cost from idle interactive sessions, moving scheduled validation to job clusters with autoscaling and auto-termination.",
+            "Drove Delta constraints and expectations as the data-quality gate, blocking malformed batches from reaching Aiden's RL training corpus.",
+            "Hardened lineage end-to-end so every figure feeding the trading model traced back to a validated source, satisfying the audit bar for a regulated trading system."
+          ]
+        },
+        "etl_pipelines": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the ETL that unified customer transaction data from 29 countries into a central data lake, solving the silos that had made cross-product personalization impossible.",
+            "Redesigned brittle full reloads into incremental change-data-capture loads, cutting the processing window and avoiding nightly full-table churn on banking-scale volume.",
+            "Diagnosed silent row drops from a type mismatch and added schema validation with reject queues, so bad records were quarantined rather than lost from a regulated dataset.",
+            "Drove idempotent, restartable loads with checkpointing, so a mid-run failure resumed instead of forcing a full re-run before the morning SLA.",
+            "Hardened reconciliation with end-to-end record counts, giving the business proof that source and lake matched after unifying 29 countries of data."
+          ]
+        },
+        "model_serving": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the model-serving architecture decoupling NOMI features from ML via versioned API contracts, letting Borealis AI own training while product teams consumed outputs independently.",
+            "Built the serving path on the OpenShift GPU cluster for NOMI Forecast, the first Borealis deep-learning model in a retail banking product, serving 1.7M+ predictions at 85% 30-day accuracy.",
+            "Redesigned Aiden's per-order inference loop to run 200+ features through the network at each time step within microsecond latency, the engineering without which the RL agent could not trade live.",
+            "Diagnosed cold-start latency on GPU scale-up and pre-warmed model pods, so trading and personalization inference never timed out under load.",
+            "Hardened serving with versioned interfaces and a guardrail fallback, so a model issue degraded to safe rule-based behaviour instead of taking the product down."
+          ]
+        },
+        "experiment_tracking": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the model-versioning and staged-rollout infrastructure for Aiden, where the financial stakes made parallel-running and shadow testing of every new algorithm version mandatory.",
+            "Built the market simulation environment that trained and validated new RL versions (VWAP to Arrival) in replay before any touched live markets, the gate that made changes safe to ship.",
+            "Redesigned ad-hoc model promotion into staged shadow-mode and phased client migration, so Aiden Arrival in 2022 rolled out without risking live execution quality.",
+            "Diagnosed irreproducible training results from untracked data versions, wiring dataset versioning into runs so every model traced to its exact inputs for audit.",
+            "Drove tracked experiments with logged params and metrics across the Borealis and product teams, ending the guesswork over which model version was actually live."
+          ]
+        },
+        "model_monitoring": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned real-time monitoring for Aiden, tracking slippage versus benchmark, model confidence from the value function, and execution anomalies with automated alerts on out-of-range deviation.",
+            "Diagnosed drift risk in a non-stationary market and built distribution monitoring on model inputs, surfacing regime shifts before they degraded execution.",
+            "Redesigned threshold-only alarms into confidence-aware alerts, cutting false pages so the desk trusted the monitoring during volatile sessions.",
+            "Drove monitoring of NOMI Forecast accuracy against realized cashflows, catching prediction degradation that fixed estimates would have hidden.",
+            "Hardened the alerting with human-in-the-loop review for high-stakes deviations, ensuring a trading anomaly always had an auditable trail."
+          ]
+        },
+        "kubernetes": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned NOMI's deployment on RBC's first production OpenShift (Kubernetes) GPU cluster, the orchestration that moved Borealis deep-learning models from research to a live banking product.",
+            "Drove CPU+GPU resource scheduling on OpenShift across research and production, after CPU-only infrastructure proved infeasible for NOMI's deep-learning inference latency.",
+            "Diagnosed contention between training and inference pods on the shared GPU cluster, setting requests, limits, and node pools so live inference was never starved by training jobs.",
+            "Redesigned rollout to readiness-gated deploys so traffic only hit warmed model pods, preventing cold-inference timeouts on Aiden and NOMI workloads.",
+            "Hardened the cluster with namespaces and quotas isolating the safety-critical trading workloads from research, containing noisy-neighbor risk."
+          ]
+        },
+        "docker": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the containerization of Aiden's and NOMI's ML workloads for OpenShift, making GPU inference services reproducible from research through production.",
+            "Cut image sizes with multi-stage builds for the heavy ML/GPU images, speeding pulls and deploys across the high release cadence of five NOMI features.",
+            "Diagnosed nondeterministic behaviour from un-pinned dependencies and locked CUDA and library versions in the image, so a model ran identically in training and serving.",
+            "Redesigned a sprawling Dockerfile to exploit layer caching, turning multi-minute rebuilds into seconds for the common code change.",
+            "Hardened images by running as non-root and scanning for CVEs in CI, meeting the security bar required for a regulated banking platform."
+          ]
+        },
+        "cicd": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the CI/CD pipelines that supported NOMI's high release cadence across five features and both mobile platforms simultaneously, replacing manual coordination that did not scale.",
+            "Cut pipeline time by parallelizing test stages and caching builds, so feature teams shipped independently instead of queuing behind one another.",
+            "Redesigned manual approvals into automated quality gates, stopping the unreviewed changes that risked regressions in a regulated banking app.",
+            "Drove staged, shadow-mode rollout into the pipeline for Aiden model versions, so a new algorithm ran in parallel before any client migration.",
+            "Hardened the pipeline by moving secrets to an injected store and signing artifacts, closing the credential-exposure risk in build logs."
+          ]
+        },
+        "observability": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the monitoring and alerting for Aiden's execution stack, tracking latency, slippage, and anomalies in real time on a safety-critical financial system.",
+            "Diagnosed blind spots where inference slowdowns went unnoticed, instrumenting per-time-step latency metrics so degradation paged before it affected execution.",
+            "Redesigned noisy alarms into deviation-based alerts on benchmark and confidence, cutting false pages that had been training the desk to ignore them.",
+            "Drove distributed tracing across the order-execution and market-data services, turning multi-team incident hunts into a single trace to the slow hop.",
+            "Hardened readiness with automated anomaly alerts on out-of-range model and execution behaviour, required by both risk management and regulators."
+          ]
+        },
+        "aws": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned NOMI services among RBC's early cloud-native workloads on Amazon EC2 in 2021, using elastic scaling to absorb peak transaction volumes for 1.5M+ users.",
+            "Drove the migration of read-heavy personalization workloads off the mainframe onto cloud-native compute, the foundation that made NOMI viable at scale.",
+            "Diagnosed over-provisioned always-on capacity and added autoscaling tied to transaction load, cutting cost without risking peak-hour performance.",
+            "Redesigned access with least-privilege IAM for the banking workloads, closing the over-broad permissions flagged in a security review.",
+            "Hardened the cloud footprint with multi-AZ deployment, removing the single-zone dependency that would have risked a personalization outage."
+          ]
+        },
+        "python_django": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the Django admin that let RBC product teams configure NOMI insight rules without a deploy, removing the engineering bottleneck on a platform serving 1.5M+ active users.",
+            "Redesigned the Django ORM access behind the insights console after N+1 queries pushed p95 past est. 3s, adding select_related/prefetch_related and caching to land under 300ms.",
+            "Moved slow Personetics rule recomputation onto Celery workers, so a long batch could no longer block the synchronous request pool during business hours.",
+            "Hardened the Django admin with row-level permissions, closing a gap that had let any staff account edit live personalization config in a regulated product.",
+            "Owned the Django REST Framework serializers exposing NOMI config to internal tools, enforcing versioned contracts so est. 6 consuming teams integrated without breaking changes."
+          ]
+        },
+        "python_flask": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the Flask service powering NOMI's internal metrics and A/B dashboards, serving est. 400 product and analytics users with sub-300ms reads.",
+            "Diagnosed nightly Flask worker crashes from leaked SQLAlchemy sessions, switching to scoped_session teardown and ending the memory growth.",
+            "Replaced the Flask dev server with Gunicorn and gevent workers after blocking I/O capped throughput at est. 40 req/s, lifting it past 500 req/s.",
+            "Decomposed a monolithic Flask app into blueprints with isolated error handlers, so a failing report endpoint stopped taking the whole tool down.",
+            "Added Marshmallow validation at the Flask boundary, cutting malformed-payload 500s that had masked real data-quality issues in the insights feed."
+          ]
+        },
+        "python_fastapi": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the FastAPI feature-serving gateway that fed NOMI's models real-time transaction features at est. 4k req/s, holding p99 under 120ms with async endpoints.",
+            "Redesigned blocking database calls as async SQLAlchemy with asyncpg after the event loop stalled under load, removing the request queuing that spiked latency.",
+            "Drove Pydantic models as the single contract between the FastAPI service and downstream model consumers, ending schema drift across est. 5 teams.",
+            "Added a bounded async semaphore around the model dependency, so a slow inference call applied backpressure instead of cascading 504s.",
+            "Instrumented the FastAPI app with dependency-injected tracing, making a slow feature lookup attributable in minutes during a regulated-product incident."
+          ]
+        },
+        "python": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Python pipelines that built training corpora for NOMI and Aiden from the 29-country transaction data lake, feeding models on the OpenShift GPU cluster.",
+            "Rewrote a per-row API loop as batched multiprocessing.Pool calls after profiling with cProfile, cutting a feature-build job from est. 5 hours to under 40 minutes.",
+            "Redesigned ad-hoc dict munging into typed dataclasses for the transaction feature schema, surfacing data errors at parse time instead of mid-training.",
+            "Built Python tooling that enforced federated-learning data handling, keeping raw PII decentralized to satisfy OSFI privacy rules without starving the models.",
+            "Added typing.Protocol interfaces and mypy gating to the pipeline package, removing a recurring None-handling class of bugs that had silently dropped transactions."
+          ]
+        },
+        "typescript": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the TypeScript BFF behind Aiden's trader dashboards, unifying order, execution, and explainability data for 8,000+ Capital Markets users.",
+            "Modeled order and execution states as discriminated unions so the compiler rejected impossible transitions, catching at build time bugs that would have shown wrong trade status.",
+            "Drove shared TypeScript interface packages across the dashboard frontend and the API platform, ending contract drift on a system integrating est. 800 APIs.",
+            "Eliminated runtime payload errors by enforcing zod validation at service boundaries, turning silent bad-data 500s into typed rejections on a regulated trading UI.",
+            "Owned the strict-mode tsconfig migration across est. 10 dashboard repos, removing implicit-any escape hatches that had hidden null-handling defects."
+          ]
+        },
+        "nodejs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Node.js gateway streaming Aiden's real-time order status to 8,000+ traders, sustaining low-latency updates at every model time step.",
+            "Diagnosed event-loop stalls under burst market data with clinic.js, moving CPU-bound transforms to worker threads so dashboard latency stopped ballooning.",
+            "Rebuilt request-scoped context with AsyncLocalStorage, fixing the log correlation that had made cross-service incident triage on the trading path slow.",
+            "Throttled a downstream market-data dependency with a bounded queue and circuit breaker, stopping a slow feed from cascading timeouts through the BFF.",
+            "Migrated post-execution report streaming to Node.js Transform streams, ending the out-of-memory crashes on large end-of-day report batches."
+          ]
+        },
+        "nestjs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the NestJS layer of RBC's award-winning API platform that processed 1.5B transactions per month across est. 800 onboarded APIs.",
+            "Drove a module-and-provider structure with DI scopes that let est. 8 squads own their NestJS feature modules without colliding in the shared platform.",
+            "Eliminated inconsistent auth with NestJS guards and interceptors, closing endpoints that had skipped entitlement checks on banking APIs.",
+            "Diagnosed a memory leak from request-scoped providers, switching to transient scope and ending the slow RSS climb that forced restarts.",
+            "Standardized error shaping with a global NestJS exception filter so est. 800 APIs returned consistent, auditable error payloads."
+          ]
+        },
+        "go": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the Go market-data feed handler for Aiden, normalizing multiple exchange feeds into one model-consumable format under microsecond latency targets.",
+            "Diagnosed a goroutine leak that exhausted memory during volatile sessions with pprof, adding context.Context deadlines to drop abandoned requests.",
+            "Redesigned a hot serialization path with sync.Pool buffers and a worker pool, cutting allocation churn that had driven GC pauses on the trading path.",
+            "Standardized Go microservices on OpenShift with shared tracing and rate-limiting middleware, replacing per-team copies that had drifted.",
+            "Hardened concurrent state access after a data race corrupted feed state, replacing a naive map with sync.RWMutex and proving it clean under the race detector."
+          ]
+        },
+        "rust": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the Rust component on Aiden's order path that validated and signed orders at est. 20k/s, using Tokio async to hold p99 under 5ms with no GC pause.",
+            "Replaced a latency-sensitive shim with a Rust service after tail latency threatened execution quality, cutting p99 est. 60% on the same hardware.",
+            "Eliminated a memory-safety class of crashes by porting a C++ market-data parser to Rust, using the borrow checker to remove the use-after-free.",
+            "Drove zero-copy parsing with serde and bytes in the feed handler, removing per-message heap allocations that had capped throughput under burst load.",
+            "Hardened the FFI boundary to the legacy exchange library with fuzz tests (cargo-fuzz), closing a panic path that malformed market data had triggered."
+          ]
+        },
+        "dotnet_csharp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the ASP.NET Core services bridging NOMI to RBC's .NET core-banking systems, processing est. millions of daily account events with end-of-day accuracy.",
+            "Diagnosed thread-pool starvation from sync-over-async calls, refactoring to end-to-end async/await Task pipelines and clearing request timeouts.",
+            "Redesigned EF Core queries that loaded full entity graphs into projected DTOs, cutting a reconciliation report from minutes to seconds.",
+            "Drove a Channels-based producer/consumer pipeline for ledger ingestion, replacing a lock-heavy queue that had serialized throughput on one core.",
+            "Hardened C# money handling with decimal and explicit rounding after drift caused cent-level disputes across the 29-country footprint."
+          ]
+        },
+        "ruby_on_rails": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Rails service running NOMI's internal content and compliance workflow for est. 300 ops users, keeping approvals flowing during feature launches.",
+            "Diagnosed N+1 queries on the workflow dashboard with Bullet, adding includes and counter caches to cut load from est. 4s to under 600ms.",
+            "Moved long-running compliance checks to Sidekiq jobs so a slow downstream API stopped tying up Puma workers.",
+            "Redesigned fat ActiveRecord models into service objects after unpredictable callbacks corrupted approval state.",
+            "Hardened mass-assignment with strong parameters and policy objects, closing a path that let a form edit fields it should not have."
+          ]
+        },
+        "php_laravel": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the Laravel microsite educating customers on NOMI features, sustaining est. 30k req/min during launch campaigns without affecting banking systems.",
+            "Diagnosed slow Eloquent queries with the debugbar and added eager loading and indexes, cutting a campaign report from est. 6s to under 1s.",
+            "Moved email and webhook fan-out to Laravel queues on Redis so a third-party outage stopped blocking signups.",
+            "Redesigned tangled controllers into form requests and jobs, isolating validation so malformed input no longer threw fatal errors to users.",
+            "Hardened the app with Laravel CSRF and signed URLs after a campaign link was tampered with."
+          ]
+        },
+        "c_cpp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the C++ FIX and market-data parser feeding Aiden, validating exchange messages before they reached the model on a system where bad inputs cause losses.",
+            "Diagnosed intermittent segfaults under load with Valgrind and AddressSanitizer, fixing the buffer overrun that had aborted feed processing.",
+            "Redesigned manual malloc/free ownership into RAII with smart pointers, eliminating the leaks that grew RSS until the process was OOM-killed.",
+            "Cut per-message parse time est. 40% with std::move semantics and reserved buffers, removing reallocation churn on the hot path.",
+            "Hardened the parser against malformed exchange input with bounds checks and libFuzzer, closing a crash path seen during volatile sessions."
+          ]
+        },
+        "scripting": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Bash automation orchestrating Aiden's and NOMI's release runbooks across the OpenShift AI factory, replacing a manual checklist prone to missed steps.",
+            "Diagnosed silently failing deploy scripts, adding set -euo pipefail and trap cleanup so a failed step halted the rollout instead of half-applying it.",
+            "Automated GPU-cluster capacity and model-rollout steps with idempotent shell scripts, removing error-prone manual changes before market open.",
+            "Replaced a brittle cron of one-off scripts with one parameterized tool and structured logging, cutting on-call time decoding job behaviour.",
+            "Hardened secret handling after keys leaked into logs, piping through redaction and moving credentials to the injected store."
+          ]
+        },
+        "nextjs": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Next.js site educating customers on NOMI, using SSR and ISR to serve est. 5M monthly visits with sub-2s LCP and indexable content.",
+            "Redesigned client-fetched pages as server components after hydration hurt LCP, cutting shipped JS est. 45% on the feature pages.",
+            "Diagnosed an ISR cache stampede during a launch, adding stale-while-revalidate so a spike no longer hammered the origin.",
+            "Drove next/image optimization and route-level code splitting, removing the oversized assets that had been the top LCP regression.",
+            "Hardened the API routes with edge-middleware auth, closing an unauthenticated path that had exposed an embargoed feature page."
+          ]
+        },
+        "vue": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Vue internal console used by est. 800 NOMI ops staff, keeping it responsive during launch-week config churn.",
+            "Redesigned prop-drilled state into Pinia stores after cross-component bugs multiplied, ending the stale-UI complaints.",
+            "Diagnosed reactivity leaks from un-cleaned watchers, moving to watchEffect with explicit teardown so the long-lived console stopped degrading.",
+            "Cut initial load est. 50% with Vue async components and route-level lazy loading.",
+            "Hardened forms with VeeValidate schema rules, replacing manual checks that had let invalid config reach the backend."
+          ]
+        },
+        "angular": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned Aiden's Angular order-management portal for 8,000+ traders, sustaining smooth interaction on dense, fast-updating execution tables.",
+            "Redesigned change detection to OnPush with observables after the UI lagged on live order books, cutting render time est. 60%.",
+            "Diagnosed memory growth from un-unsubscribed observables, introducing a takeUntil teardown across est. 50 components.",
+            "Drove lazy-loaded feature modules and preloading, shrinking the initial Angular bundle so first paint stopped blocking on reporting.",
+            "Hardened forms with typed reactive FormGroups and async validators, closing an invalid-order-submission path."
+          ]
+        },
+        "svelte": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built Aiden's embedded explainability widget in Svelte, shipping est. 70% less JS than the prior framework so it loaded fast inside the trading UI.",
+            "Redesigned shared state into Svelte stores after prop chains grew unwieldy across the explainability components.",
+            "Diagnosed layout thrash on the live signal chart and used Svelte transitions with will-change, removing dropped frames.",
+            "Cut bundle further with SvelteKit route-level splitting so the detail overlay did not pull in the full dashboard.",
+            "Hardened SSR hydration by guarding browser-only APIs, fixing a flash-of-broken-UI on cold loads."
+          ]
+        },
+        "objc": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the legacy Objective-C modules still shipping in the RBC Mobile app, keeping est. 30% of the NOMI codebase stable while the Swift migration ran.",
+            "Diagnosed retain cycles with the leaks instrument and broke them with weak block references, stopping the memory growth that crashed long sessions.",
+            "Redesigned a fragile delegate web into a notification flow, removing ordering bugs that caused inconsistent insight state.",
+            "Bridged Objective-C and Swift with nullability annotations so new code consumed old modules without crash-prone casts.",
+            "Hardened a UIKit category that had broken on an OS update, replacing the risky method swizzle with a contained subclass."
+          ]
+        },
+        "flutter": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Built a cross-platform Flutter pilot of NOMI features from one codebase, shipping iOS and Android in est. half the time two native teams would take.",
+            "Diagnosed jank with the Flutter DevTools timeline and added const widgets and RepaintBoundary, holding 60fps on the insights feed.",
+            "Redesigned setState screens into Riverpod providers, removing the rebuild storms that drained battery.",
+            "Cut startup time est. 35% with deferred loading on mid-tier Android devices.",
+            "Hardened platform-channel calls to native banking SDKs with typed error handling, closing a silent black-screen path."
+          ]
+        },
+        "react_native": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned a React Native internal RBC associate app sharing est. 80% of code across iOS and Android while keeping native security modules.",
+            "Diagnosed bridge congestion dropping frames on scroll, migrating the hot list to the Fabric architecture and FlatList windowing.",
+            "Redesigned navigation onto react-navigation with lazy screens, removing the memory bloat that crashed after deep sessions.",
+            "Cut JS bundle est. 30% with Hermes and inline-requires, improving cold start on low-end devices.",
+            "Hardened the native module boundary with typed TurboModule specs, closing silent type-mismatch crashes."
+          ]
+        },
+        "agentic_ai_rag": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the retrieval layer behind Ask NOMI, grounding the conversational assistant in RBC's banking-help and account corpus to answer 1M+ questions in year one across 12 languages.",
+            "Redesigned naive keyword lookup into hybrid BM25-plus-vector retrieval with reranking after answers cited wrong content, lifting answer relevance on the eval set.",
+            "Drove a guarded tool-use loop so the assistant queried live account APIs instead of fabricating balances, a non-negotiable in a regulated banking product.",
+            "Diagnosed context overflow that truncated disclosures, adding semantic chunking and a citation step so every answer linked its source.",
+            "Hardened the pipeline with a grounding check that refused low-confidence answers, closing the path where a confident wrong reply could misstate banking info."
+          ]
+        },
+        "llm_finetuning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned fine-tuning of a small model for Ask NOMI intent classification, reaching est. 92% accuracy and cutting reliance on a costly per-call API.",
+            "Redesigned full fine-tunes into LoRA adapters after GPU cost ballooned, cutting training spend est. 70% while matching quality on the holdout set.",
+            "Built an eval harness with golden sets and an LLM-judge, catching a regression before it shipped wrong answers to customers.",
+            "Diagnosed reward hacking in an early alignment pass and reshaped the objective, recovering genuine quality on human ratings.",
+            "Hardened the data pipeline with dedup and leakage checks after train/test overlap inflated metrics, restoring trustworthy numbers."
+          ]
+        },
+        "computer_vision": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built the cheque-image processing pipeline for RBC Mobile deposit, validating and reading est. thousands of daily cheque captures.",
+            "Redesigned a slow per-image CNN pass into batched GPU inference with ONNX Runtime, cutting per-cheque processing from seconds to milliseconds.",
+            "Diagnosed poor reads on low-light captures, augmenting training data and thresholds so rejected-deposit rates dropped.",
+            "Drove a quality gate using image-sharpness and field-coverage checks, blocking unreadable captures before they hit the deposit flow.",
+            "Hardened the pipeline against corrupt uploads with decode validation, closing a path where one bad image crashed a batch."
+          ]
+        },
+        "ai_safety": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned model-risk evaluation for Aiden and NOMI under OSFI model-risk rules, building the red-team and validation suite that gated every release.",
+            "Redesigned a thin guardrail into layered checks after an Ask NOMI jailbreak surfaced internal content, closing the prompt-injection path.",
+            "Diagnosed over-refusal that blocked legitimate banking queries, recalibrating thresholds so safety did not degrade usefulness.",
+            "Drove explainability evidence for every model output, the regulatory requirement that shaped architecture across the platform.",
+            "Hardened high-stakes decisions with human-in-the-loop review and audit logging, ensuring a trading or advice action always had a trail."
+          ]
+        },
+        "airflow": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Airflow orchestration running est. 300 daily tasks behind NOMI and Aiden training pipelines, hitting the morning SLA on banking-scale data.",
+            "Diagnosed a scheduler bottleneck delaying every DAG, tuning parallelism and moving heavy work to the KubernetesPodOperator on OpenShift.",
+            "Redesigned monolithic DAGs into modular, idempotent tasks with retries, ending the manual reruns that ate on-call time.",
+            "Drove data-dependency sensors to replace time-based scheduling, so a late market-data feed no longer produced empty downstream tables.",
+            "Hardened alerting with SLA misses and on-failure callbacks so a stuck task paged the right team."
+          ]
+        },
+        "dbt": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the dbt layer turning raw transaction events into est. 200 modeled tables, giving analysts a tested source of truth for NOMI engagement.",
+            "Redesigned copy-pasted SQL into layered dbt models with ref() and macros, removing duplicated logic that caused conflicting metrics.",
+            "Drove dbt tests for uniqueness and relationships into CI, catching bad joins that had shipped wrong numbers.",
+            "Diagnosed slow warehouse spend from full rebuilds, switching heavy models to incremental materialization.",
+            "Hardened metric trust with dbt snapshots and exposures so a changed definition tracked its consumers."
+          ]
+        },
+        "flink": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Flink stream jobs computing real-time transaction and market-event aggregates for NOMI and Aiden at est. 200k events/s.",
+            "Redesigned tumbling windows into event-time windows with watermarks after out-of-order events skewed counts.",
+            "Diagnosed growing checkpoint times that risked stability, tuning the RocksDB state backend and incremental checkpoints.",
+            "Drove exactly-once sinks with two-phase commit, eliminating double-counted events that misled decisions.",
+            "Hardened the job against backpressure with buffer tuning and alerting so a slow sink did not silently stall ingestion."
+          ]
+        },
+        "snowflake": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Snowflake warehouse for NOMI engagement and transaction analytics, serving est. 100 analysts off curated marts.",
+            "Diagnosed runaway credit spend, right-sizing warehouses with auto-suspend so idle dashboards stopped burning compute.",
+            "Redesigned full-scan queries with clustering keys and result caching, cutting the slowest report from minutes to seconds.",
+            "Drove zero-copy clones for analyst sandboxes, replacing costly full-copy datasets.",
+            "Hardened access with role-based grants and row-access policies so analysts saw only permitted data."
+          ]
+        },
+        "terraform": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the Terraform IaC defining the AI factory and hybrid-cloud footprint for Aiden, codifying est. thousands of resources so environments were reproducible.",
+            "Redesigned a monolithic state into per-service modules with remote state and locking, ending apply conflicts across teams.",
+            "Diagnosed dangerous plans that would have recreated live resources, adding lifecycle rules and plan-review gates.",
+            "Drove tagging and cost-allocation policy into modules, giving finance per-team visibility on GPU spend.",
+            "Hardened drift control with scheduled plan checks, catching manual console changes that diverged infra from code."
+          ]
+        },
+        "gcp": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned a GCP analytics workload for NOMI engagement, running BigQuery and GKE to serve est. 100 analysts (est.).",
+            "Cut BigQuery cost est. 40% with partitioned, clustered tables and slot reservations.",
+            "Diagnosed GKE node-pool waste, separating workloads onto right-sized autoscaling pools.",
+            "Redesigned access with VPC Service Controls and IAM conditions, closing cross-project exposure flagged in an audit.",
+            "Drove Pub/Sub-to-BigQuery streaming with dead-letter handling, replacing brittle batch loads."
+          ]
+        },
+        "azure": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned an Azure workload backing an RBC partner integration, running AKS and Azure SQL to meet est. 99.95% uptime (est.).",
+            "Cut Azure spend est. 35% with reserved instances and autoscale after a cost review found idle capacity.",
+            "Diagnosed Azure SQL throttling at peak, scaling tiers and adding read replicas so reporting stopped contending with writes.",
+            "Redesigned access with Managed Identities and Key Vault, removing connection strings from app config.",
+            "Drove infrastructure into Bicep templates, replacing portal-clicked resources no one could reproduce."
+          ]
+        },
+        "postgresql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the PostgreSQL store behind NOMI's budgets and savings features, serving 1.5M+ users with low-latency reads.",
+            "Diagnosed a slow query with EXPLAIN ANALYZE and added partial and composite indexes, cutting p99 from est. 800ms to under 50ms.",
+            "Redesigned a monolithic table into partitioned ranges after it grew past est. a billion transaction rows.",
+            "Drove a zero-downtime migration with compatible schema changes and a non-locking backfill on a live banking table.",
+            "Hardened against connection exhaustion with PgBouncer pooling, ending the too-many-clients errors at peak."
+          ]
+        },
+        "mysql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the MySQL store behind a NOMI reconciliation service, keeping est. millions of daily rows consistent for end-of-day close.",
+            "Diagnosed full-table scans with the slow-query log and added covering indexes, cutting a query from est. 12s to under 200ms.",
+            "Redesigned read scaling with replicas and a read/write split so reporting stopped contending with writes.",
+            "Drove an online schema change with gh-ost after a blocking ALTER risked locking a live billing table.",
+            "Hardened integrity with foreign keys and strict mode, closing an orphaned-row path that caused mismatches."
+          ]
+        },
+        "mongodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the MongoDB store holding NOMI's flexible insight-card documents across dozens of AI-generated types for 1.5M+ users.",
+            "Diagnosed slow queries from missing indexes with explain(), adding compound indexes that cut card lookups from seconds to milliseconds.",
+            "Redesigned an unbounded-array document that hit the 16MB limit, switching to referenced documents.",
+            "Drove a sharded cluster on a high-cardinality key after a hot shard bottlenecked writes.",
+            "Hardened consistency with majority write concern after a failover lost recent writes."
+          ]
+        },
+        "dynamodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the DynamoDB tables caching NOMI session and entitlement state, serving single-digit-ms reads at 1.5M+ user scale (est.).",
+            "Redesigned scattered tables into a single-table design after costly scans, modeling GSIs to the query shapes.",
+            "Diagnosed throttling from a hot partition key, redistributing with a composite key.",
+            "Drove on-demand capacity for spiky launch traffic, removing provisioned-throughput guesswork.",
+            "Hardened cost and freshness with TTL on session items."
+          ]
+        },
+        "redis": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Redis caching layer fronting NOMI's real-time personalization reads, absorbing est. 90% of reads to keep the database stable.",
+            "Diagnosed a cache stampede when hot keys expired together, adding jittered TTLs and a lock-on-miss.",
+            "Redesigned eviction by setting a proper maxmemory policy, ending OOM-driven drops of live sessions.",
+            "Drove a move to Redis Cluster after a single node capped throughput.",
+            "Hardened availability with replicas and Sentinel failover so a node loss did not become an outage."
+          ]
+        },
+        "elasticsearch": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned Elasticsearch search over customer transaction history powering NOMI insights and Ask NOMI lookups.",
+            "Redesigned relevance with custom analyzers and field boosting after users couldn't find transactions by partial merchant name.",
+            "Diagnosed deep-pagination timeouts and replaced from/size with search_after.",
+            "Drove zero-downtime reindexing behind aliases when mappings changed.",
+            "Hardened cluster stability by tuning shard counts and bulk indexing under transaction-volume spikes."
+          ]
+        },
+        "cassandra": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Cassandra store capturing NOMI's high-volume transaction events, sustaining est. 200k writes/s with no single point of failure.",
+            "Redesigned tables around query patterns after a bad partition key created unbounded partitions.",
+            "Diagnosed read latency from tombstone buildup, tuning compaction and TTLs.",
+            "Drove tunable consistency at QUORUM after stale reads showed wrong balances.",
+            "Hardened against hot nodes with token-aware routing and proper replication."
+          ]
+        },
+        "sql_server": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the SQL Server database behind an RBC finance-reporting workload, keeping est. millions of monthly transactions accurate.",
+            "Diagnosed a parameter-sniffing regression from the execution plan and fixed it with OPTION RECOMPILE.",
+            "Redesigned heavy reporting onto a read replica with columnstore indexes, cutting a query from minutes to seconds.",
+            "Drove indexed views after blocking aggregations slowed the month-end close.",
+            "Hardened data protection with row-level security and TDE, closing a cross-team access gap from an audit."
+          ]
+        },
+        "neo4j": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Neo4j graph modeling transaction and entity relationships for fraud and personalization signals across 1.5M+ customers.",
+            "Redesigned multi-hop Cypher queries with proper indexes, cutting traversals from seconds to milliseconds.",
+            "Diagnosed memory blowups on unbounded traversals, adding depth limits and query profiling.",
+            "Drove a graph model after relational joins couldn't express fraud-ring paths, unlocking detection the old schema couldn't.",
+            "Hardened availability with a causal cluster so a leader loss did not interrupt live reads."
+          ]
+        },
+        "vector_db": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the vector store behind Ask NOMI's semantic search, serving nearest-neighbor lookups over est. millions of embeddings.",
+            "Diagnosed poor recall from a default index, tuning HNSW parameters to fix bad search results.",
+            "Redesigned embedding refresh into incremental upserts so new content became searchable in minutes.",
+            "Drove metadata filtering alongside vector search so results respected account and entitlement constraints.",
+            "Hardened the index against drift after a model change shifted the embedding space, versioning embeddings."
+          ]
+        },
+        "tableau": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the Tableau dashboards leadership used to track NOMI adoption and engagement, serving est. 300 stakeholders off governed sources.",
+            "Diagnosed dashboards timing out on live connections, switching to extracts with incremental refresh.",
+            "Redesigned a sprawling workbook into parameter-driven views, ending conflicting numbers.",
+            "Drove a certified data source so teams stopped building disagreeing extracts.",
+            "Hardened access with row-level security so regional leads saw only their market."
+          ]
+        },
+        "looker": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the LookML modeling behind NOMI self-serve analytics, giving est. 100 analysts consistent governed metrics.",
+            "Redesigned duplicated SQL into reusable explores and dimensions, removing conflicting definitions.",
+            "Diagnosed slow dashboards and added aggregate awareness with rollups.",
+            "Drove persistent derived tables for expensive joins.",
+            "Hardened governance with access grants and a certified model."
+          ]
+        },
+        "powerbi": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned Power BI reporting for an RBC finance workload, serving est. 150 business users with daily-refreshed figures.",
+            "Diagnosed slow visuals from a flat model, redesigning into a star schema for fast DAX on est. millions of rows.",
+            "Cut refresh time with incremental refresh policies that fit the gateway window.",
+            "Drove a shared dataset with certified measures, ending conflicting KPIs.",
+            "Hardened access with row-level security roles."
+          ]
+        },
+        "sql_analytics": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the analytical SQL answering NOMI adoption and engagement questions across 1.5M+ users, turning raw events into decision-ready numbers.",
+            "Redesigned slow ad-hoc queries with window functions and CTEs, replacing nested subqueries that ran for minutes.",
+            "Diagnosed wrong metrics from sloppy joins, standardizing grain and join keys.",
+            "Drove reusable documented query templates, ending copy-paste SQL with inconsistent logic.",
+            "Hardened heavy reporting with partition pruning and pre-aggregates."
+          ]
+        },
+        "shared": {
+          "domain": "Shared",
+          "tier": 2,
+          "bullets": [
+            "Partnered across engineering, product, design, risk, and compliance teams to ship NOMI and Aiden features in a tightly regulated banking environment.",
+            "Mentored junior and mid-level engineers through code reviews and design sessions, raising quality and accelerating onboarding across the NOMI and Aiden platform teams.",
+            "Shaped technical scope with product managers and business stakeholders, translating roadmap goals into deliverable work while balancing speed against regulatory and reliability constraints.",
+            "Drove cross-team architecture and model-risk reviews, weighing scalability, reliability, and OSFI compliance trade-offs before each release.",
+            "Communicated clearly across engineering, Borealis AI, and Capital Markets, keeping delivery aligned while coordinating dependencies across a large distributed org."
+          ]
+        }
+      }
+    }
+  },
+  "note": "Phase-1 bullet corpus keyed by company, then stack. Index 0 is the coreline (names the stack, scope/scale, one concrete metric). Every group holds 5 IC5-level lines (strong verb lead, named tech, judgment/consequence, one scale signal). 'tier' follows the design taxonomy; the Phase-3 slicer still caps Tier-2 domains at 2 lines. Inferred scale is flagged (est.). Anchored to the WBD/Max platform."
+}

@@ -1,0 +1,39 @@
+{
+  "signal_quality": "medium",
+  "clearance_required": false,
+  "clearance_level": "not_required",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 40,
+    "DevOps": 30,
+    "Cloud": 15,
+    "Database": 15
+  },
+  "K1": {
+    "hard": {
+      "BE": ["go", "python"],
+      "DevOps": ["cicd", "observability"]
+    },
+    "soft": [
+      "9+ years software engineering experience (flexible with qualifying degree)",
+      "2+ years in technical leadership / tech lead role"
+    ]
+  },
+  "K2": [
+    "large-scale distributed systems architecture",
+    "microservices architecture",
+    "CNCF / Kubernetes / cloud-native concepts",
+    "MySQL",
+    "CosmosDB",
+    "Elasticsearch",
+    "Datadog",
+    "Sentry",
+    "Azure Data Explorer",
+    "React.js",
+    "Bash scripting",
+    "Ruby",
+    "REST API / API design",
+    "on-call / incident response"
+  ],
+  "competency_signals": []
+}

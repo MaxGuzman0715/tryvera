@@ -1,0 +1,158 @@
+{
+  "id": "jimmie_yuan",
+  "basic": {
+    "fullName": "James Yuan",
+    "email": "turnedjimmie57@gmail.com",
+    "phone": "(509) 906-1406",
+    "location": "Kend, WA",
+    "summary": "The hard part of production ML isn't the model. It's keeping it reliable as data, traffic, and edge cases pile up. That reliability-first instinct runs through everything I build, and a period of U.S. Army service only sharpened it: stay composed, assume things break, plan for the failure case. I've made it a specialty across large-scale LLM platforms, multi-agent systems, multimodal RAG, and ranking, delivered across healthcare RCM, ad-tech, and identity verification, most recently advertiser-copilot orchestration at Meta. Most drawn to generative AI, retrieval, and agentic workflows.",
+    "linkedin": "https://www.linkedin.com/in/james-yuan-b1b168416"
+  },
+  "experience": [
+    {
+      "company": "Meta",
+      "location": "Kent, WA",
+      "title": "Senior Machine Learning Engineer | NLP Specialist",
+      "startDate": "Apr 2025",
+      "endDate": "Present",
+      "bullets": [
+        "Contributed to multi-agent LLM systems to enhance the conversational advertiser copilot, streamlining workflows across campaign management and creative optimization, enabling intelligent automation and improving advertiser efficiency.",
+        "Built AI-powered assistants for advertiser support agents, reducing case resolution time and improving advertiser satisfaction by enabling faster and more accurate responses.",
+        "Built the copilot's retrieval layer on Meta's embedding-search infrastructure, enabling semantic lookup over ad-platform objects and unstructured advertiser data.",
+        "Modeled advertiser–campaign–audience relationships on the knowledge graph infrastructure to drive policy-aware, contextual recommendations in the copilot.",
+        "Built multi-turn tool-call extraction model using fine-tuned Llama + Transformers, predicting normalized API calls from prior turns + intermediate tool outputs.",
+        "Engineered and versioned the copilot's system and tool-calling prompts, improving task success and reducing malformed tool calls.",
+        "Built the copilot's evaluation stack including offline metrics, regression suites, LLM-as-judge, human review, and online A/B to gate model and prompt changes.",
+        "Trained models with PyTorch + PEFT + LoRA + TRL, served via vLLM for low-latency structured inference.",
+        "Collaborated with cross-functional teams to align ML solutions with business goals in ad delivery, operations, and advertiser experience.",
+        "Improved data quality through validation frameworks and automated pipeline checks across ingestion systems.",
+        "Improved model performance through advanced feature engineering, hyperparameter tuning, and A/B testing across production systems.",
+        "Deployed ML models as scalable microservices for low-latency, real-time inference serving advertiser interactions.",
+        "Built batch and real-time data pipelines on Spark and Presto, orchestrated in Dataswarm, to support campaign analytics and advertiser reporting."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Commure",
+      "location": "Seattle, WA",
+      "title": "Senior Machine Learning Engineer | Data Scientist",
+      "startDate": "Jun 2023",
+      "endDate": "Feb 2025",
+      "bullets": [
+        "Built an end-to-end medical documentation platform that turned visits into SOAP notes, predicted billing codes via multi-label classification, and integrated with EHR systems like Epic.",
+        "Developed multi-label models to assign ICD-10 codes from clinical documentation across a label space of tens of thousands of codes, combining fine-tuned NLP models with retrieval over coding guidelines.",
+        "Trained regression models predicting expected reimbursement per claim from payer, plan, service, and contract terms, powering revenue forecasting and anomaly-based underpayment detection.",
+        "Designed and deployed real-time inference systems on GKE, Vertex AI, and Cloud Run, delivering low-latency outputs to clinical workflows.",
+        "Migrated the orchestrator to Java with gRPC, modernizing a low-latency service for high-frequency clinical event processing.",
+        "Built scalable ETL pipelines for clinical, claims, and patient datasets on GCP using Dataflow, Dataproc, and GCS.",
+        "Stood up a HIPAA-eligible clinical data lake on GCS with Dataplex for governed, auditable access to PHI.",
+        "Led LLM fine-tuning for domain-specific medical language on Vertex AI, improving response relevance and contextual understanding in clinical interactions.",
+        "Used Vertex AI and Gemini to prototype and serve foundation-model features, applying built-in safety filters to keep PHI-sensitive clinical text compliant.",
+        "Built multimodal pipelines combining text, documents, and attachments to enable unified clinical intelligence and richer downstream analytics.",
+        "Deployed large-scale LLM inference with vLLM on A2/A3 GPU instances across GCE and GKE to power real-time, high-throughput AI features in clinician-facing applications.",
+        "Reduced inference latency and infrastructure cost through model optimization, batching, and right-sizing of GPU instances.",
+        "Built a feature store on Vertex AI Feature Store supporting real-time and batch feature serving for clinical prediction models.",
+        "Automated document processing for clinical records, claims, and prior authorizations with Document AI and LLM-based extraction, orchestrated via Cloud Functions and Cloud Workflows.",
+        "Established end-to-end MLOps pipelines on GCP using Vertex AI Pipelines, GKE, and Cloud Composer for continuous training, deployment, and monitoring of ML systems.",
+        "Built observability and monitoring frameworks for ML systems using Cloud Monitoring and Cloud Logging with Datadog.",
+        "Standardized ML workflows across teams using Kubeflow on GKE, improving reproducibility and cross-team collaboration.",
+        "Led MLOps initiatives to standardize deployment, monitoring, and governance practices across ML systems.",
+        "Integrated structured and unstructured data across storage systems including Snowflake, Cloud SQL for PostgreSQL, and Memorystore for Redis.",
+        "Designed CI/CD pipelines using Jenkins, Git, and Cloud Build to automate model deployment and versioning across environments.",
+        "Containerized ML applications with Docker and orchestrated deployments via GKE for high availability.",
+        "Built and maintained FastAPI/gRPC microservices to support scalable, highly available ML serving.",
+        "Optimized distributed data processing on Dataproc, improving performance and reducing infrastructure costs."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "US Army",
+      "location": "Columbia, SC",
+      "title": "Army Service Member",
+      "startDate": "Oct 2022",
+      "endDate": "Apr 2023",
+      "bullets": [
+        "Served on active duty in the U.S. Army, building discipline, accountability, and adaptability in high-pressure, structured environments, with hands-on experience in logistics coordination and operational planning."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Baidu",
+      "location": "Beijing, China",
+      "title": "Software Engineer",
+      "startDate": "Oct 2018",
+      "endDate": "Aug 2022",
+      "bullets": [
+        "Built a KYC identity-verification and onboarding system using OCR and face recognition, enabling photo-ID matching and liveness detection while reducing manual checks by 40%.",
+        "Trained real-time fraud-scoring models in TensorFlow and PyTorch to detect anomalies across uploaded documents and profile data, improving KYC approval accuracy by 35%.",
+        "Developed document-classification pipelines with Scikit-learn to identify document types and flag tampered scans.",
+        "Used pre-trained VGGFace2 models in PyTorch to embed and compare facial features during live onboarding.",
+        "Optimized latency-critical face-recognition and OCR components in C++, improving throughput and reducing processing latency.",
+        "Built CTR/CVR prediction models for Baidu's feed and search-ad ranking on the PaddlePaddle stack.",
+        "Developed two-tower embedding models for candidate generation and retrieval.",
+        "Designed re-ranking systems balancing relevance, diversity, and revenue.",
+        "Built scalable ETL pipelines for ingesting and transforming large-scale event and user-interaction datasets."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Huawei",
+      "location": "Beijing, China",
+      "title": "Backend Developer",
+      "startDate": "Feb 2013",
+      "endDate": "Oct 2018",
+      "bullets": [
+        "Designed, developed, and maintained scalable backend services and RESTful APIs using Java and Spring, supporting high-volume enterprise applications and improving system performance.",
+        "Collaborated with cross-functional teams to optimize database queries, troubleshoot production issues, and implement secure, reliable solutions that enhanced application stability and user experience."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "LLMs & Generative AI",
+    "Fine-tuning (PEFT/LoRA/QLoRA)",
+    "RAG (Retrieval-Augmented Generation)",
+    "Multi-Agent Systems",
+    "Prompt Engineering",
+    "NLP & Text Classification",
+    "Computer Vision & OCR",
+    "Knowledge Graphs & GNNs",
+    "Python",
+    "Java",
+    "C++",
+    "PyTorch",
+    "TensorFlow",
+    "Hugging Face Transformers",
+    "LangChain",
+    "Docker & Kubernetes",
+    "AWS",
+    "GCP (Vertex AI",
+    "BigQuery)",
+    "Azure",
+    "Spark & PySpark",
+    "MLflow & MLOps",
+    "FastAPI & gRPC",
+    "SQL",
+    "Snowflake",
+    "PostgreSQL",
+    "Redis",
+    "Kafka",
+    "CI/CD Automation"
+  ],
+  "education": [
+    {
+      "school": "City University of Seattle",
+      "degree": "Master's",
+      "field": "Computer Science",
+      "startDate": "Sep 2023",
+      "endDate": "Jun 2026"
+    },
+    {
+      "school": "Chongqing University",
+      "degree": "Bachelor's",
+      "field": "Computer Science",
+      "startDate": "Sep 2009",
+      "endDate": "Oct 2012"
+    }
+  ]
+}

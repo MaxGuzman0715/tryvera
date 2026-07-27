@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume</title>
+    <style>
+      :root {
+        --ink: #1a1033;
+        --muted: #5b4d7a;
+        --rule: #c4b5fd;
+        --accent: #5b21b6;
+        --accent-soft: #7c3aed;
+        --paper: #f5f0ff;
+        --hint: #7e7199;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-size: 10.25pt;
+        line-height: 1.42;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      .sheet {
+        width: 100%;
+        margin: 0;
+        /* Top is mostly from `page.pdf` margin (see templatePdf); keep modest extra for page 1 only. */
+        padding: 0.12in 0.35in 0.35in;
+      }
+      .content :is(h1, h2, h3) {
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 600;
+        margin: 0;
+        color: var(--ink);
+      }
+      .content h1 {
+        font-size: 21pt;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+      }
+      .content p.contact-line {
+        margin: 0.2rem 0 0;
+        font-size: 9.25pt;
+        color: var(--muted);
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+      }
+      .content h2 {
+        font-size: 9.75pt;
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 0.18rem;
+        margin: 0.75rem 0 0.35rem;
+      }
+      .content h2:first-of-type {
+        margin-top: 0.45rem;
+      }
+      .content h3 {
+        font-size: 10.5pt;
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-weight: 700;
+        margin: 0.5rem 0 0.15rem;
+        color: var(--accent-soft);
+      }
+      .content p.template-hint {
+        font-size: 7.25pt;
+        color: var(--hint);
+        font-style: italic;
+        margin: 0.05rem 0 0.28rem;
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+      }
+      .content p {
+        margin: 0.22rem 0;
+      }
+      .content p.bullet {
+        margin-left: 0.14in;
+        text-indent: -0.11in;
+        padding-left: 0.11in;
+      }
+      .content p.spacer {
+        margin: 0.12rem 0;
+        height: 0.28rem;
+      }
+    </style>
+  </head>
+  <body class="doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

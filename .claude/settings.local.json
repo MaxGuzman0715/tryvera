@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "WebSearch",
+      "Bash(grep -oE '>[A-Z][^<>]{8,90}<' \"e:/Jobs/Enpply/Build Your Own Branded Community App _ Disciple.html\")",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

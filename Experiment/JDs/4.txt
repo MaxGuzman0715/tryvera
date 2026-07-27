@@ -1,0 +1,62 @@
+ATS Software Engineer
+Purple Hires Inc
+Plano, TX • On-site
+
+
+1-Click Apply
+
+
+
+Full-time
+
+Posted 3 days ago
+
+Job description
+Profile / Title
+
+ATS Software Engineer
+
+ 
+Location
+
+Plano, Texas (Onsite)
+
+ 
+Work Type
+
+Full Time
+
+ 
+ 
+Overview
+Seeking an experienced ATS Software Engineer to support large-scale Air Traffic Systems modernization initiatives. The role focuses on developing mission-critical, high-performance software systems supporting air traffic management operations.
+
+Responsibilities
+Design, develop, and maintain Air Traffic Management and Air Traffic Systems software.
+Build and support real-time distributed software systems.
+Develop software using C++, C, Java, or Ada.
+Deploy and manage applications using Docker and Kubernetes.
+Design messaging systems, data pipelines, and event-driven architectures.
+Develop and support applications in Linux/Unix environments.
+Build and enhance graphical user interfaces and operational monitoring tools.
+Collaborate with cross-functional engineering teams.
+Optimize system scalability, performance, reliability, and security.
+Troubleshoot and resolve complex software and system issues.
+Required Qualifications
+Bachelor's Degree.
+5–7 years of software engineering experience.
+Strong programming experience with C++, C, Java, or Ada.
+Experience with Docker and Kubernetes.
+Strong Linux/Unix administration and development experience.
+Experience building distributed systems.
+Experience with messaging frameworks, pipelines, or event-driven systems.
+Exposure to GUI development.
+Strong analytical and problem-solving skills.
+Ability to work independently.
+Preferred Qualifications
+Air Traffic Systems (ATS) experience.
+Air Traffic Management (ATM) experience.
+Aerospace or Defense industry background.
+Experience with real-time or safety-critical systems.
+Experience working in regulated environments.
+Large-scale system integration experience.

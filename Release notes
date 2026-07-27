@@ -1,0 +1,65 @@
+6/1/2026
+
+## v0.2.6.1.1
+account on title bar
+
+## v0.2.6.1.2
+user feedback:
+remove the enpply prefix in the downloaded files. which make it differ from the path copied by copy path button
+
+Download button: C:\Users\aaa\Downloads\enpply\06_01\puyang\171547_OpenX_Staff_Data_Scientist
+Copy path button: C:\Users\aaa\Downloads\06_01\puyang\171547_OpenX_Staff_Data_Scientist
+
+
+
+## Next release:
+1. the fields that i generate using ai in enpplify, where do they get stored?
+please store them in the backend per application.  if i run as answer doesnt exist, generate and store just for that application.  and move it to "without ai" just for that application.
+
+
+2.and for those fields that are frequently asked, i want to let the user give the answer and make it reusable so it can be reuseud over this profile. the same answer. makes sense? and once the user made it reusable, it should go to answer "without ai". 
+
+remember. those ai generated should be application specific
+those ones that the user makes reusable, should be profile specific
+
+
+
+- why is it that if i presss "with ai" it seems it reloads the page? or any other buttons too? just let me know no change,
+- move open button to left to next to copy button in applications logs page
+- add a Q&A field just the same as enpply dashboard, and share the answers.
+
+
+ok let's redefine the concept of "with ai fill". let's make it Q&A. answered ones and not answered ones. earlier, i asked you to move answered "with AI" answers to "without AI" list storing them to app store. instead, let's make them Q and A. store them in app's Q and A. and just like "without AI", if i press the button, instead of drop down, list shows that has all the Q and As. ofc for those that are not yet answered, values part should be left blank. and these QA list shows those Qs extracted from the ui under float, and the manual QAs that I asked either in the Enpply dashboard (both when generating resume and in application detail page) or in the extension float.
+So all in all, there are 2 concepts. Easy fill (renamed one of "without ai"), and Q & A.
+
+Easy fill holds only: 1. global without AI QAs, 2. profile ones. and for those user adde "without AI" values they should take higher prioiry than profile values. And adding and edditing in the list that's shown when i press the button next to "Easy Fill" - Easy Fill is only in profile store
+
+QA holds: 1. Q&A generated at generation time, AI produced while filling this application that were orignailly belonging to "without AI", 2. Q&A asked in the float. so in the list that is shown when pressing button next Q&A, it should show a button: add a new Q, if i press, new row gets added, and i can enter Q in that row. each row in this list has "generate" button. ofc, the Q&A button above it should gen answers to all the unanswered Qs. - QA is only in app store
+
+## TODO (deferred)
+- Q&A question labels on React ATS (Greenhouse/Lever/Ashby): open-ended fields often have no real
+  <label>, so they surface as bare refs (the "fN" problem) — Q&A rows show ugly/blank question text and
+  don't dedupe against stored answers. Implement the questionLabel ladder in enpplify_form_questions.md so
+  extracted page questions show real text. (Shipping Q&A now without this; fix next.)
+
+
+
+
+- how do you determine whether i already applied for this role or not?
+- move add new to the bottom from the top of the lists
+- initial position of the float, is already hidden more than half next to border of the screen. why? fix it. make it show fully from the right edge
+
+
+
+
+
+
+lets make prompts git managable rather than putting in gitignore.
+use these as source of truth.
+E:\Jobs\Enpply\V2\data\prompts
+
+my initial thought is to store here E:\Jobs\Enpply\V2\server\prompt-defaults and remove from data folder
+and learn how they write cover letter in the us, and update the cover letter prompt to write cover letter that looks really like written by real human.
+
+
+per profile, i want be able to default select whether to use base resume or not.

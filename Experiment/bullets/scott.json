@@ -1,0 +1,86 @@
+{
+  "id": "ScottLee",
+  "basic": {
+    "fullName": "Scott Lee",
+    "title": "Materials Attendant",
+    "email": "fl1925010@gmail.com",
+    "location": "Orlando, Florida, United States",
+    "summary": "Experienced customer service and warehouse operations professional with a strong background in materials handling, inventory support, and member care. Skilled in customer service, logistics coordination, warehouse operations, and team collaboration within fast-paced environments. Proven experience supporting large organizations including Walt Disney World, Peacock TV, and GolfNow. Holds a Bachelor's degree in Golf Enterprise Management with a Business Administration minor from the University of Wisconsin-Stout.",
+    "linkedin": "https://linkedin.com/in/scott-lee-4702b895",
+    "dateOfBirth": "Feb 19, 1989",
+    "address": "1073 S Hiawassee Rd Apt 1026 Orlando, FL 32835"
+  },
+  "experience": [
+    {
+      "company": "Walt Disney World",
+      "title": "Materials Attendant",
+      "startDate": "Apr 2023",
+      "endDate": "Present",
+      "bullets": [
+        "Manage materials handling and inventory support operations within a fast-paced entertainment and hospitality environment.",
+        "Coordinate stock movement, supply organization, and warehouse-related tasks to support operational efficiency.",
+        "Maintain accuracy in materials tracking and collaborate with team members to ensure timely distribution of supplies."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Peacock TV",
+      "title": "Customer Service Representative",
+      "startDate": "Jul 2020",
+      "endDate": "Present",
+      "bullets": [
+        "Provide customer support assistance for streaming platform users, resolving account, billing, and technical concerns.",
+        "Deliver high-quality customer experiences through effective communication and problem-solving skills.",
+        "Handle customer inquiries in a fast-paced support environment while maintaining service standards."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "GolfNow, a division of Golf Channel",
+      "title": "Member Care Team",
+      "startDate": "Nov 2018",
+      "endDate": "Jul 2020",
+      "bullets": [
+        "Supported members with booking assistance, account management, and customer service inquiries.",
+        "Assisted customers with golf reservation issues and provided timely solutions to enhance customer satisfaction.",
+        "Collaborated with internal teams to improve member support processes and service quality."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "The Walt Disney Company",
+      "title": "Warehouse Associate",
+      "startDate": "Aug 2018",
+      "endDate": "Nov 2018",
+      "bullets": [
+        "Performed warehouse operations including inventory handling, stocking, and order fulfillment.",
+        "Maintained organization and efficiency in warehouse processes to support daily operations.",
+        "Worked collaboratively with team members to ensure timely movement and storage of materials."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Customer Service",
+    "Materials Handling",
+    "Inventory Management",
+    "Warehouse Operations",
+    "Logistics Coordination",
+    "Supply Chain Support",
+    "Team Collaboration",
+    "Problem Solving",
+    "Communication Skills",
+    "Member Support",
+    "Order Fulfillment",
+    "Operations Support"
+  ],
+  "education": [
+    {
+      "school": "University of Wisconsin-Stout",
+      "degree": "Bachelor's Degree",
+      "field": "Golf Enterprise Management and Business Administration Minor",
+      "startDate": "2008",
+      "endDate": "2012"
+    }
+  ]
+}
