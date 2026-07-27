@@ -4,51 +4,129 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="popup.css" />
-    <title>Enpplify</title>
+    <title>Tryvify</title>
   </head>
   <body>
+    <!-- Icon sprite. Inline SVG only — no images ship with the extension. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <g id="p-mark" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5h16M8.5 13.2 11 15.7l5-5.4"/><path d="M4 7.5v9a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-9"/></g>
+      <g id="p-user" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.6 20a7.6 7.6 0 0 1 14.8 0"/></g>
+      <g id="p-id" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="4.8" width="18.4" height="14.4" rx="2.4"/><circle cx="8.5" cy="11" r="2"/><path d="M5.2 16.2a3.6 3.6 0 0 1 6.6 0M14.5 10h4M14.5 13.6h4"/></g>
+      <g id="p-folder" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.4a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.6.8l1 1.3H19a2 2 0 0 1 2 2v7.7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g>
+      <g id="p-server" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></g>
+      <g id="p-in" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17.5 14.5 12 10 6.5M14.5 12H3.5"/><path d="M8.5 3.5h9a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3h-9"/></g>
+    </defs></svg>
+
     <header class="hdr">
-      <span class="brand">Enpplify</span>
+      <span class="mark"><svg viewBox="0 0 24 24"><use href="#p-mark"/></svg></span>
+      <span class="brand">
+        <b>Tryvify</b>
+        <span>Browser companion for Tryvera</span>
+      </span>
       <button id="signOut" class="link hidden" type="button">Sign out</button>
     </header>
 
     <!-- Signed-out: sign-in form -->
     <section id="authView" class="view">
-      <label class="field">
-        <span>API base</span>
-        <input id="apiBase" type="text" placeholder="https://tealbridge.online" autocomplete="off" />
-      </label>
-      <label class="field">
-        <span>Email</span>
-        <input id="email" type="email" autocomplete="username" />
-      </label>
-      <label class="field">
-        <span>Password</span>
-        <input id="password" type="password" autocomplete="current-password" />
-      </label>
-      <button id="signIn" class="primary" type="button">Sign in</button>
+      <div class="card">
+        <div class="card-h">
+          <span class="ci"><svg viewBox="0 0 24 24"><use href="#p-server"/></svg></span>
+          <span class="ct">
+            <b>Server</b>
+            <span>Where your Tryvera instance runs</span>
+          </span>
+        </div>
+        <div class="card-b">
+          <label class="field">
+            <span>API base URL</span>
+            <input id="apiBase" type="text" placeholder="https://tealbridge.online" autocomplete="off" spellcheck="false" />
+            <em class="help">Leave this as-is unless your team runs Tryvera on its own address.</em>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <span class="ci"><svg viewBox="0 0 24 24"><use href="#p-user"/></svg></span>
+          <span class="ct">
+            <b>Sign in</b>
+            <span>Use your Tryvera account</span>
+          </span>
+        </div>
+        <div class="card-b">
+          <label class="field">
+            <span>Email</span>
+            <input id="email" type="email" autocomplete="username" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" />
+          </label>
+          <button id="signIn" class="primary" type="button">
+            <svg viewBox="0 0 24 24"><use href="#p-in"/></svg>
+            Sign in
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Signed-in: profile picker -->
     <section id="appView" class="view hidden">
-      <p class="who">Signed in as <strong id="userEmail"></strong></p>
-      <label class="field">
-        <span>Profile for applications</span>
-        <select id="profile"></select>
-      </label>
-      <p class="hint" id="profileHint"></p>
+      <div class="card">
+        <p class="who">
+          <span class="av"><svg viewBox="0 0 24 24"><use href="#p-user"/></svg></span>
+          <span class="wx">
+            <em>Signed in as</em>
+            <strong id="userEmail"></strong>
+          </span>
+          <span class="dot" aria-hidden="true"></span>
+        </p>
+      </div>
 
-      <label class="row-inline">
-        <input type="checkbox" id="autoEnabled" />
-        <span>Use a custom download folder for "Copy path"</span>
-      </label>
-      <label class="field">
-        <input id="autoDir" type="text" placeholder="e.g. C:\Users\you\Downloads\enpply" autocomplete="off" />
-      </label>
-      <p class="hint">When set, "Copy output path" in the page panel copies this folder instead of the server's output path (mirrors Enpply's auto-download dir).</p>
+      <div class="card">
+        <div class="card-h">
+          <span class="ci blue"><svg viewBox="0 0 24 24"><use href="#p-id"/></svg></span>
+          <span class="ct">
+            <b>Profile</b>
+            <span>Whose experience to tailor with</span>
+          </span>
+        </div>
+        <div class="card-b">
+          <label class="field">
+            <span>Profile for applications</span>
+            <select id="profile"></select>
+          </label>
+          <p class="hint" id="profileHint"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-h">
+          <span class="ci grey"><svg viewBox="0 0 24 24"><use href="#p-folder"/></svg></span>
+          <span class="ct">
+            <b>Download folder</b>
+            <span>Where "Copy path" points</span>
+          </span>
+        </div>
+        <div class="card-b">
+          <label class="row-inline">
+            <input type="checkbox" id="autoEnabled" />
+            <span>Use a custom download folder for "Copy path"</span>
+          </label>
+          <label class="field dependent">
+            <span>Folder</span>
+            <input id="autoDir" type="text" placeholder="C:\Users\you\Downloads\tryvera" autocomplete="off" spellcheck="false" />
+          </label>
+          <p class="hint dependent">
+            When set, "Copy output path" in the page panel copies this folder instead of
+            the server's output path — matching Tryvera's auto-download directory.
+          </p>
+        </div>
+      </div>
     </section>
 
     <p id="status" class="status" role="status"></p>
+    <p class="legal">You always review and submit applications yourself.</p>
 
     <script type="module" src="popup.js"></script>
   </body>

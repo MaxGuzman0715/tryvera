@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Enpplify",
-  "version": "0.2.0",
-  "description": "Companion to Enpply: generate tailored docs and semi-automatically fill job applications. You always review and submit manually.",
+  "name": "Tryvify",
+  "version": "0.3.0",
+  "description": "Companion to Tryvera: generate tailored docs and semi-automatically fill job applications. You always review and submit manually.",
   "permissions": ["storage", "activeTab", "scripting", "notifications", "downloads"],
   "host_permissions": [
     "http://localhost/*",
@@ -11,7 +11,7 @@
     "https://tealbridge.online/*"
   ],
   "action": {
-    "default_title": "Enpplify",
+    "default_title": "Tryvify",
     "default_popup": "popup.html"
   },
   "background": {
