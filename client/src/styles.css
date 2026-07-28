@@ -613,6 +613,15 @@ h1 {
   font-weight: 700;
   margin: 0 0 0.3rem;
   letter-spacing: -0.028em;
+}
+
+/* Only a heading that actually carries a glyph becomes a flex row. This file is
+   global — it also loads under the marketing pages, whose hero is a single <h1>
+   with inline children ("We staff the people <em>US teams</em> ship with."). As
+   a flex container each of those three inline pieces becomes its own flex item
+   and wraps into its own narrow column, so the headline reads down three
+   columns instead of across. Scoping by :has() keeps plain headings as blocks. */
+h1:has(> svg) {
   display: flex;
   align-items: center;
   gap: 0.55rem;

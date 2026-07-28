@@ -60,7 +60,7 @@ export default function NotFound() {
       <main className="tb-notfound-main">
         <p className="tb-notfound-eyebrow">Page not found</p>
         <h1 className="tb-notfound-title">
-          We can't find that part of the bridge.
+          We can't find that page.
         </h1>
         <p className="tb-notfound-sub">
           The page may have moved, the link may be stale, or the URL might have a typo.
