@@ -3,7 +3,7 @@
  *
  * Layout:
  *   - `tealbridge.online`        → marketing landing for everyone
- *   - `app.tealbridge.online`    → Enpply app (Login at `/`, app pages once signed in)
+ *   - `app.tealbridge.online`    → Tryvera app (Login at `/`, app pages once signed in)
  *   - anything else (localhost,
  *     Vite preview, IPs, …)      → "dev host"; landing for unauth, app for auth
  *

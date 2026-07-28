@@ -1,5 +1,5 @@
 // MV3 service worker — the single place that reads chrome.storage and talks to
-// the enpply API. Content scripts (which can't use ES module imports) send
+// the Tryvera API. Content scripts (which can't use ES module imports) send
 // message "intents" here and get plain-object responses back. The worker is
 // ephemeral; all durable state lives in chrome.storage (see lib/session.js).
 
@@ -163,7 +163,7 @@ async function persistRun(tabId, jobLink, profileId, patch) {
 /** Kick off a fresh generation, or rerun the existing one for this job. */
 async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, genCoverLetter }, tabId) {
   const profileId = await getSelectedProfile();
-  if (!profileId) return { ok: false, error: "No profile selected. Open the Enpplify popup and pick a profile." };
+  if (!profileId) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!jobDescription || !jobDescription.trim()) {
     return { ok: false, error: "Could not read any job-description text on this page." };
   }
@@ -255,7 +255,7 @@ async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, g
  */
 async function handleQaCreate({ jobLink, jobDescription, applyForm }, tabId) {
   const profileId = await getSelectedProfile();
-  if (!profileId) return { ok: false, error: "No profile selected. Open the Enpplify popup and pick a profile." };
+  if (!profileId) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!jobDescription || !jobDescription.trim()) {
     return { ok: false, error: "Could not read any job-description text on this page." };
   }
@@ -307,7 +307,7 @@ async function handleQaCreate({ jobLink, jobDescription, applyForm }, tabId) {
  */
 async function handleRegenerate({ jobLink, jobDescription, applyForm, genResume, genCoverLetter }, tabId) {
   const profileId = await getSelectedProfile();
-  if (!profileId) return { ok: false, error: "No profile selected. Open the Enpplify popup and pick a profile." };
+  if (!profileId) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!jobDescription || !jobDescription.trim()) {
     return { ok: false, error: "Could not read any job-description text on this page." };
   }
@@ -335,8 +335,8 @@ async function handleRegenerate({ jobLink, jobDescription, applyForm, genResume,
   }
 }
 
-// --- "Copy path" resolution (mirrors enpply's autoDownload.buildDisplayPath) ---
-// enpply's "Copy path" copies the FINAL folder that holds the run's outputs.
+// --- "Copy path" resolution (mirrors Tryvera's autoDownload.buildDisplayPath) ---
+// Tryvera's "Copy path" copies the FINAL folder that holds the run's outputs.
 // For the server-side path that's already `output_folder_abs`. For the client
 // auto-download dir we must append the run's trailing folder segments to the
 // configured root — otherwise we'd copy the root, not the dir with the files.
@@ -346,7 +346,7 @@ function subfolderSegments(outputFolder) {
   return String(outputFolder || "").split(/[/\\]/).filter(Boolean).slice(-3);
 }
 
-/** Choose `\` for Windows-looking paths, else `/` (mirrors enpply chooseSeparator). */
+/** Choose `\` for Windows-looking paths, else `/` (mirrors Tryvera chooseSeparator). */
 function chooseSeparator(absolutePath) {
   if (absolutePath && absolutePath.length > 0) {
     if (absolutePath.includes("\\")) return "\\";
@@ -356,7 +356,7 @@ function chooseSeparator(absolutePath) {
   return "\\"; // extension runs on the user's machine; default to Windows style
 }
 
-/** Join a root dir with the run's subfolder segments, like enpply's displayPath. */
+/** Join a root dir with the run's subfolder segments, like Tryvera's displayPath. */
 function buildDisplayPath(rootDir, segments) {
   const sep = chooseSeparator(rootDir);
   const trimmed = String(rootDir || "").replace(/[\\/]+$/, "");
@@ -364,7 +364,7 @@ function buildDisplayPath(rootDir, segments) {
 }
 
 /**
- * Resolve the "Copy path" string with the same priority enpply uses:
+ * Resolve the "Copy path" string with the same priority Tryvera uses:
  * client auto-download dir (root + run subfolder) → server absolute → relative.
  */
 function resolveCopyPath(auto, outputFolderAbs, outputFolder) {
@@ -437,7 +437,7 @@ async function handleStatus({ appId, jobLink }, tabId) {
       }
     }
 
-    // Path priority mirrors enpply's Result page displayFolder:
+    // Path priority mirrors Tryvera's Result page displayFolder:
     // client auto-download dir (root + run subfolder) → server absolute → relative.
     const auto = await getAutoDownloadPrefs();
     const outputFolderAbs = result?.output_folder_abs || row.output_folder_abs || "";
@@ -520,7 +520,7 @@ async function handleFillMap({ appId, fields, mode }) {
  */
 async function handleFillMapProfile({ profileId, fields, mode, context }) {
   const pid = profileId || (await getSelectedProfile());
-  if (!pid) return { ok: false, error: "No profile selected. Open the Enpplify popup and pick a profile." };
+  if (!pid) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!Array.isArray(fields) || fields.length === 0) {
     return { ok: false, error: "No fillable fields were found on this page." };
   }
@@ -566,7 +566,7 @@ async function handleResume({ appId }) {
   }
 }
 
-/** Fetch the user's enpplify settings (flags, fill LLM, autofill password). */
+/** Fetch the user's Tryvify settings (flags, fill LLM, autofill password). */
 async function handleSettings() {
   try {
     const settings = await getEnpplifySettings();
@@ -578,7 +578,7 @@ async function handleSettings() {
 
 // --- download generated files to the CLIENT machine -------------------------
 // The server always writes the run's files on the SERVER's disk; the web app's
-// auto-download writes to the browser user's disk but only runs when the enpply
+// auto-download writes to the browser user's disk but only runs when the Tryvera
 // site is open. The extension is a separate client (esp. for a remote/LAN
 // backend), so it must fetch the artifacts and save them locally itself. MV3
 // service workers can't use the File System Access API, so we use
@@ -609,7 +609,7 @@ function startDownload(options) {
 
 /**
  * Download the run's generated files (résumé + cover letter PDFs + result.json)
- * to the client's Downloads folder, under enpply/<MM_DD>/<profile>/<TS_…>/ so
+ * to the client's Downloads folder, under <MM_DD>/<profile>/<TS_…>/ so
  * the layout mirrors the server. Returns which files were saved and where.
  */
 async function handleDownload({ appId }) {

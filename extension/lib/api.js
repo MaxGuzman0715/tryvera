@@ -1,4 +1,4 @@
-// enpply API client for the extension. Every call sends the stored session
+// Tryvera API client for the extension. Every call sends the stored session
 // token as `Authorization: Bearer` (see server middleware `getBearerToken`).
 // A 401 means the token expired or was revoked — callers should re-prompt
 // sign-in.
@@ -91,7 +91,7 @@ export function listProfiles() {
   return request("/api/profiles", { method: "GET" });
 }
 
-/** Per-user enpplify settings (feature flags, fill LLM, autofill password). */
+/** Per-user Tryvify settings (feature flags, fill LLM, autofill password). */
 export function getEnpplifySettings() {
   return request("/api/enpplify/settings", { method: "GET" });
 }

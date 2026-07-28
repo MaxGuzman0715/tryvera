@@ -1,5 +1,5 @@
 /*
- * 404 surface — same TealBridge cream + deep-teal language as Landing
+ * 404 surface — same Tryvera warm-neutral + orange language as Landing
  * and AuthShell. Tokens duplicated under `.tb-notfound` (kept in sync
  * with Landing.css / AuthShell.css). Extract into a shared theme file
  * if a fourth surface ever shows up.
@@ -27,7 +27,7 @@
   --tb-font-display: "Proxima Nova", "DM Sans", -apple-system, BlinkMacSystemFont,
     "Segoe UI", system-ui, Roboto, sans-serif;
 
-  /* Mirror the Landing/AuthShell scope-overrides so the Enpply global form
+  /* Mirror the Landing/AuthShell scope-overrides so the Tryvera global form
      rules (`input { background: var(--bg) !important }`) resolve to light
      values on this surface even after a previously-signed-in dark theme. */
   --bg: #ffffff;

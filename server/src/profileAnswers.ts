@@ -4,7 +4,7 @@ import { profileAnswersDir } from "./paths.js";
 import { nowJstIso } from "./timeJst.js";
 
 /**
- * Per-PROFILE reusable answers for the enpplify extension. When a user marks a
+ * Per-PROFILE reusable answers for the Tryvify extension. When a user marks a
  * field's answer "reusable", we store it here keyed (for lookup) by the
  * normalized question text, so the SAME answer is served — with no AI call —
  * for every application that uses this profile.
@@ -27,7 +27,7 @@ type AnswersFile = { items: ProfileAnswer[]; seeded?: boolean };
  * answers are read. EEO self-identification questions default to "Decline to
  * self-identify" — always a valid, truthful option — while work-eligibility and
  * screening questions are seeded blank for the candidate to fill in the
- * Enpplify tab (we must never guess those). Every row is editable/removable, and
+ * Tryvify tab (we must never guess those). Every row is editable/removable, and
  * removals stick because the profile is marked `seeded` (see getProfileAnswers).
  */
 const DECLINE = "Decline to self-identify";

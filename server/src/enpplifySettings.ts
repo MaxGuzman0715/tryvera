@@ -4,13 +4,13 @@ import { z } from "zod";
 import { dataDir } from "./paths.js";
 
 /**
- * Per-user settings for the enpplify extension: feature flags and an optional
+ * Per-user settings for the Tryvify extension: feature flags and an optional
  * autofill password used on account-creation pages. (Which model fills forms is
  * the user's "answers" tier in My settings — not configured here.)
  *
  * Stored in `data/enpplify_settings.json`, keyed by user id. Kept SEPARATE from
  * the global `app_settings.json` so the extension's per-user prefs never touch
- * the shared enpply generation config.
+ * the shared Tryvera generation config.
  *
  * SECURITY: `autofill_password` is stored in plaintext on the server's own
  * disk. It is only ever returned to the authenticated owner. Do not log it.

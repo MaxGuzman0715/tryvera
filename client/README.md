@@ -1,4 +1,4 @@
-# Enpply — Client
+# Tryvera — Client
 
 React (Vite) SPA for the pre-apply document generator: profile editor, job apply form, result viewer, application logs, and config (paths + LLM prompts).
 

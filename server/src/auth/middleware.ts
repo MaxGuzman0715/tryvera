@@ -5,7 +5,7 @@ import { getSessionIdFromRequest } from "./cookies.js";
 import type { User } from "../types.js";
 
 /**
- * Bearer token from the `Authorization` header. The enpplify extension cannot
+ * Bearer token from the `Authorization` header. The Tryvify extension cannot
  * rely on the `enpply_sid` cookie (cross-origin, no credentials), so it sends
  * the session id as `Authorization: Bearer <session-id>` instead. The token is
  * just the session id, so resolution below is identical to the cookie path.

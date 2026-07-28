@@ -25,13 +25,53 @@ Renaming any of these breaks runtime behaviour. They stay as-is.
 | `/enpplify` | React route, `client/src/App.tsx:43` | Bookmarked route + `KNOWN_ROUTE_PATTERNS` membership; a mismatch renders NotFound. |
 | `enpplify-root` | `extension/content.js:833` | Mount element id. Panel fails to mount / de-duplicate. |
 | `client/src/enpply/` | directory path | Not UI. Renaming is pure churn across every import. |
+| `ENPPLY_VERBOSE` | env var, `server/src/verboseLog.ts` | Read from the environment. Renaming it silently disables verbose logging on every existing deployment. |
+| `[enpply]` log prefix | `server/src/index.ts`, `resumeThemes.ts`, … | What you grep for in the server terminal; the READMEs tell you to. Cosmetic in isolation, but the docs and the output must agree. |
+| `OPENROUTER_APP_TITLE` default `Enpply` | `server/README.md:23` | Documents a default baked into server code. The doc may only change when the code does. |
+| `enpply:*` / `enpply.*` localStorage keys | `Apply.tsx`, `Logs.tsx`, `Playground.tsx`, `GenerationToasts.tsx` | Renaming drops every user's saved column visibility, generation options, last theme, and toast state. |
+| `Enpplify*` TypeScript type names | `client/src/enpply/types.ts` | Mirror the server's JSON field names. Renaming the type is safe; renaming the fields is not — so they stay together. |
+| `deploy/`, `docker-compose.yml`, `.env.template` | infrastructure | Container names, nginx `server_name`, volume paths. A rename here breaks deploys, not pixels. |
+| `enpplify_spec.md`, `phase2_plan.md` | original author's design docs | Historical record predating the rebrand, and `extension/README.md` links to the spec by filename. |
 
-**Renameable (visible text only):** `manifest.json` `name` / `description` /
-`action.default_title`, `popup.html` `<title>` and brand text, the panel header
-title and FAB glyph, the dashboard nav brand (`App.tsx:69`, currently
-`TealBridge`), the theme label `"Enpply - Standard"` in
-`client/src/enpply/themes.ts:8`, and the copy string at
-`extension/content.js:2258` ("…in Enpplify settings").
+**Renamed (visible text only):** `manifest.json` `name` / `description` /
+`action.default_title`; `popup.html` `<title>` and brand text; the panel header
+title; the dashboard sidebar brand (`App.tsx`); the theme *label*
+`"Enpply - Standard"` → `"Tryvera - Standard"` in
+`server/src/resumeThemes.ts:32` — its `id` stays `standard`, which is what
+profiles actually persist; the copy strings in `extension/content.js`; the
+prose in `README.md`, `client/README.md`, `server/README.md`,
+`extension/README.md`, `CHANGELOG.md`; and the npm package `name` in
+`package.json` + `package-lock.json`.
+
+### The three files under `server/` that were touched
+
+The redesign otherwise leaves `server/` alone. Three exceptions, all display text:
+
+| File | Change |
+| --- | --- |
+| `server/src/resumeThemes.ts:32` | theme `label` → `"Tryvera - Standard …"`. The `id` stays `standard`. |
+| `server/src/verboseLog.ts:27` | first line written into `data/logs/verbose/<id>.log`. |
+| `server/templates/README.md` | prose. |
+
+Plus 12 comment lines across `answerPolicies.ts`, `auth/middleware.ts`,
+`auth/routes.ts`, `enpplifySettings.ts`, `fillMapService.ts`, `generation.ts`,
+`index.ts`, `profileAnswers.ts`, `types.ts`. No executable server line changed.
+
+`extension/background.js` gained the same treatment: 4 copies of the display
+string `"…Open the Tryvify popup and pick a profile."` and 9 comments. Its
+message-handler table, API calls, and download logic are untouched.
+
+### Entity rename
+
+`TealBridge LLC` → `Tryvera` across the marketing surfaces, and the contact
+address `hr@tealbridge.online` → `hr@tryvera.com` (5× in `Landing.tsx`, 1× in
+`NotFound.tsx`). The legal suffix was dropped by request, so each sentence was
+replaced whole rather than substituting the token, to keep the grammar right.
+
+The *hostnames* `tealbridge.online` / `app.tealbridge.online` are untouched —
+they are live DNS backing cross-domain login routing and the extension's API
+base. **The new mailbox needs DNS/MX records before it delivers**; until then
+mail to `hr@tryvera.com` bounces.
 
 ---
 

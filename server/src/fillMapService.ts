@@ -15,7 +15,7 @@ import { normalizeQuestion } from "./profileAnswers.js";
 import { policyPromptBlock } from "./answerPolicies.js";
 
 /**
- * Maps a job application form's fields to values, for the enpplify extension's
+ * Maps a job application form's fields to values, for the Tryvify extension's
  * "Fill" action. The extension harvests each field on the page into a
  * descriptor (with a self-minted `ref`), sends the batch here, and applies the
  * returned `ref -> value` map back onto the DOM. Selectors never leave the

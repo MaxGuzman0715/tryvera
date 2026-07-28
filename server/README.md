@@ -1,4 +1,4 @@
-# Enpply — Server
+# Tryvera — Server
 
 Express API for the pre-apply document generator: profile storage (JSON files), application generation (LLM + PDF), prompt configuration, and application logs.
 

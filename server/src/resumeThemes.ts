@@ -29,7 +29,7 @@ const FALLBACK_REGISTRY: ThemeRegistry = {
     },
     {
       id: "standard",
-      label: "Enpply - Standard — Enpply header band, navy accents",
+      label: "Tryvera - Standard — Tryvera header band, navy accents",
       resume: "resume.html",
       coverLetter: "cv.html",
     },

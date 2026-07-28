@@ -3,10 +3,10 @@
 // Renders a small floating panel on allowed job pages. The panel lets a
 // signed-in user generate tailored docs (résumé / cover letter) straight from
 // the page: it auto-scrapes the visible text as the JD, asks the background
-// worker to run enpply's pipeline, then polls progress. The run appears in
-// enpply Logs just like a dashboard run.
+// worker to run Tryvera's pipeline, then polls progress. The run appears in
+// Tryvera Logs just like a dashboard run.
 //
-// LinkedIn (and any blocked host) is hard-disabled: enpplify never operates
+// LinkedIn (and any blocked host) is hard-disabled: Tryvify never operates
 // there. Fill + résumé attach arrive in Slice 3.
 
 (function () {
@@ -1638,7 +1638,7 @@
 
   // Copy text to the clipboard from the page context. The async Clipboard API
   // can be blocked on non-secure origins / without focus, so fall back to a
-  // hidden textarea + execCommand (same approach as enpply's CopyButton).
+  // hidden textarea + execCommand (same approach as Tryvera's CopyButton).
   async function copyToClipboard(text) {
     try {
       if (navigator.clipboard?.writeText) {
@@ -1735,7 +1735,7 @@
   }
 
   // --- memory panel ----------------------------------------------------------
-  // Shows what Enpplify currently holds for this job: which run, and whether a
+  // Shows what Tryvify currently holds for this job: which run, and whether a
   // résumé / cover letter / answers were generated. "View" opens the PDF.
 
   function setMemVal(el, ok, yesText, noText) {
@@ -1804,7 +1804,7 @@
   vrBtn.addEventListener("click", () => viewArtifact("resume_pdf", "résumé"));
   vcBtn.addEventListener("click", () => viewArtifact("cover_letter_pdf", "CV"));
 
-  // --- enpplify settings + password autofill ---------------------------------
+  // --- Tryvify settings + password autofill ---------------------------------
   // Feature flags + the autofill password come from the server (per user). The
   // password feature is OFF unless the flag is on AND a password is configured.
 
@@ -1828,7 +1828,7 @@
     const res = await send("enpplify:settings", {});
     if (res.ok && res.settings) enpplifySettings = res.settings;
     // Seed the Résumé / Cover letter checkboxes from the user's defaults (both
-    // OFF unless turned on in Enpplify settings). One-shot — see above.
+    // OFF unless turned on in Tryvify settings). One-shot — see above.
     if (!genDefaultsApplied) {
       genDefaultsApplied = true;
       grEl.checked = flagOn("gen_resume_default");
@@ -1857,7 +1857,7 @@
 
   // --- "Use base resume" -----------------------------------------------------
   // When on, the per-job résumé isn't generated/attached; the user's uploaded
-  // base résumé (Enpplify settings tab) is attached instead.
+  // base résumé (Tryvify settings tab) is attached instead.
 
   function baseResumeAvailable() {
     const names = enpplifySettings.base_resume_names || {};
@@ -1937,7 +1937,7 @@
   }
 
   // Password autofill is usable as soon as the user has configured an autofill
-  // password in Enpplify settings. Having set a password IS the opt-in, so we no
+  // password in Tryvify settings. Having set a password IS the opt-in, so we no
   // longer also require the separate (default-off) password_autofill flag — that
   // double gate silently swallowed sign-up password fills.
   function passwordAutofillEnabled() {

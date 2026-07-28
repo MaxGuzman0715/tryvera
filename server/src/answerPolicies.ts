@@ -5,7 +5,7 @@ import { answerPoliciesDir } from "./paths.js";
 import { nowJstIso } from "./timeJst.js";
 
 /**
- * Per-PROFILE answering policies for the enpplify extension. A policy is a
+ * Per-PROFILE answering policies for the Tryvify extension. A policy is a
  * free-text DIRECTIVE — "how I want fields of a certain kind answered" — not a
  * fixed answer. It differs from a reusable answer (see profileAnswers.ts) in two
  * ways: (1) its value is a rule the model APPLIES, often computed from the JD,

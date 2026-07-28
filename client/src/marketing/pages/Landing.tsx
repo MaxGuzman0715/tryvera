@@ -4,7 +4,7 @@ import { appHref, isMarketingHost } from "../../domains";
 import "./Landing.css";
 
 /**
- * Public marketing landing for TealBridge LLC — a US staffing firm based
+ * Public marketing landing for Tryvera — a US staffing firm based
  * in Texas and California. Two specialties: technology talent (engineers)
  * and customer-operations talent (sales, customer success, support).
  *
@@ -509,7 +509,7 @@ export default function Landing() {
                 We staff the people <em>US teams</em> ship with.
               </h1>
               <p className="tb-hero-sub">
-                TealBridge LLC is a US staffing firm based in Texas and California.
+                Tryvera is a US staffing firm based in Texas and California.
                 We place vetted engineers and remote customer-facing professionals
                 into the companies that need them — and help qualified candidates
                 land roles where they can do their best work.
@@ -731,7 +731,7 @@ export default function Landing() {
             <p className="tb-eyebrow">Ready to make your next hire?</p>
             <h2>Brief us today; meet candidates this week.</h2>
             <p>
-              TealBridge LLC partners with US companies hiring engineers and
+              Tryvera partners with US companies hiring engineers and
               customer-operations talent. One thirty-minute intake call and
               we're off — vetted candidates land in your calendar inside a
               week.
@@ -740,7 +740,7 @@ export default function Landing() {
               <a href="#contact" className="tb-btn tb-btn-primary tb-btn-lg">
                 Talk to us
               </a>
-              <a href="mailto:hr@tealbridge.online" className="tb-btn tb-btn-ghost tb-btn-lg">
+              <a href="mailto:hr@tryvera.com" className="tb-btn tb-btn-ghost tb-btn-lg">
                 Email us
               </a>
             </div>
@@ -761,7 +761,7 @@ export default function Landing() {
               <ul className="tb-contact-list">
                 <li>
                   <strong>Email</strong>
-                  <a href="mailto:hr@tealbridge.online">hr@tealbridge.online</a>
+                  <a href="mailto:hr@tryvera.com">hr@tryvera.com</a>
                   <em>Response within 1 business day</em>
                 </li>
                 <li>
@@ -771,11 +771,11 @@ export default function Landing() {
                 </li>
                 <li>
                   <strong>Texas (HQ)</strong>
-                  <span>TealBridge LLC — Texas operations</span>
+                  <span>Tryvera — Texas operations</span>
                 </li>
                 <li>
                   <strong>California</strong>
-                  <span>TealBridge LLC — California operations</span>
+                  <span>Tryvera — California operations</span>
                 </li>
               </ul>
             </div>
@@ -832,12 +832,12 @@ export default function Landing() {
               <span className="tb-brand-name">Tryvera</span>
             </span>
             <p>
-              TealBridge LLC — a US staffing firm based in Texas and California.
+              Tryvera — a US staffing firm based in Texas and California.
               We connect US companies with vetted engineering and customer-operations
               talent.
             </p>
             <p className="tb-footer-contact">
-              <a href="mailto:hr@tealbridge.online">hr@tealbridge.online</a>
+              <a href="mailto:hr@tryvera.com">hr@tryvera.com</a>
               <a href="tel:+16504165015">+1 (650) 416-5015</a>
             </p>
           </div>
@@ -868,7 +868,7 @@ export default function Landing() {
           </div>
         </div>
         <p className="tb-footer-legal">
-          © {new Date().getFullYear()} TealBridge LLC. All rights reserved.
+          © {new Date().getFullYear()} Tryvera. All rights reserved.
         </p>
       </footer>
     </div>

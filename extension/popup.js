@@ -1,6 +1,6 @@
 // Popup: sign-in + profile picker (Slice 1). On load it decides which view to
 // show based on stored auth, validates the token with /api/auth/me, then lets
-// the user pick which enpply profile future generations should use.
+// the user pick which Tryvera profile future generations should use.
 
 import { login, me, listProfiles, ApiError } from "./lib/api.js";
 import {

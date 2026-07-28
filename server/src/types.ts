@@ -146,7 +146,7 @@ export type ApplicationLogEntry = {
   generation_error?: string;
   /**
    * When a run is rejected as a duplicate, the id of the pre-existing run it
-   * duplicates. Lets clients (e.g. the enpplify extension) recover by loading
+   * duplicates. Lets clients (e.g. the Tryvify extension) recover by loading
    * that existing run instead of treating the duplicate as a hard failure.
    */
   duplicate_of?: string;

@@ -1,5 +1,5 @@
 /*
- * TealBridge marketing landing — visual language inspired by Disciple
+ * Tryvera marketing landing — visual language inspired by Disciple
  * (cream-on-deep-teal, big rounded corners, mobile-first phone mockups,
  * generous whitespace).
  *
@@ -40,7 +40,7 @@
     "Segoe UI", system-ui, Roboto, sans-serif;
 
   /*
-   * Override the Enpply global tokens used by `styles.css` form rules.
+   * Override the Tryvera global tokens used by `styles.css` form rules.
    * That stylesheet has `input[type="email"] { background: var(--bg) !important }`
    * (and similar) so the only way to keep the wrapper light without mass
    * !important spam is to redefine the source variables in this scope.

@@ -24,7 +24,7 @@ export async function createVerboseLogger(appId: string): Promise<VerboseRunLogg
   await fs.mkdir(dir, { recursive: true });
   const filePath = path.join(dir, `${appId}.log`);
   const header = [
-    "Enpply verbose run log",
+    "Tryvera verbose run log",
     `appId=${appId}`,
     `started=${new Date().toISOString()}`,
     `logFile=${filePath}`,

@@ -1,4 +1,4 @@
-// Thin promise wrappers around chrome.storage.local. Everything enpplify
+// Thin promise wrappers around chrome.storage.local. Everything Tryvify
 // persists (auth token, API base, selected profile, active application
 // session) lives here so it survives MV3 service-worker termination.
 
@@ -23,11 +23,11 @@ export function remove(keys) {
   });
 }
 
-// --- Typed accessors for the keys enpplify cares about -----------------------
+// --- Typed accessors for the keys Tryvify cares about -----------------------
 
 const DEFAULT_API_BASE = "https://tealbridge.online";
 
-/** Resolve the configured enpply API base URL (no trailing slash). */
+/** Resolve the configured Tryvera API base URL (no trailing slash). */
 export async function getApiBase() {
   const { apiBase } = await get("apiBase");
   return (apiBase || DEFAULT_API_BASE).replace(/\/+$/, "");
@@ -65,11 +65,11 @@ export async function setSelectedProfile(id) {
 }
 
 /**
- * Auto-download folder preference — the extension's mirror of enpply's
+ * Auto-download folder preference — the extension's mirror of Tryvera's
  * `enpply.autoDownloadDir` localStorage pref. A content script on a job page
  * can't read the web app's localStorage (different origin), so we keep our own
  * copy. When enabled, this folder is preferred over the server's absolute
- * output path for the "Copy path" button (same priority as enpply's
+ * output path for the "Copy path" button (same priority as Tryvera's
  * displayFolder: client dir → output_folder_abs → output_folder).
  *
  * @returns {Promise<{ enabled: boolean, dir: string }>}

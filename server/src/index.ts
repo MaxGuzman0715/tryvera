@@ -1012,14 +1012,14 @@ app.post<{ id: string }>("/api/applications/:id/match-score", requireAuth, async
 });
 
 /**
- * Map a job application form's fields to values (enpplify "Fill"). The
+ * Map a job application form's fields to values (Tryvify "Fill"). The
  * extension harvests each field into a descriptor with a self-minted `ref`,
  * posts the batch here, and applies the returned `ref -> value` map back onto
  * the page. Selectors never leave the browser. Heuristic match first, then a
  * single batched LLM call for the leftovers.
  */
 /**
- * Per-user enpplify extension settings (feature flags, fill-map LLM override,
+ * Per-user Tryvify extension settings (feature flags, fill-map LLM override,
  * autofill password). Each user manages only their own. The autofill password
  * is returned only to its owner and never logged.
  */

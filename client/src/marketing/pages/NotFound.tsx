@@ -6,7 +6,7 @@ import "./NotFound.css";
 /**
  * 404 surface. Rendered for any route the React Router can't match — both
  * for unauthenticated visitors and signed-in users — so the visual stays
- * the public Tryvera theme rather than the Enpply app shell. Wired in
+ * the public marketing theme rather than the Tryvera app shell. Wired in
  * App.tsx via a known-route check that short-circuits before the Layout
  * wrapper.
  *
@@ -79,7 +79,7 @@ export default function NotFound() {
               Sign in
             </Link>
           ) : null}
-          <a href="mailto:hr@tealbridge.online" className="tb-btn tb-btn-ghost tb-btn-lg">
+          <a href="mailto:hr@tryvera.com" className="tb-btn tb-btn-ghost tb-btn-lg">
             Report a broken link
           </a>
         </div>

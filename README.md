@@ -1,6 +1,6 @@
-# Enpply
+# Tryvera
 
-📜 **Version history:** see [CHANGELOG.md](CHANGELOG.md) for all notable project changes (server, client, and the Enpplify extension), newest first.
+📜 **Version history:** see [CHANGELOG.md](CHANGELOG.md) for all notable project changes (server, client, and the Tryvify extension), newest first.
 
 ### Guidance to use this app best to get highest quality resume, cv and answers
 
@@ -171,7 +171,7 @@ Replace `tealbridge.online` with your domain.
    .\caddy.exe start --config Caddyfile
    ```
    First run takes ~20–30s while ACME issues the cert. Logs land in `%APPDATA%\Caddy`.
-3. Start the Enpply server on 3001:
+3. Start the Tryvera server on 3001:
    ```powershell
    cd C:\Users\Administrator\Music\Enpply-and-others\server
    Start-Process -FilePath node.exe -ArgumentList 'dist/index.js' -WindowStyle Hidden
@@ -218,4 +218,4 @@ Check both of the commands run chromium app successfully.
 
 
 
-enpplify password rule: R123!@#qweQWE (R: the first character of the profiles first name)
+Tryvify password rule: R123!@#qweQWE (R: the first character of the profiles first name)

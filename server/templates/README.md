@@ -13,7 +13,7 @@ If you set **`ENPPLY_PDF_ENGINE=pdfkit`** in `.env`, PDFs use a plain PDFKit lay
    - **`label`** — human-readable label shown in the UI dropdown.
    - **`resume`** — filename of the résumé shell (under this directory).
    - **`cv`** — filename of the CV shell.
-4. **Restart** the Enpply server so it reloads `registry.json` (or rely on the next process start).
+4. **Restart** the Tryvera server so it reloads `registry.json` (or rely on the next process start).
 
 Invalid or missing `registry.json` falls back to a small built-in list so the server still starts.
 

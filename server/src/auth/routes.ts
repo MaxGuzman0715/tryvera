@@ -92,7 +92,7 @@ export function registerAuthRoutes(app: Express): void {
       setSessionCookie(res, session.id, session.expires_at);
       const { password_hash: _omit, ...publicUser } = record;
       void _omit;
-      // `token` is the session id, echoed in the body so the enpplify extension
+      // `token` is the session id, echoed in the body so the Tryvify extension
       // can store it and send it as `Authorization: Bearer`. The web client uses
       // the cookie and ignores this field.
       res.json({ user: publicUser, token: session.id });

@@ -1,6 +1,6 @@
 /*
  * Full-viewport loading state for the Tryvera wrapper. Scoped under
- * `.tb-loading` so it can't be overridden by Enpply's global form rules
+ * `.tb-loading` so it can't be overridden by Tryvera's global form rules
  * (and the `--bg`/`--text` overrides below keep the surface light even
  * when a previously-signed-in dark theme has set those vars on `:root`).
  */

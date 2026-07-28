@@ -983,7 +983,7 @@ export async function runGeneration(params: {
             await verbose.writeSection("duplicate-check — SKIPPED", `${reason}\nexisting run: ${dup.id}`);
           }
           // Tag the error with the existing run's id so the HTTP layer records
-          // duplicate_of and the enpplify extension can recover from it.
+          // duplicate_of and the Tryvify extension can recover from it.
           const err = new Error(reason) as Error & { duplicateOf?: string };
           err.duplicateOf = dup.id;
           throw err;

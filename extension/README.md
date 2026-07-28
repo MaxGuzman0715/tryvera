@@ -1,8 +1,8 @@
-# Enpplify (Chrome extension)
+# Tryvify (Chrome extension)
 
-Companion to **enpply**. enpply (the web app) stays the brain — profiles,
-generation, answers, PDFs, auth, LLM keys, all server-side. Enpplify is a thin,
-authenticated client that scrapes a job page, calls enpply's API, and fills the
+Companion to **Tryvera**. Tryvera (the web app) stays the brain — profiles,
+generation, answers, PDFs, auth, LLM keys, all server-side. Tryvify is a thin,
+authenticated client that scrapes a job page, calls Tryvera's API, and fills the
 application form. **You always review and submit manually.**
 
 Full design + rationale: [`../enpplify_spec.md`](../enpplify_spec.md).
@@ -15,9 +15,9 @@ A floating panel appears on job/application pages (it never runs on LinkedIn).
 Two distinct actions:
 
 - **Generate** — makes your tailored documents. Scrapes the page text as the job
-  description, runs enpply's real pipeline (`POST /api/applications/generate`),
+  description, runs Tryvera's real pipeline (`POST /api/applications/generate`),
   and produces the résumé / cover-letter PDFs + extracted answers. The run is
-  saved in enpply **Logs** like any dashboard run. *Does not touch the form.*
+  saved in Tryvera **Logs** like any dashboard run. *Does not touch the form.*
   Clicking it again loads the existing run (never silently overwrites). On
   **LinkedIn**, Generate defaults to résumé-only (cover-letter unchecked).
 - **Force regenerate** — appears once a run exists. Ignores the existing run and
@@ -60,7 +60,7 @@ paste them into this job's form** (page-side).
 - **Job-page detection** — on pages that look like a job/application (known ATS
   hosts, apply/job URLs, or form signals) the panel opens expanded; elsewhere it
   starts as the circle. Never fully disabled except on LinkedIn.
-- **Copy path** — copies the run's output folder (mirrors enpply's priority:
+- **Copy path** — copies the run's output folder (mirrors Tryvera's priority:
   your custom download dir → server absolute path → relative path). Note this is
   the *server's* path — meaningful only when the backend runs on your machine.
 - **Download** — transfers the generated files (résumé + cover-letter PDFs +
@@ -69,12 +69,12 @@ paste them into this job's form** (page-side).
   button yields, just rooted at Downloads). Unlike Copy path, this
   works even against a remote/LAN backend (the files are saved on the server, so
   a remote extension user otherwise has no local copy). The web app's
-  auto-download only runs when the enpply site is open; the extension needs its
+  auto-download only runs when the Tryvera site is open; the extension needs its
   own, hence this button.
 - **Compact panel** — everything below "Attach résumé & CV" (sign-up password,
-  drop zone, memory card) is tucked behind a **More ▾** toggle so the panel stays
+  drop zone, memory card) is tucked behind a **More** toggle so the panel stays
   short; it auto-expands when this page offers sign-up password autofill.
-- **Enpplify memory** — shows what's held for this job: run id, whether a résumé
+- **Tryvify memory** — shows what's held for this job: run id, whether a résumé
   / cover letter / answers exist, with **View résumé** / **View CV** buttons that
   open the PDF in a new tab.
 - **Duplicate recovery** — if generation is rejected as a duplicate of an earlier
@@ -91,9 +91,9 @@ paste them into this job's form** (page-side).
 1. Go to `chrome://extensions`.
 2. Enable **Developer mode** (top-right).
 3. **Load unpacked** → select this `extension/` folder.
-4. Pin **Enpplify**; click the toolbar icon to open the popup.
+4. Pin **Tryvify**; click the toolbar icon to open the popup.
 
-After editing any file, click the **reload** icon on the Enpplify card. On pages
+After editing any file, click the **reload** icon on the Tryvify card. On pages
 that were already open, also reload the tab so the content script re-injects.
 
 ## Sign in (popup)
@@ -103,11 +103,11 @@ that were already open, also reload the tab so the content script re-injects.
      `server` defaults to 3001 for dev, 3005 for the built copy via
      `npm run start:built -w server`).
    - Production: `https://tealbridge.online`.
-2. Enter your enpply email + password → **Sign in**.
+2. Enter your Tryvera email + password → **Sign in**.
 3. Pick the **profile** to use for applications.
 4. Optional: set a **custom download folder** for the Copy-path button.
 
-The token is the enpply session id (30-day TTL); on expiry the popup asks you to
+The token is the Tryvera session id (30-day TTL); on expiry the popup asks you to
 sign in again.
 
 ---
@@ -115,13 +115,13 @@ sign in again.
 ## Usage
 
 1. Open a job posting / application page.
-2. In the panel, click **Generate** — wait for "Ready to fill."
+2. In the panel, click **Generate documents** — wait for "Ready to fill."
 3. On the application form, click **Fill without AI** (instant) or **Fill with
    AI** (also answers open-text/custom fields). Use **Attach résumé & CV** alone
    when another autofiller handles the text fields.
 4. **Review every field**, then submit manually.
 
-## Settings (in the enpply web app → "Enpplify" tab)
+## Settings (in the Tryvera web app → "Tryvify" tab)
 
 Per-user settings the extension reads after sign-in: feature flags
 (`combobox_fill`, `attach_cover_letter`, `ai_fill_remaining`, `drop_to_upload`),
