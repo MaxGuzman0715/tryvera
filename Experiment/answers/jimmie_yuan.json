@@ -1,0 +1,220 @@
+{
+  "items": [
+    {
+      "question": "Address Line 1",
+      "answer": "20446 101st Ave SE",
+      "updated_at": "2026-06-16T07:09:29+09:00"
+    },
+    {
+      "question": "Are you authorized to work in the United States?",
+      "answer": "Yes",
+      "updated_at": "2026-06-17T06:08:04+09:00"
+    },
+    {
+      "question": "Are you Hispanic or Latino?",
+      "answer": "No",
+      "updated_at": "2026-06-17T14:59:53+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the country where this role is based?",
+      "answer": "Yes",
+      "updated_at": "2026-06-17T14:59:56+09:00"
+    },
+    {
+      "question": "Are you located in Eastern Time Zone?",
+      "answer": "No",
+      "updated_at": "2026-06-17T06:08:50+09:00"
+    },
+    {
+      "question": "Are you open to relocation?",
+      "answer": "",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "City",
+      "answer": "Kent",
+      "updated_at": "2026-06-18T16:50:43+09:00"
+    },
+    {
+      "question": "Country",
+      "answer": "United States",
+      "updated_at": "2026-06-17T06:07:47+09:00"
+    },
+    {
+      "question": "Disability status",
+      "answer": "No",
+      "updated_at": "2026-06-17T15:00:02+09:00"
+    },
+    {
+      "question": "Do you have 7+ years of experience in product management, with a track record of successfully launching and managing SaaS products or platforms?",
+      "answer": "Yes",
+      "updated_at": "2026-06-17T06:08:34+09:00"
+    },
+    {
+      "question": "Do you have a deep understanding of Conversational AI systems?",
+      "answer": "Yes",
+      "updated_at": "2026-06-17T06:08:42+09:00"
+    },
+    {
+      "question": "Do you identify as part of the LGBTQ+ community?",
+      "answer": "No",
+      "updated_at": "2026-06-17T15:44:17+09:00"
+    },
+    {
+      "question": "Do you live in the United States?",
+      "answer": "Yes",
+      "updated_at": "2026-06-17T06:08:13+09:00"
+    },
+    {
+      "question": "Email",
+      "answer": "turnedjimmie57@gmail.com",
+      "updated_at": "2026-06-17T04:54:56+09:00"
+    },
+    {
+      "question": "First Name",
+      "answer": "James",
+      "updated_at": "2026-06-17T04:54:38+09:00"
+    },
+    {
+      "question": "Full address",
+      "answer": "20446 101st Ave SE Kent, WA 98031 United States",
+      "updated_at": "2026-06-18T17:00:37+09:00"
+    },
+    {
+      "question": "Gender",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "Gender Identity",
+      "answer": "Male",
+      "updated_at": "2026-06-17T15:44:04+09:00"
+    },
+    {
+      "question": "How did you hear about this job?",
+      "answer": "LinkedIn",
+      "updated_at": "2026-06-17T06:07:57+09:00"
+    },
+    {
+      "question": "I accept and consent that the info i submitted is 100% correct.",
+      "answer": "Yes",
+      "updated_at": "2026-06-18T16:55:29+09:00"
+    },
+    {
+      "question": "In 250 words or fewer, share why you are interested in applying data science and AI to Girl Effects mission.",
+      "answer": "I am deeply passionate about leveraging data science and AI to create impactful solutions, particularly in areas that empower vulnerable populations. Girl Effect's mission to use AI-driven chatbots to provide crucial information and support to adolescent girls aligns perfectly with my expertise in LLMs, generative AI, and multi-agent systems. My experience in building reliable, scalable AI solutions, combined with a focus on user safety and ethical AI, makes me eager to contribute to Girl Effect's mission of transforming lives through technology.",
+      "updated_at": "2026-06-17T06:09:12+09:00"
+    },
+    {
+      "question": "In 300 words or fewer, describe a project you have worked on involving genAI, including the end-to-end delivery process and challenges faced?",
+      "answer": "At Meta, I contributed to the development of a multi-agent LLM system for an advertiser copilot, streamlining campaign management and creative optimization. The project involved building a retrieval layer on Meta's embedding-search infrastructure, modeling advertiser-campaign-audience relationships on a knowledge graph, and fine-tuning Llama models for multi-turn tool-call extraction. Challenges included ensuring low-latency inference, maintaining system reliability, and aligning AI outputs with advertiser needs. The project successfully improved advertiser efficiency and satisfaction, demonstrating the potential of generative AI in complex workflows.",
+      "updated_at": "2026-06-17T06:09:14+09:00"
+    },
+    {
+      "question": "Last Name",
+      "answer": "Yuan",
+      "updated_at": "2026-06-17T04:54:40+09:00"
+    },
+    {
+      "question": "LinkedIn Profile",
+      "answer": "https://www.linkedin.com/in/james-yuan-b1b168416",
+      "updated_at": "2026-06-17T06:09:21+09:00"
+    },
+    {
+      "question": "Location",
+      "answer": "Kent, Washington, United States",
+      "updated_at": "2026-06-17T06:09:31+09:00"
+    },
+    {
+      "question": "Location (City)",
+      "answer": "Kent, Washington, United States",
+      "updated_at": "2026-06-17T04:55:58+09:00"
+    },
+    {
+      "question": "Phone",
+      "answer": "(509) 906-1406",
+      "updated_at": "2026-06-17T04:54:58+09:00"
+    },
+    {
+      "question": "Phone Device Type",
+      "answer": "Mobile",
+      "updated_at": "2026-06-16T07:10:21+09:00"
+    },
+    {
+      "question": "Phone Device Type*",
+      "answer": "Mobile",
+      "updated_at": "2026-06-16T07:10:09+09:00"
+    },
+    {
+      "question": "Phone number",
+      "answer": "5099061406",
+      "updated_at": "2026-06-18T18:17:52+09:00"
+    },
+    {
+      "question": "Please identify your race",
+      "answer": "Asian",
+      "updated_at": "2026-06-17T15:00:31+09:00"
+    },
+    {
+      "question": "Postal Code",
+      "answer": "98031",
+      "updated_at": "2026-06-17T16:53:44+09:00"
+    },
+    {
+      "question": "Preferred First Name",
+      "answer": "James",
+      "updated_at": "2026-06-17T06:09:20+09:00"
+    },
+    {
+      "question": "Preferred work arrangement (onsite / hybrid / remote)?",
+      "answer": "Hybrid/Remote",
+      "updated_at": "2026-06-17T15:00:25+09:00"
+    },
+    {
+      "question": "Race / Ethnicity",
+      "answer": "Asian",
+      "updated_at": "2026-06-17T15:00:14+09:00"
+    },
+    {
+      "question": "Veteran status",
+      "answer": "Decline to self-identify",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "What is your earliest available start date?",
+      "answer": "",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "what is your full address",
+      "answer": "20446 101st Ave SE Kent, WA 98031",
+      "updated_at": "2026-06-18T17:05:21+09:00"
+    },
+    {
+      "question": "What is your highest level of education completed?",
+      "answer": "Master's",
+      "updated_at": "2026-06-17T15:17:55+09:00"
+    },
+    {
+      "question": "What is your notice period?",
+      "answer": "",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "Will you now or in the future require visa sponsorship for employment?",
+      "answer": "",
+      "updated_at": "2026-06-17T04:13:23+09:00"
+    },
+    {
+      "question": "ZIP Code",
+      "answer": "98031",
+      "updated_at": "2026-06-18T16:51:30+09:00"
+    }
+  ],
+  "seeded": true
+}

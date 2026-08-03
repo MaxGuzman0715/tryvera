@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cover letter</title>
+    <style>
+      :root {
+        --ink: #1a1a1a;
+        --muted: #4a5568;
+        --paper: #ffffff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.cover-letter-doc {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 11pt;
+        line-height: 1.55;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      body.doc.cover-letter-doc .sheet {
+        max-width: 6.5in;
+        margin: 0 auto;
+        padding: 0.2in 0 0.35in;
+      }
+      /* Match résumé classic: tighter padding + half PDF margins in templatePdf. */
+      body.doc.cover-letter-doc.theme-classic .sheet {
+        padding: 0.1in 0 0.175in;
+      }
+      body.doc.cover-letter-doc .content h1,
+      body.doc.cover-letter-doc .content h2 {
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-size: 10.5pt;
+        font-weight: 700;
+        margin: 0.75rem 0 0.35rem;
+        color: var(--ink);
+      }
+      body.doc.cover-letter-doc .content h2:first-of-type {
+        margin-top: 0;
+      }
+      body.doc.cover-letter-doc .content p {
+        margin: 0 0 0.65rem;
+        text-align: left;
+      }
+      body.doc.cover-letter-doc .content p.bullet {
+        margin-left: 0.2in;
+        text-indent: -0.12in;
+      }
+      body.doc.cover-letter-doc .content p.spacer {
+        margin: 0.15rem 0;
+        height: 0.25rem;
+      }
+    </style>
+  </head>
+  <body class="doc cover-letter-doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

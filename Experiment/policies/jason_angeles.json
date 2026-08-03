@@ -1,0 +1,23 @@
+{
+  "items": [
+    {
+      "id": "a1f3c2d4-5e6b-47a8-9c01-2b3d4e5f6a7b",
+      "text": "Salary / compensation expectation: if the job description posts a range X–Y, answer the value 80% of the way from X to Y (i.e. X + 0.8*(Y-X)); when a range is requested, give the 40%-to-120% span (X+0.4*(Y-X) to X+1.2*(Y-X)). Round every figure to the nearest $5,000. If no range is posted, use $150,000 for a single value, or $140,000–$200,000 for a range.",
+      "enabled": true,
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "id": "b2e4d3c5-6f7a-48b9-8d12-3c4e5f6a7b8c",
+      "text": "For acknowledgement / consent fields phrased as \"I accept that …\", \"I agree …\", \"I certify …\", or \"I consent …\" that expect a positive answer to proceed, answer yes / true / the affirmative option — unless the statement is something a candidate should plausibly decline.",
+      "enabled": true,
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "id": "c3f5e4d6-7a8b-49c0-9e23-4d5f6a7b8c9d",
+      "text": "For conflict-of-interest / nepotism disclosure questions asking whether you are (or have ever been) an employee of the hiring company, or whether any relative, family member, or close personal contact works there or is connected to the company — answer No / none. The candidate has no such relationships unless they have explicitly stated otherwise.",
+      "enabled": true,
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    }
+  ],
+  "seeded": true
+}

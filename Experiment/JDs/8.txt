@@ -1,0 +1,38 @@
+Java Fullstack Developer with React
+Hirekeyz Inc
+Plano, TX • On-site
+
+
+1-Click Apply
+
+
+
+$50.25 - $64.75/hr
+
+
+Estimated pay
+
+Contractor
+
+Posted 11 days ago
+
+Job description
+Job Title: Java Fullstack Developer with React
+
+Location: Plano, TX (Onsite)
+
+
+Job Type Type: Contract/W2
+
+Job Description:
+
+Proficient in Java/J2EE, with a good knowledge of its ecosystems
+Solid understanding of object-oriented programming
+Familiar with various design and architectural patterns
+Skill for writing reusable Java libraries and Spring boot
+Knowledge of concurrency patterns in Java
+Familiarity with concepts of MVC, JDBC, and RESTful
+ReactJS
+JavaScript
+UI/HTML/CSS
+API is knowledge of accessing API

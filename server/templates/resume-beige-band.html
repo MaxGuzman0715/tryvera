@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume</title>
+    <style>
+      :root {
+        --heading: #5a4f47;
+        --body: #2a2624;
+        --muted: #5c534c;
+        --beige-band: #f2ebe2;
+        --tan-rule: #c4a57e;
+        --paper: #ffffff;
+        --meter-track: #e8dfd4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.theme-beige-band {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 10pt;
+        line-height: 1.48;
+        color: var(--body);
+        background: var(--paper);
+      }
+      body.doc.theme-beige-band .sheet {
+        max-width: 7.2in;
+        margin: 0 auto;
+        padding: 0.2in 0 0.35in;
+      }
+      body.doc.theme-beige-band .content h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 22pt;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        color: var(--heading);
+        font-family: inherit;
+      }
+      body.doc.theme-beige-band .content p.resume-headline {
+        margin: 0.35rem 0 0.2rem;
+        text-align: center;
+        font-size: 11pt;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        text-transform: none;
+        color: var(--body);
+      }
+      body.doc.theme-beige-band .content p.contact-line {
+        margin: 0 0 0.55rem;
+        text-align: center;
+        font-size: 9.25pt;
+        color: var(--muted);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        padding-bottom: 0.45rem;
+        border-bottom: none;
+      }
+      body.doc.theme-beige-band .content h2 {
+        margin: 0.95rem 0 0;
+        padding: 0.42rem 0.5rem 0.38rem;
+        background: var(--beige-band);
+        text-align: center;
+        font-size: 10.25pt;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: none;
+        color: var(--heading);
+        font-family: inherit;
+        border: none;
+        position: relative;
+      }
+      body.doc.theme-beige-band .content h2::after {
+        content: "";
+        display: block;
+        width: 38%;
+        max-width: 2.1in;
+        margin: 0.32rem auto 0;
+        border-bottom: 1px solid var(--tan-rule);
+      }
+      body.doc.theme-beige-band .content h2 + * {
+        margin-top: 0.42rem;
+      }
+      body.doc.theme-beige-band .content h3 {
+        margin: 0.35rem 0 0.12rem;
+        font-size: 10pt;
+        font-weight: 800;
+        color: var(--body);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        line-height: 1.35;
+      }
+      body.doc.theme-beige-band .content p.template-hint {
+        display: none;
+      }
+      body.doc.theme-beige-band .content p {
+        margin: 0.2rem 0;
+      }
+      body.doc.theme-beige-band .content p.bullet {
+        margin-left: 0.14in;
+        text-indent: -0.1in;
+        padding-left: 0.1in;
+        text-align: left;
+      }
+      body.doc.theme-beige-band .content p.spacer {
+        margin: 0.08rem 0;
+        height: 0.2rem;
+      }
+      body.doc.theme-beige-band .content > p:not(.bullet):not(.contact-line):not(.resume-headline):not(.spacer) {
+        text-align: justify;
+      }
+      body.doc.theme-beige-band .content .resume-role-main > p:not(.bullet) {
+        text-align: justify;
+      }
+      body.doc.theme-beige-band .resume-role-row {
+        display: grid;
+        grid-template-columns: 0.95in 1fr;
+        gap: 0.18in 0.22in;
+        align-items: start;
+        margin: 0.38rem 0 0.28rem;
+      }
+      body.doc.theme-beige-band .resume-role-dates {
+        margin: 0.12rem 0 0;
+        font-size: 9pt;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--heading);
+        line-height: 1.4;
+      }
+      body.doc.theme-beige-band .resume-role-main {
+        min-width: 0;
+      }
+      body.doc.theme-beige-band .resume-role-main h3 {
+        margin-top: 0;
+      }
+      body.doc.theme-beige-band .resume-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.22in 0.18in;
+        margin: 0.4rem 0 0.35rem;
+      }
+      body.doc.theme-beige-band .resume-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.22in 0.28in;
+        margin: 0.4rem 0 0.35rem;
+      }
+      body.doc.theme-beige-band .resume-grid-col {
+        min-width: 0;
+      }
+      body.doc.theme-beige-band .resume-grid-col .edu-years {
+        margin: 0 0 0.12rem;
+        font-size: 9pt;
+        color: var(--muted);
+        text-align: center;
+      }
+      body.doc.theme-beige-band .resume-grid-col .edu-school {
+        margin: 0 0 0.1rem;
+        font-size: 9.5pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        text-align: center;
+        color: var(--body);
+      }
+      body.doc.theme-beige-band .resume-grid-col .edu-detail {
+        margin: 0;
+        font-size: 9.25pt;
+        text-align: center;
+        color: var(--body);
+        line-height: 1.35;
+      }
+      body.doc.theme-beige-band .resume-grid-col .skill-col-line {
+        margin: 0.08rem 0;
+        font-size: 9.5pt;
+        text-align: left;
+      }
+      body.doc.theme-beige-band .resume-lang-bars {
+        margin: 0.4rem 0 0.35rem;
+      }
+      body.doc.theme-beige-band .resume-lang-row {
+        display: grid;
+        grid-template-columns: 1.15in 1fr;
+        align-items: center;
+        gap: 0.2in;
+        margin: 0.22rem 0;
+      }
+      body.doc.theme-beige-band .resume-lang-name {
+        font-size: 9.5pt;
+        color: var(--body);
+      }
+      body.doc.theme-beige-band .resume-lang-meter {
+        height: 5px;
+        background: var(--meter-track);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      body.doc.theme-beige-band .resume-lang-fill {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--tan-rule), #a88962);
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body class="doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "signal_quality": "high",
+  "clearance_required": false,
+  "clearance_level": "not_required",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 60,
+    "DevOps": 15,
+    "Cloud": 10,
+    "Database": 10,
+    "FE": 5
+  },
+  "K1": {
+    "hard": {
+      "BE": [
+        "go",
+        "python"
+      ]
+    },
+    "soft": [
+      "9+ years' experience in software engineering",
+      "2+ years experience in technical leadership roles"
+    ]
+  },
+  "K2": [
+    "distributed systems",
+    "microservices",
+    "REST API",
+    "API design",
+    "CI/CD",
+    "telemetry",
+    "observability",
+    "on-call rotations",
+    "Datadog",
+    "Sentry",
+    "Azure Data Explorer",
+    "MySQL",
+    "CosmosDB",
+    "Elasticsearch",
+    "React.js",
+    "Bash",
+    "CNCF concepts",
+    "system design",
+    "architecture briefs"
+  ],
+  "competency_signals": []
+}

@@ -1,0 +1,257 @@
+/*
+ * Auth surfaces (Login, Setup) — Tryvera palette, scoped under `.tb-auth` so
+ * nothing bleeds into the signed-in app. Signing in should not feel like
+ * crossing between two products, so the accent, neutrals and radii match the
+ * dashboard tokens in styles.css.
+ *
+ * The `tb-` prefix is historical; Login.tsx and Setup.tsx target these class
+ * names. Renaming them would be churn rather than design, so the names stay
+ * and only the values changed.
+ */
+
+.tb-auth {
+  --tb-bg: #f9fafb;
+  --tb-bg-soft: #ffffff;
+  --tb-bg-warm: #fff4ed;
+  --tb-ink: #1b1f24;
+  --tb-ink-soft: #6b7280;
+  --tb-ink-dim: #9ca3af;
+  --tb-line: #e5e7eb;
+  --tb-line-strong: #e5e7eb;
+  --tb-hairline: #f1f2f4;
+  --tb-accent: #e8590c;
+  --tb-accent-deep: #c2410c;
+  --tb-accent-hover: #c94a05;
+  --tb-accent-soft: #fff4ed;
+  --tb-danger: #b91c1c;
+  --tb-radius: 14px;
+  --tb-radius-sm: 10px;
+  --tb-radius-btn: 9px;
+  --tb-font: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --tb-font-display: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /*
+   * Override the global tokens used by `styles.css` form rules. That
+   * stylesheet has `input[type="email"] { background: var(--bg) !important }`
+   * and similar — redefining the source variables in this scope is the only
+   * way to control the wrapper without !important spam.
+   */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: var(--tb-ink);
+  --border: var(--tb-line);
+
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--tb-bg);
+  color: var(--tb-ink);
+  font-family: var(--tb-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tb-auth * {
+  box-sizing: border-box;
+}
+
+.tb-auth a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tb-auth a:hover {
+  color: var(--tb-accent);
+}
+
+/* ── Top nav ────────────────────────────────────────────────────────── */
+
+.tb-auth-nav {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.tb-auth .tb-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 1.05rem;
+  color: var(--tb-ink);
+}
+
+.tb-auth .tb-brand-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--tb-accent);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(232, 89, 12, 0.32);
+}
+
+.tb-auth .tb-brand-mark svg {
+  width: 15px;
+  height: 15px;
+}
+
+.tb-auth-back {
+  font-size: 0.92rem;
+  color: var(--tb-ink-soft);
+  font-weight: 500;
+}
+
+.tb-auth-back:hover {
+  color: var(--tb-accent-deep);
+}
+
+/* ── Centered card ──────────────────────────────────────────────────── */
+
+.tb-auth-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem 4rem;
+  gap: 1rem;
+}
+
+.tb-auth-card {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2.5rem 2.25rem;
+  border-radius: var(--tb-radius);
+  background: var(--tb-bg-soft);
+  border: 1px solid var(--tb-line);
+  box-shadow: 0 30px 80px -40px rgba(16, 24, 40, 0.14);
+}
+
+.tb-auth-title {
+  margin: 0;
+  font-family: var(--tb-font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--tb-ink);
+}
+
+.tb-auth-sub {
+  margin: 0.6rem 0 0;
+  color: var(--tb-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.tb-auth-body {
+  margin-top: 1.6rem;
+}
+
+.tb-auth-foot {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--tb-ink-dim);
+  text-align: center;
+  max-width: 28rem;
+}
+
+.tb-auth-foot a {
+  color: var(--tb-accent-deep);
+  font-weight: 600;
+}
+
+/* ── Form primitives ────────────────────────────────────────────────── */
+
+.tb-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.tb-auth-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--tb-ink);
+  margin-top: 0.5rem;
+}
+
+.tb-auth-form input {
+  font-family: inherit;
+  font-size: 0.96rem;
+  color: var(--tb-ink);
+  background: var(--tb-bg);
+  border: 1px solid var(--tb-line-strong);
+  border-radius: 10px;
+  padding: 0.78rem 0.9rem;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.tb-auth-form input:focus {
+  border-color: var(--tb-accent-deep);
+  background: var(--tb-bg-soft);
+  box-shadow: 0 0 0 3px rgba(232, 89, 12, 0.14);
+}
+
+.tb-auth-form input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tb-auth-error {
+  margin: 0.85rem 0 0;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--tb-radius-sm);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+
+.tb-auth-submit {
+  margin-top: 1.4rem;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.92rem 1.4rem;
+  border-radius: var(--tb-radius-btn);
+  border: 1px solid var(--tb-accent);
+  background: var(--tb-accent);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -10px rgba(232, 89, 12, 0.3);
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tb-auth-submit:hover:not(:disabled) {
+  background: var(--tb-accent-hover);
+  border-color: var(--tb-accent-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px -10px rgba(232, 89, 12, 0.36);
+}
+
+.tb-auth-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.tb-auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

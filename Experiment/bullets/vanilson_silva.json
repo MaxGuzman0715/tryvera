@@ -1,0 +1,133 @@
+{
+  "id": "vanilson_silva",
+  "basic": {
+    "fullName": "Vanilson Silva",
+    "title": "Senior Software Engineer",
+    "email": "fl1925010@gmail.com",
+    "phone": "+55 38 99807-4993",
+    "location": "Brasília, Federal District, Brazil",
+    "linkedin": "https://www.linkedin.com/in/vanilson-dev"
+  },
+  "experience": [
+    {
+      "company": "entrenoss.site",
+      "location": "Brasília, BR / Remote",
+      "title": "Founder",
+      "startDate": "Jan 2026",
+      "endDate": "Present",
+      "bullets": [
+        "•\tArchitected and developed a full-scale parental security ecosystem featuring a Next.js marketing site, a React Native (Expo) mobile app, and a robust Node.js/NestJS/Prisma backend.",
+        "•\tEngineered a real-time WhatsApp synchronization engine using headless session management.",
+        "•\tImplemented an AI-driven safety filter that utilizes natural language processing to detect patterns of harassment, bullying, or digital risks.",
+        "•\tOrchestrated a scalable infrastructure leveraging Docker and PostgreSQL, ensuring 99.9% availability for a sensitive, high-concurrency data platform."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Outlier AI",
+      "location": "Remote / Oakland, CA",
+      "title": "Senior Full Stack Engineer",
+      "startDate": "Jul 2025",
+      "endDate": "Jan 2026",
+      "bullets": [
+        "•\tDeveloped and maintained scalable full stack applications using React, Next.js, Node.js, and TypeScript.",
+        "•\tLed the design of a decoupled architecture with isolated frontend (Next.js) and backend (Node.js + NestJS) services, improving scalability by 50% and reducing testing time by 35%.",
+        "•\tResearched, fine-tuned, and deployed LLMs and other AI models to solve real-world business problems.",
+        "•\tReviewed code and mentored 3 junior engineers, enforcing clean architecture principles (separation of concerns, dependency injection, repository pattern) and maintaining 90%+ test coverage."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "BOTSTUDIO",
+      "location": "Iguatu, BR",
+      "title": "Full Stack Developer",
+      "startDate": "Jun 2023",
+      "endDate": "May 2025",
+      "bullets": [
+        "•\tDeveloped a full-featured financial management platform (task manager, invoicing, and payments) using React + TypeScript (frontend) and Node.js + Express (backend) with PostgreSQL — serving 500+ monthly active small businesses.",
+        "•\tDesigned user-centric frontends with React and integrated custom UI components.",
+        "•\tBuilt RESTful APIs in Node.js backed by PostgreSQL and managed service integrations.",
+        "•\tDelivered an MVP in under 6 months that powered lending workflows for cars and motorcycles - processing over R$2M in loan simulations with 99.5% uptime.",
+        "•\tOversaw Git workflows (GitFlow, conventional commits), reviewed 100+ PRs, and contributed to CI/CD implementation using GitLab CI and Docker Compose."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "View Brazil Web Solutions",
+      "location": "Brasília, BR",
+      "title": "Web Developer",
+      "startDate": "Apr 2021",
+      "endDate": "Mar 2023",
+      "bullets": [
+        "•\tBuilt and maintained 15+ responsive client websites and web applications using React, WordPress (headless CMS), and Vue.js — serving local businesses, NGOs, and government contractors.",
+        "•\tIntegrated RESTful APIs (Google Maps, WhatsApp Business API, email services) and managed MySQL databases for dynamic content and form submissions.",
+        "•\tMigrated legacy PHP sites to modern React-based static sites (Gatsby + Netlify), reducing hosting costs by 60% and improving page load times by 45%."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Tera Hertz",
+      "location": "Unai, BR",
+      "title": "Software Developer Intern",
+      "startDate": "Apr 2020",
+      "endDate": "Dec 2021",
+      "bullets": [
+        "•\tAssisted in developing and testing web components for enterprise workflow systems using AngularJS (legacy) and jQuery — gaining hands-on experience with real-world production codebases.",
+        "•\tWrote and maintained SQL queries (SQL Server, MySQL) for reporting and data validation, supporting internal analytics dashboards.",
+        "•\tDocumented API endpoints and database schemas, creating a reference guide still used by new team members after internship completion."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "Angular",
+    "Tailwind",
+    "Redux",
+    "HTML5/CSS3",
+    "Node.js",
+    "Express",
+    "NestJS",
+    "Python",
+    "FastAPI",
+    "REST",
+    "WebSockets",
+    "PostgreSQL",
+    "MongoDB",
+    "Redis",
+    "MySQL",
+    "DynamoDB",
+    "SQL Server",
+    "Prisma",
+    "Mongoose",
+    "Jest",
+    "Cypress",
+    "Storybook",
+    "Bootstrap",
+    "Radix UI",
+    "AWS",
+    "Docker",
+    "GitHub Actions",
+    "GitLab CI",
+    "Prometheus",
+    "Grafana",
+    "LLMs (GPT",
+    "Llama",
+    "Mistral)",
+    "Hugging Face",
+    "LangChain",
+    "TensorFlow.js",
+    "ONNX"
+  ],
+  "education": [
+    {
+      "school": "Proway University",
+      "degree": "Associate Degree",
+      "field": "Computer Science",
+      "startDate": "2022",
+      "endDate": "2023"
+    }
+  ]
+}

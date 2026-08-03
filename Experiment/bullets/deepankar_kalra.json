@@ -1,0 +1,1596 @@
+{
+  "id": "deepankar_kalra",
+  "basic": {
+    "fullName": "Deepankar Kalra",
+    "title": "Senior Software Engineer",
+    "email": "Deepankar.kalra11@outlook.com",
+    "phone": "+1 437 218 1570",
+    "location": "Mississauga, ON",
+    "linkedin": "https://www.linkedin.com/in/deepankar-k-485075b6/"
+  },
+  "experience": [
+    {
+      "company": "ASSA ABLOY Group",
+      "location": "Toronto, ON",
+      "title": "Lead Software Engineer",
+      "startDate": "Jun 2024",
+      "endDate": "Present",
+      "bullets": [
+        "Build full-stack and AI capabilities across ASSA ABLOY's digital access portfolio, spanning ecoLOGIC (AI energy-optimization for automatic doors), Digital Access Solutions (cloud + mobile credential platform), and Vision AI biometrics.",
+        "Engineered the real-time ML pipeline behind ecoLOGIC that optimizes door open/close behavior to cut entrance energy loss, contributing to the eval and documentation that earned the product TUV SUD's first 'Low-Risk AI' test mark.",
+        "Developed the cloud backend and admin/mobile front-ends for Digital Access Solutions, letting facility managers issue, revoke, and audit mobile credentials across large door fleets from one platform.",
+        "Integrated Vision AI facial recognition into the iDFace/speed-gate access flow, running on-device inference to gate entry reliably even in total darkness."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Accenture",
+      "location": "Toronto, ON",
+      "title": "Senior Software Engineer",
+      "startDate": "Dec 2018",
+      "endDate": "May 2024",
+      "bullets": [],
+      "paragraphs": [],
+      "consulting": true
+    },
+    {
+      "company": "Meta",
+      "location": "Mississauga, ON",
+      "title": "Senior Software Engineer",
+      "startDate": "Oct 2014",
+      "endDate": "Nov 2018",
+      "bullets": [
+        "Worked on Feed surface development, building client-side components for large-scale content delivery across web and mobile platforms.",
+        "Contributed to feed rendering and data-fetching pipelines, ensuring smooth infinite-scroll performance under high traffic conditions.",
+        "Improved frontend feed performance and stability through rendering optimizations and bug fixes in production systems.",
+        "Collaborated with backend and ranking teams to integrate content signals into feed delivery logic.",
+        "Supported experimentation and gradual rollout systems used for feed feature testing and performance evaluation."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Languages: Python, C++, Go, Java, Ruby, TypeScript, Swift, Kotlin",
+    "AI & Machine Learning: ranking and recommendation systems (multitask neural nets), LLMs and RAG, fine-tuning (LLaMa, LoRA), embeddings and vector search, computer vision, agentic systems and tool use, PyTorch/TensorFlow, model evaluation and grounding",
+    "ML Systems & Data Engineering: feature stores and feature pipelines, real-time and batch model serving, A/B testing and experimentation, streaming with Kafka/Flink/Spark, Airflow and dbt, MLOps, drift and performance monitoring",
+    "Backend & Distributed Systems: event-driven microservices, gRPC/GraphQL/REST APIs, large-scale low-latency serving for billions of users, sharding, replication and caching, PostgreSQL, MongoDB, Cassandra, Redis, Elasticsearch",
+    "Frontend & Mobile: React, React Native, Next.js, iOS (Swift), Android (Kotlin), Flutter, on-device inference",
+    "Cloud & Platform: AWS, GCP, Azure, Kubernetes, Docker, Terraform, CI/CD, observability (OpenTelemetry, Prometheus, Grafana, Datadog), SLOs and on-call, authentication and authorization (OAuth2, OIDC)"
+  ],
+  "education": [
+    {
+      "school": "Rajasthan Technical University",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "Mar 2008",
+      "endDate": "Aug 2011"
+    },
+    {
+      "school": "Rajasthan Technical University",
+      "degree": "Master of Computer Applications (MCA)",
+      "field": "Computer Applications",
+      "startDate": "Sep 2011",
+      "endDate": "Mar 2014"
+    }
+  ],
+  "companies": {
+    "ASSA ABLOY Group": {
+      "project": "ecoLOGIC (AI energy-optimization for automatic doors), Digital Access Solutions (cloud + mobile credential platform) & Vision AI biometrics (iDFace)",
+      "stacks": {
+        "python": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Python feature-engineering platform behind ecoLOGIC, turning door-sensor telemetry from est. thousands of installed automatic doors into the training and serving features for the AI energy-optimization models.",
+            "Designed the pipeline's feature contract and partitioning so the ML, firmware, and analytics teams consumed telemetry independently, removing the hand-offs that had serialized model iteration.",
+            "Profiled the nightly feature build with cProfile and replaced a per-door API loop with batched multiprocessing.Pool workers, cutting a multi-hour run to under 30 minutes and keeping it ahead of fleet growth.",
+            "Established typed dataclasses and mypy gating as the package standard after a None-handling bug class silently dropped door readings, ending a recurring source of corrupted training data.",
+            "Hardened ingestion against sensor dropout with schema validation and safe fallbacks, so a failed footfall sensor degraded predictably instead of poisoning model inputs across the fleet."
+          ]
+        },
+        "python_fastapi": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built the FastAPI inference gateway serving ecoLOGIC's energy-optimization decisions to the edge door fleet at est. 5k req/s, holding p99 under 120ms with fully async endpoints.",
+            "Architected Pydantic models as the single versioned contract between the gateway and edge controllers, ending the schema drift that had caused silent field mismatches across device firmware versions.",
+            "Established async SQLAlchemy with asyncpg as the team's data-access standard after blocking calls stalled the event loop, removing the request queuing that had spiked latency during peak hours.",
+            "Wrapped the model dependency in a bounded async semaphore so a slow inference call applied backpressure instead of cascading 504s that could leave doors awaiting a decision.",
+            "Instrumented the service with dependency-injected OpenTelemetry tracing, making a slow telemetry lookup attributable in minutes instead of a multi-team hunt across the edge-to-cloud path."
+          ]
+        },
+        "python_django": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the Django service powering the Digital Access Solutions admin, letting facility managers configure access policies across est. thousands of doors without an engineering release.",
+            "Designed versioned Django REST Framework serializers as the contract for internal tooling, so integrating teams shipped against access config without breaking changes during the platform rollout.",
+            "Drove select_related/prefetch_related plus a cache layer as the ORM standard after N+1 queries pushed the access-log console past est. 3s p95, landing it under 300ms fleet-wide.",
+            "Offloaded credential-revocation fan-out onto Celery workers, so a large bulk-revoke could no longer exhaust the synchronous request pool and delay a security-critical access change.",
+            "Hardened the admin with django-guardian row-level permissions, closing a gap that had let any operator edit access policy for sites they did not manage."
+          ]
+        },
+        "python_flask": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Built the Flask service fronting ecoLOGIC's internal tuning and diagnostics tooling, serving est. 200 field-engineering users with sub-300ms reads on live door state.",
+            "Decomposed a monolithic Flask app into blueprints with isolated error handlers, so a failing report endpoint stopped taking the whole diagnostics tool offline mid-shift.",
+            "Established Gunicorn behind gevent workers as the deployment standard after the dev server capped throughput at est. 40 req/s, lifting sustained throughput past 500 req/s.",
+            "Diagnosed nightly worker crashes from leaked SQLAlchemy sessions and switched to scoped_session teardown, ending the memory growth that had silently degraded the tool.",
+            "Added Marshmallow validation at the request boundary, cutting malformed-payload 500s that had masked real telemetry data-quality issues feeding the models."
+          ]
+        },
+        "java_springboot": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the Spring Boot microservices behind Digital Access Solutions, managing credential lifecycle and door-access state across est. thousands of installed locks.",
+            "Redesigned credential transitions as a Spring State Machine after a race let a revoked badge briefly retain access, eliminating the stale-entitlement window that could leave a door wrongly open.",
+            "Established Spring Boot Actuator readiness probes as the fleet standard so Kubernetes stopped routing entry requests to pods still warming their policy caches.",
+            "Cut access-event latency by moving synchronous work to @Async listeners on a bounded executor, so a slow downstream call no longer backed up Tomcat's thread pool.",
+            "Replaced field injection with constructor injection and Testcontainers integration tests, catching a wiring regression that would have shipped a broken access path to production."
+          ]
+        },
+        "java": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Java services on the door-controller gateway that translate cloud access policy into lock commands across est. thousands of Aperio wireless locks.",
+            "Rebuilt the policy-evaluation engine to read access rules from config and decomposed a shared util jar that forced lockstep releases, so credential and telemetry teams shipped independently.",
+            "Diagnosed a JVM pause that delayed unlock commands under load, tuning the G1GC heap and removing a synchronized block that serialized every access-check thread.",
+            "Hardened offline-mode with a durable command queue, so a controller that lost cloud connectivity still enforced the last-known policy instead of failing open.",
+            "Established a Testcontainers-backed regression suite as the gateway standard, ending the recurring config-parsing defects that had reached field controllers."
+          ]
+        },
+        "typescript": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the TypeScript API layer unifying Digital Access Solutions' credential, door, and audit services for the admin and mobile clients.",
+            "Modeled credential and door states as discriminated unions so the compiler rejected invalid transitions, catching at build time the bugs that had reached the access UI.",
+            "Drove shared TypeScript interface packages across frontend, backend, and BFF as the org contract, ending the drift that broke integrations during the platform rollout.",
+            "Owned the strict-mode tsconfig migration across est. 12 repos, removing implicit-any escape hatches that had hidden null-handling defects in access logic.",
+            "Eliminated runtime payload errors by enforcing zod validation at service boundaries, turning silent bad-data 500s into typed rejections on access requests."
+          ]
+        },
+        "nodejs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Node.js BFF streaming real-time door status and access events to the Digital Access Solutions dashboards across est. thousands of doors.",
+            "Redesigned audit-export as Node.js Transform streams and the BFF's downstream calls behind a bounded queue and circuit breaker, so a slow site no longer cascaded timeouts or OOMed on large exports.",
+            "Diagnosed event-loop stalls under telemetry bursts with clinic.js, moving CPU-bound transforms to worker threads so dashboard latency stopped ballooning at busy entrances.",
+            "Established AsyncLocalStorage request-scoped context as the logging standard, fixing the correlation that had made cross-service incident triage slow.",
+            "Hardened the SSE stream against backpressure with explicit flow control, so a stalled dashboard client could not pin a Node process feeding the whole operations floor."
+          ]
+        },
+        "nestjs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected the NestJS BFF aggregating credential, door, and policy calls for the Digital Access Solutions clients, collapsing est. 5 round-trips per screen into one.",
+            "Designed a module-and-provider structure with DI scopes that let est. 6 squads own their feature modules independently without colliding in a shared codebase.",
+            "Established a global exception filter plus guards and interceptors as the team standard, closing inconsistent entitlement checks that had let some endpoints skip policy validation.",
+            "Diagnosed a memory leak from request-scoped providers holding references, switching to transient scope and stopping the slow RSS climb that forced restarts.",
+            "Normalized error shaping across est. 30 endpoints so clients stopped receiving inconsistent payloads on a denied or failed access request."
+          ]
+        },
+        "graphql": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the GraphQL gateway unifying Digital Access Solutions' credential, door, telemetry, and audit domains into one typed schema for the admin and mobile clients across est. thousands of doors.",
+            "Redesigned chatty REST calls into a single query per screen, cutting access-dashboard round-trips est. 70% and the mobile app's cold-load payload sharply.",
+            "Established persisted queries and field-level complexity limits as the gateway standard after an unbounded nested query stalled it, so one client could no longer degrade the API for all.",
+            "Diagnosed N+1 resolver explosions on the access-log query with Apollo tracing, adding DataLoader batching so a site view stopped firing one DB call per door.",
+            "Hardened the schema with field-level authorization directives and a deprecation policy, closing a path that had exposed credential fields to under-privileged roles while letting clients migrate safely."
+          ]
+        },
+        "go": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Go edge agent running on door controllers, evaluating access decisions locally across est. thousands of installs to keep entry fast and offline-tolerant.",
+            "Standardized the agents on shared middleware for tracing and rate limiting, replacing per-site copies that had drifted and made fleet-wide behavior impossible to reason about.",
+            "Hardened concurrent cache access after a data race corrupted local entitlement state, replacing a naive map with sync.RWMutex and proving it clean under the race detector.",
+            "Diagnosed a goroutine leak that exhausted controller memory with pprof, adding context.Context deadlines so abandoned access checks stopped piling up.",
+            "Redesigned a hot policy-evaluation path with a sync.Pool of buffers and a worker pool, cutting allocation churn that had driven GC pauses at busy entrances."
+          ]
+        },
+        "rust": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Built the Rust component on the door controller that validates and signs access tokens locally, using Tokio async to hold sub-5ms decisions with no GC pause on constrained hardware.",
+            "Eliminated a memory-safety class of crashes by porting a C credential parser to Rust, leaning on the borrow checker to remove the use-after-free that had aborted reads at the lock.",
+            "Established the Rust token service as the pattern for new edge components after it cut p99 est. 60% versus the latency-sensitive shim it replaced on the same controller.",
+            "Drove zero-copy parsing with serde and bytes in the token path, removing per-request heap allocations that had capped throughput at peak entry load.",
+            "Hardened the FFI boundary to the legacy lock library with cargo-fuzz tests, closing a panic path that malformed badge data had triggered in the field."
+          ]
+        },
+        "c_cpp": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the C/C++ firmware bridge on the door controller that reads sensors and drives the lock actuator, the layer between ecoLOGIC's decisions and the physical door across est. thousands of installs.",
+            "Redesigned manual malloc/free ownership into RAII with smart pointers, eliminating the leaks that grew RSS until a controller rebooted mid-shift and dropped access enforcement.",
+            "Established AddressSanitizer and libFuzzer runs as the firmware CI gate after a buffer overrun locked up controllers on roughly 1 in 5k events, ending the crash class for the team.",
+            "Diagnosed intermittent segfaults under load with Valgrind, fixing the overrun that had left doors unresponsive during peak traffic.",
+            "Cut per-event processing time est. 40% with std::move semantics and reserved buffers, removing reallocation churn on the safety-critical sensor-read path."
+          ]
+        },
+        "dotnet_csharp": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned the ASP.NET Core service integrating Digital Access Solutions with enterprise customers' .NET building-management systems, processing est. millions of daily access events.",
+            "Drove a Channels-based producer/consumer pipeline as the ingestion pattern, replacing a lock-heavy queue that had serialized throughput on a single core under partner load.",
+            "Diagnosed thread-pool starvation from sync-over-async calls, refactoring to end-to-end async/await Task pipelines and clearing the request timeouts under load.",
+            "Redesigned EF Core queries that loaded full entity graphs into projected DTOs, cutting an access-report from minutes to seconds.",
+            "Hardened the integration with retry policies and idempotency keys, closing a path where a retried webhook double-applied a building-access change."
+          ]
+        },
+        "ruby_on_rails": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned the Rails service running the Digital Access Solutions installer-and-commissioning workflow for est. 300 field technicians, keeping site onboarding flowing.",
+            "Redesigned fat ActiveRecord models into service objects with explicit steps, after unordered callbacks corrupted commissioning state and left devices half-provisioned.",
+            "Moved long-running device-provisioning to Sidekiq jobs, so a slow controller handshake stopped tying up Puma workers during a site cutover.",
+            "Diagnosed N+1 queries dragging the commissioning dashboard with Bullet, adding includes and counter caches to cut load from est. 4s to under 600ms.",
+            "Established strong parameters plus policy objects as the input-handling standard, closing a mass-assignment path that had let a form edit device fields it should not have."
+          ]
+        },
+        "php_laravel": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Built the Laravel marketing and lead-capture site for ecoLOGIC and Digital Access Solutions, sustaining est. 30k req/min during launch campaigns.",
+            "Redesigned tangled controllers into form requests and jobs, isolating validation so malformed input no longer threw fatal errors to prospective customers.",
+            "Moved email and webhook fan-out to Laravel queues on Redis, so a third-party outage stopped blocking the synchronous signup request during a campaign spike.",
+            "Diagnosed slow Eloquent queries with debugbar and added eager loading plus indexes, cutting a campaign report from est. 6s to under 1s.",
+            "Established signed URLs and CSRF protection as the campaign-link standard after a link was tampered with, closing the abuse path for future launches."
+          ]
+        },
+        "scripting": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned the Bash automation orchestrating the firmware-rollout runbook across the door-controller fleet, replacing a manual checklist prone to missed steps on a security product.",
+            "Replaced a brittle cron of one-off scripts with one parameterized tool and structured logging, establishing the rollout standard and cutting on-call time decoding job behavior.",
+            "Hardened scripts with set -euo pipefail and trap cleanup so a failed step halted the deploy instead of half-applying firmware across live controllers.",
+            "Automated edge capacity and OTA-update steps with idempotent shell wrappers around the cloud CLI, removing error-prone manual changes to the fleet.",
+            "Diagnosed device keys leaking into logs and piped output through redaction, moving credentials to the injected store to close the exposure."
+          ]
+        },
+        "react": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the React admin console for Digital Access Solutions, letting facility managers issue and revoke mobile credentials and audit entry across est. thousands of doors from one dashboard.",
+            "Redesigned a janky access-log grid with react-window virtualization, dropping DOM nodes est. 80% so the audit view stayed smooth on sites with millions of entry events.",
+            "Established a useReducer state machine for shared policy state as the console pattern, after the Profiler traced input lag on the policy editor to avoidable re-renders.",
+            "Built a live door-status view with code-split React.lazy/Suspense routes, keeping the initial bundle small while streaming real-time state from the BFF.",
+            "Contained widget failures with ErrorBoundary so a broken telemetry rail degraded gracefully instead of blanking the whole operations screen."
+          ]
+        },
+        "nextjs": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Next.js marketing and product pages for ecoLOGIC and Digital Access Solutions, using SSR and ISR to serve est. 5M annual visits with sub-2s LCP and indexable content.",
+            "Redesigned client-fetched pages as server components after hydration hurt LCP, cutting shipped JS est. 45% on the product-detail route and setting the rendering pattern for new pages.",
+            "Diagnosed an ISR cache stampede during a launch, adding stale-while-revalidate so a traffic spike no longer hammered the origin.",
+            "Drove next/image optimization and route-level code splitting, removing the oversized hero assets that had been the top LCP regression.",
+            "Hardened the API routes with edge-middleware auth, closing an unauthenticated path that had exposed an embargoed product page."
+          ]
+        },
+        "vue": {
+          "domain": "FE",
+          "tier": 2,
+          "bullets": [
+            "Owned the Vue operations console used by est. 400 facility staff to monitor door health and energy savings in real time.",
+            "Redesigned prop-drilled state into Pinia stores as the console standard after cross-component bugs multiplied, ending the stale-UI complaints from operators.",
+            "Diagnosed reactivity leaks from un-cleaned watchers, moving to watchEffect with explicit teardown so the long-lived console stopped degrading over a shift.",
+            "Cut initial load est. 50% with Vue async components and route-level lazy loading on the monitoring views.",
+            "Hardened forms with VeeValidate schema rules, replacing manual checks that had let invalid policy edits reach the backend."
+          ]
+        },
+        "angular": {
+          "domain": "FE",
+          "tier": 2,
+          "bullets": [
+            "Owned the Angular enterprise-partner portal serving est. 200 distributor accounts managing access deployments and reporting.",
+            "Established OnPush change detection with observables as the portal standard after the UI lagged on large door tables, cutting render time est. 60%.",
+            "Diagnosed memory growth from un-unsubscribed observables, introducing a takeUntil teardown pattern across est. 40 components.",
+            "Drove lazy-loaded feature modules and preloading, shrinking the initial bundle so first paint stopped blocking on reporting.",
+            "Hardened forms with typed reactive FormGroups and async validators, closing an invalid-submission path that had created bad deployment records."
+          ]
+        },
+        "svelte": {
+          "domain": "FE",
+          "tier": 2,
+          "bullets": [
+            "Built the lightweight Svelte status widget embedded in customer building dashboards, shipping est. 70% less JS so it loaded fast inside third-party portals.",
+            "Redesigned global state into Svelte stores as the widget pattern after prop chains grew unwieldy across the status components.",
+            "Diagnosed layout thrash on the live energy chart and used Svelte transitions with will-change, removing the dropped frames.",
+            "Cut the bundle further with SvelteKit route-level splitting so the detail overlay did not pull in the full dashboard.",
+            "Hardened SSR hydration by guarding browser-only APIs, fixing a flash-of-broken-UI on cold loads inside host portals."
+          ]
+        },
+        "swift": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the Swift mobile-credential layer in the Digital Access Solutions iOS app, holding a crash-free rate above est. 99.8% while turning the phone into a secure door key.",
+            "Redesigned massive view controllers into MVVM with Combine, untangling the state that had caused intermittent wrong-door unlock prompts at multi-door sites.",
+            "Established async/await off-main-thread handling for BLE/NFC handshakes as the team pattern, after Instruments traced the unlock-screen stutter to UI-thread work.",
+            "Cut cold-start time est. 30% by deferring non-critical SDK init and using lazy stored properties, getting users to the unlock action faster.",
+            "Hardened credential storage in the Secure Enclave with integrity checks, closing a path where a corrupted key silently failed the unlock at the door."
+          ]
+        },
+        "kotlin": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned the Kotlin mobile-credential stack in the Digital Access Solutions Android app, delivering unlock parity with iOS across a fragmented enterprise device base.",
+            "Redesigned callback-heavy credential sync into Kotlin Flow with StateFlow, removing the race conditions that showed stale access after a policy change.",
+            "Established coroutines on Dispatchers.IO for BLE work as the standard after ANRs from main-thread handshakes spiked unlock failures, clearing the freezes fleet-wide.",
+            "Cut APK size est. 20% by replacing a heavy library with a focused Kotlin module, easing pressure on the low-end devices common at enterprise sites.",
+            "Hardened null handling at the JNI and BLE boundary with explicit nullable types, closing the NPE class that had dominated the crash dashboard."
+          ]
+        },
+        "objc": {
+          "domain": "Mobile",
+          "tier": 2,
+          "bullets": [
+            "Owned the legacy Objective-C modules still shipping in the Digital Access Solutions iOS app, keeping est. 30% of the codebase stable while the Swift migration ran.",
+            "Bridged Objective-C and Swift with nullability annotations as the interop contract, so new code consumed old modules without crash-prone casts during the migration.",
+            "Diagnosed retain cycles with the Leaks instrument and broke them with weak block references, stopping the memory growth that crashed long unlock sessions.",
+            "Redesigned a fragile delegate web into a notification flow, removing the ordering bugs that caused inconsistent credential state.",
+            "Hardened a UIKit category broken by an OS update, replacing the risky method swizzle with a contained subclass."
+          ]
+        },
+        "flutter": {
+          "domain": "Mobile",
+          "tier": 2,
+          "bullets": [
+            "Built a cross-platform Flutter companion app for facility staff from one codebase, shipping iOS and Android in est. half the time two native teams would take.",
+            "Redesigned setState screens into Riverpod providers as the app's state pattern, removing the rebuild storms that drained battery on long monitoring shifts.",
+            "Diagnosed jank with the Flutter DevTools timeline and added const widgets and RepaintBoundary, holding 60fps on the door-list view.",
+            "Cut startup time est. 35% with deferred loading on mid-tier Android hardware common at customer sites.",
+            "Hardened platform-channel calls to native BLE SDKs with typed error handling, closing a silent unlock-failure path."
+          ]
+        },
+        "react_native": {
+          "domain": "Mobile",
+          "tier": 2,
+          "bullets": [
+            "Owned the React Native shell powering a secondary visitor-management mobile surface, sharing est. 80% of code across iOS and Android while keeping native BLE.",
+            "Migrated the hot list to the Fabric architecture with FlatList windowing as the rendering standard, after bridge congestion dropped frames on scroll.",
+            "Redesigned navigation onto react-navigation with lazy screens, removing the memory bloat that crashed the app after deep sessions.",
+            "Cut the JS bundle est. 30% with Hermes and inline-requires, improving cold start on low-end devices.",
+            "Hardened the native module boundary with typed TurboModule specs, closing silent type-mismatch crashes between JS and the BLE SDK."
+          ]
+        },
+        "classical_ml": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the ML pipeline behind ecoLOGIC, ASSA ABLOY's AI door-optimization product, scoring real-time traffic across est. thousands of installed automatic doors to cut entrance energy loss.",
+            "Redesigned a fixed open/close schedule into a gradient-boosted model on live footfall and weather features, lifting energy savings est. 30% over the rule-based baseline it replaced.",
+            "Drove the eval harness and documentation that earned ecoLOGIC TUV SUD's first 'Low-Risk AI' test mark, turning an audit requirement into a market differentiator other teams now reference.",
+            "Diagnosed leaky features that looked great offline but failed on a new site, removing post-event signals so the deployed model held its savings in the field.",
+            "Cut scoring cost est. 40% by pruning low-importance features via SHAP, shrinking the model with no measurable accuracy loss on the holdout set."
+          ]
+        },
+        "computer_vision": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Built the Vision AI inference pipeline behind the iDFace biometric reader, running facial recognition on-device to gate access even in total darkness across est. hundreds of speed-gate installs.",
+            "Redesigned a slow per-frame CNN pass into batched on-edge inference with TensorRT, cutting recognition latency from est. 800ms to under 150ms at the gate.",
+            "Drove an anti-spoofing liveness check as a gating requirement after a photo-attack probe, closing the presentation-attack path before a printed face could open a door.",
+            "Diagnosed poor recognition in low light, augmenting training data with IR captures and tuning thresholds so false-rejects dropped on the darkness use case the product was sold on.",
+            "Hardened the pipeline against corrupt frames with decode validation, closing a path where one bad camera feed crashed the recognition service for a whole gate."
+          ]
+        },
+        "robotics_planning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned the constrained optimization scheduling ecoLOGIC's door behavior against energy, comfort, and throughput targets across est. thousands of doors under per-site limits.",
+            "Redesigned a greedy heuristic into a constraint-solver formulation after comfort complaints, modeling competing objectives so the door stopped closing on approaching traffic.",
+            "Established hysteresis with a cost-to-switch term as the controller pattern after the door oscillated open/closed near the threshold, stabilizing behavior fleet-wide.",
+            "Drove a probabilistic footfall-forecast model, replacing fixed estimates that had mis-timed openings during predictable rush periods.",
+            "Hardened the planner against infeasible inputs with a safe fallback policy, so a sensor outage produced conservative open behavior instead of no plan at a live door."
+          ]
+        },
+        "agentic_ai_rag": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Architected a RAG assistant over ASSA ABLOY's installation, troubleshooting, and access-policy docs, cutting est. 50% of manual lookups for the field-service team.",
+            "Redesigned naive top-k retrieval into hybrid BM25-plus-vector search with reranking after answers cited the wrong product manual, lifting relevance on the eval set.",
+            "Drove a guarded tool-use loop as the assistant's pattern, so it queried live device-status APIs instead of hallucinating a door's state to a technician in the field.",
+            "Diagnosed context overflow that truncated wiring diagrams, adding semantic chunking and a citation step so every answer linked its source doc.",
+            "Hardened the pipeline with a grounding check that refused low-confidence answers, closing the path where a confident wrong reply could misguide a physical-security install."
+          ]
+        },
+        "llm_finetuning": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Owned fine-tuning of a small model for classifying and routing field-service tickets, reaching est. 90% accuracy and cutting a costly per-call API dependency.",
+            "Established LoRA adapters as the team's tuning approach after full fine-tunes ballooned GPU cost, cutting training spend est. 70% while matching quality on the holdout set.",
+            "Built an eval harness with golden sets and an LLM-judge, catching a regression before it mis-routed a batch of tickets to the wrong service queue.",
+            "Diagnosed train/test leakage that had inflated metrics, adding dedup and leakage checks to restore trustworthy offline numbers.",
+            "Hardened the data pipeline with PII redaction on customer tickets, keeping training data compliant without starving the model of signal."
+          ]
+        },
+        "nlp": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Owned the NLP service classifying and tagging field-service and warranty tickets, processing est. thousands monthly to power triage and reliability analytics.",
+            "Redesigned a brittle keyword matcher into a fine-tuned transformer classifier, lifting tag precision est. 25% and cutting the manual correction queue.",
+            "Established language detection with per-locale handling as the pipeline standard across ASSA ABLOY's global markets, so non-English tickets stopped getting English tags.",
+            "Drove embedding-based dedup of near-duplicate tickets, collapsing the redundant rows that had skewed reliability metrics.",
+            "Hardened the pipeline against tokenization edge cases that dropped accented text, fixing the silent data loss on non-ASCII tickets."
+          ]
+        },
+        "recommendation_sys": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Owned a recommendation layer suggesting predictive-maintenance actions, ranking which doors needed service before failure across est. thousands of installs.",
+            "Redesigned a static rules list into a ranked model on telemetry features, surfacing the highest-risk doors first and cutting unplanned downtime.",
+            "Established online evaluation with guardrail metrics as the release gate, catching a model that raised alerts but lowered precision before it shipped widely.",
+            "Diagnosed alert fatigue from over-recommending, tuning frequency and relevance so maintenance nudges stayed actionable instead of muted.",
+            "Hardened inputs against training-serving skew after live signals diverged from offline, aligning the pipelines and recovering the predicted lift."
+          ]
+        },
+        "ai_safety": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Owned safety evaluation for ASSA ABLOY's AI features, building the red-team suite that gated each release against adversarial probes in a physical-security context.",
+            "Drove the explainability evidence the TUV SUD 'Low-Risk AI' assessment required, documenting why ecoLOGIC's decisions were bounded and safe as the standard others reused.",
+            "Redesigned a thin filter into layered guardrails after a prompt-injection probe surfaced internal install docs, closing the leak path on the RAG assistant.",
+            "Diagnosed over-refusal that blocked legitimate field queries, recalibrating thresholds so safety did not degrade the tool's usefulness.",
+            "Hardened high-stakes access-related answers with human-in-the-loop review and audit logging, ensuring a security-relevant action always carried a trail."
+          ]
+        },
+        "kafka": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Kafka backbone carrying door-sensor and access-event telemetry at est. peak 100k msg/s, decoupling the edge fleet from the ecoLOGIC ML and analytics consumers.",
+            "Drove an Avro schema registry with compatibility checks as the org contract, stopping a firmware change that would have broken every downstream consumer.",
+            "Redesigned at-least-once handling into idempotent consumers with keyed compaction, eliminating duplicate access events that had skewed audit counts.",
+            "Diagnosed consumer lag delaying energy-optimization inputs, repartitioning hot topics and tuning fetch sizes to drain the backlog in minutes.",
+            "Hardened delivery with a dead-letter topic and replay tooling, so a poison message from a faulty controller stopped halting a partition for the whole pipeline."
+          ]
+        },
+        "flink": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Flink stream jobs computing real-time door throughput and energy metrics across the fleet, giving operations live numbers within seconds at est. 100k events/s.",
+            "Redesigned tumbling windows into event-time windows with watermarks after out-of-order sensor events skewed counts, restoring accurate live metrics.",
+            "Established exactly-once two-phase-commit sinks as the streaming standard, eliminating the double-counted entry spikes that had misled capacity decisions.",
+            "Diagnosed growing checkpoint times that risked job stability, tuning the RocksDB state backend and switching to incremental checkpoints.",
+            "Hardened jobs against backpressure with buffer tuning and alerting, so a slow sink no longer silently stalled telemetry ingestion."
+          ]
+        },
+        "spark": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the Spark jobs aggregating door telemetry across the global fleet, producing the daily energy-savings and reliability tables the business depended on by morning.",
+            "Established the DataFrame API with predicate pushdown as the team standard over wide RDD transformations, letting Catalyst prune scans and halving cluster cost.",
+            "Diagnosed skew that stalled a join on a few high-traffic sites, salting keys and broadcasting the small side to cut runtime from est. 3 hours to 40 minutes.",
+            "Cut shuffle spill that crashed executors by tuning partition counts and switching to Kryo serialization, stabilizing the nightly run.",
+            "Hardened the pipeline against late-arriving telemetry with idempotent writes and watermarking, ending the double-counted savings figures finance had flagged."
+          ]
+        },
+        "databricks": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned the Databricks lakehouse for fleet analytics and ML feature prep, serving est. 50 analysts and ecoLOGIC training jobs off Delta tables built from raw telemetry.",
+            "Redesigned full-refresh jobs into Delta Lake incremental MERGE upserts as the lakehouse pattern, cutting daily compute est. 60% and landing tables hours earlier.",
+            "Diagnosed runaway cluster cost from idle interactive sessions, moving scheduled work to job clusters with autoscaling and auto-termination.",
+            "Drove Delta Z-ordering and OPTIMIZE on the hottest tables, cutting query times on the reliability dashboard.",
+            "Hardened data quality with Delta constraints and expectations, blocking malformed telemetry batches from reaching the ML feature store."
+          ]
+        },
+        "airflow": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned the Airflow orchestration running est. 200 daily tasks behind the telemetry and ML pipelines, holding the morning SLA across the global fleet.",
+            "Redesigned monolithic DAGs into modular, idempotent tasks with retries as the team standard, ending the manual reruns that ate on-call time.",
+            "Diagnosed a scheduler bottleneck delaying every DAG, tuning parallelism and isolating heavy work onto the KubernetesPodOperator.",
+            "Drove data-dependency sensors to replace time-based scheduling, so a late telemetry feed no longer produced empty downstream tables.",
+            "Hardened alerting with SLA misses and on-failure callbacks, so a stuck task paged the right team instead of silently slipping the SLA."
+          ]
+        },
+        "dbt": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned the dbt layer turning raw telemetry into est. 150 modeled tables, giving analysts a tested, documented source of truth for energy and reliability metrics.",
+            "Redesigned copy-pasted SQL into layered dbt models with ref() and macros as the modeling standard, removing duplicated logic that caused conflicting savings figures.",
+            "Drove dbt uniqueness and relationship tests into CI, catching bad joins that had shipped wrong numbers to the business.",
+            "Diagnosed slow warehouse spend from full rebuilds, switching heavy models to incremental materialization.",
+            "Hardened metric trust with dbt snapshots and exposures, so a changed definition tracked its downstream consumers."
+          ]
+        },
+        "etl_pipelines": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned the ETL unifying telemetry from multiple controller firmware generations into one schema, reconciling formats across est. thousands of doors without losing signal.",
+            "Redesigned a fragile full-reload ETL into incremental change-data-capture as the loading standard, cutting the window est. 70% and avoiding nightly full-table churn.",
+            "Drove idempotent, restartable loads with checkpointing, so a mid-run failure resumed instead of forcing a full re-run before the SLA.",
+            "Diagnosed silent row drops from a type mismatch, adding schema validation and reject queues so bad records were quarantined, not lost.",
+            "Hardened lineage and reconciliation counts end-to-end, giving the business proof that source and target matched after the firmware migration."
+          ]
+        },
+        "snowflake": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned the Snowflake marts powering ASSA ABLOY's fleet and energy-savings dashboards, serving est. 80 analysts off curated, governed tables.",
+            "Redesigned slow reports with clustering keys and materialized views, turning a multi-minute dashboard into a sub-second one.",
+            "Established zero-copy clones for analyst sandboxes as the standard, replacing full-copy datasets that had multiplied storage cost.",
+            "Diagnosed runaway credits and right-sized warehouses with auto-suspend, cutting spend without slowing the queries that mattered.",
+            "Hardened governance with role-based grants and row-access policies, stopping regional analysts from seeing other markets' data."
+          ]
+        },
+        "model_serving": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the model-serving layer behind ecoLOGIC and the Vision AI readers, holding inference latency within edge budgets across est. thousands of devices on autoscaled infra.",
+            "Redesigned a Flask-wrapped model into Triton Inference Server with dynamic batching for the cloud path, tripling throughput on the same hardware.",
+            "Established canary rollouts with shadow traffic as the deployment gate, catching a model that regressed latency before it reached the full fleet.",
+            "Diagnosed cold-start latency spikes on scale-up, pre-warming pods and pinning model weights so traffic surges stopped causing timeouts.",
+            "Hardened serving with request timeouts and a fallback to safe rule-based behavior, so a model outage degraded gracefully instead of leaving doors mis-controlled."
+          ]
+        },
+        "experiment_tracking": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the MLflow tracking and model registry for ecoLOGIC and the Vision AI models, giving the ML team reproducible runs and a clear path to production.",
+            "Established tracked runs with logged params, metrics, and artifacts as the team standard, ending the ad-hoc notebook experiments and the 'which version shipped' guesswork.",
+            "Drove a feature store to share consistent features across training and serving, eliminating the skew that had quietly degraded a live model.",
+            "Diagnosed irreproducible results from untracked data versions, wiring dataset hashes into runs so every model traced to its exact inputs for the TUV SUD audit.",
+            "Hardened the promotion flow with registry stages and approval gates, stopping an unvalidated model from reaching the door fleet."
+          ]
+        },
+        "model_monitoring": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned drift and performance monitoring for ecoLOGIC's production models, catching degradations across the fleet before they hurt energy savings.",
+            "Redesigned threshold-only alerts into population-stability and prediction-drift metrics as the monitoring standard, cutting false pages that had trained the team to ignore alarms.",
+            "Diagnosed a silent accuracy drop after a new site's traffic shifted the input distribution, building the data-drift alerts that surfaced it within a day.",
+            "Drove automated retraining triggers tied to drift signals, replacing the fixed cadence that had let stale models linger in production.",
+            "Hardened monitoring with delayed-label backfill, so true savings were measured once outcomes arrived instead of guessed at serving time."
+          ]
+        },
+        "kubernetes": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the Kubernetes platform running the Digital Access Solutions and ecoLOGIC cloud services, holding availability as the fleet scaled.",
+            "Redesigned rollouts to readiness-gated rolling updates as the platform standard after a bad deploy took a service down, so traffic only hit healthy pods.",
+            "Diagnosed OOMKills during telemetry surges, setting right-sized requests/limits and an HPA on custom metrics so pods scaled on real load.",
+            "Drove pod-disruption budgets and topology spread across zones, removing the single-zone failure mode that had risked an access-platform outage.",
+            "Hardened the cluster with network policies and resource quotas, containing a noisy-neighbor service that had been starving its neighbors."
+          ]
+        },
+        "cicd": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the CI/CD pipelines shipping the access-platform services and edge firmware continuously through safe, staged releases.",
+            "Established automated quality gates over manual approvals as the merge standard, stopping unreviewed changes that had caused regressions in a security product.",
+            "Cut pipeline time est. 60% by parallelizing test stages and caching dependencies, removing the slow builds that bottlenecked releases.",
+            "Drove progressive firmware delivery with canary rings and automated rollback, so a bad edge build reverted instead of bricking controllers in the field.",
+            "Hardened the pipeline by moving secrets to an injected store and signing firmware artifacts, closing a supply-chain exposure flagged in review."
+          ]
+        },
+        "docker": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the container standards for the access-platform services, making one Docker build run identically from local dev to production.",
+            "Established multi-stage builds with slim base images as the org standard, cutting image sizes est. 70% and speeding pulls and deploys.",
+            "Redesigned a sprawling Dockerfile to leverage layer caching, turning a multi-minute rebuild into seconds for the common change.",
+            "Diagnosed flaky containers from missing health checks, adding HEALTHCHECK and proper signal handling for clean rollouts.",
+            "Hardened images by running as non-root and scanning for CVEs in CI, closing the vulnerable-base-image risk from a security review."
+          ]
+        },
+        "terraform": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned the Terraform IaC defining the access-platform cloud footprint, codifying resources so environments were reproducible instead of hand-built.",
+            "Redesigned a monolithic state into per-service modules with remote state and locking as the team standard, ending the apply conflicts across teams.",
+            "Diagnosed dangerous plans that would have recreated live resources, adding lifecycle rules and plan-review gates.",
+            "Drove tagging and cost-allocation policy into modules, giving finance per-team cost visibility.",
+            "Hardened drift control with scheduled plan checks, catching manual console changes that diverged infra from code."
+          ]
+        },
+        "observability": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned observability for the access-platform services, giving consistent metrics, logs, and traces that cut incident triage time across the fleet.",
+            "Established RED metrics with SLO-based alerts as the service standard, instrumenting blind spots where door-controller outages had gone unnoticed until sites felt them.",
+            "Redesigned noisy threshold alerts into burn-rate alerts on error budgets, cutting false pages that had eroded trust in the on-call signal.",
+            "Drove distributed tracing across service boundaries, turning multi-team incident hunts into a single trace to the slow hop.",
+            "Hardened readiness with fault-injection drills, confirming the platform held when a region's controllers dropped offline."
+          ]
+        },
+        "aws": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned the AWS footprint backing the Digital Access Solutions platform, running EKS and managed data services to keep access flowing across the fleet.",
+            "Redesigned door-telemetry ingestion onto managed AWS IoT services with dead-letter handling, replacing the brittle custom endpoints that had dropped events under load.",
+            "Cut AWS spend est. 30% by right-sizing instances and adopting Savings Plans plus spot for batch telemetry jobs.",
+            "Diagnosed a single-AZ dependency that risked a regional outage, redistributing across AZs and adding failover.",
+            "Established least-privilege IAM policies as the account standard, closing the over-permissioned access flagged in a security review."
+          ]
+        },
+        "azure": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned the Azure services backing enterprise-customer access integrations, running AKS and Azure SQL to meet est. 99.95% uptime for partner APIs.",
+            "Established Bicep templates as the infrastructure standard, replacing portal-clicked resources no one could reproduce across partner environments.",
+            "Diagnosed Azure SQL throttling at peak, scaling tiers and adding read replicas so reporting stopped contending with writes.",
+            "Cut Azure spend est. 35% with reserved instances and autoscale after a review found idle always-on capacity.",
+            "Hardened access with Managed Identities and Key Vault, removing connection strings from app config."
+          ]
+        },
+        "gcp": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned a GCP analytics workload for fleet telemetry, running BigQuery and GKE to serve est. 80 analysts off cross-region data.",
+            "Established Pub/Sub-to-BigQuery streaming with dead-letter handling as the ingestion standard, replacing brittle batch loads for telemetry.",
+            "Cut BigQuery cost est. 40% with partitioned, clustered tables and slot reservations.",
+            "Diagnosed GKE node-pool waste, separating workloads onto right-sized autoscaling pools.",
+            "Hardened data access with VPC Service Controls and IAM conditions, closing cross-project exposure flagged in an audit."
+          ]
+        },
+        "postgresql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the PostgreSQL schema for the Digital Access Solutions credential and access-policy model across est. thousands of doors.",
+            "Redesigned a monolithic access-event table into partitioned ranges after it grew past est. a billion rows, restoring fast lookups and manageable vacuums.",
+            "Drove a zero-downtime migration consolidating two regional schemas, using backward-compatible changes and a non-locking backfill as the migration pattern.",
+            "Diagnosed a slow entitlement query with EXPLAIN ANALYZE and added partial and composite indexes, cutting p99 from est. 800ms to under 50ms.",
+            "Hardened against connection exhaustion with PgBouncer pooling, ending the too-many-clients errors that had blocked access checks at peak."
+          ]
+        },
+        "mysql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the MySQL store behind a billing-and-licensing service for the access platform, keeping est. millions of monthly rows consistent.",
+            "Established gh-ost online schema changes as the standard after a blocking ALTER risked locking a live table during business hours.",
+            "Diagnosed full-table scans with the slow-query log and added covering indexes, cutting a query from est. 12s to under 200ms.",
+            "Redesigned read scaling with replicas and a read/write split, so reporting stopped contending with writes.",
+            "Hardened integrity with foreign keys and strict mode, closing an orphaned-row path that caused licensing mismatches."
+          ]
+        },
+        "mongodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the MongoDB store holding flexible device-config and telemetry documents across est. thousands of door controllers.",
+            "Redesigned an unbounded-array document that hit the 16MB limit into referenced documents, removing the cap on per-controller config growth.",
+            "Drove a sharded cluster on a high-cardinality key after a hot shard bottlenecked writes, establishing the sharding pattern for telemetry collections.",
+            "Diagnosed slow queries from missing indexes with explain(), adding compound indexes that cut config lookups from seconds to milliseconds.",
+            "Hardened consistency with majority write concern after a failover lost recent config writes that left controllers mis-configured."
+          ]
+        },
+        "dynamodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the DynamoDB tables caching session and entitlement state for the mobile-credential flow, serving single-digit-ms reads at fleet scale.",
+            "Redesigned scattered tables into a single-table design with GSIs modeled to the query shapes, establishing the access pattern after costly scans.",
+            "Diagnosed throttling from a hot partition key, redistributing with a composite key so entitlement reads stopped contending.",
+            "Drove on-demand capacity for spiky access traffic, removing the provisioned-throughput guesswork that had throttled peaks.",
+            "Hardened cost and freshness with TTL on session items, so stale entitlement state expired instead of lingering."
+          ]
+        },
+        "redis": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Redis caching layer fronting access-policy checks, absorbing est. 90% of reads to keep the database stable at busy entrances.",
+            "Drove a move to Redis Cluster after a single node capped throughput, establishing the sharding topology for policy caching at fleet scale.",
+            "Diagnosed a cache stampede when hot keys expired together, adding jittered TTLs and a lock-on-miss to absorb the thundering herd.",
+            "Redesigned eviction with a proper maxmemory policy, ending the OOM-driven drops of cached policies that had forced slow DB reads at the door.",
+            "Hardened availability with replicas and Sentinel failover, so a node loss did not become an access-check outage."
+          ]
+        },
+        "elasticsearch": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned Elasticsearch search over access logs and audit events across the fleet, serving investigation queries at low latency.",
+            "Established zero-downtime reindexing behind aliases as the standard for mapping changes, so audit search never went dark during schema evolution.",
+            "Redesigned relevance with custom analyzers and field boosting after operators couldn't find events by partial name.",
+            "Diagnosed deep-pagination timeouts and replaced from/size with search_after on long audit trails.",
+            "Hardened cluster stability by tuning shard counts and bulk indexing under telemetry spikes."
+          ]
+        },
+        "cassandra": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Cassandra store capturing high-volume access and sensor events, sustaining est. 100k writes/s with no single point of failure.",
+            "Redesigned tables around query patterns as the modeling standard after a bad partition key created unbounded partitions that stalled reads.",
+            "Drove tunable consistency at QUORUM after stale reads showed wrong door state, balancing latency against correctness on a security-critical path.",
+            "Diagnosed read latency from tombstone buildup, tuning compaction and TTLs to clear the dead-row drag.",
+            "Hardened against hot nodes with token-aware routing and proper replication across the cluster."
+          ]
+        },
+        "sql_server": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the SQL Server database behind an enterprise-customer reporting integration, keeping est. millions of monthly access events accurate.",
+            "Redesigned heavy reporting onto a read replica with columnstore indexes, cutting a query from minutes to seconds and establishing the reporting-offload pattern.",
+            "Diagnosed a parameter-sniffing regression from the execution plan and fixed it with OPTION RECOMPILE.",
+            "Drove indexed views after blocking aggregations slowed the monthly close.",
+            "Hardened data protection with row-level security and TDE, closing a cross-customer access gap found in an audit."
+          ]
+        },
+        "neo4j": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Neo4j graph modeling people-door-zone access relationships, powering reachability and least-privilege analysis across large sites.",
+            "Drove the graph model after relational joins couldn't express who-can-reach-where paths, unlocking least-privilege analysis the old schema could not support.",
+            "Redesigned multi-hop Cypher access-path queries with proper indexes, cutting traversals from seconds to milliseconds.",
+            "Diagnosed memory blowups on unbounded traversals, adding depth limits and query profiling to contain runaway paths.",
+            "Hardened availability with a causal cluster, so a leader loss did not interrupt live reachability reads."
+          ]
+        },
+        "vector_db": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the vector store behind the field-service RAG assistant, serving nearest-neighbor lookups over est. hundreds of thousands of doc embeddings at low latency.",
+            "Established embedding versioning as the standard after a model change shifted the embedding space, keeping retrieval consistent across reindexes.",
+            "Diagnosed poor recall from a default index, tuning HNSW parameters to fix the bad search results that had cited wrong manuals.",
+            "Redesigned embedding refresh into incremental upserts, so new manuals became searchable in minutes instead of a full rebuild.",
+            "Drove metadata filtering alongside vector search, so results respected product-line and region constraints for the technician."
+          ]
+        },
+        "tableau": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the Tableau dashboards leadership used to track ecoLOGIC energy savings and fleet reliability, serving est. 200 stakeholders off governed sources.",
+            "Established a certified data source as the standard, so teams stopped building disagreeing extracts that produced conflicting savings numbers.",
+            "Diagnosed dashboards timing out on live connections, switching to extracts with incremental refresh.",
+            "Redesigned a sprawling workbook into parameter-driven views, ending the conflicting numbers across leadership reports.",
+            "Hardened access with row-level security, so regional leads saw only their market's data."
+          ]
+        },
+        "powerbi": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned Power BI reporting for an access-platform finance workload, serving est. 100 business users with daily-refreshed figures.",
+            "Established a shared dataset with certified measures as the standard, ending the conflicting KPIs that had circulated across finance reports.",
+            "Redesigned a flat model into a star schema for fast DAX on est. millions of rows, fixing the slow visuals.",
+            "Cut refresh time with incremental refresh policies that fit the gateway window.",
+            "Hardened access with row-level security roles per business unit."
+          ]
+        },
+        "looker": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the LookML modeling behind fleet self-serve analytics, giving est. 80 analysts consistent governed metrics.",
+            "Established reusable explores and dimensions as the modeling standard, removing the duplicated SQL that had produced conflicting definitions.",
+            "Diagnosed slow dashboards and added aggregate awareness with rollups to cut query times.",
+            "Drove persistent derived tables for expensive joins, keeping self-serve queries fast.",
+            "Hardened governance with access grants and a certified model across markets."
+          ]
+        },
+        "sql_analytics": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned the analytical SQL answering energy-savings and reliability questions across the fleet, turning raw telemetry into decision-ready numbers.",
+            "Established reusable, documented query templates as the team standard, ending the copy-paste SQL with inconsistent logic that had produced conflicting metrics.",
+            "Redesigned slow ad-hoc queries with window functions and CTEs, replacing nested subqueries that ran for minutes.",
+            "Diagnosed wrong metrics from sloppy joins, standardizing grain and join keys across the analytics layer.",
+            "Hardened heavy reporting with partition pruning and pre-aggregates to keep scans bounded."
+          ]
+        },
+        "shared": {
+          "domain": "Shared",
+          "tier": 2,
+          "bullets": [
+            "Owned the firmware-to-cloud-to-ML integration seams on ecoLOGIC and Digital Access Solutions, where a single software defect can leave a physical door mis-secured.",
+            "Sat with firmware engineers to define the telemetry-and-command contract spanning controller, gateway, and service, removing the ambiguity that had stalled cross-layer features.",
+            "Steered ecoLOGIC's features through the AI-assurance gate ASSA ABLOY's TUV SUD certification demanded, capturing the decision evidence auditors required.",
+            "Walked newer engineers through edge-to-cloud failure modes, so an offline controller or a dropped sensor was debugged as one system, not three teams pointing at each other.",
+            "Synchronized cloud, edge, and hardware release tracks across time zones, surfacing the firmware-versus-schema mismatches early before they reached installed doors."
+          ]
+        }
+      }
+    },
+    "Shopify": {
+      "project": "Shopify Core (Ruby on Rails modular monolith), GraphQL Admin/Storefront APIs, Sidekick & Shopify Magic (AI), and BFCM-scale commerce infrastructure",
+      "stacks": {
+        "ruby_on_rails": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned merchant-facing components inside 'Shopify Core', the 2.8M-line Ruby on Rails modular monolith, shipping commerce features that served millions of stores through BFCM peaks.",
+            "Partitioned a tangled order-state module behind a typed component boundary so neighbouring teams consumed it through a stable interface instead of reaching into ActiveRecord internals.",
+            "Established Sorbet static typing as the component standard after a nil-handling bug class reached production, surfacing the same defects at type-check time across every team that adopted it.",
+            "Profiled an admin page dragged by N+1 queries with Bullet and added includes plus counter caches, cutting load from est. 5s to under 700ms at catalog scale.",
+            "Relocated long-running order-processing onto Sidekiq jobs with bounded concurrency, so a slow third-party app could no longer exhaust Puma workers during a flash sale."
+          ]
+        },
+        "graphql": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected schema and resolvers on Shopify's GraphQL Admin and Storefront APIs, the preferred public interface for millions of merchants, letting clients fetch exactly what they need without over-fetching.",
+            "Designed a deprecation-and-versioning contract with field-level auth that let est. thousands of app developers migrate without breakage while closing fields that had been over-exposed to under-privileged roles.",
+            "Established query-cost analysis and rate limiting as the gateway standard after an unbounded nested query degraded the API, capping complexity so one app could not starve the public surface for all.",
+            "Diagnosed N+1 resolver explosions on the products query with Apollo tracing and introduced GraphQL-batch/DataLoader, so a collection page stopped firing one DB call per variant.",
+            "Redesigned a chatty REST integration into a single GraphQL query per screen, cutting app round-trips est. 70% and the storefront's mobile payload sharply during BFCM."
+          ]
+        },
+        "java": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned a Java service in Shopify's data-platform tier processing high-volume commerce events that fed search and analytics across millions of stores.",
+            "Drove a backpressure-aware consumer contract after a slow sink backed up ingestion during BFCM, keeping the pipeline stable as the org's event volume scaled.",
+            "Tuned the G1GC heap and removed a synchronized block that serialized the hot path, eliminating a JVM pause that had delayed event processing under load.",
+            "Rebuilt a parsing layer to merge multiple event formats into one consumable model, eliminating the per-format bugs that had skewed downstream metrics.",
+            "Hardened concurrent aggregation with explicit locking after a data race corrupted counters, proving the fix clean under stress tests before release."
+          ]
+        },
+        "go": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned Go microservices in Shopify's platform tier handling high-throughput commerce traffic, sustaining low latency through BFCM spikes across millions of stores.",
+            "Established shared Go middleware for tracing and rate limiting as the team standard, replacing per-team copies that had drifted and made cross-service incidents harder to read.",
+            "Profiled a goroutine leak that exhausted memory under load with pprof and added context.Context deadlines, so abandoned requests stopped piling up at peak.",
+            "Redesigned a hot serialization path with a sync.Pool of buffers and a worker pool, cutting allocation churn that had driven GC pauses during traffic bursts.",
+            "Hardened concurrent cache access after a data race corrupted state, replacing a naive map with sync.RWMutex and proving it clean under the race detector."
+          ]
+        },
+        "typescript": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Architected shared TypeScript packages across Shopify's frontend, admin, and Hydrogen surfaces, keeping API contracts consistent for the React/Remix clients millions of merchants used.",
+            "Designed TypeScript interface packages generated from the GraphQL schema as the single source of truth, ending the contract drift that had broken app integrations across surfaces.",
+            "Established a strict-mode tsconfig migration as the standard across many repos, removing implicit-any escape hatches that had hidden null-handling defects for other teams.",
+            "Modeled order and checkout states as discriminated unions so the compiler rejected invalid transitions, catching at build time bugs that had reached the admin UI.",
+            "Eliminated runtime payload errors by enforcing zod validation at service boundaries, turning silent bad-data 500s into typed rejections clients could handle."
+          ]
+        },
+        "nodejs": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned Node.js services backing Shopify storefront and app surfaces, absorbing BFCM traffic spikes across millions of stores without degrading checkout.",
+            "Rebuilt request-scoped context on AsyncLocalStorage as the cross-service correlation pattern others adopted, fixing the log tracing that had made multi-team incident triage slow.",
+            "Throttled a downstream dependency with a bounded queue and circuit breaker, designing the backpressure boundary so a slow app could no longer cascade timeouts upstream.",
+            "Diagnosed event-loop stalls during flash sales with clinic.js and moved CPU-bound JSON transforms to worker threads, so request latency stopped ballooning at peak.",
+            "Migrated bulk-export streaming to Node.js Transform streams, ending the out-of-memory crashes that had killed large catalog exports."
+          ]
+        },
+        "nestjs": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Architected a NestJS BFF aggregating product, inventory, and order calls for a merchant-facing surface, collapsing est. 5 round-trips per screen into one.",
+            "Established a module-and-provider structure with DI scopes as the pattern that let squads own their NestJS feature modules without colliding in the shared codebase.",
+            "Eliminated repeated auth boilerplate with NestJS guards and interceptors, closing the inconsistent entitlement checks that had let some endpoints skip validation.",
+            "Diagnosed a memory leak from request-scoped providers holding references and switched to transient scope, ending the slow RSS climb under sustained load.",
+            "Standardized error shaping with a global NestJS exception filter, so clients stopped receiving inconsistent payloads across the surface's endpoints."
+          ]
+        },
+        "python": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Owned the Python feature pipelines powering Shopify's recommendation and search systems, generating model features over a catalog of billions of products.",
+            "Re-architected catalog ingestion into incremental, partitioned batches after full rebuilds blew past the freshness window, holding features current at billions-of-products scale without growing cluster cost.",
+            "Profiled a bottleneck job with cProfile and replaced a per-row API loop with batched multiprocessing.Pool workers, cutting a multi-hour run to under 40 minutes on the same hardware.",
+            "Drove typed dataclasses and mypy gating across the pipeline package as the team standard, eliminating the None-handling class of bugs that had silently dropped products from the index.",
+            "Hardened the pipeline with dedup and schema validation at the boundary, keeping embedding inputs clean for the downstream retrieval and ranking models that depended on them."
+          ]
+        },
+        "python_fastapi": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a FastAPI inference gateway serving Shopify's recommendation and embedding lookups at est. 8k req/s, holding p99 under 120ms with async endpoints.",
+            "Drove Pydantic models as the single contract between the FastAPI gateway and the model consumers, ending the schema drift that had broken integrations across ML teams.",
+            "Redesigned blocking database calls as async SQLAlchemy with asyncpg after the event loop stalled under load, removing the request queuing that spiked latency during BFCM.",
+            "Added a bounded async semaphore around the model dependency, so a slow inference call applied backpressure instead of cascading 504s through the gateway.",
+            "Instrumented the FastAPI app with dependency-injected tracing, making a slow embedding lookup attributable in minutes instead of a multi-team hunt."
+          ]
+        },
+        "python_django": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Built a Django service powering an internal merchant-analytics tool, serving est. 500 staff with config-driven reports without an engineering release.",
+            "Owned the Django REST Framework serializers exposing the tool's data behind versioned contracts, so integrating internal teams shipped without breaking changes.",
+            "Redesigned the Django ORM access behind the dashboard after N+1 queries pushed p95 past est. 3s, adding select_related/prefetch_related and caching to land under 300ms.",
+            "Relocated slow report recomputation onto Celery workers, so a long batch could no longer block the synchronous request pool during business hours.",
+            "Hardened the Django admin with django-guardian row-level permissions, closing the gap that had let any staff account edit shared report config."
+          ]
+        },
+        "java_springboot": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned a Spring Boot service integrating Shopify with enterprise (Plus) merchants' Java systems, processing high-volume order and inventory sync.",
+            "Drove Spring Boot Actuator health and readiness probes as the deployment standard so orchestration stopped routing sync traffic to pods still warming their caches.",
+            "Redesigned synchronous downstream calls onto @Async executors with a bounded pool after a slow partner dependency backed up the request pool during BFCM.",
+            "Cut sync latency by tuning the connection pool and adding caching, keeping partner responses fast under peak inventory churn.",
+            "Replaced field injection with constructor injection and Testcontainers integration tests, catching a wiring regression before it shipped a broken sync path."
+          ]
+        },
+        "rust": {
+          "domain": "BE",
+          "tier": 1,
+          "bullets": [
+            "Built a Rust service on a latency-sensitive commerce path at Shopify, using Tokio async to hold p99 low at BFCM throughput with no GC pause.",
+            "Replaced a hot Ruby path with a Rust component after tail latency hurt checkout, cutting p99 est. 60% on the same hardware and setting the pattern for later perf rewrites.",
+            "Drove zero-copy parsing with serde and bytes through the request path, removing per-request heap allocations that had capped throughput under burst load.",
+            "Eliminated a memory-safety class of crashes by porting a C parser to Rust, leaning on the borrow checker to remove a use-after-free that had aborted reads.",
+            "Hardened the FFI boundary to a legacy library with cargo-fuzz tests, closing a panic path that malformed input had triggered in production."
+          ]
+        },
+        "c_cpp": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned a C++ performance-critical component in Shopify's data tier, processing high-volume commerce events under tight latency budgets.",
+            "Redesigned manual malloc/free ownership into RAII with smart pointers, eliminating the leaks that grew RSS until the process was OOM-killed under sustained load.",
+            "Diagnosed intermittent segfaults under load with Valgrind and AddressSanitizer, fixing the buffer overrun that had aborted event processing.",
+            "Cut per-event processing time est. 40% with std::move semantics and reserved buffers, removing the reallocation churn on the hot path.",
+            "Hardened the parser against malformed input with bounds checks and libFuzzer, closing a crash path a corrupt upstream event had triggered."
+          ]
+        },
+        "dotnet_csharp": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned an ASP.NET Core service integrating Shopify with enterprise merchants' .NET ERP systems, processing est. millions of daily order events.",
+            "Drove a Channels-based producer/consumer pipeline for event ingestion as the throughput pattern, replacing a lock-heavy queue that had serialized work on one core.",
+            "Diagnosed thread-pool starvation from sync-over-async calls and refactored to end-to-end async/await pipelines, clearing the request timeouts under load.",
+            "Redesigned EF Core queries that loaded full entity graphs into projected DTOs, cutting a reconciliation report from minutes to seconds.",
+            "Hardened money handling with decimal and explicit rounding after cent-level drift caused merchant disputes, closing the rounding error at the boundary."
+          ]
+        },
+        "php_laravel": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Built a Laravel reference app demonstrating Shopify app development for the partner ecosystem, sustaining est. 30k req/min during launch campaigns.",
+            "Established signed webhook verification and CSRF as the security baseline the reference app modeled for partner developers building on Shopify.",
+            "Moved webhook fan-out to Laravel queues on Redis, so a third-party outage stopped blocking the synchronous request path.",
+            "Diagnosed slow Eloquent queries with the debugbar and added eager loading plus indexes, cutting a report from est. 6s to under 1s.",
+            "Redesigned tangled controllers into form requests and jobs, isolating validation so malformed input no longer threw fatal errors to users."
+          ]
+        },
+        "scripting": {
+          "domain": "BE",
+          "tier": 2,
+          "bullets": [
+            "Owned the Bash automation orchestrating Shopify's BFCM readiness runbook across services, replacing a manual checklist prone to missed steps under pressure.",
+            "Established a single parameterized tool with structured logging as the on-call standard, replacing a brittle cron of one-off scripts no one could reason about at 3am.",
+            "Automated pre-scaling capacity with idempotent shell scripts wrapping the cloud CLI, removing the error-prone manual changes engineers ran by hand before peak.",
+            "Diagnosed silently failing deploy scripts and added set -euo pipefail with trap cleanup, so a failed step halted the rollout instead of half-applying it.",
+            "Hardened secret handling after keys leaked into logs, piping output through redaction and moving credentials to the injected store."
+          ]
+        },
+        "react": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Owned React surfaces in the Shopify admin and Hydrogen storefronts built on Remix, shipping merchant-facing UI used across millions of stores.",
+            "Established an ErrorBoundary convention around app blocks so a broken third-party widget degraded gracefully instead of blanking the storefront, a pattern other teams adopted.",
+            "Redesigned a janky orders grid with react-window virtualization, dropping DOM nodes est. 80% so it stayed smooth on high-volume stores during BFCM.",
+            "Profiled avoidable re-renders with the React Profiler and moved shared state into a useReducer state machine, eliminating the input lag on the checkout-settings flow.",
+            "Built storefront sections with code-split React.lazy/Suspense routes, keeping the initial bundle small for conversion-critical pages."
+          ]
+        },
+        "nextjs": {
+          "domain": "FE",
+          "tier": 1,
+          "bullets": [
+            "Built Next.js storefront and marketing surfaces, using SSR and ISR to serve high-traffic merchant pages with sub-2s LCP and indexable content.",
+            "Established server components as the default rendering boundary after client-fetched pages hurt LCP, cutting shipped JS est. 45% on product pages across the team's routes.",
+            "Diagnosed an ISR cache stampede during a flash sale and added stale-while-revalidate, so a traffic spike no longer hammered the origin.",
+            "Drove next/image optimization and route-level code splitting, removing the oversized assets that had been the top LCP regression.",
+            "Hardened the API routes with edge-middleware auth, closing an unauthenticated path that had exposed a draft storefront."
+          ]
+        },
+        "vue": {
+          "domain": "FE",
+          "tier": 2,
+          "bullets": [
+            "Owned a Vue internal merchandising console used by est. 500 staff, keeping it responsive during BFCM catalog churn.",
+            "Redesigned prop-drilled state into Pinia stores as the shared-state convention, ending the cross-component bugs that had multiplied as the console grew.",
+            "Diagnosed reactivity leaks from un-cleaned watchers and moved to watchEffect with explicit teardown, so the long-lived console stopped degrading over a shift.",
+            "Cut initial load est. 50% with Vue async components and route-level lazy loading on the heavy merchandising views.",
+            "Hardened forms with VeeValidate schema rules, replacing the manual checks that had let invalid edits reach the backend."
+          ]
+        },
+        "angular": {
+          "domain": "FE",
+          "tier": 2,
+          "bullets": [
+            "Owned an Angular partner-portal serving est. 200 app developers managing their Shopify integrations.",
+            "Drove lazy-loaded feature modules with preloading as the portal's loading strategy, shrinking the initial bundle so first paint stopped blocking on reporting.",
+            "Redesigned change detection to OnPush with observables after the UI lagged on large integration tables, cutting render time est. 60%.",
+            "Diagnosed memory growth from un-unsubscribed observables and introduced a takeUntil teardown across est. 40 components, ending the leak.",
+            "Hardened forms with typed reactive FormGroups and async validators, closing an invalid-submission path that had created bad integration records."
+          ]
+        },
+        "svelte": {
+          "domain": "FE",
+          "tier": 2,
+          "bullets": [
+            "Built a lightweight Svelte embeddable storefront widget, shipping est. 70% less JS so it loaded fast on third-party merchant sites.",
+            "Established SvelteKit route-level splitting as the widget's bundling pattern, so the detail overlay no longer pulled in the full component tree on first load.",
+            "Redesigned shared state into Svelte stores after prop chains grew unwieldy across the widget's components.",
+            "Diagnosed layout thrash on a live cart component and used Svelte transitions with will-change, removing the dropped frames.",
+            "Hardened SSR hydration by guarding browser-only APIs, fixing a flash-of-broken-UI on cold loads inside host pages."
+          ]
+        },
+        "swift": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned Swift features in the Shopify merchant iOS app, holding a crash-free rate above est. 99.8% while merchants ran their stores from their phones.",
+            "Redesigned massive view controllers into an MVVM-with-Combine architecture that became the team pattern, untangling the state that had caused intermittent stale order counts.",
+            "Diagnosed main-thread hitches with Instruments and moved image decoding off the UI thread with async/await, removing the scroll stutter on the products screen.",
+            "Cut cold-start time est. 30% by deferring non-critical SDK init and using lazy stored properties, getting merchants to their dashboard faster.",
+            "Hardened push-notification handling with retry and dedup, so order alerts arrived reliably during BFCM surges."
+          ]
+        },
+        "kotlin": {
+          "domain": "Mobile",
+          "tier": 1,
+          "bullets": [
+            "Owned Kotlin features in the Shopify merchant Android app, delivering parity with iOS across a fragmented device base.",
+            "Redesigned callback-heavy data loading into Kotlin Flow with StateFlow as the team's async pattern, removing the race conditions that had shown stale inventory after updates.",
+            "Diagnosed ANRs from main-thread work on the orders feed and moved it to coroutines on Dispatchers.IO, clearing the freezes that spiked failures.",
+            "Cut APK size est. 20% by replacing a heavy library with a focused Kotlin module, easing pressure on the low-end devices common at smaller merchants.",
+            "Hardened null handling at the network boundary with explicit nullable types, closing the NPE class that had dominated the crash dashboard."
+          ]
+        },
+        "react_native": {
+          "domain": "Mobile",
+          "tier": 2,
+          "bullets": [
+            "Owned a React Native surface sharing est. 80% of code across iOS and Android for a secondary merchant tool while keeping native modules.",
+            "Drove typed TurboModule specs at the native boundary as the contract, closing the silent type-mismatch crashes between JS and the native SDK.",
+            "Diagnosed bridge congestion dropping frames on scroll and migrated the hot list to the Fabric architecture with FlatList windowing.",
+            "Redesigned navigation onto react-navigation with lazy screens, removing the memory bloat that had crashed the app after deep sessions.",
+            "Cut the JS bundle est. 30% with Hermes and inline-requires, improving cold start on low-end devices."
+          ]
+        },
+        "flutter": {
+          "domain": "Mobile",
+          "tier": 2,
+          "bullets": [
+            "Built a cross-platform Flutter prototype of a merchant tool from one codebase, shipping iOS and Android in est. half the time two native teams would take.",
+            "Established Riverpod providers as the state pattern after setState screens caused rebuild storms that drained battery on long sessions.",
+            "Diagnosed jank with the Flutter DevTools timeline and added const widgets and RepaintBoundary, holding 60fps on the list view.",
+            "Cut startup time est. 35% with deferred loading on mid-tier Android hardware.",
+            "Hardened platform-channel calls to native SDKs with typed error handling, closing a silent failure path between Dart and native code."
+          ]
+        },
+        "objc": {
+          "domain": "Mobile",
+          "tier": 2,
+          "bullets": [
+            "Owned legacy Objective-C modules in the Shopify iOS app, keeping est. 30% of the codebase stable while the Swift migration ran.",
+            "Bridged Objective-C and Swift with nullability annotations as the migration contract, so new Swift code consumed old modules without crash-prone casts.",
+            "Diagnosed retain cycles with the leaks instrument and broke them with weak block references, stopping the memory growth that crashed long sessions.",
+            "Redesigned a fragile delegate web into a notification flow, removing the ordering bugs that had produced inconsistent state.",
+            "Hardened a UIKit category that had broken on an OS update, replacing a risky method swizzle with a contained subclass."
+          ]
+        },
+        "agentic_ai_rag": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Engineered retrieval and tool-use behind Sidekick, Shopify's conversational AI commerce assistant launched June 2024, grounding answers in a merchant's own store data and the help corpus.",
+            "Drove an MCP-based guarded tool-use loop as the assistant's action contract, so Sidekick wrote ShopifyQL queries and created customers/companies against live APIs instead of hallucinating store data.",
+            "Established a grounding-and-citation requirement as the team standard, refusing low-confidence answers so a confident wrong reply could not mislead a merchant's business decision.",
+            "Redesigned naive retrieval into hybrid vector-plus-keyword search with reranking after answers cited the wrong help doc, lifting relevance on the eval set.",
+            "Diagnosed context overflow that truncated store context and added semantic chunking with per-answer source links, so every response traced back to its evidence."
+          ]
+        },
+        "llm_finetuning": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned fine-tuning behind Shopify Magic and Sidekick, adapting LLaMa-family models on commerce data to power merchant text and assistant tasks.",
+            "Established an eval harness with golden sets and an LLM-judge as the release gate, catching a regression before it shipped weak product descriptions to merchants.",
+            "Redesigned full fine-tunes into LoRA adapters after GPU cost ballooned, cutting training spend est. 70% while matching quality on the holdout set.",
+            "Diagnosed reward hacking in an alignment pass where the model gamed length, reshaping the objective to recover genuine quality on human ratings.",
+            "Hardened the data pipeline with dedup and leakage checks after train/test overlap inflated metrics, restoring trustworthy offline numbers."
+          ]
+        },
+        "nlp": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned NLP behind Shopify Magic's text generation and the embedding models powering product discovery across billions of products.",
+            "Drove fine-tuned Nomic embeddings as the vector representation of the catalog, establishing the foundation that search and recommendation relevance were built on.",
+            "Redesigned a brittle keyword matcher into a fine-tuned transformer classifier for product categorization, lifting precision est. 25% over the rules it replaced.",
+            "Diagnosed multilingual failures across Shopify's global merchant base and added language detection with per-locale handling, so non-English listings stopped getting English tags.",
+            "Hardened the pipeline against tokenization edge cases that dropped accented text, fixing the silent data loss on non-ASCII listings."
+          ]
+        },
+        "recommendation_sys": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned recommendation and search-ranking systems over Shopify's catalog of billions of products, lifting product discovery for millions of storefronts.",
+            "Redesigned a popularity baseline into a two-tower retrieval-plus-ranking system on Nomic embeddings, fixing the cold-start gap that had buried new products across stores.",
+            "Established online A/B evaluation with guardrail metrics as the launch gate, catching a ranker that raised clicks but cut conversion before it shipped widely.",
+            "Diagnosed a feedback loop that over-recommended already-popular items and added exploration, so the long tail stopped being starved of impressions.",
+            "Hardened the feature store against training-serving skew after live CTR diverged from offline, aligning the pipelines and recovering predicted lift."
+          ]
+        },
+        "computer_vision": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Built a computer-vision pipeline for Shopify Magic's image features, running background removal and image enhancement over merchant catalogs.",
+            "Drove a sharpness-and-subject-coverage quality gate as the pipeline standard, blocking bad outputs before they reached live storefronts.",
+            "Redesigned a slow per-image pass into batched GPU inference with ONNX Runtime, cutting per-image processing from seconds to milliseconds.",
+            "Diagnosed poor results on low-quality merchant photos and augmented training data with tuned thresholds, recovering quality on the real-world inputs.",
+            "Hardened the pipeline against corrupt uploads with decode validation, closing a path where one bad image crashed a whole batch."
+          ]
+        },
+        "classical_ml": {
+          "domain": "AI_ML",
+          "tier": 1,
+          "bullets": [
+            "Owned classical-ML models for Shopify fraud and risk scoring on orders, scoring high transaction volume through BFCM to protect merchants.",
+            "Established a scikit-learn/XGBoost pipeline with proper train/val/test splits and cross-validation as the team standard, ending the overfit models earlier launches had shipped.",
+            "Redesigned leaky features after a model looked great offline but failed live, removing post-event signals and restoring deployable performance.",
+            "Diagnosed class imbalance that hid real fraud and applied calibrated thresholds with class weights, so precision held at the top of the review queue.",
+            "Cut scoring cost est. 50% by pruning low-importance features via SHAP, with no measurable accuracy loss on the holdout set."
+          ]
+        },
+        "ai_safety": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Owned safety evaluation for Sidekick and Shopify Magic, building the red-team suite that gated releases against adversarial and prompt-injection probes.",
+            "Established grounding-and-citation requirements as the release standard, so the assistant's commerce advice was always traceable to a merchant's store data.",
+            "Redesigned a thin filter into layered guardrails after a jailbreak surfaced internal data, closing the prompt-injection path before launch.",
+            "Diagnosed over-refusal that blocked legitimate merchant queries and recalibrated thresholds, so safety did not degrade the assistant's usefulness.",
+            "Hardened high-stakes actions with confirmation and audit logging before the assistant could change a merchant's store, leaving a trail for every write."
+          ]
+        },
+        "robotics_planning": {
+          "domain": "AI_ML",
+          "tier": 2,
+          "bullets": [
+            "Owned a constrained-optimization service for fulfillment and inventory allocation, packing orders to warehouses under capacity and SLA limits at BFCM volume.",
+            "Redesigned a greedy allocator into a constraint-solver formulation after SLA misses, modeling competing priorities and limits as an explicit objective.",
+            "Drove a probabilistic demand-forecast model as the planner's input, replacing the fixed estimates that had under-provisioned warehouses during peaks.",
+            "Diagnosed thrashing where the planner reshuffled allocations endlessly and added hysteresis with a cost-to-switch term, stabilizing the plan.",
+            "Hardened the planner against infeasible inputs with a fallback relaxation, producing a best-effort plan instead of failing to allocate at all."
+          ]
+        },
+        "kafka": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Kafka pipelines on Shopify's event backbone, which sustains roughly 66M messages/s, carrying commerce events to search, analytics, and ML consumers across millions of stores.",
+            "Drove a schema registry with compatibility checks as the org contract, stopping a producer change that would have broken every downstream consumer.",
+            "Redesigned at-least-once handling into idempotent consumers with keyed compaction, eliminating the duplicate events that had skewed downstream metrics.",
+            "Diagnosed consumer lag that delayed processing during BFCM and repartitioned hot topics while tuning fetch sizes, draining the backlog in minutes.",
+            "Hardened delivery with a dead-letter topic and replay tooling, so a poison message stopped halting a partition for the whole pipeline."
+          ]
+        },
+        "spark": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Spark jobs aggregating Shopify commerce data across millions of stores, producing the daily tables that fed analytics and ML by morning.",
+            "Established the DataFrame API with predicate pushdown as the team standard over wide RDD transformations, letting Catalyst prune scans and halving cluster cost.",
+            "Diagnosed skew that stalled a join on a few high-GMV stores, salting keys and broadcasting the small side to cut runtime from est. 3 hours to 40 minutes.",
+            "Cut shuffle spill that crashed executors by tuning partition counts and switching to Kryo serialization, stabilizing the run during BFCM volume.",
+            "Hardened the pipeline against late-arriving data with idempotent writes and watermarking, ending the double-counted GMV figures finance had flagged."
+          ]
+        },
+        "flink": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned Flink stream jobs computing real-time GMV and order metrics during BFCM, giving leadership live numbers within seconds at high event volume.",
+            "Drove exactly-once sinks with two-phase commit as the correctness contract, eliminating the double-counted spikes that had misled the live BFCM dashboard.",
+            "Redesigned tumbling windows into event-time windows with watermarks after out-of-order events skewed counts, restoring accurate live metrics.",
+            "Diagnosed growing checkpoint times that risked job stability, tuning the RocksDB state backend and switching to incremental checkpoints.",
+            "Hardened the job against backpressure with buffer tuning and alerting, so a slow sink no longer silently stalled telemetry ingestion."
+          ]
+        },
+        "databricks": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned Databricks pipelines preparing ML features for Shopify's recommendation and risk models off Delta tables built from raw commerce events.",
+            "Established Delta constraints and expectations as the data-quality gate, blocking malformed batches from reaching the feature store other teams trained on.",
+            "Redesigned full-refresh jobs into Delta Lake incremental MERGE upserts, cutting daily compute est. 60% and landing tables hours earlier.",
+            "Diagnosed runaway cluster cost from idle interactive sessions, moving scheduled work to job clusters with autoscaling and auto-termination.",
+            "Drove Delta Z-ordering and OPTIMIZE on the hottest tables, cutting query times on the feature-prep dashboards."
+          ]
+        },
+        "airflow": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned Airflow orchestration running est. 300 daily tasks behind Shopify's analytics and ML pipelines, keeping the morning SLA through BFCM surges.",
+            "Established data-dependency sensors over time-based scheduling as the DAG pattern, so a late upstream feed no longer produced empty downstream tables.",
+            "Redesigned monolithic DAGs into modular, idempotent tasks with retries, ending the manual reruns that had eaten on-call time.",
+            "Diagnosed a scheduler bottleneck delaying every DAG, tuning parallelism and moving heavy work to the KubernetesPodOperator to isolate it.",
+            "Hardened alerting with SLA misses and on-failure callbacks, so a stuck task paged the right team instead of silently slipping the SLA."
+          ]
+        },
+        "dbt": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned a dbt layer turning raw commerce events into est. 200 modeled tables, giving analysts a tested, documented source of truth.",
+            "Established dbt tests for uniqueness and relationships in CI as the merge gate, catching bad joins that had previously shipped wrong numbers to the business.",
+            "Redesigned copy-pasted SQL into layered dbt models with ref() and macros, removing the duplicated logic that had produced conflicting figures.",
+            "Diagnosed slow warehouse spend from full rebuilds and switched heavy models to incremental materialization, cutting daily compute.",
+            "Hardened metric trust with dbt snapshots and exposures, so a changed definition tracked every consumer downstream."
+          ]
+        },
+        "etl_pipelines": {
+          "domain": "Data_Eng",
+          "tier": 1,
+          "bullets": [
+            "Owned ETL unifying commerce data across Shopify's services into one analytics schema, reconciling high volume without losing records.",
+            "Designed idempotent, restartable loads with checkpointing as the contract, so a mid-run failure resumed from its last commit instead of forcing a full re-run.",
+            "Redesigned a full-reload ETL into incremental change-data-capture, cutting the load window est. 70% and avoiding nightly full-table churn.",
+            "Diagnosed silent row drops from a type mismatch and added schema validation with reject queues, so bad records were quarantined instead of lost.",
+            "Hardened lineage and reconciliation counts end-to-end, giving the business proof that source and target matched after each migration."
+          ]
+        },
+        "snowflake": {
+          "domain": "Data_Eng",
+          "tier": 2,
+          "bullets": [
+            "Owned Snowflake marts powering Shopify's merchant and internal analytics, serving est. 200 analysts off curated, governed tables.",
+            "Established role-based grants and row-access policies as the governance standard, stopping regional analysts from seeing other markets' merchant data.",
+            "Redesigned slow reports with clustering keys and materialized views, turning a multi-minute dashboard into a sub-second one.",
+            "Diagnosed runaway credits and right-sized warehouses with auto-suspend, cutting spend without slowing the queries that mattered.",
+            "Drove zero-copy clones for analyst sandboxes, replacing the full-copy datasets that had multiplied storage cost."
+          ]
+        },
+        "model_serving": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned the model-serving layer behind Shopify's recommendations and embeddings, holding p99 inference low at BFCM scale on autoscaled GPU pods.",
+            "Drove canary rollouts with shadow traffic as the serving release standard, catching a model that regressed latency before it reached the full fleet.",
+            "Redesigned a Flask-wrapped model into Triton Inference Server with dynamic batching, tripling throughput on the same hardware.",
+            "Diagnosed cold-start latency spikes on scale-up and pre-warmed pods while pinning model weights, so traffic surges stopped causing timeouts.",
+            "Hardened serving with request timeouts and a fallback to the popularity baseline, so a model outage degraded gracefully instead of failing discovery."
+          ]
+        },
+        "experiment_tracking": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned MLflow tracking and the model registry for Shopify's ML teams, giving engineers reproducible runs and a clear path to production.",
+            "Established a feature store as the shared training-and-serving contract, eliminating the skew that had quietly degraded a live model.",
+            "Redesigned ad-hoc notebook experiments into tracked runs with logged params, metrics, and artifacts, ending the 'which version shipped' guesswork.",
+            "Diagnosed irreproducible results from untracked data versions, wiring dataset hashes into runs so every model traced to its exact inputs.",
+            "Hardened the promotion flow with registry stages and approval gates, stopping an unvalidated model from reaching production traffic."
+          ]
+        },
+        "model_monitoring": {
+          "domain": "MLOps",
+          "tier": 1,
+          "bullets": [
+            "Owned drift and performance monitoring for Shopify's production models, catching degradations across high daily prediction volume before they hit merchants.",
+            "Drove automated retraining triggers tied to drift signals as the team standard, replacing the fixed cadence that had let stale models linger in production.",
+            "Diagnosed a silent accuracy drop after a catalog shift moved the input distribution, building the drift alerts that surfaced it within a day.",
+            "Redesigned threshold-only alerts into population-stability and prediction-drift metrics, cutting the false pages that had trained the team to ignore alarms.",
+            "Hardened monitoring with delayed-label backfill, so true accuracy was measured once outcomes arrived instead of guessed at serving time."
+          ]
+        },
+        "kubernetes": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned Kubernetes workloads for Shopify services, holding availability through BFCM traffic spikes across millions of stores.",
+            "Established pod-disruption budgets and topology spread across zones as the deployment standard, removing the single-zone failure mode that had risked an outage.",
+            "Diagnosed OOMKills during peaks and set right-sized requests/limits with an HPA on custom metrics, so pods scaled on real load instead of CPU alone.",
+            "Redesigned rollout to readiness-gated rolling updates after a bad deploy took a service down, so traffic only hit healthy pods.",
+            "Hardened the cluster with network policies and resource quotas, containing a noisy-neighbor service from starving its neighbours."
+          ]
+        },
+        "cicd": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned CI/CD pipelines shipping Shopify services continuously with zero-downtime releases, even during change-sensitive BFCM windows.",
+            "Established automated quality gates over manual approvals as the merge contract, stopping the unreviewed merges that had caused regressions.",
+            "Cut pipeline time est. 60% by parallelizing test stages and caching dependencies, removing the slow builds that had bottlenecked releases.",
+            "Drove progressive delivery with canary analysis and automated rollback, so a bad release reverted itself instead of paging on-call.",
+            "Hardened the pipeline by moving secrets to an injected store and signing artifacts, closing a supply-chain exposure flagged in review."
+          ]
+        },
+        "docker": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned container standards for Shopify services, making one Docker build run identically from local dev to production.",
+            "Established multi-stage builds with slim base images as the team standard, cutting image sizes est. 70% and speeding pulls and deploys across services.",
+            "Redesigned a sprawling Dockerfile to leverage layer caching, turning a multi-minute rebuild into seconds for the common change.",
+            "Diagnosed flaky containers from missing health checks, adding HEALTHCHECK and proper signal handling so orchestration saw real readiness.",
+            "Hardened images by running as non-root and scanning for CVEs in CI, closing the vulnerable-base-image risk from a security review."
+          ]
+        },
+        "terraform": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned Terraform IaC defining Shopify's cloud footprint, codifying resources so environments were reproducible instead of hand-built.",
+            "Redesigned a monolithic state into per-service modules with remote state and locking, ending the apply conflicts that had blocked teams from shipping in parallel.",
+            "Drove tagging and cost-allocation policy into the shared modules as the standard, giving finance per-team cost visibility across the footprint.",
+            "Diagnosed dangerous plans that would have recreated live resources, adding lifecycle rules and plan-review gates before apply.",
+            "Hardened drift control with scheduled plan checks, catching manual console changes that diverged infrastructure from code."
+          ]
+        },
+        "observability": {
+          "domain": "DevOps",
+          "tier": 2,
+          "bullets": [
+            "Owned observability for Shopify services, giving consistent metrics, logs, and traces that cut incident triage time during BFCM.",
+            "Established RED metrics and SLO-based alerts as the instrumentation standard, surfacing degradation before sites felt it instead of leaving blind spots.",
+            "Redesigned noisy threshold alerts into burn-rate alerts on error budgets, cutting the false pages that had eroded on-call trust.",
+            "Drove distributed tracing across service boundaries, turning multi-team incident hunts into a single trace to the slow hop.",
+            "Hardened BFCM readiness with fault-injection drills, confirming the platform held when a dependency dropped offline."
+          ]
+        },
+        "gcp": {
+          "domain": "Cloud",
+          "tier": 1,
+          "bullets": [
+            "Owned GCP workloads for Shopify, whose main infrastructure provider is GCP, running BigQuery and GKE plus large training clusters for the ML platform.",
+            "Established VPC Service Controls and IAM conditions as the data-access boundary, closing the cross-project exposure an audit had flagged.",
+            "Drove Pub/Sub-to-BigQuery streaming with dead-letter handling as the ingestion pattern, replacing the brittle batch loads that had lagged downstream tables.",
+            "Cut BigQuery cost est. 40% with partitioned, clustered tables and slot reservations on the heaviest analytical workloads.",
+            "Diagnosed GKE node-pool waste and separated workloads onto right-sized autoscaling pools, so batch jobs stopped over-provisioning for steady-state services."
+          ]
+        },
+        "aws": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned an AWS workload backing a Shopify integration surface, running EKS and managed services for resilience.",
+            "Established least-privilege IAM policies over broad roles as the access standard, closing the over-permissioned access flagged in a security review.",
+            "Cut AWS spend est. 30% by right-sizing instances and adopting Savings Plans plus spot for batch workloads.",
+            "Diagnosed a single-AZ dependency that risked an outage and redistributed across AZs with failover, removing the regional single point of failure.",
+            "Drove managed event-ingestion with dead-letter handling, replacing the brittle custom endpoints that had dropped integration events."
+          ]
+        },
+        "azure": {
+          "domain": "Cloud",
+          "tier": 2,
+          "bullets": [
+            "Owned an Azure workload backing an enterprise-merchant integration, running AKS and Azure SQL to meet est. 99.95% uptime.",
+            "Established Managed Identities and Key Vault as the secrets standard, removing connection strings from app config across the integration.",
+            "Cut Azure spend est. 35% with reserved instances and autoscale after a review found idle always-on capacity.",
+            "Diagnosed Azure SQL throttling at peak and scaled tiers with read replicas, so reporting stopped contending with the write path.",
+            "Drove infrastructure into Bicep templates, replacing portal-clicked resources no one could reproduce."
+          ]
+        },
+        "mysql": {
+          "domain": "Database",
+          "tier": 1,
+          "bullets": [
+            "Owned MySQL access patterns in Shopify Core, the primary datastore behind the Rails monolith, sharded across the Pods architecture to isolate store traffic at millions-of-stores scale.",
+            "Drove an online schema change with gh-ost as the safe-migration standard after a blocking ALTER risked locking a live orders table during business hours.",
+            "Redesigned read scaling with replicas and a read/write split, so reporting stopped contending with the checkout write path during BFCM.",
+            "Diagnosed full-table scans with the slow-query log and added covering indexes, cutting a query from est. 12s to under 200ms under BFCM load.",
+            "Hardened integrity with foreign keys and strict mode, closing the orphaned-row path that had caused reconciliation mismatches."
+          ]
+        },
+        "postgresql": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a PostgreSQL store behind a Shopify service outside the core monolith, serving low-latency reads at scale.",
+            "Redesigned a monolithic table into partitioned ranges after it grew past est. a billion rows, restoring fast lookups and manageable vacuums.",
+            "Drove a zero-downtime migration with backward-compatible changes and a non-locking backfill, setting the pattern for later schema moves on the service.",
+            "Diagnosed a slow query with EXPLAIN ANALYZE and added partial and composite indexes, cutting p99 from est. 800ms to under 50ms.",
+            "Hardened against connection exhaustion with PgBouncer pooling, ending the too-many-clients errors at peak."
+          ]
+        },
+        "redis": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned the Redis caching layer fronting Shopify hot reads, absorbing est. 90% of reads to keep MySQL stable during BFCM.",
+            "Drove a move to Redis Cluster as the scaling path after a single node capped throughput, partitioning keys to spread the hot load.",
+            "Diagnosed a cache stampede when hot keys expired together and added jittered TTLs with a lock-on-miss, ending the thundering-herd hits to MySQL.",
+            "Redesigned eviction by setting a proper maxmemory policy, ending the OOM-driven drops of cached policy that had caused miss storms.",
+            "Hardened availability with replicas and Sentinel failover, so a node loss no longer became an outage."
+          ]
+        },
+        "elasticsearch": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned Elasticsearch powering merchant-facing search over catalogs across millions of stores, serving discovery queries at low latency.",
+            "Drove zero-downtime reindexing behind aliases as the mapping-change standard, so schema updates shipped without taking search offline.",
+            "Redesigned relevance with custom analyzers and field boosting after shoppers couldn't find products by partial name, lifting findability.",
+            "Diagnosed deep-pagination timeouts and replaced from/size with search_after on long result sets, restoring fast paging.",
+            "Hardened cluster stability by tuning shard counts and bulk indexing under BFCM spikes, so indexing load stopped degrading queries."
+          ]
+        },
+        "vector_db": {
+          "domain": "Database",
+          "tier": 1,
+          "bullets": [
+            "Owned the vector store behind Shopify's product discovery and Sidekick retrieval, serving nearest-neighbor lookups over billions of product embeddings at low latency.",
+            "Designed an incremental upsert pipeline for embedding refresh so new products became searchable in minutes instead of a nightly full rebuild at billions-of-products scale.",
+            "Established embedding versioning as the standard after a model change shifted the space, so old and new vectors were never mixed in one index across teams.",
+            "Diagnosed poor recall from a default index and tuned HNSW parameters, trading build time for the accuracy that fixed bad search results.",
+            "Drove metadata filtering alongside vector search, so results respected store, availability, and region constraints instead of returning unbuyable products."
+          ]
+        },
+        "mongodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a MongoDB store holding flexible app-config and event documents for a Shopify surface.",
+            "Drove a sharded cluster on a high-cardinality key after a hot shard bottlenecked writes, redistributing the load across the cluster.",
+            "Redesigned an unbounded-array document that hit the 16MB BSON limit, switching to referenced documents to keep writes bounded.",
+            "Diagnosed slow queries from missing indexes with explain() and added compound indexes, cutting config lookups from seconds to milliseconds.",
+            "Hardened consistency with majority write concern after a failover lost recent config writes."
+          ]
+        },
+        "dynamodb": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned DynamoDB tables caching session and cart state for a Shopify storefront surface, serving single-digit-ms reads at BFCM scale.",
+            "Redesigned scattered tables into a single-table design with GSIs modeled to the query shapes, eliminating the costly scans that had driven cost.",
+            "Drove on-demand capacity as the standard for spiky flash-sale traffic, removing the provisioned-throughput guesswork that had throttled peaks.",
+            "Diagnosed throttling from a hot partition key and redistributed with a composite key, smoothing writes across partitions.",
+            "Hardened cost and freshness with TTL on cart items, so stale carts expired without a sweep job."
+          ]
+        },
+        "cassandra": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a Cassandra store capturing high-volume commerce events, sustaining high write throughput with no single point of failure.",
+            "Redesigned tables around query patterns as the modeling standard after a bad partition key created unbounded partitions that stalled reads.",
+            "Drove tunable consistency at QUORUM after stale reads showed wrong state, balancing latency against correctness for the event reads.",
+            "Diagnosed read latency from tombstone buildup and tuned compaction with TTLs, restoring fast reads on the event tables.",
+            "Hardened against hot nodes with token-aware routing and proper replication, spreading load evenly across the ring."
+          ]
+        },
+        "sql_server": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a SQL Server database behind an enterprise-merchant reporting integration, keeping est. millions of monthly transactions accurate.",
+            "Redesigned heavy reporting onto a read replica with columnstore indexes, cutting a query from minutes to seconds and isolating it from the write path.",
+            "Drove indexed views as the aggregation standard after blocking aggregations slowed the monthly close, pre-materializing the heavy rollups.",
+            "Diagnosed a parameter-sniffing regression from the execution plan and fixed it with OPTION RECOMPILE, stabilizing the query's plan.",
+            "Hardened data protection with row-level security and TDE, closing a cross-customer access gap surfaced in an audit."
+          ]
+        },
+        "neo4j": {
+          "domain": "Database",
+          "tier": 2,
+          "bullets": [
+            "Owned a Neo4j graph modeling product, collection, and customer-affinity relationships to power 'customers also bought' across stores.",
+            "Drove the graph model after relational joins couldn't express affinity paths, unlocking the multi-hop analysis the old schema couldn't represent.",
+            "Redesigned multi-hop Cypher recommendation queries with proper indexes, cutting traversals from seconds to milliseconds.",
+            "Diagnosed memory blowups on unbounded traversals and added depth limits with query profiling, keeping recommendation queries bounded.",
+            "Hardened availability with a causal cluster, so a leader loss did not interrupt live reads."
+          ]
+        },
+        "tableau": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned Tableau dashboards leadership used to track GMV and merchant engagement during BFCM, serving est. 300 stakeholders off governed sources.",
+            "Drove a certified data source as the team standard, so squads stopped building disagreeing extracts that produced conflicting GMV numbers.",
+            "Redesigned a sprawling workbook into parameter-driven views, ending the duplicated sheets that had shown conflicting figures.",
+            "Diagnosed dashboards timing out on live connections and switched to extracts with incremental refresh, restoring fast loads.",
+            "Hardened access with row-level security, so regional leads saw only their market's data."
+          ]
+        },
+        "looker": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned LookML modeling behind Shopify self-serve analytics, giving est. 200 analysts consistent governed metrics.",
+            "Established reusable explores and dimensions as the modeling standard, removing the duplicated SQL that had produced conflicting metric definitions.",
+            "Drove persistent derived tables for expensive joins, cutting the recompute cost on the heaviest self-serve queries.",
+            "Diagnosed slow dashboards and added aggregate awareness with rollups, so common queries hit pre-aggregated tables.",
+            "Hardened governance with access grants and a certified model, so analysts trusted a single source of truth."
+          ]
+        },
+        "powerbi": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned Power BI reporting for a Shopify finance workload, serving est. 150 business users with daily-refreshed figures.",
+            "Drove a shared dataset with certified measures as the standard, ending the conflicting KPIs teams had built on their own models.",
+            "Redesigned slow visuals from a flat model into a star schema, restoring fast DAX on est. millions of rows.",
+            "Cut refresh time with incremental refresh policies that fit the gateway window, ending the missed morning refreshes.",
+            "Hardened access with row-level security roles, so business units saw only their own figures."
+          ]
+        },
+        "sql_analytics": {
+          "domain": "Analytics_BI",
+          "tier": 2,
+          "bullets": [
+            "Owned analytical SQL, including ShopifyQL-style querying, answering GMV and engagement questions across millions of stores.",
+            "Drove reusable documented query templates as the team standard, ending the copy-paste SQL that had carried inconsistent logic between analysts.",
+            "Redesigned slow ad-hoc queries with window functions and CTEs, replacing nested subqueries that had run for minutes.",
+            "Diagnosed wrong metrics from sloppy joins and standardized grain and join keys, so reports stopped disagreeing on the same number.",
+            "Hardened heavy reporting with partition pruning and pre-aggregates, cutting scan cost on the largest commerce tables."
+          ]
+        },
+        "shared": {
+          "domain": "Shared",
+          "tier": 2,
+          "bullets": [
+            "Shipped commerce features into Shopify's 2.8M-line modular monolith by negotiating component boundaries with neighbouring squads so changes landed without destabilizing shared code.",
+            "Set the onboarding path for newer engineers into the monolith's component and Sorbet conventions, turning review comments into the patterns the team reused.",
+            "Ran BFCM readiness reviews across product and infra, pressure-testing capacity, rollback, and Pods isolation so peak-week risk was retired before the freeze.",
+            "Sliced roadmap work with PMs into incrementally shippable, BFCM-safe changes, so merchant-facing features went out behind flags instead of as big-bang releases.",
+            "Resolved cross-component dependencies asynchronously across a remote-first org, surfacing blockers in writing early so merchant-facing work stayed unblocked at scale."
+          ]
+        }
+      }
+    }
+  },
+  "note": "Phase-1 bullet corpus keyed by company, then stack. Index 0 is the coreline (names the stack, scope/scale, one concrete metric). Every group holds 5 IC5-level lines (strong verb lead, named tech, judgment/consequence, one scale signal). 'tier' follows the design taxonomy; the Phase-3 slicer caps Tier-2 domains at 2 lines. Inferred scale is flagged (est.); real sourced facts (TUV SUD Low-Risk AI mark, Shopify Kafka ~66M msg/s, Sidekick June 2024, fine-tuned LLaMa + Nomic embeddings, GCP primary infra, 2.8M-line Rails monolith) are not. Anchored to ASSA ABLOY (ecoLOGIC + Digital Access Solutions + Vision AI) and Shopify (Core monolith, GraphQL APIs, AI suite, BFCM scale). Adds the new 'graphql' stack (BE, tier 1)."
+}

@@ -1,0 +1,35 @@
+```json
+{
+  "signal_quality": "high",
+  "clearance_required": true,
+  "clearance_level": "ability_to_obtain",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 50,
+    "FE": 30,
+    "Database": 20
+  },
+  "K1": {
+    "hard": {
+      "BE": ["typescript", "nodejs"],
+      "Database": ["postgresql", "elasticsearch"],
+      "Cloud": ["aws"]
+    },
+    "soft": [
+      "5+ years of professional software development experience",
+      "Prior experience working in a user-facing product role"
+    ]
+  },
+  "K2": [
+    "React",
+    "Tailwind",
+    "AI-native product development",
+    "Search indexing",
+    "Search ranking",
+    "Query parsing",
+    "Tokenization",
+    ["Elasticsearch", "OpenSearch"]
+  ],
+  "competency_signals": []
+}
+```

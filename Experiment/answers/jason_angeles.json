@@ -1,0 +1,110 @@
+{
+  "items": [
+    {
+      "question": "Are you Hispanic or Latino?",
+      "answer": "No",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the country where this role is based?",
+      "answer": "",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Are you open to relocation?",
+      "answer": "Yes",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "City",
+      "answer": "City of San Fernando",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Country",
+      "answer": "Philippines",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Disability status",
+      "answer": "No, I do not have a disability and have not had one in the past",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Full address",
+      "answer": "27-C San Miguel St., Sindalan, City of San Fernando, Pampanga, Philippines, 2000",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Gender",
+      "answer": "Male",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Have you worked in our company or do you have a relative in our company?",
+      "answer": "No",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "How did you hear about us?",
+      "answer": "LinkedIn",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Preferred work arrangement (onsite / hybrid / remote)?",
+      "answer": "Hybrid / Remote",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Race / Ethnicity",
+      "answer": "Asian",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "State / Province / Region",
+      "answer": "Pampanga",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Street address",
+      "answer": "27-C San Miguel St., Sindalan",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Veteran status",
+      "answer": "I am not a protected veteran",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "What is your country of citizenship?",
+      "answer": "Philippines",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "What is your earliest available start date?",
+      "answer": "",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "What is your notice period?",
+      "answer": "",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Will you now or in the future require visa sponsorship for employment?",
+      "answer": "",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    },
+    {
+      "question": "Zip / Postal code",
+      "answer": "2000",
+      "updated_at": "2026-06-25T12:00:00+09:00"
+    }
+  ],
+  "seeded": true
+}

@@ -1,0 +1,57 @@
+Full Stack Node.js Developer
+Bright Mind Solutions LLC
+Dallas, TX • On-site
+
+
+1-Click Apply
+
+
+
+$40 - $45/hr
+
+Contractor
+
+Posted 10 days ago
+
+Job description
+No OPT or H1 candidates
+ 
+Must have consulting Background 
+ 
+Must be ready to work from office 2 days per week in Dallas, TX
+ 
+Full Stack Node.js Developer 
+
+About the Role
+
+We’re seeking a talented Full Stack Node.js Developer to join our growing engineering team. You will be responsible for building performant, scalable, and user-friendly web applications end to end — from backend services to polished front-end experiences. You’ll collaborate closely with designers, product managers, and data engineers to deliver high-impact features and modern digital experiences.
+
+Key Responsibilities
+
+Design and develop scalable backend services and APIs using Node.js and modern frameworks (e.g., Express, NestJS).
+Build and maintain front-end interfaces using modern JavaScript frameworks (e.g., React, Vue, or Angular), ensuring seamless integration with backend services.
+Implement and manage data access layers, integrating with relational and non-relational databases.
+Develop clean, well-tested code following best practices for security, performance, and maintainability.
+Collaborate with cross-functional teams (designers, data engineers, QA) to plan, deliver, and iterate on new features.
+Participate in code reviews, architectural discussions, and continuous improvement initiatives.
+Contribute to CI/CD workflows, cloud deployments, and production monitoring as part of a DevOps-oriented culture.
+Required Qualifications
+
+3+ years of professional experience as a Full Stack or Backend JavaScript/TypeScript developer.
+Strong hands-on expertise with Node.js and related frameworks (Express, NestJS, etc.).
+Solid front-end experience with at least one major framework (React preferred).
+Proficiency in RESTful API design and integration; GraphQL experience is a plus.
+Familiarity with SQL and/or NoSQL databases, including schema design and query optimization.
+Experience with version control (Git), code reviews, and modern software development workflows.
+Strong understanding of web application architecture, authentication/authorization, and security best practices.
+Must be authorized to work in the United States.
+Preferred Qualifications
+
+Experience with TypeScript in both front- and back-end contexts.
+Familiarity with containerization (Docker) and cloud platforms (e.g., AWS, Azure, GCP).
+Experience with automated testing frameworks (Jest, Playwright, Cypress, etc.).
+Exposure to CI/CD pipelines and infrastructure as code.
+An eye for UX/UI quality and performance.
+if you are interested or have references please share resume at mukul@brightmindsol.com.
+
+Report

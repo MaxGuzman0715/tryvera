@@ -1,0 +1,235 @@
+⏰ Your Special offer ends in 58m 26s. Try Turbo for 7 days with extra 94% off
+arrow
+turboUpgrade to Turbo: Get Hired Fasterarrow
+200+ applicants
+Overview
+Company
+job-post-link
+Original Job Post
+company-logo
+GitHub
+· 12 hours ago
+Staff Software Engineer
+position
+United States
+time
+Full-time
+remote
+Remote
+seniority
+Lead/Staff
+money
+$140K/yr - $372K/yr
+date
+3+ years exp
+62%
+FAIR MATCH
+Experience. Level
+56%
+Skill
+39%
+Industry Exp.
+41%
+GitHub is the world’s leading platform for agentic software development, and they are seeking a Staff Software Engineer to drive the continued evolution of Codespaces. In this role, you will shape the future of cloud-based development, working closely with developers and customers to define and implement the Codespaces product.
+Artificial Intelligence (AI)
+Cloud Computing
+Cyber Security
+Software
+Telecom & Communications
+Enterprise Software
+SaaS
+Developer Tools
+Internet
+Project Management
+check
+Comp. & Benefits
+check
+H1B Sponsor Likelynote
+
+Insider Connection @GitHub
+2 email credits available today
+note
+Discover valuable connections within the company who might provide insights and potential referrals.
+Get 3x more responses when you reach out via email instead of LinkedIn.
+Beyond your network
+R
+M
+M
+M
+R
+Robert T. & 4 connections
+From your previous company
+J
+R
+E
+V
+S
+Juan Daniel Ramos Fuentes & 4 connections
+Previously@Meta and...
+from your School
+B
+L
+N
+Z
+A
+Briana Johnson & 4 connections
+@Carnegie Mellon University and...
+Find Any Email
+
+Responsibilities
+Design, develop, test and ship high-quality technical solutions that scale across multiple GitHub services and become intimately familiar with the systems you build and take pride in writing maintainable code
+Provide technical leadership, mentorship, pairing opportunities, and code reviews to encourage the growth of others; support teams in producing extensible and maintainable code, ensuring integration with downstream dependencies and adherence to quality standards
+Own and advocate for the health and quality of the systems that the team builds, including participating in on-call for first responder rotations and live incidents
+Write architecture briefs and proposals and carry out code experiments
+Design and implement APIs to facilitate seamless integration between software components
+Utilize CI/CD tools to set up automated pipelines for continuous integration and delivery
+Collaborate with cross-functional teams and partner with stakeholders and lead discussions for technical solutions, including design and cost considerations
+Create and guide others in 1) developing clear testing plans to assure solution quality, reliability, and performance; 2) defining success metrics; and 3) integrating customer feedback for continuous improvement - all while ensuring system architecture meets security and compliance standards
+Maintain executional and operational excellence within and potentially across teams/organizations
+Apply debugging tools and telemetry to verify assumptions, proactively resolve issues, and optimize code performance and maintainability
+Drive and support technical roadmap that aligns with product goals, ensuring that engineering efforts are strategically prioritized and incorporating the adoption of new technologies and methodologies where applicable
+Participate in on-call rotations with your team
+Offer and receive feedback to grow yourself and the team
+
+Qualification
+check
+Represents the skills you have
+Find out how your skills align with this job's requirements. If anything seems off, you can easily click on the tags to select or unselect skills to reflect your actual expertise.
+
+checkGo
+Ruby
+Rust
+checkPython
+checkJavaScript
+checkC
+checkC++
+C#
+Java
+Large-scale system architecture
+checkDistributed systems
+Microservices
+checkBash
+React.js
+checkMySQL
+CosmosDB
+Elasticsearch
+Datadog
+Sentry
+Azure Data Explorer
+Cloud Native Compute Foundation (CNCF) concepts
+checkCI/CD
+Required
+9+ years' experience in software engineering, computer science, or related technical discipline with proven experience maintaining and delivering production software coding in languages including, but not limited to, Go, Ruby, Rust, Python, JavaScript, C, C++, C#, Java
+OR associate's degree in Computer Science, Electrical Engineering, Electronics Engineering, Math, Physics, Computer Engineering, Computer Science, or related field AND 8+ years' experience in software engineering, computer science, or related technical discipline with proven experience maintaining and delivering production software coding in languages including, but not limited to, Go, Ruby, Rust, Python, JavaScript, C, C++, C#, Java
+OR bachelor's degree in Computer Science or related field AND 7+ years' experience in software engineering, computer science, or related technical discipline with proven experience maintaining and delivering production software coding in languages including, but not limited to, Go, Ruby, Rust, Python, JavaScript, C, C++, C#, Java
+OR master's degree in Computer Science, Electrical Engineering, Electronics Engineering, Math, Physics, Computer Engineering, Computer Science, or related field AND 5+ years' experience in software engineering, computer science, or related technical discipline with proven experience maintaining and delivering production software coding in languages including, but not limited to, Go, Ruby, Rust, Python, JavaScript, C, C++, C#, Java
+OR doctorate in Computer Science, Electrical Engineering, Electronics Engineering, Math, Physics, Computer Engineering, Computer Science, or related field AND 3+ years' experience in software engineering, computer science, or related technical discipline with proven experience maintaining and delivering production software coding in languages including, but not limited to, Go, Ruby, Rust, Python, JavaScript, C, C++, C#, Java
+OR equivalent experience
+2+ years experience in technical leadership roles such as tech lead, team lead or equivalent
+Demonstrated experience with large-scale system architecture and design, particularly in cloud-based environments, with a strong understanding of distributed systems and microservices
+Preferred
+Experience in one or more scripting languages (e.g., Bash, Python, or a similar language), technologies and software platforms, (e.g., Ruby, React, Go, Javascript/typescript, MySQL, cosmosDB, Elasticsearch), front-end frameworks (e.g., React.js), and / or telemetry dashboard (e.g., Datadog, Sentry, Azure Data Explorer)
+Experience with Cloud Native Compute Foundation (CNCF) concepts
+Experience working closely with product management, design, and other engineering teams to drive cross-functional projects and deliver high-quality products
+
+Benefits
+Certain roles are eligible for benefits and additional rewards, including annual bonus and stock
+Certain roles also have the opportunity to earn sales incentives based on revenue or utilization, depending on the terms of the plan and the employee's role
+Competitive pay
+Generous learning and growth opportunities
+Excellent benefits to support you, wherever you are
+
+Company
+GitHub
+twitter
+linkedin
+crunchbase
+Glassdoor
+3.7
+company-logo
+GitHub is a software company that offers code hosting services that allow developers to build software for open-source and private projects. It is a sub-organization of Microsoft.
+dateFounded in 2008
+location
+San Francisco, California, USA
+people-size501-1000 employees
+web-link
+https://github.com
+H1B Sponsorship
+GitHub has a track record of offering H1B sponsorships. Please note that this does not guarantee sponsorship for this specific role. Below presents additional info for your reference. (Data Powered by US Department of Labor)
+Distribution of Different Job Fields Receiving Sponsorship
+79%
+Represents job field similar to this job
+Engineering and Development
+Product Management
+Creatives and Design
+Sales
+Accounting and Finance
+Marketing
+Management and Executive
+Public Sector and Government
+Trends of Total Sponsorships
+*2026
+(3)
+2025
+(26)
+2024
+(17)
+2023
+(14)
+2022
+(20)
+2021
+(20)
+2020
+(10)
+Funding
+Current Stage
+Late Stage
+Total Funding
+$350M
+Key Investors
+Sequoia Capital
+Andreessen Horowitz
+2018-06-04
+Acquired
+2015-07-29
+Series B· $250M
+2015-06-19
+Secondary Market
+Leadership Team
+leader-logo
+Kyle Daigle
+Chief Operating Officer
+linkedin
+leader-logo
+Luke Hoban
+VP, Software Engineering - GitHub Copilot
+linkedin
+Recent News
+Tech Times
+npm v12 Security Overhaul Blocks Install Scripts by Default: July Deadline for CI Migration
+2026-06-14
+DevOps.com
+Shift Left to the Developer’s Machine: Building Local Git Security Gates
+2026-06-14
+TechTrendsKE
+Andela CEO on AI, Talent and the Future of Software Development in Africa
+2026-06-12
+Company data provided by crunchbase
+AI Tools
+
+Customize Your Resume
+
+Maximize your interview chances
+
+
+Build Cover Letter
+
+Make your application stand out
+
+
+Analyze How Well You Fit
+
+Understand your strength & weakness
+
+Search jobs for me

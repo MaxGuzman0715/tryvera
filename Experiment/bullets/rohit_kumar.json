@@ -1,0 +1,96 @@
+{
+  "id": "rohit_kumar",
+  "basic": {
+    "fullName": "Rohit Kumar",
+    "title": "Senior Software Engineer",
+    "email": "kumar13194@gmail.com",
+    "phone": "437 269 7684",
+    "location": "Mississauga, Ontario, Canada | Remote | Hybrid within a 20-mile radius of Mississauga",
+    "linkedin": "https://www.linkedin.com/in/kumarr3205/"
+  },
+  "experience": [
+    {
+      "company": "Accenture",
+      "location": "Remote / US ",
+      "title": "Senior Software Engineer",
+      "startDate": "Jun 2022 ",
+      "endDate": "Present",
+      "bullets": [],
+      "paragraphs": [],
+      "consulting": true
+    },
+    {
+      "company": "RBC",
+      "location": "Toronto, Ontario, Canada ",
+      "title": "Senior Software Engineer",
+      "startDate": "May 2020",
+      "endDate": "May 2022",
+      "bullets": [
+        "AI personalization in RBC's mobile banking app for 1.5M+ users (2B+ insights delivered). Features that surfaced spending insights, auto-saved spare cash, budgeting, a conversational assistant, and cash-flow forecasts. Impact: ~$415/mo saved per client → C$1.7B+ total, 1M+ assistant questions across 12 languages, and session time doubled (3.5 → 7.5 min). Core challenge: moving real-time personalization off the legacy mainframe onto a modern event-driven platform, with regulator-required explainability on every decision."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Rogers Communications Inc",
+      "location": "Brampton, Ontario, Canada",
+      "title": "Software Engineer",
+      "startDate": "Apr 2018",
+      "endDate": "May 2020",
+      "bullets": [
+        "Spearheaded the development of new account creations, encompassing diverse service packages like phone, internet, and TV.",
+        "Developed backend provisioning services for automated account creation and service package (phone, internet, TV) activation using Java and the Spring framework.",
+        "Designed and implemented RESTful APIs and SOAP web services to process customer orders and synchronize state changes across multiple backend legacy systems.",
+        "Utilized Oracle DB and complex SQL queries to manage customer account states, ensuring accurate billing and service configurations.",
+        "Deployed and managed microservices within Kubernetes clusters, utilizing Horizontal Pod Autoscaling (HPA) to maintain backend performance for order management during peak promotional periods."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Google",
+      "location": "Toronto, Ontario, Canada ",
+      "title": "Software Engineer",
+      "startDate": "Apr 2014",
+      "endDate": "Apr 2018",
+      "bullets": [
+        "Built and enhanced internal observability systems including logging, metrics, and distributed tracing integrations to improve production debugging and system visibility. ",
+        "Assisted in on-call production support by diagnosing live incidents, performing root-cause analysis, and implementing hotfixes to restore service stability under tight SLAs. ",
+        "Developed automation scripts and internal tooling to streamline deployment workflows, reducing manual intervention in release processes across engineering teams. ",
+        "Contributed to performance tuning of backend services, including query optimization, caching strategies, and reduction of request latency in high-throughput systems. ",
+        "Supported data infrastructure pipelines by improving reliability of event ingestion workflows and ensuring consistency across distributed processing jobs. ",
+        "Collaborated with SRE and platform engineering teams to improve system resilience through retry mechanisms, failover handling, and load balancing enhancements. ",
+        "Participated in migration and refactoring efforts to modernize legacy services into microservice-based architectures with improved scalability and maintainability."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Frontend: React, React Native, Vue, Angular, Svelte, Next.js, TypeScript, HTML/CSS, Tailwind, state management (Redux/Zustand/Pinia), Web accessibility (a11y), testing (Jest, Playwright, Cypress)",
+    "Backend: Python, TypeScript/Node.js, Java, Go, Rust, C#/.NET, REST, GraphQL, gRPC, WebSockets, authentication/authorization (OAuth2, JWT, OIDC), message queues (Kafka, RabbitMQ, SQS)",
+    "Database: PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch, SQLite, data modeling, indexing/query optimization, migrations, ORMs, transactions & ACID, sharding/replication",
+    "CI/CD & DevOps: Docker, Kubernetes, Terraform, GitHub Actions, GitLab CI, Jenkins, Helm, ArgoCD, infrastructure as code, blue-green/canary deploys",
+    "Cloud: AWS, GCP, Azure, serverless (Lambda/Cloud Functions), CDNs, load balancing, cost optimization",
+    "AI/ML: LLMs, agentic systems, RAG, prompt engineering, embeddings/vector DBs (Pinecone, pgvector), fine-tuning, PyTorch/TensorFlow, MLOps, model evaluation",
+    "Observability & Reliability: Logging, metrics, tracing (OpenTelemetry, Prometheus, Grafana, Datadog), alerting, SLOs/SLAs, incident response, on-call practices",
+    "Security: OWASP Top 10, secrets management, encryption (at rest/in transit), threat modeling, dependency scanning, principle of least privilege",
+    "Architecture & Design: System design, microservices vs. monoliths, event-driven architecture, design patterns, domain-driven design, caching strategies, API design, scalability/high availability",
+    "Version Control & Collaboration: Git, code review, trunk-based development, semantic versioning",
+    "Testing: Unit, integration, end-to-end, TDD, mocking, load/performance testing, contract testing",
+    "Fundamentals: Data structures & algorithms, time/space complexity, networking (HTTP, TCP/IP, DNS), operating systems, concurrency/parallelism, distributed systems basics (CAP theorem, consensus)"
+  ],
+  "education": [
+    {
+      "school": "Carleton University",
+      "degree": "B.S.",
+      "field": "Computer Science",
+      "startDate": "2010",
+      "endDate": "2014"
+    },
+    {
+      "school": "Western (UWO)",
+      "degree": "MSc",
+      "field": "Computer Science",
+      "startDate": "2023",
+      "endDate": "2026"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+4/7
+- Add location per company when adding profile: Done
+- Store the full jd as text too per output: Done
+-cool. udpate note part. make it multi line free note. and make the search in the top be able to search notes, profile. and make it able to filter by profile (maybe by check), company (search in that company column name location),  filter by roles (by checking all possible values), status.... just like in excel:
+This requires strong and fast search functionality, to do that should first migrate to sql db from local disk storage mode
+
+
+
+4/8
+- if there is duplication detected ask confirmation if you want to generate one more (coz there might be prompt difference...) and if say yes, generate one more. and in the new generation add _(0), _(1).... be careful, on how to pause the geneartion until user confirms. or what about killing that run, and if user says yes, then create another run with the same config along with 
+
+- and make it possible to edit the fields of the log table. company name, role name and jd link and jd. be careful coz you have to touch the folder path too. folder path has company name and ... 
+
+- update prompt to include spring boot and chocolate if only java is mentioned in the jd. so need to first extract key skills? ask ai how to do that.
+
+- organize by /mon_date/profile/ not just mon/date/. e.g. 04_08/glenn/[job]/[profile_name].pdf....
+
+- hallucination on the metrics and years of exp to prompt: Done
+fixed by adding Return JSON with exactly this shape:
+{
+  "summary": "2-4 sentences. dont add number of exp",
+  "skills": ["skill1", "skill2"],
+  "experience_updates": [
+    { "index": 0, "title": "Software Engineer", "bullets": ["...", "..."] }
+  ]
+} 
+
+- to many metrics: Done
+ - 1k for citizen
+ - 2nd number, rohit bid
+
+
+ - update cv (cover letter) prompt, very good, natural and concise.
+
+ - take most advantage of extraction step
+ You can avoid sending full jd, only send extracted items if extraction can extract the key skills correctly. 
+ Dont extract good-to-have but rare tech, branch, skills. 
+ in the extraction step, update prompt to include spring boot and chocolate if only java is mentioned in the jd. so need to first extract key skills? ask ai how to do that.
+
+
+ man trick: i think this is a good match for me. i read the jd, and requirements looked similar to what ive done. at the current company airbnb, i led large teams, ive done roll up your slevved, i implemented ml pipelines end to end...
+ while waiting for gpt or writing manual message to gpt, calmly say backgroudn info or whatever you can read
+
+
+
+ - recite last project, recite university, locataion, so that you can speak out so naturally in 0.1 sec
+ - say very calmly
+ - round your voice. that is native

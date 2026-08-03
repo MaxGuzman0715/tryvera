@@ -1,0 +1,107 @@
+RBC — Project Deep Dives
+Senior Software Engineer  |  Toronto, Ontario  |  May 2018 – May 2022
+Full-Stack + ML + Infrastructure
+Project 1: NOMI — AI-Powered Mobile Banking Platform
+Canada's first AI-driven personal finance suite, embedded in the RBC Mobile app and serving 1.5M+ active users across iOS and Android. NOMI evolved from a simple insights engine into a full financial intelligence platform through four major feature releases between 2017 and 2021 — each requiring significant greenfield engineering across every layer of the stack.
+Timeline
+2017 – 2021	Platform
+iOS & Android	Users
+1.5M+ active	Scale
+2B+ insights served
+Feature Release Timeline
+•	2017 — NOMI Insights + NOMI Find & Save: AI-driven spending insights and automated savings launched as Canada's first such mobile banking features.
+•	2019 — NOMI Budgets: First fully AI-driven budgeting tool in Canadian banking; customers opened 1.2M new budgets in Year 1.
+•	2020 — Ask NOMI: Conversational chatbot supporting 12 languages, built on Personetics Assist; answered 1M+ questions in first year.
+•	2021 — NOMI Forecast: Deep learning cashflow prediction (7-day horizon) — the first Borealis AI model ever deployed into a retail banking product.
+Frontend (Mobile UI)
+All NOMI features were delivered as native experiences within the existing RBC Mobile app (iOS and Android), requiring new UI components, flows, and notification systems for each release.
+•	NOMI Insights: Real-time spending cards surfaced via push notifications and in-app nudges, designed for one-tap dismissal or drill-down. Required building a dynamic card rendering system capable of displaying dozens of AI-generated insight types.
+•	NOMI Find & Save: One-tap savings approval UI with transfer confirmation flows and savings history tracking. Integrated with the savings account backend via new REST endpoints.
+•	NOMI Budgets: Multi-step budget creation wizard (AI-recommended defaults + user customization), category editors, real-time spend vs. budget ring charts, and weekly push alerts. A/B tested notification formats showed 40% higher opt-in rates for personalized alerts.
+•	Ask NOMI: Conversational chat interface embedded in the app — new chat bubble UI, natural language input, multi-language rendering (12 languages), and voice input integration.
+•	NOMI Forecast: 7-day cashflow timeline view showing upcoming preauthorized payments as cards on a scrollable calendar strip. Tappable entries with payment detail overlays. Led to 10M+ interactions since launch.
+Backend (APIs & Microservices)
+NOMI required a full greenfield backend layer — decoupling transaction data from the mainframe, building new microservices for each feature, and exposing clean APIs for the mobile clients.
+•	Mainframe Offload: Transaction and profile read workloads were migrated off the mainframe into a cloud-native microservice layer. The mainframe had been high-read/low-write, creating performance bottlenecks for real-time personalization — this migration was foundational to enabling NOMI at scale.
+•	Microservices Architecture: Each NOMI feature (Insights, Find & Save, Budgets, Ask NOMI, Forecast) was backed by a dedicated microservice — independently deployable, versioned, and owned by a feature team.
+•	API Platform: RBC's internal API platform (awarded the 2019 Digital Transformation Award) processed 1.5B transactions/month and onboarded ~800 APIs, forming the integration backbone between NOMI services and core banking systems. The platform generated $20M in savings.
+•	REST + Event APIs: New REST endpoints exposed NOMI data to the mobile apps; internal event APIs connected to Kafka topics for downstream ML model ingestion and inference serving.
+•	Data Unification: Customer transaction data from 29 countries was unified into a central data lake, solving data silo problems that had previously made cross-product personalization impossible.
+Infrastructure & DevOps (Kafka, OpenShift, Cloud)
+NOMI's scale demands — millions of users, real-time AI inference, streaming transaction data — required a ground-up infrastructure transformation running in parallel with feature delivery.
+•	Apache Kafka / Confluent Platform: RBC adopted Confluent Platform as the event streaming backbone. A microservice was written specifically to intercept mainframe reads and publish them as Kafka events instead, dramatically reducing mainframe load. 50+ applications were eventually deployed on this event-driven architecture.
+•	OpenShift (Kubernetes) GPU Cluster: NOMI was RBC's first production workload on Borealis AI's OpenShift GPU cluster. CPU-only infrastructure was infeasible for NOMI's deep learning inference latency requirements — the GPU cluster, using Red Hat OpenShift as the orchestration layer, enabled the transition from research to production for ML models.
+•	AWS Cloud Adoption: RBC adopted Amazon EC2 for application hosting and computing in 2021, with NOMI services among the early cloud-native workloads. Cloud infrastructure enabled elastic scaling to handle peak transaction volumes.
+•	CI/CD Pipelines: Automated build, test, and deployment pipelines were built to support the high release cadence across five NOMI features and multiple mobile platforms simultaneously.
+•	Federated Learning Infrastructure: To comply with Canadian privacy regulations (OSFI), customer data was handled via federated learning techniques — model training was distributed across data partitions without centralizing raw PII.
+ML / AI (Models & Pipelines)
+NOMI's ML stack evolved across two distinct layers — the Personetics Engage AI platform (features 1–4) and the proprietary Borealis AI deep learning layer (Forecast). Engineers interfaced with both, building the data pipelines and serving infrastructure that connected models to production.
+•	Personetics Engage AI Platform (Insights, Find & Save, Budgets, Ask NOMI): Transaction categorization, anomaly detection, surplus detection ($50–$500 range auto-identified), and budget recommendation models. Find & Save helped clients save an average of $415/month; the feature drove 2B+ personalized insights read since launch.
+•	Borealis AI Deep Learning (NOMI Forecast — 2021): A deep learning model trained on historical transaction data to predict upcoming payment dates and amounts. Covered pre-authorized payments, money transfers, cheques, and e-transfers. Delivered 85% prediction accuracy on 30-day cashflow horizon; served 1.7M+ predictions since launch.
+•	Model Serving Architecture: ML/AI systems were decoupled from product features via well-defined API contracts — Borealis AI owned model training and production operation; product engineering teams consumed model outputs through versioned interfaces. This enabled each team to iterate independently.
+•	Training Data Pipelines: Kafka event streams fed transaction data into model training pipelines on the OpenShift GPU cluster. Historical data from the unified data lake provided the training corpus for all models.
+•	Explainability: All NOMI models were required to produce explainable outputs — a non-negotiable for regulatory compliance and client trust. This shaped model architecture choices across the platform.
+Impact at a Glance
+1.5M+
+Active NOMI users	2B+
+Insights served to clients	2×
+Mobile session time (3.5→7.5 min)
+1.2M
+Budgets opened Year 1	C$1.7B+
+Saved via Find & Save	10M+
+Forecast interactions since 2021
+
+Project 2: Aiden — AI-Powered Electronic Trading Platform
+A first-of-its-kind in the financial industry — an electronic trading platform built entirely on deep reinforcement learning, replacing static rule-based algorithms. Developed jointly by RBC Capital Markets and Borealis AI over five years of R&D (2016–2020), then launched globally in October 2020. Aiden executes buy/sell orders in US and Canadian equities in real time, making 32M+ calculations per order and adapting to live market conditions without any re-coding.
+Timeline
+2016 – 2022	Domain
+Equities Trading	Inputs
+200+ (VWAP) / 300+ (Arrival)	Calcs
+32M+ per order
+Platform Evolution
+•	2016–2017 — Concept & R&D: Borealis AI and RBC Capital Markets equities desk began exploring deep reinforcement learning for order execution. Whiteboarding, simulation environments, and academic collaboration.
+•	2017–2019 — Lab to Live: First beta trades executed internally. Actor-critic architecture validated in live but controlled market conditions.
+•	2020 — Global Launch (Aiden VWAP): Platform launched for US and Canadian equities clients. VWAP (Volume-Weighted Average Price) was the first live algorithm, making 200+ input calculations per order in real time. Notably, Aiden held performance through COVID-19 market volatility in early 2020 — a major stress test that predictive AIs failed.
+•	2021 — European Expansion: Platform extended to European equities markets, requiring new market data feeds, regulatory compliance layers, and localized execution rules.
+•	2022 — Aiden Arrival (Second Algorithm): A new algorithm targeting Arrival Price benchmark, increasing inputs from 200 to 300 and expanding the action space for finer execution control.
+Frontend (Trading UI & Explainability Dashboards)
+Trading platforms require low-latency, high-density UIs. Aiden added a new layer of complexity: traders needed to understand and trust AI decisions, not just see execution results.
+•	Order Management UI: Client-facing and internal trader interfaces for order submission, real-time status tracking, and execution monitoring. Built to support 8,000+ users across RBC Capital Markets globally.
+•	Explainability Dashboards: A regulatory and trust requirement — dashboards showing traders which market signals Aiden acted on, how aggressive it was at each time step, and how its choices compared to benchmark. Translated RL model outputs (softmax distributions, value function estimates) into human-readable trading rationale.
+•	Post-Execution Reports: After each order, clients received structured reports breaking down Aiden's trading actions, slippage vs. benchmark, and market context at key decision points.
+•	European Localization: UI adaptations for European market conventions, currency formatting, and regulatory disclosure requirements when the platform expanded in 2021.
+Backend (Order Execution Engine & Data Infrastructure)
+Aiden's backend is one of the most demanding engineering environments possible — real-time, latency-sensitive, financially regulated, and processing millions of calculations per second.
+•	Order Execution Engine: The core backend service responsible for receiving client orders, passing them to the Aiden RL model for action selection, converting model output into limit orders, and submitting them to the live limit order book — all within microsecond latency targets.
+•	Real-Time Market Data Feeds: Aiden ingests live market data (order book depth, volume, price, volatility signals) at each time step. The backend normalized and routed data from multiple exchange feeds into a unified format consumable by the model.
+•	32M+ Calculations Per Order: Each order spawned a real-time inference loop — at every time step, 200+ market features were processed through the deep neural network to produce an action distribution. The backend managed this compute loop end-to-end, including guardrails to cap aggressiveness within risk limits.
+•	External Data Integration: Through a single API platform, RBC integrated licensed and normalized external market data directly into Aiden, replacing years of bespoke data engineering and vendor management work.
+•	Multi-Region Deployment: Separate backend instances were deployed for US, Canadian, and European equities markets, each with region-specific market data feeds, execution rules, and compliance checks.
+•	Risk & Guardrail Layer: A rule-based guardrail system sat between the RL model and the market, enforcing hard limits on order aggressiveness, position sizing, and deviation from benchmark — required by both internal risk management and regulators.
+Infrastructure & DevOps (AI Factory, Hybrid Cloud)
+Aiden required an entirely new class of compute infrastructure — GPU-accelerated, hybrid cloud, low-latency, and production-grade for a safety-critical financial system.
+•	NVIDIA AI Factory: RBC Capital Markets built a dedicated AI factory using NVIDIA Accelerated Computing to support Aiden's training and inference workloads — combining on-premise GPU clusters with hybrid cloud solutions for elasticity.
+•	OpenShift Orchestration: Aiden's ML workloads were containerized and orchestrated on Red Hat OpenShift, the same GPU cluster used for NOMI Forecast. OpenShift managed CPU+GPU resource scheduling across research and production environments.
+•	Simulation Environment: Before any model touched live markets, a full market simulation environment was built and maintained — allowing new RL algorithm versions (VWAP → Arrival → future algorithms) to be trained, validated, and tested in replay before deployment.
+•	Model Versioning & Rollout: Given the financial stakes, model versioning and staged rollout infrastructure was critical. New algorithm versions (e.g., Aiden Arrival in 2022) required parallel running, shadow mode testing, and phased client migration.
+•	Monitoring & Alerting: Real-time performance monitoring tracked slippage vs. benchmark, model confidence (value function outputs), and execution anomalies — with automated alerts for deviation outside acceptable ranges.
+•	Databricks Data Pipeline: RBC used Databricks to merge structured financial data with unstructured text in real time, validating every figure before it entered Aiden's data pipeline — ensuring data quality for a system where bad inputs directly cause financial losses.
+ML / AI (Deep Reinforcement Learning Architecture)
+Aiden is technically one of the most sophisticated applied RL systems in production finance. Its architecture was purpose-built for partially observable, non-stationary environments — the hallmark of live equities markets.
+•	Actor-Critic Architecture: Aiden uses a recurrent actor-critic neural network. The actor outputs a softmax distribution over a discrete action space (order aggressiveness levels); the critic outputs a scalar value function estimating expected future reward from the current state.
+•	Recurrent Layer (LSTM): Because financial markets are partially observable — Aiden can never see the complete market state — a recurrent layer was added to propagate information across time steps. At each step, Aiden takes market features, self-aware features (its own recent behaviour), and the recurrent vector from the previous step as input, and outputs the next action distribution plus an updated recurrent vector.
+•	Market Features (200+ inputs for VWAP, 300+ for Arrival): Inputs included real-time order book depth, trade volume, spread, volatility metrics, time-of-day signals, and order-specific context. Aiden Arrival extended the input space to capture arrival price dynamics.
+•	Self-Aware Features: Aiden tracked its own recent execution behaviour as part of its state — how aggressively it had been trading, how much of the order remained, and how its recent actions performed — enabling self-correcting behaviour mid-order.
+•	Reward System: The reward function was designed to penalize slippage against benchmark (VWAP or Arrival Price) while balancing market impact. This required careful reward engineering to prevent Aiden from learning degenerate strategies that minimized immediate slippage at the cost of overall execution quality.
+•	COVID-19 Stress Test (2020): Traditional predictive trading AIs failed during the extreme volatility of March 2020. Aiden's RL approach — adapting to observed market conditions rather than relying on historical predictions — allowed it to continue performing close to benchmark during one of the most volatile periods in modern market history.
+•	Continuous Learning: Aiden improved with every order it processed. Unlike traditional algorithms that required manual re-coding as market conditions changed, Aiden's RL framework allowed it to adapt within guardrails — learning from rewards and penalties in real time.
+Impact at a Glance
+32M+
+Calculations per order	200→300
+Model inputs (VWAP→Arrival)	8,000+
+Users across Capital Markets
+3 markets
+US, Canada, Europe	2 algorithms
+VWAP (2020) + Arrival (2022)	Patented
+Industry-first RL trading system
+

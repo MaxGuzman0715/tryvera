@@ -1,0 +1,120 @@
+{
+  "id": "aisha_ganiyu",
+  "basic": {
+    "fullName": "Aisha Ganiyu",
+    "email": "hsam96498@gmail.com",
+    "phone": "+14244141006",
+    "location": "Bloomingdale, Illinois, United States | Chicago Metro | Remote | Hybrid",
+    "summary": "Senior Software Engineer with 9+ years of experience designing, building, and shipping production systems across aviation, supply chain, and banking domains. Proven success delivering customer-facing generative AI products, internal AI platforms, real-time distributed systems, and enterprise logistics and core-banking software. Hands-on expertise spans LLMs and RAG, applied ML for document understanding, event-driven microservices, full-stack web platforms, and legacy-system modernization using Python, C#, TypeScript, PyTorch, and AWS. Experienced translating ambiguous business requirements into reliable, observable, production-grade platforms operating under regulatory and safety constraints (FAA, GxP / 21 CFR Part 11, DOT, financial-services compliance). Passionate about applying modern AI and strong engineering fundamentals to solve real-world problems with measurable user and business impact.",
+    "linkedin": "https://www.linkedin.com/in/aisha-ganiyu-4a7a9625a"
+  },
+  "experience": [
+    {
+      "company": "United Airlines",
+      "location": "Chicago, Illinois, United States",
+      "title": "Senior Software Engineer",
+      "startDate": "May 2023",
+      "endDate": "Present",
+      "bullets": [
+        "Built customer-facing disruption-messaging LLM generating personalized delay and cancellation notifications grounded in live operational data (weather, crew, maintenance, ATC), delivering +6% CSAT and 100K+ production notifications across app push, SMS, email, and gate-display channels.",
+        "Designed guardrail, grounding, and evaluation frameworks for customer-facing generative AI, enforcing legal and compliance constraints (DOT 240 tarmac rules, ADA requirements) and mitigating hallucinations on regulated passenger communications.",
+        "Contributed to United's internal GenAI platform on Amazon Bedrock, building multi-model routing across Claude, Titan, and Llama, shared RAG infrastructure, and evaluation harnesses consumed by multiple product teams across the airline.",
+        "Implemented multi-tenant governance, PII redaction, audit logging, and cost-attribution services for the internal AI platform, supporting secure generative-AI adoption across engineering and non-engineering functions.",
+        "Extended real-time flight hold-decision services balancing FAA 117 crew duty limits, fuel, downstream connection cascades, and outbound load factors over event-driven ingest from flight-ops, crew, and location streams.",
+        "Rebuilt passenger notification pipelines delivering personalized SMS with walking directions, gate reassignments, and ETA updates, saving thousands of connections per month across hub-to-hub itineraries.",
+        "Built RAG retrieval services, embedding pipelines, and evaluation tooling in Python and PyTorch backing production LLM features at airline scale.",
+        "Deployed real-time inference and orchestration services on AWS (Bedrock, Lambda, EKS, Kong API Gateway) with autoscaling, model versioning, and observability for live customer traffic."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "UPS Supply Chain Solutions",
+      "location": "Chicago, Illinois, United States",
+      "title": "Software Engineer",
+      "startDate": "Oct 2017",
+      "endDate": "Apr 2023",
+      "bullets": [
+        "Built ML-powered document extraction and HS-code classification pipelines processing customs brokerage paperwork (commercial invoices, bills of lading, certificates of origin) across 10,000+ hierarchical tariff codes and multiple shipper languages and formats.",
+        "Developed human-in-the-loop review workflows where broker corrections fed back into the classification model, reducing manual data-entry hours per shipment and cutting customs-hold rates driven by misclassification.",
+        "Shipped real-time temperature-excursion alerting for UPS Healthcare cold-chain and clinical-trial logistics, ingesting IoT telemetry from thousands of probes per shipment with drug-specific stability budgets and sub-minute escalation SLAs.",
+        "Built immutable chain-of-custody auditing systems for GxP and 21 CFR Part 11 regulatory inspection, supporting UPS Healthcare's COVID vaccine distribution and decentralized clinical-trial site-to-patient workflows.",
+        "Delivered the quote-comparison and booking experience for UPS Forwarding Hub, aggregating real-time air and ocean freight rates across multi-leg routings and moving a material portion of SCS bookings from phone/email (days) to self-service (minutes).",
+        "Built full-stack features across Flex Global View and Forwarding Hub platforms — .NET / C# backend microservices for alerting, reporting, and booking, with Angular / TypeScript front-ends used by enterprise logistics customers.",
+        "Integrated Supply Chain Symphony APIs federating warehouse management, transportation management, and freight-visibility data into a unified portal view for enterprise and healthcare customers.",
+        "Designed ETL and streaming pipelines over SQL Server and Oracle for shipment tracking, exception alerting, and analytics supporting air, ocean, ground, customs, and warehousing operations."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "FASYL Technology Group",
+      "location": "Lagos, Nigeria",
+      "title": "Software Engineer",
+      "startDate": "Apr 2016",
+      "endDate": "Sep 2017",
+      "bullets": [
+        "Contributed to an Oracle FLEXCUBE core-banking implementation at a West African retail bank, building custom modules for region-specific regulatory requirements and integration adapters to card switches, SMS gateways, and regulatory-reporting feeds.",
+        "Built data-migration and reconciliation tooling for legacy-ledger cutover with dual-running, ensuring zero-row-loss balance migration across the switchover window under regulatory scrutiny.",
+        "Developed modern REST API layers over the FLEXCUBE core exposing balance inquiry, funds transfer, bill payment, and statement generation to web, mobile, USSD, and ATM channels.",
+        "Built authentication, session, and idempotency layers for money-movement APIs, managing caching and eventual-consistency trade-offs between public digital channels and the slower core system of record.",
+        "Supported Agile FT regulatory-reporting deployments, developing data pipelines that transformed transaction and balance data into regulator-required formats and reconciled filed numbers against source ledgers.",
+        "Built custom ETL jobs and operational reports for Oracle ERP deployments at Nigerian enterprise clients."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Python",
+    "C#",
+    ".NET",
+    "TypeScript",
+    "Angular",
+    "React",
+    "Node.js",
+    "PyTorch",
+    "LLMs",
+    "RAG",
+    "Generative AI",
+    "Amazon Bedrock",
+    "AWS (EKS",
+    "Lambda",
+    "SageMaker",
+    "S3",
+    "Redshift)",
+    "Kong API Gateway",
+    "Kafka",
+    "Event-driven architecture",
+    "Microservices",
+    "SQL Server",
+    "Oracle",
+    "CI/CD",
+    "Terraform",
+    "Docker",
+    "Kubernetes",
+    "Oracle FLEXCUBE",
+    "REST APIs",
+    "Scrum / Agile"
+  ],
+  "education": [
+    {
+      "school": "DePaul University",
+      "degree": "Master's",
+      "field": "Health Informatics",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "school": "Sikkim Manipal University - Distance Education",
+      "degree": "BBA",
+      "field": "Business Administration and Management",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "school": "College of DuPage",
+      "degree": "A.S.",
+      "field": "Interactive Media / Graphic Design / Web Development",
+      "startDate": "",
+      "endDate": ""
+    }
+  ]
+}

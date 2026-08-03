@@ -1,0 +1,36 @@
+```json
+{
+  "signal_quality": "high",
+  "clearance_required": false,
+  "clearance_level": "not_required",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 50,
+    "Cloud": 20,
+    "DevOps": 15,
+    "Database": 10,
+    "FE": 5
+  },
+  "K1": {
+    "hard": {
+      "BE": ["python", "ruby_on_rails"],
+      "Cloud": ["azure"],
+      "DevOps": ["cicd"]
+    },
+    "soft": [
+      "9+ years' experience in software engineering",
+      "2+ years experience in technical leadership roles",
+      "Demonstrated experience with large-scale system architecture and design"
+    ]
+  },
+  "K2": [
+    "Go",
+    "Rust",
+    "JavaScript",
+    "Microservices",
+    ["MySQL", "Elasticsearch"],
+    ["React.js", "Bash"]
+  ],
+  "competency_signals": []
+}
+```

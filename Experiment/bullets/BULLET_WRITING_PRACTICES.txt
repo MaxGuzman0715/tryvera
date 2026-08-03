@@ -1,0 +1,156 @@
+BULLET-WRITING PRACTICES (reusable across profiles)
+====================================================
+Source of truth: reverse-engineered from rohit_kumar.json (Phase-1 bullet corpus).
+Goal: senior (IC5-level) resume bullets, keyed by company -> stack, covering all domains.
+
+----------------------------------------------------
+1. FILE / DATA STRUCTURE
+----------------------------------------------------
+profile.json
+  basic { fullName, title, email, phone, location, linkedin }
+  experience []            <- plain human-readable summary bullets per job
+  education []
+  companies {              <- the rich, sliceable corpus
+    "<Company Name>": {
+      project: "<one-line anchor narrative, names the flagship system(s)>",
+      stacks: {
+        "<stack_key>": {
+          domain: "<one of the 11 domains>",
+          tier:   1 | 2,
+          bullets: [ 5 strings ]
+        }
+      }
+    }
+  }
+  note: "<corpus design note>"
+
+----------------------------------------------------
+2. THE 11 DOMAINS  and  CANONICAL STACK KEYS
+----------------------------------------------------
+BE          : python_django, python_flask, python_fastapi, python,
+              java_springboot, java, typescript, nodejs, nestjs, graphql, go, rust,
+              dotnet_csharp, ruby_on_rails, php_laravel, c_cpp, scripting
+              (graphql added 2026-06; backfilled into rohit_kumar.json too.
+               Anchor it to schema design, resolver N+1/DataLoader, query-cost
+               limits, persisted queries, field-level auth + deprecation policy.)
+FE          : react, nextjs, vue, angular, svelte
+Mobile      : swift, objc, kotlin, flutter, react_native
+AI_ML       : agentic_ai_rag, llm_finetuning, classical_ml, recommendation_sys,
+              computer_vision, nlp, robotics_planning, ai_safety
+Data_Eng    : spark, kafka, databricks, airflow, dbt, flink, etl_pipelines, snowflake
+MLOps       : model_serving, experiment_tracking, model_monitoring
+DevOps      : kubernetes, cicd, docker, terraform, observability
+Cloud       : aws, gcp, azure
+Database    : postgresql, mysql, mongodb, dynamodb, redis, elasticsearch,
+              cassandra, sql_server, neo4j, vector_db
+Analytics_BI: tableau, looker, powerbi, sql_analytics
+Shared      : shared   (cross-functional / leadership / collaboration)
+
+TIER GUIDE
+  tier 1 = core engineering domains the person clearly "did" (BE, FE, Mobile,
+           AI_ML, Data_Eng, MLOps usually tier 1).
+  tier 2 = supporting/infra/peripheral (Cloud, DevOps, Database, Analytics_BI,
+           Shared usually tier 2). The downstream slicer caps tier-2 at 2 lines,
+           so put the 2 strongest tier-2 lines FIRST.
+
+----------------------------------------------------
+3. THE 5-BULLET SHAPE  (per stack)
+----------------------------------------------------
+INDEX 0 = CORELINE. Must contain:
+  - the named stack/tech
+  - the scope (what system, which flagship project)
+  - the scale (users / RPS / volume / device count)
+  - ONE concrete metric or outcome
+  Lead verb: "Owned" / "Architected" / "Built".
+
+INDEX 1-4 = SUPPORTING LINES. Each must:
+  - lead with a strong, VARIED verb (do not repeat across the 5):
+        Owned, Architected, Built, Redesigned, Diagnosed, Drove, Hardened,
+        Rebuilt, Migrated, Optimized, Decomposed, Streamlined
+  - name the SPECIFIC tech/tool (e.g. select_related/prefetch_related, pprof,
+    HNSW, OnPush, Celery, Tokio, Delta MERGE, sync.RWMutex) — not generic prose
+  - carry a JUDGMENT -> CONSEQUENCE arc: a real problem, the fix, the result
+  - include at least one scale or impact signal
+  - stay one sentence, ~20-35 words
+
+RECOMMENDED VERB MIX per group (typical):
+  [0] Owned/Architected/Built   (coreline)
+  [1] Redesigned ... after <problem>, <result>
+  [2] Diagnosed <problem> ... <fix> ... <result>
+  [3] Drove <initiative> ... <org/scale impact>
+  [4] Hardened <weakness> ... closing <risk/bug class>
+
+----------------------------------------------------
+4. STYLE RULES
+----------------------------------------------------
+- Senior tone: ownership + architectural judgment, never "helped with" / "worked on".
+- Concrete over vague: "cut p95 from 4s to <400ms", not "improved performance".
+- Every bullet anchored to the SAME project narrative as the company's other stacks.
+  Cross-stack consistency is what makes the corpus feel real.
+- One metric per line is enough; do not stuff numbers.
+- Name the failure mode (N+1, goroutine leak, cache stampede, retain cycle,
+  training-serving skew, parameter sniffing) — specificity signals seniority.
+- INFERRED / fabricated scale MUST be flagged with "est." (e.g. "est. 5k req/s",
+  "est. 90% of reads"). Real, sourced facts need no flag.
+- Regulated/safety context (if applicable to the company) should color AI_ML,
+  MLOps, ai_safety, and Database lines (audit trails, human-in-the-loop, explainability).
+- Mobile/FE: tie to crash-free rate, fps, cold-start, LCP, bundle size.
+- AI_ML: tie to accuracy/lift/relevance on an eval set, plus a deploy-reality caveat.
+- Database/Data_Eng: tie to latency, throughput, cluster cost, SLA windows.
+
+----------------------------------------------------
+5. ANCHOR-NARRATIVE METHOD (how to start a new profile)
+----------------------------------------------------
+a. Research the real company/role -> pick 1-2 flagship systems that plausibly
+   span fullstack + AI (the "project" string).
+b. Define the scale vocabulary once (users, RPS, device count, data volume,
+   regulatory frame). Reuse those numbers consistently across all stacks.
+c. Map each domain/stack to a believable slice of that system BEFORE writing,
+   so every stack references the same world (e.g. ecoLOGIC ML, DAS portal,
+   door telemetry stream, mobile credential app).
+d. Write coreline first per stack, then the 4 supporting lines.
+e. Keep the SAME stack set as prior profiles for reuse, swapping only the
+   project-specific nouns.
+
+----------------------------------------------------
+6. WORKED EXAMPLE — ASSA ABLOY anchor (Deepankar Kalra)
+----------------------------------------------------
+project: "ecoLOGIC (AI energy-optimization for automatic doors) & Digital Access
+          Solutions (cloud + mobile access platform) with Vision AI biometrics"
+scale vocab: est. thousands of installed automatic doors; est. hundreds of
+             speed-gate biometric installs; door-sensor telemetry est. 100k msg/s;
+             real fact: TUV SUD first "Low-Risk AI" test mark for ecoLOGIC.
+
+(see the generated deepankar_kalra.json for full per-stack output)
+
+----------------------------------------------------
+7. RENDER / SLICER RULES  (added 2026-06)
+----------------------------------------------------
+LINE COUNT vs TENURE
+- A long tenure must not render as only 3-4 lines. Target line count by tenure:
+  ~2-3 yrs -> 3-4 lines; ~4-5 yrs -> 5-6 lines; 5+ yrs -> 6+ lines.
+- When the sliced bullets fall short for a long role, TOP UP: take the JD's
+  first / highest-priority requirement (e.g. "Senior backend engineering" for
+  the last run) and have the LLM generate 2-3 extra lines that (a) satisfy that
+  requirement and (b) read consistently with the already-selected bullets for
+  that company (same project nouns, same scale vocab, no contradiction).
+
+STACK SELECTION
+- Per company, always select AT LEAST one tier-1 AND one tier-2 stack, so each
+  role shows both core depth and supporting breadth (never all-tier-1 or all-tier-2).
+
+THIRD COMPANY ONWARD (oldest / early-career roles)
+- Do NOT build the full per-stack corpus for the 3rd+ (oldest) companies.
+- Keep ONE fixed bullet list on the experience[] entry instead (hand-written,
+  role-appropriate seniority). The slicer uses these verbatim; no stack slicing.
+- Example: AWS (early-career SDE) keeps 4 concrete SDE lines on experience[],
+  and has NO entry under companies{} at all.
+
+SHARED ("Shared" domain) BULLETS MUST DIFFER PER COMPANY
+- Do not reuse the Partnered/Mentored/Shaped/Drove/Communicated template across
+  companies -- it reads as copy-paste. Vary BOTH the lead verbs and the framing
+  so each company's collaboration story is distinct and grounded in that company.
+  Verb pools to rotate: Aligned/Grew/Turned/Steered/Ran; Bridged/Coached/
+  Translated/Carried/Kept; Worked/Levelled up/Negotiated/Drove/Coordinated;
+  Brought/Developed/Scoped/Guided/Liaised.
+- Applies retroactively: rohit_kumar.json shared blocks were also de-duplicated.

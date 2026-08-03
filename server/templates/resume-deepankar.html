@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume</title>
+    <style>
+      :root {
+        --navy: #1f3b63;
+        --steel: #3f5f7f;
+        --body: #222831;
+        --muted: #55606b;
+        --rule: #b8c6d6;
+        --rule-strong: #6f8aa6;
+        --paper: #ffffff;
+        --hint: #718096;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.theme-deepankar {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 10pt;
+        line-height: 1.45;
+        color: var(--body);
+        background: var(--paper);
+      }
+      body.doc.theme-deepankar .sheet {
+        max-width: 7.2in;
+        margin: 0 auto;
+        padding: 0.2in 0 0.35in;
+      }
+      body.doc.theme-deepankar .content h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 22pt;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--navy);
+      }
+      body.doc.theme-deepankar .content p.resume-headline {
+        margin: 0.28rem 0 0.18rem;
+        text-align: center;
+        font-size: 12pt;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        text-transform: none;
+        color: var(--steel);
+      }
+      body.doc.theme-deepankar .content p.contact-line {
+        margin: 0 0 0.55rem;
+        text-align: center;
+        font-size: 9pt;
+        color: var(--muted);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        padding-bottom: 0.5rem;
+        border-bottom: 1.5px solid var(--rule-strong);
+      }
+      body.doc.theme-deepankar .content h2 {
+        margin: 0.8rem 0 0.4rem;
+        padding-bottom: 0.18rem;
+        font-size: 10.5pt;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--steel);
+        border-bottom: 1.5px solid var(--rule);
+      }
+      body.doc.theme-deepankar .content h2:first-of-type {
+        margin-top: 0.5rem;
+      }
+      body.doc.theme-deepankar .content h3 {
+        margin: 0.5rem 0 0.15rem;
+        font-size: 10.5pt;
+        font-weight: 700;
+        color: var(--navy);
+      }
+      body.doc.theme-deepankar .content p.template-hint {
+        display: none;
+      }
+      body.doc.theme-deepankar .content p {
+        margin: 0.22rem 0;
+      }
+      body.doc.theme-deepankar .content p.bullet {
+        margin-left: 0.15in;
+        text-indent: -0.1in;
+        padding-left: 0.1in;
+      }
+      body.doc.theme-deepankar .content p.spacer {
+        margin: 0.08rem 0;
+        height: 0.2rem;
+      }
+      body.doc.theme-deepankar .resume-role-row {
+        display: grid;
+        grid-template-columns: 1fr 2.4fr;
+        gap: 0.18in 0.28in;
+        align-items: start;
+        margin: 0.4rem 0 0.3rem;
+      }
+      body.doc.theme-deepankar .resume-role-dates {
+        margin: 0.12rem 0 0;
+        font-size: 9pt;
+        font-weight: 700;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      body.doc.theme-deepankar .resume-role-main h3 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body class="doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

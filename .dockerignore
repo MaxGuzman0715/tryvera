@@ -1,0 +1,15 @@
+node_modules
+**/node_modules
+.git
+.gitignore
+data
+output
+.env
+*.log
+.cursor
+mcps
+**/dist
+client/dist
+server/dist
+*.md
+!server/templates/**/*.md

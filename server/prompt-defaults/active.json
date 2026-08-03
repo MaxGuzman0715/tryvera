@@ -1,0 +1,7 @@
+{
+  "extraction": "default",
+  "resume": "more-aggressive",
+  "coverLetter": "default",
+  "qa": "default",
+  "matchScore": "default"
+}

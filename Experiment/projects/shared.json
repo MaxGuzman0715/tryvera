@@ -1,0 +1,96 @@
+{
+  "note": "SHARED consulting-project pool (used by every profile, not per-profile). Each entry is an anonymized client engagement keyed by industry. At generation, extraction picks 2 industries from this list; code hands the matching entries to the profile's consulting company. `label` is the SHORT client-vertical word used in the résumé master line (\"did X for a <label> client\") — keep it a natural single vertical (fintech, healthcare, SaaS), NOT the long category name. `aliases` help the extractor match. `client` is a fuller anonymized descriptor. Summaries are 1 paragraph, concrete on architecture/scale/challenge, free of proper nouns. Only real business VERTICALS belong here — not horizontals/tech-categories (e.g. no 'AI/ML Platforms'), since those don't read as a client sector.",
+  "projects": [
+    {
+      "industry": "Fintech / Payments / Banking",
+      "label": "fintech",
+      "aliases": ["fintech", "payments", "banking", "financial services", "capital markets", "wealth", "crypto"],
+      "client": "a top-tier retail bank",
+      "summary": "Built two flagship AI products for a top-tier retail bank under financial-regulator scrutiny. The first delivered real-time personalization in a mobile banking app for 1.5M+ users (2B+ insights) — spending insights, automated micro-savings (~$415/mo per client), budgeting, a multilingual conversational assistant (1M+ questions across 12 languages), and cash-flow forecasts — the core challenge being to move real-time personalization off a legacy mainframe onto an event-driven platform with regulator-required explainability on every decision. The second was a reinforcement-learning trade-execution agent for 8,000+ capital-markets users that held its benchmark through extreme market volatility, with hard trading guardrails, simulation-based validation, staged rollout, and a trader-facing explainability view."
+    },
+    {
+      "industry": "Media / Streaming / Entertainment",
+      "label": "media",
+      "aliases": ["media", "streaming", "entertainment", "video", "gaming", "content"],
+      "client": "a major consumer streaming service",
+      "summary": "Delivered a consumer streaming platform serving 90M+ subscribers across web, mobile, and connected TV under ad-supported/standard/premium tiers, including a high-stakes merger of two catalogs into one product under a hard multi-quarter launch deadline. Work spanned the subscription/entitlement/payments backbone, a unified catalog + metadata platform, launch-performance work that cut app and video start times 20-30%, a home-screen recommender that lifted engagement ~12%, a churn model, and a content-operations RAG assistant — all on AWS/EKS with a large multi-service footprint governed by an operational-metadata schema for cost and incident triage."
+    },
+    {
+      "industry": "Healthcare / Health-tech",
+      "label": "healthcare",
+      "aliases": ["healthcare", "health-tech", "digital health", "medtech", "clinical", "payer", "provider", "life sciences"],
+      "client": "a digital-health company",
+      "summary": "Delivered a HIPAA-regulated care-coordination platform for a digital-health company managing chronic-condition patients across provider networks. Built the event-driven backbone that ingested EHR/FHIR feeds, claims, and device telemetry into a longitudinal patient record, a risk-stratification model that flagged rising-risk patients for outreach, and a clinician-facing summarization assistant grounded strictly in the patient's own chart with PHI redaction and citation-back to source. The core constraints were auditability, consent-scoped data access, and explainability on every clinical-adjacent recommendation, running on a HITRUST-aligned cloud footprint with per-record access logging."
+    },
+    {
+      "industry": "Enterprise SaaS / B2B Software",
+      "label": "B2B SaaS",
+      "aliases": ["enterprise saas", "b2b", "saas", "platform", "workflow software"],
+      "client": "a B2B SaaS company",
+      "summary": "Re-platformed a multi-tenant B2B SaaS product from a monolith toward domain-oriented services for a company serving thousands of enterprise customers. Delivered tenant isolation and per-tenant configuration, a usage-metering and entitlements layer feeding billing, a versioned public GraphQL/REST API with rate limits, and an admin analytics surface. The hard problems were noisy-neighbor isolation at scale, backward-compatible schema evolution across long-lived tenants, and enterprise SSO/SCIM integration — shipped on Kubernetes with blue-green deploys and SLO-backed observability."
+    },
+    {
+      "industry": "Insurance / Insurtech",
+      "label": "insurance",
+      "aliases": ["insurance", "insurtech", "claims", "underwriting", "actuarial", "p&c"],
+      "client": "a property-and-casualty insurer",
+      "summary": "Delivered claims and underwriting automation for a property-and-casualty insurer, modernizing a legacy claims platform. Built the end-to-end claims-resolution workflow, rules-driven claim routing, and a machine-learning risk-assessment model that improved routing accuracy, plus data-processing jobs over historical claims that surfaced lifecycle bottlenecks. The work centered on integrating ML into a regulated claims pipeline with explainable decisions, and on refactoring legacy code for stability under peak claim volume."
+    },
+    {
+      "industry": "E-commerce / Retail / Marketplaces",
+      "label": "e-commerce",
+      "aliases": ["e-commerce", "ecommerce", "retail", "marketplace", "commerce", "d2c", "shopping"],
+      "client": "a high-traffic commerce platform",
+      "summary": "Built and scaled merchant- and shopper-facing features for a high-traffic commerce platform engineered to survive peak sale events (Black Friday / Cyber Monday-class traffic). Delivered GraphQL storefront/admin APIs, Kafka-based real-time event pipelines behind storefront, admin, and analytics surfaces, and AI commerce features — vector search and recommendations over a large product catalog powered by fine-tuned embeddings. The core challenges were resilience and traffic isolation under spikes, catalog-scale search relevance, and keeping checkout latency flat during promotions."
+    },
+    {
+      "industry": "Developer Tools / Cloud Infra / DevOps",
+      "label": "developer-tools",
+      "aliases": ["developer tools", "devtools", "cloud infrastructure", "devops", "platform engineering", "infra"],
+      "client": "a cloud-infrastructure company",
+      "summary": "Delivered a developer-infrastructure product for a company building cloud/DevOps tooling. Built the control plane and API, a scalable job/execution layer, and multi-cloud provisioning with Terraform-driven infrastructure-as-code, plus first-class observability across metrics, tracing, and SLOs. The hard problems were multi-tenant isolation, safe rollout of infrastructure changes with plan-review gates and drift detection, and holding a low-latency, highly available control plane as customer workloads grew."
+    },
+    {
+      "industry": "Cybersecurity",
+      "label": "cybersecurity",
+      "aliases": ["cybersecurity", "security", "threat detection", "fraud", "appsec", "infosec"],
+      "client": "a security company",
+      "summary": "Built detection and response tooling for a security company, processing high-volume telemetry to surface threats. Delivered a streaming analytics pipeline over security events, ML-based anomaly and fraud detection with guardrail metrics to control false positives, and an investigation surface with low-latency search over large event stores. The core constraints were precision under alert-fatigue pressure, tamper-evident audit trails, and least-privilege access throughout — with the detection models continuously monitored for drift as attack patterns shifted."
+    },
+    {
+      "industry": "Logistics / Supply Chain / Fleet",
+      "label": "logistics",
+      "aliases": ["logistics", "supply chain", "fleet", "shipping", "transportation", "delivery"],
+      "client": "a supply-chain company",
+      "summary": "Delivered a logistics-optimization platform for a supply-chain company coordinating shipments across carriers and warehouses. Built real-time tracking ingestion, a routing/optimization engine balancing cost, time, and capacity constraints, and forecasting models for demand and ETA. The central challenges were optimizing under competing constraints at fleet scale, reconciling messy multi-source telemetry into one schema, and keeping the live-tracking surface accurate under bursty event volume."
+    },
+    {
+      "industry": "Telecom / Networking",
+      "label": "telecom",
+      "aliases": ["telecom", "networking", "telco", "connectivity", "isp", "5g"],
+      "client": "a telecom operator",
+      "summary": "Built backend provisioning and order-management services for a telecom operator, automating account creation and activation across phone, internet, and TV service packages. Delivered RESTful and SOAP integrations synchronizing state across multiple legacy backend systems, complex order orchestration, and microservices deployed on Kubernetes with horizontal autoscaling to hold performance through peak promotional periods. The core work was reliable state synchronization across brittle legacy systems and accurate billing and service configuration at scale."
+    },
+    {
+      "industry": "Real Estate / Proptech",
+      "label": "proptech",
+      "aliases": ["real estate", "proptech", "property", "construction tech", "housing"],
+      "client": "a proptech company",
+      "summary": "Delivered a property-technology platform for a proptech company, unifying listings, valuation, and transaction workflows. Built the data pipeline ingesting listing, geospatial, and market feeds, an automated valuation model, a search/recommendation surface over properties, and document workflows for transactions. The hard problems were reconciling heterogeneous property data sources, keeping valuation models accurate as markets moved, and delivering fast geospatial search over large inventories."
+    },
+    {
+      "industry": "Legal Tech / Compliance / RegTech",
+      "label": "legal-tech",
+      "aliases": ["legal tech", "legaltech", "compliance", "regtech", "contracts", "governance"],
+      "client": "a legal-technology company",
+      "summary": "Built a contract- and compliance-automation platform for a legal-technology company. Delivered document ingestion and clause extraction using NLP, a retrieval-augmented assistant that answered questions grounded in the document set with citation-back to source, and workflow/approval tooling with a full audit trail. The core constraints were accuracy and grounding on high-stakes legal text with no hallucinated clauses, fine-grained access control, and defensible auditability on every automated action."
+    },
+    {
+      "industry": "HR Tech / Recruiting",
+      "label": "HR-tech",
+      "aliases": ["hr tech", "hrtech", "recruiting", "talent", "future of work", "people ops"],
+      "client": "an HR-technology company",
+      "summary": "Delivered a talent platform for an HR-technology company, matching candidates to roles at scale. Built the ingestion and normalization pipeline over resumes and job data, an embedding-based matching/ranking system, a candidate-facing application flow, and analytics for employers. The central challenges were matching relevance and fairness with bias-aware ranking and guardrail metrics, normalizing extremely messy free-text inputs, and holding low-latency search over a large candidate pool."
+    }
+  ]
+}

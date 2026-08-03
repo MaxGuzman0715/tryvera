@@ -1,0 +1,173 @@
+turboUpgrade to Turbo: Get Hired Fasterarrow
+Be an early applicant
+Less than 25 applicants
+company-logo
+Senior Software Engineer, Fullstack
+Overview
+Company
+job-post-link
+Original Job Post
+company-logo
+Vannevar
+· 13 hours ago
+Senior Software Engineer, Fullstack
+position
+United States
+time
+Full-time
+remote
+Remote
+seniority
+Senior Level, Lead/Staff
+date
+5+ years exp
+62%
+FAIR MATCH
+Experience. Level
+64%
+Skill
+46%
+Industry Exp.
+43%
+Vannevar is a defense technology company building AI to deter adversaries. They are seeking an experienced full-stack engineer to advance the design and implementation of their Decision Advantage product, enabling defense and intelligence operators to gain comprehensive situational awareness.
+Aerospace
+Artificial Intelligence (AI)
+Government
+National Defense
+Software
+GovTech
+National Security
+badNo H1Bnote
+Security Clearance Requirednote
+
+Insider Connection @Vannevar
+2 email credits available today
+note
+Discover valuable connections within the company who might provide insights and potential referrals.
+Get 3x more responses when you reach out via email instead of LinkedIn.
+Beyond your network
+P
+Priscilla S.
+People Operations Specialist
+From your previous company
+C
+W
+C
+D
+J
+Celine T. & 4 connections
+Previously@Meta and...
+from your School
+Z
+K
+Zach N. & 1 connections
+@Carnegie Mellon University and...
+Find Any Email
+
+Responsibilities
+Design, build, and ship a cutting edge identity search platform using TypeScript, React, Tailwind, and Node.js
+Partner with customers, mission owners, designers, and other engineers to understand user workflows and create 10x better solutions for their problems
+Implement and maintain search and agentic AI systems for high-scale data, both tabular and graph shaped
+Help define and shape the future of the product
+
+Qualification
+check
+Represents the skills you have
+Find out how your skills align with this job's requirements. If anything seems off, you can easily click on the tags to select or unselect skills to reflect your actual expertise.
+
+TypeScript
+Node.js
+checkPostgres
+AWS
+Elasticsearch
+OpenSearch
+AI-native product development
+checkSearch indexing
+checkSearch ranking
+checkQuery parsing
+checkTokenization
+Required
+5+ years of professional software development experience
+Expertise in TypeScript, Node.js, Postgres, and AWS
+Hands-on experience with at least one major search engine (e.g., Elasticsearch, OpenSearch)
+Prior experience working in a user-facing product role
+Preferred
+Active Security clearance or ability to obtain one and desire to travel to visit users, collect feedback, and debug issues
+Prior experience developing AI-native products
+Understanding of search concepts like indexing, ranking, query parsing, and tokenization
+
+Benefits
+Health, dental, and vision insurance
+Remote friendly with WeWork access
+Unlimited PTO, shared downtime during the federal holiday calendar, and company-wide off time at the end of each year
+401(k) match
+Lifestyle & wellbeing stipends
+Salary top-up during military reserve duty
+Fully paid parental leave
+Child and pet care reimbursement during travel
+
+Company
+Vannevar
+twitter
+linkedin
+crunchbase
+company-logo
+Vannevar builds new defense capabilities for modern conflict.
+dateFounded in 2019
+location
+Palo Alto, California, USA
+people-size51-200 employees
+web-link
+https://www.vannevarlabs.com
+Funding
+Current Stage
+Growth Stage
+Total Funding
+$91.5M
+Key Investors
+Felicis
+Costanoa Ventures,Point72 Ventures
+Costanoa Ventures,General Catalyst
+2023-01-18
+Series B· $75M
+2022-11-30
+Series Unknown
+2021-08-25
+Series A· $12M
+Leadership Team
+leader-logo
+Brett Granberg
+CEO
+linkedin
+leader-logo
+Eric Ransom
+Chief Legal Officer
+linkedin
+Recent News
+PR Newswire
+SMX and Vannevar Partner to Deliver Mission-Specific AI Agents
+2026-04-21
+Vannevar
+Vannevar Labs raises $12M in Series A Funding
+2026-03-24
+General Catalyst
+General Catalyst portfolio
+2026-02-12
+Company data provided by crunchbase
+AI Tools
+
+Customize Your Resume
+
+Maximize your interview chances
+
+
+Build Cover Letter
+
+Make your application stand out
+
+
+Analyze How Well You Fit
+
+Understand your strength & weakness
+
+Search jobs for me

@@ -1,0 +1,61 @@
+{
+  "id": "rohit_kumar",
+  "note": "Per-profile career-project list. One REAL flagship project per real company, within that company's date range, each chosen because it spans front-end + back-end + data/AI in a single request path (so the resume can claim all three layers from one coherent project). For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only — bullets are tailored live at generation. For older companies we ship ready-made bullets, pitched at the seniority appropriate to that point in the career. Descriptions are plain-terms, one paragraph.",
+  "projects": [
+    {
+      "company": "Apple",
+      "role": "Software Engineer",
+      "dateRange": "Apr 2014 - Apr 2018",
+      "flagshipProject": "Apple Music",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Apple Music is the streaming service where you play songs and get recommendations tailored to your taste. When you open the app and hit play, the Music app on your iPhone or Mac sends a request to Apple's servers, which pull the track from the catalog, run your subscription and rights checks, and stream it back to you - while a recommendation engine decides what fills your 'For You' section and personalized playlists. It touches the front end (the Music app you browse and play from), the back end (the servers that store the catalog, verify your subscription, and stream audio to tens of millions of people), and the data side (the models that learn what you like and choose what to recommend).",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Shipped playback and browse surfaces in the Apple Music iOS/macOS app - the personalized 'For You' feed, curated playlists, and now-playing - tuned for fast time-to-first-play and smooth scrolling across large music libraries.",
+        "Built catalog and streaming backend services that resolved a requested track, ran subscription and rights/entitlement checks, and streamed audio to tens of millions of listeners at low latency.",
+        "Contributed to the 'For You' recommendation path - the feature pipelines over listening history and the ranking that decided which albums, playlists, and stations to surface next.",
+        "Hardened the playback path for launch and peak traffic, cutting time-to-first-play and driving down playback-error rates under load."
+      ]
+    },
+    {
+      "company": "Rogers Communications Inc",
+      "role": "Software Engineer",
+      "dateRange": "Apr 2018 - May 2020",
+      "flagshipProject": "Ignite TV",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Ignite TV is Rogers' internet-based TV service, delivered through a set-top box and a companion app. When you turn it on or open the app, your device talks to Rogers' servers, which check your account through your MyRogers login, pull down live channels, on-demand shows, and cloud-PVR recordings, and stream them to your screen. It remembers what you've watched to recommend what's next, and you can search by talking to the remote. It touches the front end (the on-screen guide and the app across phones and TVs), the back end (streaming, cloud recording, and account/entitlement checks at nationwide scale), and the data side (the recommendations and the voice search that figures out what you're asking for).",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built Ignite TV client surfaces across the set-top box and companion app - the live guide, on-demand browse, and cloud-PVR management - keeping the experience consistent from TV to phone.",
+        "Developed account/entitlement and streaming backend services that authenticated through MyRogers login and delivered live channels, on-demand, and cloud-PVR recordings at nationwide scale.",
+        "Wired up the next-watch recommendation surface and voice-remote search, connecting the client to intent resolution and entitlement checks.",
+        "Integrated with legacy provisioning and billing systems so entitlements and recordings stayed in sync across devices, synchronizing state across multiple backend systems."
+      ]
+    },
+    {
+      "company": "RBC",
+      "role": "Senior Software Engineer",
+      "dateRange": "May 2020 - May 2022",
+      "flagshipProject": "NOMI",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "NOMI is the built-in AI money assistant in the RBC Mobile app - it watches your accounts and gives personalized tips, automatic savings, budgets, and cash-flow forecasts. As transactions come in, RBC's systems categorize your spending and generate 'insights' - like flagging an unusual charge or predicting next week's balance - that appear right inside the banking app. It touches the front end (the insights, budgets, and forecast screens in the app), the back end (the banking systems that process millions of transactions securely in real time), and the data side (the AI models that spot patterns and make the predictions).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Accenture",
+      "role": "Senior Software Engineer",
+      "dateRange": "Jun 2022 - Present",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation, the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry PLUS one more arbitrary project, and uses those as this company's engagements (each opening with a 'did X for a [industry] client' master line).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    }
+  ]
+}

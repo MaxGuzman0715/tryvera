@@ -1,0 +1,28 @@
+# Enpply: single container — Express serves the React build and `/api`.
+#
+# Before first run on the VPS:
+#   1. Copy `.env.template` to `.env` next to this file and set LLM keys + optional PORT.
+#   2. `docker compose up -d --build`
+#   3. Open http://YOUR_VPS_IP:5001 (or put Nginx/Caddy in front for HTTPS).
+#
+# Security: there is no login in the app — anyone who can reach the URL can use your API keys
+# and stored profiles. Prefer a firewall (allow only your IP/VPN), or an authenticated reverse proxy.
+
+services:
+  enpply:
+    build: .
+    ports:
+      - "${HOST_PORT:-5001}:5001"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: "5001"
+    volumes:
+      - enpply-data:/app/data
+      - enpply-output:/app/output
+    restart: unless-stopped
+
+volumes:
+  enpply-data:
+  enpply-output:

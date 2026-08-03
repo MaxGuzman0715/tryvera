@@ -1,0 +1,95 @@
+{
+  "id": "Glenn",
+  "basic": {
+    "fullName": "Glenn Labindao",
+    "title": "Senior Software Engineer",
+    "email": "glennlabindao03@gmail.com",
+    "location": "Central Luzon, Philippines | Open to Remote Opportunities",
+    "summary": "AI Solutions & Automation Engineer with 10+ years of experience building and deploying generative AI, LLM-powered applications, and workflow automation systems. Proven ability to translate business needs into practical AI solutions using tools like GPT-4, APIs, and automation platforms. Strong background in designing end-to-end AI-driven workflows, prompt systems, and SaaS integrations that improve operational efficiency and decision-making. Experienced in working with cross-functional stakeholders, driving adoption of AI tools, and delivering measurable business impact in production environments.",
+    "linkedin": "https://www.linkedin.com/in/glenn-labindao-4008533b1"
+  },
+  "experience": [
+    {
+      "company": "CRESSOFT CONSULTANCY LIMITED ",
+      "title": "Lead Software Engineer",
+      "startDate": "Jan 2022",
+      "endDate": "Mar 2026",
+      "bullets": [
+        "I built an AI-powered customer support platform using a multi-agent architecture, where specialized agents handled intake, issue understanding, policy reasoning, retrieval, response generation, and escalation across chat and voice. On the ML side, I worked on retrieval, ranking, and orchestration to ensure responses were grounded and consistent with business policies. On the backend, I designed agent orchestration services and APIs that coordinated workflows across multiple tools and data sources. On the frontend, I built agent-assisted support interfaces using React for both users and human operators, including real-time suggestions and escalation flows. I also owned deployment and reliability, including model serving, monitoring, and CI/CD for rapid iteration. The system improved resolution time and reduced manual support load by automating a large portion of repetitive workflows.",
+        "",
+        "I built a conversational layer on top of an existing travel marketplace to let users search listings through natural language instead of rigid filters. On the ML side, I worked on NLP and LLM components, including fine-tuning and prompt engineering to map user intent into structured queries and actions. I also implemented tool-calling for intent routing, so the system could decide when to trigger search, availability checks, or pricing services. I built semantic retrieval and ranking to ground responses in real inventory and improve relevance. On the backend, I designed orchestration services to manage conversation state and coordinate calls to search and ranking systems. On the frontend, I built conversational interfaces that integrate with existing browsing and booking flows. I also owned deployment and reliability, including low-latency serving and monitoring. The result was a more flexible and intuitive search experience that improved discovery and engagement.",
+        ""
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Yondu, Inc.",
+      "title": "Software Engineer ",
+      "startDate": "Apr 2019",
+      "endDate": "Dec 2021",
+      "bullets": [
+        "I worked on building end-to-end clinical workflows that combined ML with product systems. On the ML side, I focused on recommendation and time-series forecasting problems, like predicting patient demand and optimizing provider scheduling and matching. I built ranking systems to match patients with the right provider based on urgency, availability, and historical outcomes. I also developed forecasting models to anticipate clinic load and no-shows, which helped improve capacity planning. On the backend, I designed APIs and data pipelines that unified EHR data into real-time services for scheduling and triage. On the frontend, I built clinician and patient-facing tools using Vue that made these predictions actionable during booking and visits. I also owned deployment and reliability, including model serving, monitoring, and CI/CD pipelines. One concrete impact was reducing wait times and improving provider utilization by better matching supply and demand."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Generative AI & LLMs",
+    "•\tGPT-4",
+    "GPT-3",
+    "Claude (LLM applications)",
+    "•\tPrompt Engineering & Prompt Systems",
+    "•\tRetrieval-Augmented Generation (RAG)",
+    "•\tConversational AI & AI Assistants",
+    "•\tAI Playbooks & Workflow Design",
+    "AI Solutions & Automation",
+    "•\tWorkflow Automation (Zapier",
+    "Make",
+    "API integrations)",
+    "•\tSaaS Tool Integration & Orchestration",
+    "•\tBusiness Process Automation",
+    "•\tAI Prototyping → Production Deployment",
+    "Programming & APIs",
+    "•\tPython",
+    "JavaScript/TypeScript",
+    "•\tREST APIs",
+    "Microservices",
+    "•\tOpenAI API",
+    "LangChain",
+    "LlamaIndex",
+    "Data & AI Systems",
+    "•\tData Analysis & Transformation",
+    "•\tML/AI System Design",
+    "•\tModel Evaluation & Optimization",
+    "Cloud & Tools",
+    "•\tAWS",
+    "Azure",
+    "GCP",
+    "•\tDocker",
+    "CI/CD pipelines",
+    "•\tDatabases (SQL",
+    "NoSQL",
+    "Vector DBs)",
+    "Collaboration & Leadership",
+    "•\tCross-functional collaboration (business + technical teams)",
+    "•\tStakeholder communication (non-technical audiences)",
+    "•\tTraining & enablement on AI tools",
+    "•\tTechnical leadership & mentoring"
+  ],
+  "education": [
+    {
+      "school": "De La Salle University",
+      "degree": "Doctor of Philosophy",
+      "field": "Computer Science",
+      "startDate": "2015",
+      "endDate": "2019"
+    },
+    {
+      "school": "De La Salle University",
+      "degree": "Master of Science",
+      "field": "Computer Science",
+      "startDate": "2013",
+      "endDate": "2015"
+    }
+  ]
+}

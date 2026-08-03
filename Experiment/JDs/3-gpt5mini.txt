@@ -1,0 +1,48 @@
+{
+  "signal_quality": "low",
+  "clearance_required": false,
+  "clearance_level": "not_required",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 100
+  },
+  "K1": {
+    "hard": {
+      "BE": [
+        "java_springboot"
+      ]
+    },
+    "soft": [
+      "Bachelor's degree",
+      "2+ years experience"
+    ]
+  },
+  "K2": [
+    "Application Development",
+    "Application Design",
+    "Architecture",
+    "System Development Life Cycle",
+    "Release Management",
+    "Application Testing",
+    "Technical Troubleshooting",
+    "User Experience (UX) Design"
+  ],
+  "competency_signals": [
+    {
+      "category": "architecture",
+      "raw": "Application Design, Architecture"
+    },
+    {
+      "category": "process",
+      "raw": "System Development Life Cycle"
+    },
+    {
+      "category": "user_impact",
+      "raw": "Customer Focused"
+    },
+    {
+      "category": "testing",
+      "raw": "Application Testing, Technical Troubleshooting"
+    }
+  ]
+}

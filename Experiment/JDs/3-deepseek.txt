@@ -1,0 +1,28 @@
+```json
+{
+  "signal_quality": "low",
+  "clearance_required": false,
+  "clearance_level": "not_required",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 100
+  },
+  "K1": {
+    "hard": {
+      "BE": ["python"]
+    },
+    "soft": ["2+ years relevant professional experience", "Bachelor's degree or equivalent"]
+  },
+  "K2": [
+    "Application Maintenance",
+    "System Development Life Cycle",
+    "Technical Troubleshooting",
+    "Technical Writing/Documentation"
+  ],
+  "competency_signals": [
+    { "category": "architecture", "raw": "Application Design, Architecture" },
+    { "category": "process", "raw": "Release Management, SDLC" },
+    { "category": "user_impact", "raw": "Customer Solutions, User Experience (UX) Design" }
+  ]
+}
+```

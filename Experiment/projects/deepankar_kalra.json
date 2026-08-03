@@ -1,0 +1,46 @@
+{
+  "id": "deepankar_kalra",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range, each chosen because it spans front-end + back-end + data/AI in a single request path (so the resume can claim all three layers from one coherent project). For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only - bullets are tailored live at generation. For older companies we ship ready-made bullets, pitched at the seniority appropriate to that point in the career. Consulting companies (consulting:true) store NO project - at generation their engagements are pulled from shared.json (industry-matched entry + 1 more arbitrary). Descriptions are plain-terms, one paragraph.",
+  "projects": [
+    {
+      "company": "ASSA ABLOY Group",
+      "role": "Lead Software Engineer",
+      "dateRange": "Jun 2025 - Present",
+      "flagshipProject": "Cloud access-control (ACaaS) + mobile credentials",
+      "spans": ["frontend", "backend", "embedded", "ai_data"],
+      "description": "ASSA ABLOY's cloud access-control (ACaaS) and mobile credentials are the modern way buildings handle door access - physical keys give way to your phone and cloud-managed permissions, with mobile credentials the fastest-growing part of the market. An admin uses a web portal to grant or revoke access; a user opens a door with the mobile app (SMARTair / Openow, HID mobile access); the request travels to cloud services that check permissions; and the lock firmware on the door acts on the decision. It touches the front end (the web management portal and the mobile app), the back end (the cloud services managing credentials and permissions), the embedded layer (the lock firmware), and increasingly the data/AI side (usage analytics and features like energy-optimization and vision-based entry).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Accenture",
+      "role": "Senior Software Engineer",
+      "dateRange": "Dec 2018 - May 2025",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation, the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry PLUS one more arbitrary project, and uses those as this company's engagements (each opening with a 'did X for a [industry] client' master line).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Meta",
+      "role": "Senior Software Engineer",
+      "dateRange": "Oct 2014 - Nov 2018",
+      "flagshipProject": "News Feed ranking",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "News Feed ranking is the system that decides what order posts show up in when you open Facebook. When you open the app, your phone sends a request to Facebook's servers, which gather all the posts you could possibly see, score each one based on how likely you are to care about it, sort them, and send back a finished, ranked feed for your screen to display. It touches the front end (the feed you actually see and scroll), the back end (the servers that collect the posts and serve them fast to billions of people), and the data side (the machine-learning models that predict what matters most to you and the pipelines that feed them). One project, all three layers.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Worked on Feed surface development, building client-side components for large-scale content delivery across web and mobile platforms.",
+        "Contributed to feed rendering and data-fetching pipelines, ensuring smooth infinite-scroll performance under high traffic conditions.",
+        "Improved frontend feed performance and stability through rendering optimizations and bug fixes in production systems.",
+        "Collaborated with backend and ranking teams to integrate content signals into feed delivery logic.",
+        "Supported experimentation and gradual rollout systems used for feed feature testing and performance evaluation."
+      ]
+    }
+  ]
+}

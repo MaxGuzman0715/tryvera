@@ -1,0 +1,36 @@
+{
+  "signal_quality": "low",
+  "clearance_required": false,
+  "clearance_level": "not_required",
+  "primary_domain": "BE",
+  "domain_breakdown": {
+    "BE": 100
+  },
+  "K1": {
+    "hard": {
+      "BE": ["java"]
+    },
+    "soft": [
+      "2+ years relevant professional experience",
+      "Bachelor's degree or equivalent combination of education and experience"
+    ]
+  },
+  "K2": [],
+  "K3": [
+    "User Experience (UX) Design",
+    "Customer Solutions",
+    "Group Problem Solving",
+    "Business Management",
+    "Software Solutions",
+    "Packaged Application Integration",
+    "Application Development Tools",
+    "Managing Risk",
+    "Customer Focused"
+  ],
+  "competency_signals": [
+    { "category": "architecture",  "raw": "Application Design, Architecture" },
+    { "category": "process",       "raw": "Release Management, System Development Life Cycle" },
+    { "category": "testing",       "raw": "Application Testing, Application Maintenance, Technical Troubleshooting" },
+    { "category": "documentation", "raw": "Technical Writing/Documentation" }
+  ]
+}
