@@ -2,17 +2,38 @@
   "id": "rowland_sipola",
   "basic": {
     "fullName": "Rowland Sipola",
-    "title": "Senior DevSecOps Engineer / Site Reliability Engineer",
-    "email": "fdern10@gmail.com",
+    "title": "Senior Software Engineer",
+    "email": "rowland.sp.907@gmail.com",
+    "phone": "+1 (929) 322-8681",
     "location": "West Islip, NY | Remote or Hybrid",
     "summary": "Senior Cloud Security & Platform Architect designing, securing, and operating production-grade infrastructure across Azure, AWS, GCP, and DigitalOcean. Builds multi-region Kubernetes platforms, secure-by-default golden paths, DevSecOps controls (SAST, DAST, secrets scanning, SBOM, policy-as-code, and supply-chain security), cloud-native observability, and SLO frameworks. Proven impact includes MTTR reduction, 40%+ lower security and audit effort, 25-30% cloud spend reduction, and 99.9% uptime across mission-critical workloads. Microsoft, AWS, and Google certified; experienced leading platform and security initiatives across 20+ engineers and translating SOC 2, ISO 27001, CIS, NIST, and OWASP into engineering practice.",
     "linkedin": "https://www.linkedin.com/in/rowland-s-8681544/"
   },
   "experience": [
     {
+      "company": "Trinnex",
+      "title": "Senior Software Engineer",
+      "startDate": "Aug 2024",
+      "endDate": "Present",
+      "bullets": [
+        "Architected an Internal Developer Platform using Python, Kubernetes, Terraform, and cloud-native services to standardize infrastructure provisioning, application deployment, and operational workflows across engineering teams.",
+        "Built reusable Python platform services and automation frameworks that simplified infrastructure operations, accelerated developer onboarding, and reduced manual engineering effort.",
+        "Designed self-service infrastructure capabilities using Infrastructure as Code, enabling application teams to provision secure and consistent cloud resources across development, staging, and production environments.",
+        "Modernized Kubernetes platform architecture through reusable Helm deployments, standardized release patterns, automated health validation, and progressive deployment strategies to improve production reliability.",
+        "Developed cloud-native platform services and automation integrations connecting Azure, AWS, and internal engineering systems to improve scalability, reliability, and operational efficiency.",
+        "Established platform reliability practices through centralized monitoring, distributed tracing, automated alerting, and production health visibility across cloud-native workloads.",
+        "Collaborated with security, infrastructure, and application engineering teams to implement secure-by-default platform capabilities, improving governance, deployment consistency, and developer experience.",
+        "Optimized cloud infrastructure utilization through workload analysis, resource lifecycle automation, and capacity planning while maintaining highly available production services.",
+        "Led technical design discussions, code reviews, and engineering standards around Kubernetes, cloud architecture, Python development, and Infrastructure as Code practices.",
+        "Created platform documentation, architectural guidelines, and operational runbooks that improved onboarding, incident response, and long-term system maintainability."
+      ],
+      "paragraphs": [],
+      "notes": "From LinkedIn (Aug 2024 - Present). Skill tags there: Software Infrastructure, Python, Django. Bullets selected from the senior/platform-engineering set; trimmed to 4 per BULLET_WRITING_PRACTICES tenure rule (~2 yrs -> 3-4 lines) and de-duplicated against Deloitte (CI/CD rebuild, observability stack, secrets/policy automation, mentoring all already covered there). Lines are currently metric-free, unlike the Deloitte corpus."
+    },
+    {
       "company": "Deloitte",
       "location": "New York, NY",
-      "title": "Senior DevSecOps Engineer | Site Reliability Engineer",
+      "title": "Senior Software Engineer",
       "startDate": "Nov 2019",
       "endDate": "Present",
       "bullets": [
@@ -143,7 +164,27 @@
     "SLO/SLA design",
     "incident management",
     "chaos engineering",
-    "FinOps"
+    "FinOps",
+    "Software Infrastructure",
+    "Software Engineering",
+    "Software Development",
+    "Software Design",
+    "Cloud Computing",
+    "Distributed Systems",
+    "Agile Methodologies",
+    "Django",
+    "Java",
+    "MySQL",
+    "JSON",
+    "Object Oriented Design",
+    "Object-Oriented Programming (OOP)",
+    "Mobile Applications",
+    "Swift (Programming Language)",
+    "SwiftUI",
+    "macOS",
+    "OS X",
+    "User Interface Design",
+    "User Experience Design (UED)"
   ],
   "education": [
     {

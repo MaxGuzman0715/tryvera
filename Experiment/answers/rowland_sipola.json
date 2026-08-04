@@ -1,0 +1,120 @@
+{
+  "items": [
+    {
+      "question": "Gender",
+      "answer": "Male",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Race / Ethnicity",
+      "answer": "White",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Are you Hispanic or Latino?",
+      "answer": "No",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Veteran status",
+      "answer": "No",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Disability status",
+      "answer": "No",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the country where this role is based?",
+      "answer": "Yes",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Will you now or in the future require visa sponsorship for employment?",
+      "answer": "No",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "What is your notice period?",
+      "answer": "",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "What is your earliest available start date?",
+      "answer": "",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Are you open to relocation?",
+      "answer": "",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Preferred work arrangement (onsite / hybrid / remote)?",
+      "answer": "Remote or hybrid",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Address line",
+      "answer": "3 Higbie Lane",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "City",
+      "answer": "West Islip",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "State/Province",
+      "answer": "New York",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Zip code",
+      "answer": "11795",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "County",
+      "answer": "Suffolk",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Country",
+      "answer": "United States",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Phone type",
+      "answer": "Mobile",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Date of birth",
+      "answer": "07/20/1987",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "What are your pronouns?",
+      "answer": "He/Him",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "Do you identify as LGBTQ+?",
+      "answer": "No",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    },
+    {
+      "question": "How would you describe your sexual orientation?",
+      "answer": "Decline to state",
+      "updated_at": "2026-08-03T12:00:00+09:00"
+    }
+  ],
+  "seeded": true
+}
