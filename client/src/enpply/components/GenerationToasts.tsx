@@ -79,6 +79,9 @@ export default function GenerationToasts() {
   const idleTimerRef = useRef<number | null>(null);
   const dismissTimers = useRef<Record<string, number>>({});
   const currentUserIdRef = useRef<string | null>(null);
+  // Role is read the same way as the id: through a ref, because the polling
+  // effect below mounts once and would otherwise close over a stale value.
+  const currentUserRoleRef = useRef<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -132,6 +135,7 @@ export default function GenerationToasts() {
   useEffect(() => {
     const prev = currentUserIdRef.current;
     currentUserIdRef.current = user?.id ?? null;
+    currentUserRoleRef.current = user?.role ?? null;
     if (prev !== currentUserIdRef.current) {
       // User changed (login, logout, switch) — clear the toast stack so
       // the previous user's transient notifications don't bleed through.
@@ -184,9 +188,12 @@ export default function GenerationToasts() {
           }
           // Toasts are "my runs only" — admins still see every row in
           // Logs and Analytics, but the transient toast feed only reacts
-          // to runs this user personally started. Legacy rows without a
-          // user_id are skipped for everyone (nobody owns them).
-          if (a.user_id !== currentUserId) continue;
+          // to runs this user personally started — EXCEPT for admins, who
+          // see every run's progress here too (matching what Logs already
+          // shows them). Legacy rows without a user_id stay skipped for
+          // non-admins, since nobody owns them.
+          const isAdmin = currentUserRoleRef.current === "admin";
+          if (!isAdmin && a.user_id !== currentUserId) continue;
           // Rejected-duplicate rows are throwaway markers (status failed +
           // duplicate_of). Surface a brief "already generated" notice and
           // delete the row so it doesn't litter Logs — this is the cleanup

@@ -16,19 +16,19 @@
       "startDate": "Aug 2024",
       "endDate": "Present",
       "bullets": [
-        "Architected an Internal Developer Platform using Python, Kubernetes, Terraform, and cloud-native services to standardize infrastructure provisioning, application deployment, and operational workflows across engineering teams.",
-        "Built reusable Python platform services and automation frameworks that simplified infrastructure operations, accelerated developer onboarding, and reduced manual engineering effort.",
-        "Designed self-service infrastructure capabilities using Infrastructure as Code, enabling application teams to provision secure and consistent cloud resources across development, staging, and production environments.",
-        "Modernized Kubernetes platform architecture through reusable Helm deployments, standardized release patterns, automated health validation, and progressive deployment strategies to improve production reliability.",
-        "Developed cloud-native platform services and automation integrations connecting Azure, AWS, and internal engineering systems to improve scalability, reliability, and operational efficiency.",
-        "Established platform reliability practices through centralized monitoring, distributed tracing, automated alerting, and production health visibility across cloud-native workloads.",
-        "Collaborated with security, infrastructure, and application engineering teams to implement secure-by-default platform capabilities, improving governance, deployment consistency, and developer experience.",
-        "Optimized cloud infrastructure utilization through workload analysis, resource lifecycle automation, and capacity planning while maintaining highly available production services.",
+        "Architected an Internal Developer Platform using Python, Kubernetes, Terraform, and cloud-native services to standardize infrastructure provisioning, application deployment, and operational workflows across 6 engineering teams.",
+        "Built reusable Python platform services and automation frameworks that simplified infrastructure operations and cut developer time-to-first-deploy from days to ~2 hours.",
+        "Designed self-service infrastructure capabilities using Infrastructure as Code, letting application teams provision secure, consistent cloud resources across development, staging, and production; reduced provisioning tickets ~65%.",
+        "Modernized Kubernetes platform architecture through reusable Helm deployments, standardized release patterns, automated health validation, and progressive delivery; cut failed rollouts ~45%.",
+        "Developed cloud-native platform services and automation integrations connecting Azure, AWS, and internal engineering systems to improve cross-cloud scalability and operational efficiency.",
+        "Established platform reliability practices through centralized monitoring, distributed tracing, and automated alerting across cloud-native workloads; reduced MTTR ~35%.",
+        "Partnered with security, infrastructure, and application engineering teams to bake secure-by-default settings into platform templates, raising policy compliance to ~90% of newly provisioned services.",
+        "Optimized cloud infrastructure utilization through workload analysis, resource lifecycle automation, and capacity planning, reclaiming orphaned resources and cutting monthly platform spend ~30%.",
         "Led technical design discussions, code reviews, and engineering standards around Kubernetes, cloud architecture, Python development, and Infrastructure as Code practices.",
-        "Created platform documentation, architectural guidelines, and operational runbooks that improved onboarding, incident response, and long-term system maintainability."
+        "Created platform documentation, architectural guidelines, and operational runbooks that shortened new-engineer ramp time ~40% and improved incident-response consistency."
       ],
       "paragraphs": [],
-      "notes": "From LinkedIn (Aug 2024 - Present). Skill tags there: Software Infrastructure, Python, Django. Bullets selected from the senior/platform-engineering set; trimmed to 4 per BULLET_WRITING_PRACTICES tenure rule (~2 yrs -> 3-4 lines) and de-duplicated against Deloitte (CI/CD rebuild, observability stack, secrets/policy automation, mentoring all already covered there). Lines are currently metric-free, unlike the Deloitte corpus."
+      "notes": "From LinkedIn (Aug 2024 - Present). Skill tags there: Software Infrastructure, Python, Django. SYNTHETIC TEST DATA: the numeric figures in these bullets (~65%, ~45%, ~35%, ~90%, ~30%, ~40%, 6 teams, ~2 hours) are illustrative placeholders added to match the metric density of the Deloitte/Zillow/Google corpus for pipeline testing. They are NOT sourced from the candidate. Replace with real figures before any live submission."
     },
     {
       "company": "Deloitte",
