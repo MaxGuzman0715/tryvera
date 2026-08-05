@@ -52,10 +52,10 @@ This runs the API and the Vite client (see root `package.json` scripts).
 
 | What                                       | URL / port                                                                                         |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| **Web UI (use this in the browser)** | **http://localhost:5173** — Vite serves the React app and proxies `/api` to the server.   |
+| **Web UI (use this in the browser)** | **http://localhost:5273** — Vite serves the React app and proxies `/api` to the server.   |
 | **API only**                         | **http://localhost:5001** (or `PORT` in `.env`) — e.g. http://localhost:5001/api/health |
 
-You normally open **5173**, not 5001.
+You normally open **5273**, not 5001.
 
 ---
 
@@ -87,9 +87,9 @@ Check **Ignore duplicate check** on Job Apply to skip both for that run only.
 
 ---
 
-**Do not use `http://localhost:5001/apply` for day‑to‑day development.** Port 5001 is the API server; if a `client/dist` folder exists from a previous `npm run build`, Express may serve that **old** static build. You will see an outdated UI. **Use 5173** for the live React app.
+**Do not use `http://localhost:5001/apply` for day‑to‑day development.** Port 5001 is the API server; if a `client/dist` folder exists from a previous `npm run build`, Express may serve that **old** static build. You will see an outdated UI. **Use 5273** for the live React app.
 
-If **5173** says “connection refused,” the Vite client is not running. From the repo root run **`npm run dev`** (starts **both** `server` and `client`). If you only run `npm run dev -w server`, 5173 will not start. Check the terminal: you should see both `server` and `client` lines, and Vite should print `Local: http://localhost:5173/`.
+If **5273** says “connection refused,” the Vite client is not running. From the repo root run **`npm run dev`** (starts **both** `server` and `client`). If you only run `npm run dev -w server`, 5273 will not start. Check the terminal: you should see both `server` and `client` lines, and Vite should print `Local: http://localhost:5273/`.
 
 ---
 

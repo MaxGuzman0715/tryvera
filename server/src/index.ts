@@ -1826,16 +1826,19 @@ app.use((req, res, next) => {
 });
 
 const port = Number(process.env.PORT ?? 80);
+// Mirrors the Vite dev-server port (client/vite.config.ts), so these hints stay
+// correct when CLIENT_PORT is overridden to avoid clashing with another instance.
+const clientPort = Number(process.env.CLIENT_PORT ?? 5273);
 const server = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
   const distIndex = path.join(projectRoot(), "client", "dist", "index.html");
   if (existsSync(distIndex)) {
     console.log(
-      `[enpply] This port also serves ./client/dist (from the last npm run build). That UI can look outdated in development. Use the Vite dev server at http://localhost:5173 for the current React app (run npm run dev from the repo root so both server and client start).`
+      `[enpply] This port also serves ./client/dist (from the last npm run build). That UI can look outdated in development. Use the Vite dev server at http://localhost:${clientPort} for the current React app (run npm run dev from the repo root so both server and client start).`
     );
   } else {
     console.log(
-      `[enpply] No client/dist yet — open http://localhost:5173 for the UI after npm run dev (API stays on port ${port}).`
+      `[enpply] No client/dist yet — open http://localhost:${clientPort} for the UI after npm run dev (API stays on port ${port}).`
     );
   }
 });

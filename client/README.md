@@ -14,7 +14,7 @@ Run from the **monorepo root** with `-w client`, or `cd client` first.
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev -w client` | Vite dev server (default **http://localhost:5173**) |
+| `npm run dev -w client` | Vite dev server (default **http://localhost:5273**) |
 | `npm run build -w client` | Production build to `client/dist` |
 | `npm run preview -w client` | Serve the production build locally (for smoke checks) |
 
@@ -22,7 +22,7 @@ Run from the **monorepo root** with `-w client`, or `cd client` first.
 
 1. Start the API (e.g. `npm run dev -w server` on port `5001`).
 2. Start the client (`npm run dev -w client`).
-3. Open the URL printed by Vite (e.g. 5173).
+3. Open the URL printed by Vite (e.g. 5273).
 
 `vite.config.ts` proxies `/api` to `http://localhost:5001`, so the browser uses relative URLs like `/api/health` with no CORS config needed in dev.
 

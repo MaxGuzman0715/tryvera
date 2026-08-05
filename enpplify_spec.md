@@ -190,5 +190,5 @@ Each slice = one endpoint + its matching extension call, working end-to-end.
 - Whether `fill-map` lives under `/api/applications/:id/` (ties answers to a run) or standalone.
   Leaning on the per-run form for MVP.
 - Extension build tooling (plain JS vs Vite+TS to match the client). Recommend Vite+TS.
-- CORS origin allowlist for dev (`localhost:5173`/`:80`) vs prod (`tealbridge.online`).
+- CORS origin allowlist for dev (`localhost:5273`/`:80`) vs prod (`tealbridge.online`).
 ```
