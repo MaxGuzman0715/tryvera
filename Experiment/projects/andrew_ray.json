@@ -1,0 +1,49 @@
+{
+  "id": "andrew_ray",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range, each chosen because it spans the application, backend/platform, and data/AI layers in a single request path (so the resume can claim all three layers from one coherent project). For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only - bullets are tailored live at generation. For older companies we ship ready-made bullets, pitched at the seniority appropriate to that point in the career. Consulting companies (consulting:true) store NO project - at generation their engagements are pulled from shared.json (industry-matched entry + 1 more arbitrary). Descriptions are plain-terms, one paragraph.",
+  "projects": [
+    {
+      "company": "Rackspace Technology",
+      "role": "Staff AI Engineer",
+      "dateRange": "Jun 2023 - Present",
+      "flagshipProject": "Internal ML platform + Generative AI enablement",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "The internal ML platform is how everyone at the company gets a model from an idea into production and keeps it healthy there. A data scientist starts from a notebook or a feature set, trains a model, and registers it; a deployment pipeline packages that model and ships it to a cloud-native serving environment; and once it is live, monitoring watches its predictions for drift and quality, triggering retraining when the data underneath shifts. Layered on top is the generative-AI side: standards for prompt engineering, evaluation frameworks that score LLM outputs before they ship, and retrieval pipelines that ground answers in the company's own documents. It touches the front end (the self-service surfaces and dashboards data scientists and product teams work in), the back end (the deployment pipelines, model registry, and serving infrastructure), and the data/AI side (feature stores, training pipelines, drift detection, and LLM/RAG evaluation). One platform, all three layers.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Avanade",
+      "role": "Senior Machine Learning Data Scientist",
+      "dateRange": "Jan 2022 - Jun 2023",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation, the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry PLUS one more arbitrary project, and uses those as this company's engagements (each opening with a 'did X for a [industry] client' master line).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Globe Life",
+      "role": "Data Scientist",
+      "dateRange": "Jul 2017 - Jan 2022",
+      "flagshipProject": "Underwriting & pricing analytics platform",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Underwriting and pricing analytics is how an insurer decides who to cover and at what price, backed by data rather than intuition. Policy, claims, and customer records land in a warehouse through scheduled data pipelines; statistical and machine-learning models score risk on that data; and the results surface as dashboards and reports the underwriting and business teams actually read when setting rates or reviewing an applicant. It touches the front end (the dashboards and reports business stakeholders use), the back end (the ETL jobs and cloud data infrastructure that keep those numbers current), and the data side (the exploratory analysis and the risk and pricing models themselves).",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built statistical and machine learning models to support insurance underwriting and pricing decisions, moving risk assessment from rules-of-thumb toward data-driven scoring.",
+        "Developed gradient-boosted and generalized linear models over policy and claims history, improving risk-tier separation against the incumbent rules-based approach.",
+        "Performed exploratory data analysis on large policy and claims datasets to identify trends, segment behavior, and surface growth opportunities for the business.",
+        "Created dashboards and reports in Power BI and SQL to communicate model outputs to business stakeholders, giving underwriting and actuarial teams one shared view of model behavior.",
+        "Supported data pipeline development and ETL processes for analytics and reporting, consolidating policy, claims, and customer sources into a single analytics schema.",
+        "Added automated data-quality checks to ETL loads so malformed records were quarantined and flagged instead of silently skewing downstream model inputs.",
+        "Assisted senior engineers in building data infrastructure on cloud platforms, moving recurring analytical workloads off manual extracts onto scheduled pipelines.",
+        "Documented model assumptions, feature definitions, and validation results to support internal review of pricing and underwriting decisions."
+      ]
+    }
+  ]
+}

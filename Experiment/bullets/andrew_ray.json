@@ -1,0 +1,130 @@
+{
+  "id": "andrew_ray",
+  "basic": {
+    "fullName": "Andrew Ray",
+    "title": "Staff Data Scientist, ML Platform",
+    "email": "andrew.ray227@outlook.com",
+    "phone": "+1 (631) 320-5313",
+    "location": "Jacksonville, FL | Remote",
+    "summary": "ML engineer with nine years across the model lifecycle, from insurance risk scoring to the internal ML platform a whole data science org now ships on. Work spans feature pipelines, training, evaluation and low-latency serving, with a platform bias toward models that keep performing after launch rather than only at launch. Currently focused on MLOps and applied Generative AI: evaluation harnesses, retrieval pipelines, and the release gates that keep an unvalidated model off a customer surface.",
+    "linkedin": "https://www.linkedin.com/in/andrew-ray-036713136"
+  },
+  "experience": [
+    {
+      "company": "Rackspace Technology",
+      "location": "San Antonio, TX",
+      "title": "Staff Data Scientist, ML Platform",
+      "startDate": "Mar 2025",
+      "endDate": "Present",
+      "bullets": [
+        "Own the internal ML platform that data scientists on 6 teams use to train, deploy and monitor models, replacing the per-team infrastructure each group had been standing up on its own.",
+        "Built the LLM evaluation harness behind the company's Generative AI surfaces — golden datasets plus LLM-as-judge scoring — which caught 78% of quality regressions before release and made prompt changes reviewable instead of arguable.",
+        "Shipped hybrid BM25-plus-vector retrieval with semantic chunking and citation-back to source on the internal knowledge assistant, cutting ungrounded answers 61%; the gain held through a 6-week holdout.",
+        "Introduced a feature store shared between training and serving, closing the training-serving skew that had been costing a flagship model 4.6 points of live accuracy, and it has not reopened in the 11 months since.",
+        "Set the launch criteria for models reaching customer-facing surfaces — registry stages, eval thresholds, approval gates — which let product teams ship without a platform engineer in the loop.",
+        "Review model designs across the org and mentor 7 data scientists and ML engineers, owning the platform's onboarding path and the design-review rotation."
+      ],
+      "paragraphs": [],
+      "notes": "SYNTHETIC TEST DATA: figures (6 teams, 78%, 61%, 6-week holdout, 4.6 points, 11 months, 7 engineers) and named specifics (BM25 hybrid retrieval, LLM-as-judge, registry stages) are illustrative placeholders for pipeline testing, not sourced from the candidate. Replace before any live submission."
+    },
+    {
+      "company": "Rackspace Technology",
+      "location": "San Antonio, TX",
+      "title": "Senior MLOps Engineer",
+      "startDate": "Jun 2023",
+      "endDate": "Feb 2025",
+      "bullets": [
+        "Built the CI/CD path for model deployment on GitHub Actions and Kubernetes, cutting release cycle time 43% and removing the manual handoff between data science and platform engineering.",
+        "Implemented drift detection on population-stability and prediction-drift metrics, surfacing silent accuracy decay within a day rather than at the next quarterly review; two regressions found this way had been running unnoticed for weeks.",
+        "Replaced calendar-cadence retraining with drift-triggered retraining, which ended the stale-model problem and cut wasted training runs by about a third.",
+        "Standardized tooling on MLflow tracking and registry with Kubeflow pipelines, which ended the 'which model version actually shipped' guesswork during incidents.",
+        "Worked with cloud architects on autoscaling GPU pools and spot capacity for batch training, taking 31% off training spend without lengthening the training window."
+      ],
+      "paragraphs": [],
+      "notes": "SYNTHETIC TEST DATA: the >40% release-cycle reduction traces to the candidate's base resume (stated there as 'over 40%'); 43%, 'about a third' and 31% are illustrative. Tooling specifics are plausible-but-unverified. Replace before any live submission."
+    },
+    {
+      "company": "Avanade",
+      "location": "Seattle, WA",
+      "title": "Senior Machine Learning Data Scientist",
+      "startDate": "Jan 2022",
+      "endDate": "Jun 2023",
+      "bullets": [
+        "Delivered end-to-end ML for enterprise clients in finance and retail, owning problem framing through deployment and handover on each engagement.",
+        "Built NLP models for document classification and entity extraction on Azure Cognitive Services, served through Azure ML endpoints; one deployment took a client's manual document review from 3 days to under 4 hours.",
+        "Developed demand forecasting that beat the client's incumbent baseline by 12% MAPE and fed directly into inventory and staffing decisions.",
+        "Established post-deployment monitoring on every engagement, closing the gap that had generated most follow-up escalations — clients could finally tell whether a delivered model was still working after handover."
+      ],
+      "paragraphs": [],
+      "notes": "SYNTHETIC TEST DATA: base resume supplied the four original bullets; the 3-days-to-4-hours and 12% MAPE figures and the Azure ML/Cognitive Services specifics are illustrative expansions consistent with an Azure-centric consultancy. Replace before any live submission.",
+      "consulting": true
+    },
+    {
+      "company": "Synophic Worldwide",
+      "title": "AI/ML Engineer",
+      "startDate": "Mar 2020",
+      "endDate": "Jan 2022",
+      "bullets": [
+        "Moved models out of notebooks into containerized inference endpoints with versioning and rollback, giving the team its first repeatable path to production.",
+        "Developed NLP and classification models over client text and transactional data, owning feature engineering through offline evaluation.",
+        "Automated the training and evaluation loop, taking idea-to-measured-result from 9 days to under 2 and making weekly iteration realistic for a 4-person team.",
+        "Introduced experiment tracking and model versioning, replacing the filename-and-spreadsheet convention the team had been relying on."
+      ],
+      "paragraphs": [],
+      "notes": "SYNTHETIC TEST DATA: this role is on the candidate's LinkedIn (AI/ML Engineer, Mar 2020 - Jan 2022) but was absent from the supplied resume, so no source bullets exist. Every line here is inferred to bridge Globe Life (data science) and Avanade (senior ML). Confirm with the candidate before any live submission."
+    },
+    {
+      "company": "Globe Life",
+      "location": "McKinney, TX",
+      "title": "Data Scientist",
+      "startDate": "Jan 2018",
+      "endDate": "Mar 2020",
+      "bullets": [
+        "Built statistical and machine learning models supporting underwriting and pricing, moving risk assessment off rules-of-thumb and onto data-driven scoring.",
+        "Developed gradient-boosted and generalized linear models over policy and claims history, improving risk-tier separation 23% against the incumbent rules-based approach.",
+        "Created Power BI and SQL reporting that gave underwriting and actuarial one shared view of model behavior, ending the parallel spreadsheets each group had been keeping.",
+        "Documented model assumptions, feature definitions and validation results so pricing decisions could survive internal review."
+      ],
+      "paragraphs": [],
+      "notes": "SYNTHETIC TEST DATA: the 23% risk-tier separation figure is illustrative; base resume bullets were unquantified. Dates corrected to match LinkedIn (Data Scientist began Jan 2018, not Jul 2017)."
+    },
+    {
+      "company": "Globe Life",
+      "location": "McKinney, TX",
+      "title": "Data Engineer Intern",
+      "startDate": "Jul 2017",
+      "endDate": "Jan 2018",
+      "bullets": [
+        "Supported ETL development consolidating policy, claims and customer sources into a single analytics schema.",
+        "Added automated data-quality checks to nightly loads so malformed records were quarantined and flagged instead of silently skewing downstream inputs."
+      ],
+      "paragraphs": [],
+      "notes": "From LinkedIn — this internship was collapsed into the Data Scientist role on the supplied resume. Kept separate here so the resume matches LinkedIn."
+    }
+  ],
+  "skills": [
+    "Languages: Python, SQL, Bash",
+    "Modeling: PyTorch, TensorFlow, scikit-learn, gradient-boosted trees, generalized linear models, NLP, computer vision, forecasting, recommendation, calibration and model evaluation",
+    "Generative AI: RAG pipelines, hybrid retrieval and reranking, semantic chunking, embeddings and vector search, LLM evaluation harnesses (golden sets, LLM-as-judge), prompt versioning, grounding and guardrails",
+    "MLOps: CI/CD for ML, MLflow tracking and model registry, Kubeflow, feature stores, drift detection, automated retraining, model governance and release gates, reproducibility",
+    "Infrastructure: AWS, Azure, GCP, Kubernetes, Docker, Terraform, Azure ML, AKS, GitHub Actions, Azure DevOps, containerized inference, autoscaling GPU and spot capacity, Spark, Airflow, ETL",
+    "Practice: offline evaluation, online A/B testing, post-deployment monitoring, design and code review, stakeholder readouts, mentoring"
+  ],
+  "education": [
+    {
+      "school": "Rice University",
+      "degree": "Master's Degree",
+      "field": "Computer Science",
+      "startDate": "2015",
+      "endDate": "2017"
+    },
+    {
+      "school": "Rice University",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2011",
+      "endDate": "2015"
+    }
+  ],
+  "note": "Experience restructured to match LinkedIn exactly (2026-08): Rackspace split into Staff Data Scientist - ML Platform (Mar 2025-) and Senior MLOps Engineer (Jun 2023-Feb 2025); Synophic Worldwide (Mar 2020-Jan 2022) added; Globe Life split into Data Scientist (Jan 2018-Mar 2020) and Data Engineer Intern (Jul 2017-Jan 2018). The supplied resume had claimed Globe Life Jul 2017-Jan 2022 continuous and Staff AI Engineer from Jun 2023, both of which contradicted LinkedIn. Bullets follow the realism pattern drawn from the Langford template: non-round figures, one durability or consequence clause per role, and counts scaled to tenure rather than padded."
+}
