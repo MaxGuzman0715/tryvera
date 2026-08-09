@@ -1,14 +1,14 @@
 {
   "id": "rowland_sipola",
-  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range, each chosen because it spans the platform, backend, and data/operations layers in a single delivery path (so the resume can claim all of them from one coherent project). For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only - bullets are tailored live at generation. For older companies we ship ready-made bullets, pitched at the seniority appropriate to that point in the career. Consulting companies (consulting:true) store NO project - at generation their engagements are pulled from shared.json (industry-matched entry + 1 more arbitrary). Descriptions are plain-terms, one paragraph. NOTE: no company on this profile currently carries consulting:true in Experiment/bullets/rowland_sipola.json, so shared.json engagements are not used; Deloitte is the natural candidate if that is ever turned on.",
+  "note": "Per-profile career-project list. One flagship project per real non-consulting company, within that company's date range, chosen because it spans application/product, backend/distributed systems, and data/AI layers in one coherent request path. For the 2 MOST RECENT companies (isRecentTwo:true) we keep company information only and tailor bullets live at generation. Consulting companies (consulting:true) store NO fixed project and receive JD-aligned client engagements from shared.json. Older companies use fixed project-aligned bullets appropriate to the technologies and engineering practices of that period.",
   "projects": [
     {
       "company": "Trinnex",
       "role": "Senior Software Engineer",
       "dateRange": "Aug 2024 - Present",
-      "flagshipProject": "Internal Developer Platform (self-service cloud infrastructure)",
-      "spans": ["frontend", "backend", "infrastructure"],
-      "description": "An Internal Developer Platform is the paved road application teams use instead of hand-building their own infrastructure. An engineer picks a template, and the platform provisions the cloud resources behind it as code, wires the service into a standard Kubernetes release path with health checks and progressive rollout, and turns on monitoring, tracing, and alerting from day one - so a new service reaches production in hours rather than days, with secure-by-default settings already applied. It touches the front end (the self-service catalog and dashboards teams work in), the back end (the reusable Python platform services and automation that do the provisioning), and the infrastructure/operations layer (Kubernetes, Terraform, cross-cloud integrations with Azure and AWS, and the observability that keeps it all healthy). One platform, all three layers.",
+      "flagshipProject": "waterCAST Digital Water Platform + Capacity Planner",
+      "spans": ["frontend", "backend", "ai_data", "infrastructure"],
+      "description": "waterCAST is Trinnex's digital-water software platform for bringing utility information, modeling, analytics, and operational workflows into one cloud-based environment, with Capacity Planner providing a focused application for evaluating wastewater capacity and future growth scenarios. A utility engineer uses the web application to review network conditions, test development or design scenarios, identify capacity constraints, and support planning decisions; behind the interface, services combine GIS, hydraulic-model, operational, sensor, and historical data, run analytical and predictive workflows, and return maps, metrics, forecasts, and scenario results. Machine-learning and statistical methods can use historical demand, weather, growth, asset, and operational signals for forecasting, anomaly detection, risk scoring, and decision support, while software services expose the resulting intelligence through APIs and interactive product workflows. It touches the frontend layer (maps, dashboards, planning workflows, and scenario tools), the backend layer (APIs, distributed services, workflow orchestration, and integrations), the data/AI layer (GIS and time-series pipelines, forecasting, anomaly detection, predictive analytics, and model evaluation), and the infrastructure layer (cloud deployment, containers, CI/CD, observability, and scalable data processing).",
       "isRecentTwo": true,
       "bulletsProvided": false,
       "bullets": []
@@ -16,10 +16,11 @@
     {
       "company": "Deloitte",
       "role": "Senior Software Engineer",
-      "dateRange": "Nov 2019 - Present",
-      "flagshipProject": "Secure-by-default multi-region Kubernetes platform + DevSecOps control plane",
-      "spans": ["backend", "infrastructure", "security"],
-      "description": "This is the platform that lets an enterprise ship software quickly without shipping vulnerabilities with it. Every code change moves through a CI/CD pipeline that scans it several ways - source code, running app, dependencies, secrets, infrastructure definitions, and a bill of materials - before it is allowed near production. What survives lands on a multi-region Kubernetes platform delivered by GitOps, with zero-trust networking, private endpoints, encryption in transit and at rest, and disaster-recovery runbooks with defined RPO/RTO targets. Around it sits continuous compliance: cloud baselines checked against CIS benchmarks, SOC 2 and ISO 27001 evidence collected automatically, and policy-as-code guardrails that let product teams self-serve infrastructure without stepping outside policy. It touches the backend/delivery layer (the pipelines and the services they deploy), the infrastructure layer (multi-region Kubernetes, IaC, and cloud landing zones), and the security/operations layer (the scanning, compliance automation, observability, SLOs, and error budgets).",
+      "dateRange": "Nov 2019 - Jul 2024",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": ["frontend", "backend", "ai_data", "infrastructure"],
+      "description": "Consulting / client-services company - project summaries are NOT fixed here. At generation, the code reads shared.json, selects an engagement whose industry matches the JD's extracted client_industry plus one additional complementary engagement, and uses those client projects to surface the JD-relevant software, data, AI/ML, and cloud stack while keeping the Senior Software Engineer role and consulting context stable.",
       "isRecentTwo": true,
       "bulletsProvided": false,
       "bullets": []
@@ -28,52 +29,55 @@
       "company": "Tellic",
       "role": "Senior Software Engineer",
       "dateRange": "Jan 2018 - Jun 2019",
-      "flagshipProject": "Hardened Linux production estate + automated patch & log pipeline",
-      "spans": ["backend", "infrastructure", "security"],
-      "description": "Tellic's production estate is the set of Linux servers that actually run the company's web, mail, and messaging services, plus everything that keeps them safe and observable. A request lands on a hardened Ubuntu/CentOS host behind a firewall and VPN gateway; intrusion detection watches the traffic; the service itself runs in a container shipped by an automated deployment pipeline; and every log line the host emits is shipped to a central search cluster so anything unusual can be found in minutes instead of days. It touches the infrastructure layer (the server fleet, networking, firewalls, and IDS/IPS), the backend/delivery layer (containerized services, configuration management, and the automated patch pipeline that keeps them CVE-clean), and the data/operations layer (centralized log aggregation and search used for security and reliability investigations).",
+      "flagshipProject": "Biomedical NLP + knowledge discovery platform",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Tellic's biomedical knowledge-discovery platform helps pharmaceutical and biotechnology teams turn large volumes of scientific literature into structured evidence they can search and explore during drug discovery. A scientist searches for a gene, disease, target, or biological relationship; backend services retrieve relevant biomedical documents, NLP and machine-learning pipelines extract entities and relationships from the text, and those relationships are organized into a knowledge graph that powers search, exploration, and evidence views. It touches the frontend layer (scientist-facing search and discovery workflows), the backend layer (search services, APIs, document processing, and graph queries), and the data/AI layer (biomedical NLP, entity and relation extraction, ranking, machine learning, text pipelines, and knowledge graphs).",
       "isRecentTwo": false,
       "bulletsProvided": true,
       "bullets": [
-        "Managed and hardened Linux (Ubuntu / CentOS) fleets of web, mail, and messaging servers while maintaining 99.9% uptime across production services.",
-        "Deployed OpenVPN gateways, iptables firewalls, and Snort IDS/IPS to reduce external intrusion attempts within six months.",
-        "Containerized internal services with Docker and automated deployments with Ansible, reducing environment setup from days to hours per service.",
-        "Built an automated patch pipeline using Bash, Ansible, and cron, bringing servers to CVE compliance within 72 hours of critical releases.",
-        "Centralized log aggregation with ELK (Elasticsearch, Logstash, Kibana), reducing time to detect security anomalies from days to hours."
+        "Built backend services for a biomedical knowledge-discovery platform that turned scientific literature into searchable evidence for pharmaceutical and biotech research teams.",
+        "Developed NLP pipelines for biomedical entity and relationship extraction, converting unstructured research text into structured gene, disease, target, and evidence records.",
+        "Implemented search and ranking workflows over extracted biomedical evidence, improving the path from a broad scientific query to the most relevant supporting literature.",
+        "Built data-processing pipelines that normalized and enriched large document collections before NLP inference, reducing malformed records and inconsistent downstream features.",
+        "Integrated extracted relationships into a graph-oriented discovery layer so researchers could explore multi-hop connections across targets, diseases, mechanisms, and supporting evidence.",
+        "Instrumented model and pipeline quality checks around extraction precision, document coverage, and failed-processing cases so regressions were visible before new models reached research users."
       ]
     },
     {
       "company": "Zillow",
       "role": "Senior Software Engineer",
-      "dateRange": "Jul 2014 - Jul 2016",
-      "flagshipProject": "Self-service deployment platform + real-time listing pipeline",
-      "spans": ["backend", "infrastructure", "ai_data"],
-      "description": "Zillow's core search product depends on two things working together: engineers being able to ship safely, and property listings being fresh. The deployment platform is what engineers use to get a service from their laptop into production - it provisions an environment, builds a container, and rolls it out - so releases go from bi-weekly to daily without environment-parity surprises. The listing pipeline is what keeps the data behind search current: as new and updated listings arrive they stream through a message bus into the databases that power search results the same day. It touches the infrastructure layer (the provisioning, container platform, and secrets management behind every service), the backend layer (the services and queries serving high-traffic search), and the data layer (the streaming pipeline that keeps listings fresh).",
+      "dateRange": "Jul 2014 - Dec 2017",
+      "flagshipProject": "Zestimate valuation + real-estate intelligence platform",
+      "spans": ["frontend", "backend", "ai_data"],
+      "description": "Zillow's home-value and real-estate intelligence systems turn property facts, comparable sales, market activity, and listing information into predictive estimates and consumer-facing housing insights. A user opens a property or search experience and sees current home information and an estimated value; behind that surface, data pipelines continuously ingest and normalize property and market records, multiple predictive valuation models generate candidate estimates, backend services select and serve results at consumer scale, and evaluation pipelines compare estimates against subsequent transactions to measure accuracy. It touches the frontend layer (property and search experiences), the backend layer (high-traffic services, caching, APIs, and model-serving paths), and the data/AI layer (property-data pipelines, feature engineering, automated valuation models, ranking, experimentation, and model evaluation).",
       "isRecentTwo": false,
       "bulletsProvided": true,
       "bullets": [
-        "Built a self-service deployment platform using Python, Jenkins, and EC2 for 60+ engineers; reduced environment provisioning from days to hours and lowered platform support load.",
-        "Migrated core services from bare-metal EC2 to Docker and ECS, accelerating releases from bi-weekly to daily and eliminating environment parity bugs.",
-        "Centralized secrets management with AWS KMS and supported SOC 2 Type I compliance readiness.",
-        "Built a real-time property listing pipeline using Kafka, Python, and PostgreSQL, supporting 99.9% uptime and same-day data freshness for Zillow's core search product.",
-        "Optimized PostgreSQL queries across high-traffic services using indexing and EXPLAIN ANALYZE, reducing API p99 latency and monthly RDS spend.",
-        "Introduced Terraform for AWS IaC, mentored mid-level engineers, and reduced manual provisioning errors."
+        "Built backend and data services supporting Zillow's property-search and valuation experiences, serving model-derived housing information across high-traffic consumer surfaces.",
+        "Developed distributed pipelines that combined property facts, listing updates, comparable sales, and market signals into model-ready datasets used by valuation and search systems.",
+        "Implemented production serving paths for automated valuation outputs, separating expensive model computation from latency-sensitive consumer requests through precomputation, caching, and asynchronous refresh.",
+        "Worked on evaluation workflows comparing predicted home values with subsequent transaction outcomes, giving model teams repeatable accuracy measurements across changing markets and geographies.",
+        "Built event-driven processing for new and updated listings so property changes reached downstream search, analytics, and predictive systems without waiting for full batch reloads.",
+        "Optimized high-volume service and database access paths through indexing, caching, profiling, and query redesign, reducing tail latency on property and search requests.",
+        "Supported controlled experimentation around ranking and consumer-facing property features, using behavioral and quality metrics to determine whether changes should progress beyond limited rollout."
       ]
     },
     {
       "company": "Google",
       "role": "Senior Software Engineer",
       "dateRange": "Aug 2013 - Jul 2014",
-      "flagshipProject": "Search indexing pipeline + Borg/Borgmon serving reliability",
-      "spans": ["backend", "infrastructure", "ai_data"],
-      "description": "Google Search only feels instant because two systems stay healthy: the pipeline that turns crawled pages into a fresh index, and the cluster machinery that serves queries from it. The indexing pipeline takes documents through distributed processing jobs so a newly crawled page shows up in results within a sub-second freshness target, at petabyte scale. The serving side runs on Google's internal cluster scheduler with a monitoring framework watching every job - deciding where jobs run, how much compute they get, and when to page a human. It touches the data layer (the MapReduce/Flume indexing pipeline), the backend layer (the RPC libraries and latency-sensitive serving path), and the infrastructure layer (job scheduling, monitoring, alerting, and on-call for a tier-1 cluster).",
+      "flagshipProject": "Google Search ranking + low-latency serving platform",
+      "spans": ["backend", "ai_data", "infrastructure"],
+      "description": "Google Search turns a user's query into a ranked result set by combining large-scale information retrieval, ranking signals, distributed data processing, and extremely latency-sensitive serving systems. A query enters the serving path, retrieves candidate documents from the search index, applies ranking and relevance signals to order the results, and returns the final page within an interactive latency budget; offline pipelines continuously process web and behavioral data used to refresh indexes and improve ranking models. It touches the backend layer (distributed query serving, RPCs, caching, and latency-sensitive services), the data/AI layer (information retrieval, learning-to-rank, relevance signals, search logs, and large-scale data processing), and the infrastructure layer (Borg scheduling, monitoring, capacity management, and production reliability).",
       "isRecentTwo": false,
       "bulletsProvided": true,
       "bullets": [
-        "Built data pipeline components for Google Search indexing using MapReduce and Flume, supporting sub-second document freshness SLOs at petabyte scale.",
-        "Rewrote flapping-detection logic in the Borgmon monitoring framework, reducing false-positive on-call pages.",
-        "Tuned Borg job scheduling for a tier-1 serving cluster, improving CPU utilization and freeing compute capacity for reallocation.",
-        "Fixed critical p99 latency regressions in an internal Go RPC library used by 12+ services; shipped with full unit and integration test coverage.",
-        "Owned Search backend on-call using Oncall and Buganizer; authored postmortems that eliminated recurrence of top incident classes within one quarter."
+        "Built distributed components in the Google Search serving path, supporting retrieval and ranking of candidate results under interactive latency requirements at global request scale.",
+        "Developed large-scale MapReduce and Flume pipelines over search and web data used to refresh indexes and derive signals for retrieval and ranking workflows.",
+        "Worked on ranking and relevance infrastructure that combined multiple search signals into production result ordering, with offline evaluation used to measure changes before rollout.",
+        "Optimized latency-sensitive RPC and data-access paths, diagnosing tail-latency regressions that propagated across dependent Search services.",
+        "Improved Borg job scheduling and resource utilization for production Search workloads, freeing capacity without compromising serving reliability.",
+        "Refined Borgmon alerting and failure detection for tier-1 services, reducing noisy pages and making genuine serving regressions easier for on-call engineers to isolate."
       ]
     }
   ]
