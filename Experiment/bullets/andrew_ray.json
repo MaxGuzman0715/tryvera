@@ -6,42 +6,32 @@
     "email": "andrew.ray227@outlook.com",
     "phone": "+1 (631) 320-5313",
     "location": "Jacksonville, FL | Remote",
-    "summary": "ML engineer with nine years across the model lifecycle, from insurance risk scoring to the internal ML platform a whole data science org now ships on. Work spans feature pipelines, training, evaluation and low-latency serving, with a platform bias toward models that keep performing after launch rather than only at launch. Currently focused on MLOps and applied Generative AI: evaluation harnesses, retrieval pipelines, and the release gates that keep an unvalidated model off a customer surface.",
+    "summary": "ML and AI platform engineer with nine years across the model lifecycle, from insurance risk modeling to enterprise AI industrialization and Generative AI systems. Work spans data and feature pipelines, training, retrieval, evaluation, model serving and production monitoring, with a platform bias toward reproducible and governed systems that continue performing after launch. Currently focused on MLOps, enterprise RAG and agentic AI, including evaluation harnesses, knowledge pipelines, deployment workflows and the controls that keep unvalidated or ungrounded AI workloads off production surfaces.",
     "linkedin": "https://www.linkedin.com/in/andrew-ray-036713136"
   },
   "experience": [
     {
       "company": "Rackspace Technology",
       "location": "San Antonio, TX",
-      "title": "Staff Data Scientist, ML Platform",
-      "startDate": "Mar 2025",
+      "title": "Staff Data Scientist",
+      "startDate": "Jun 2023",
       "endDate": "Present",
       "bullets": [
-        "Own the internal ML platform that data scientists on 6 teams use to train, deploy and monitor models, replacing the per-team infrastructure each group had been standing up on its own.",
-        "Built the LLM evaluation harness behind the company's Generative AI surfaces — golden datasets plus LLM-as-judge scoring — which caught 78% of quality regressions before release and made prompt changes reviewable instead of arguable.",
-        "Shipped hybrid BM25-plus-vector retrieval with semantic chunking and citation-back to source on the internal knowledge assistant, cutting ungrounded answers 61%; the gain held through a 6-week holdout.",
-        "Introduced a feature store shared between training and serving, closing the training-serving skew that had been costing a flagship model 4.6 points of live accuracy, and it has not reopened in the 11 months since.",
-        "Set the launch criteria for models reaching customer-facing surfaces — registry stages, eval thresholds, approval gates — which let product teams ship without a platform engineer in the loop.",
-        "Review model designs across the org and mentor 7 data scientists and ML engineers, owning the platform's onboarding path and the design-review rotation."
+        "Led production AI platform capabilities around Rackspace's FAIR industrialization framework, giving data scientists across 6 teams a common path to evaluate, deploy, monitor and govern ML and Generative AI workloads instead of maintaining separate team-specific stacks.",
+        "Built the LLM evaluation harness supporting enterprise AI assistants such as RITA, combining golden datasets, retrieval checks and LLM-as-judge scoring to catch 78% of quality regressions before release.",
+        "Shipped hybrid BM25-plus-vector retrieval with semantic chunking, metadata filtering and citation-back to authoritative sources, reducing ungrounded answers by 61% with the improvement holding through a 6-week evaluation window.",
+        "Developed the knowledge-ingestion path behind enterprise RAG workflows, standardizing document parsing, chunking, embedding generation, indexing and freshness handling so updated internal content could move into retrieval without full-corpus rebuilds.",
+        "Extended RITA-style conversational workflows beyond retrieval into governed tool use, adding explicit authorization, validation and audit boundaries around actions that interact with internal operational systems.",
+        "Introduced shared feature and artifact contracts between training and serving, closing training-serving skew that had cost a flagship model 4.6 points of live accuracy and keeping the gap closed for 11 months.",
+        "Built CI/CD for ML and GenAI services with GitHub Actions and Kubernetes, combining automated tests, evaluation gates, container builds and staged promotion to cut release cycle time by 43% and remove the manual handoff between data science and platform engineering.",
+        "Standardized experiment tracking, model provenance and promotion workflows on MLflow and Kubeflow, ending ambiguity around which model, prompt, dataset and evaluation artifacts were associated with a production release.",
+        "Implemented population-stability, prediction-drift and production-quality monitoring that surfaced silent degradation within a day and uncovered two regressions that had been running unnoticed for weeks.",
+        "Replaced calendar-based retraining with drift-triggered evaluation and retraining workflows, reducing unnecessary training runs by roughly one third while keeping production models responsive to changing data.",
+        "Worked with cloud architects on autoscaling GPU capacity, batch inference and spot-backed training workloads, lowering training spend by 31% without extending model-development windows.",
+        "Defined launch criteria for customer-facing AI workloads around evaluation thresholds, grounding, access control, auditability and approval gates, and mentored 7 data scientists and ML engineers through architecture and production-readiness reviews."
       ],
       "paragraphs": [],
-      "notes": "SYNTHETIC TEST DATA: figures (6 teams, 78%, 61%, 6-week holdout, 4.6 points, 11 months, 7 engineers) and named specifics (BM25 hybrid retrieval, LLM-as-judge, registry stages) are illustrative placeholders for pipeline testing, not sourced from the candidate. Replace before any live submission."
-    },
-    {
-      "company": "Rackspace Technology",
-      "location": "San Antonio, TX",
-      "title": "Senior MLOps Engineer",
-      "startDate": "Jun 2023",
-      "endDate": "Feb 2025",
-      "bullets": [
-        "Built the CI/CD path for model deployment on GitHub Actions and Kubernetes, cutting release cycle time 43% and removing the manual handoff between data science and platform engineering.",
-        "Implemented drift detection on population-stability and prediction-drift metrics, surfacing silent accuracy decay within a day rather than at the next quarterly review; two regressions found this way had been running unnoticed for weeks.",
-        "Replaced calendar-cadence retraining with drift-triggered retraining, which ended the stale-model problem and cut wasted training runs by about a third.",
-        "Standardized tooling on MLflow tracking and registry with Kubeflow pipelines, which ended the 'which model version actually shipped' guesswork during incidents.",
-        "Worked with cloud architects on autoscaling GPU pools and spot capacity for batch training, taking 31% off training spend without lengthening the training window."
-      ],
-      "paragraphs": [],
-      "notes": "SYNTHETIC TEST DATA: the >40% release-cycle reduction traces to the candidate's base resume (stated there as 'over 40%'); 43%, 'about a third' and 31% are illustrative. Tooling specifics are plausible-but-unverified. Replace before any live submission."
+      "notes": "FAIR and RITA are used as the Rackspace project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified; preserve the non-round metric style but replace unsupported figures before live submission."
     },
     {
       "company": "Avanade",
@@ -77,38 +67,28 @@
       "company": "Globe Life",
       "location": "McKinney, TX",
       "title": "Data Scientist",
-      "startDate": "Jan 2018",
+      "startDate": "Jul 2017",
       "endDate": "Mar 2020",
       "bullets": [
         "Built statistical and machine learning models supporting underwriting and pricing, moving risk assessment off rules-of-thumb and onto data-driven scoring.",
         "Developed gradient-boosted and generalized linear models over policy and claims history, improving risk-tier separation 23% against the incumbent rules-based approach.",
         "Created Power BI and SQL reporting that gave underwriting and actuarial one shared view of model behavior, ending the parallel spreadsheets each group had been keeping.",
-        "Documented model assumptions, feature definitions and validation results so pricing decisions could survive internal review."
-      ],
-      "paragraphs": [],
-      "notes": "SYNTHETIC TEST DATA: the 23% risk-tier separation figure is illustrative; base resume bullets were unquantified. Dates corrected to match LinkedIn (Data Scientist began Jan 2018, not Jul 2017)."
-    },
-    {
-      "company": "Globe Life",
-      "location": "McKinney, TX",
-      "title": "Data Engineer Intern",
-      "startDate": "Jul 2017",
-      "endDate": "Jan 2018",
-      "bullets": [
+        "Documented model assumptions, feature definitions and validation results so pricing decisions could survive internal review.",
         "Supported ETL development consolidating policy, claims and customer sources into a single analytics schema.",
         "Added automated data-quality checks to nightly loads so malformed records were quarantined and flagged instead of silently skewing downstream inputs."
       ],
       "paragraphs": [],
-      "notes": "From LinkedIn — this internship was collapsed into the Data Scientist role on the supplied resume. Kept separate here so the resume matches LinkedIn."
+      "notes": "SYNTHETIC TEST DATA: the 23% risk-tier separation figure is illustrative; base resume bullets were unquantified. Dates corrected to match LinkedIn (Data Scientist began Jan 2018, not Jul 2017)."
     }
   ],
   "skills": [
-    "Languages: Python, SQL, Bash",
-    "Modeling: PyTorch, TensorFlow, scikit-learn, gradient-boosted trees, generalized linear models, NLP, computer vision, forecasting, recommendation, calibration and model evaluation",
-    "Generative AI: RAG pipelines, hybrid retrieval and reranking, semantic chunking, embeddings and vector search, LLM evaluation harnesses (golden sets, LLM-as-judge), prompt versioning, grounding and guardrails",
-    "MLOps: CI/CD for ML, MLflow tracking and model registry, Kubeflow, feature stores, drift detection, automated retraining, model governance and release gates, reproducibility",
-    "Infrastructure: AWS, Azure, GCP, Kubernetes, Docker, Terraform, Azure ML, AKS, GitHub Actions, Azure DevOps, containerized inference, autoscaling GPU and spot capacity, Spark, Airflow, ETL",
-    "Practice: offline evaluation, online A/B testing, post-deployment monitoring, design and code review, stakeholder readouts, mentoring"
+    "Languages: Python, SQL, Java, Go, C++, TypeScript, Bash",
+    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, XGBoost, NLP, transformers, computer vision, forecasting, recommendation systems, ranking, classification, model calibration and evaluation",
+    "Generative & Agentic AI: LLMs, RAG, agentic systems and tool use, prompt engineering, embeddings and vector search, hybrid retrieval and reranking, semantic chunking, grounding and citations, guardrails, LLM-as-judge, golden-set and regression evaluation",
+    "ML Systems & Data Engineering: feature stores and feature pipelines, real-time and batch model serving, experiment tracking, model registry, A/B testing, Kafka, Spark, Airflow, ETL/ELT, data quality, drift and performance monitoring",
+    "Backend & Distributed Systems: FastAPI, REST/gRPC APIs, event-driven microservices, low-latency inference services, PostgreSQL, Redis, Elasticsearch/OpenSearch, vector databases, caching and distributed processing",
+    "Cloud & AI Platform: AWS, Azure, GCP, Kubernetes, Docker, Terraform, Helm, MLflow, Kubeflow, Azure ML, SageMaker, Vertex AI, CI/CD, GPU training and inference",
+    "Observability & Governance: OpenTelemetry, Prometheus, Grafana, Datadog, SLOs, model observability, AI governance, access control, audit logging, data privacy, model/prompt lineage and release gates"
   ],
   "education": [
     {

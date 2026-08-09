@@ -4,11 +4,11 @@
   "projects": [
     {
       "company": "Rackspace Technology",
-      "role": "Staff AI Engineer",
+      "role": "Staff Data Scientist",
       "dateRange": "Jun 2023 - Present",
-      "flagshipProject": "Internal ML platform + Generative AI enablement",
-      "spans": ["frontend", "backend", "ai_data"],
-      "description": "The internal ML platform is how everyone at the company gets a model from an idea into production and keeps it healthy there. A data scientist starts from a notebook or a feature set, trains a model, and registers it; a deployment pipeline packages that model and ships it to a cloud-native serving environment; and once it is live, monitoring watches its predictions for drift and quality, triggering retraining when the data underneath shifts. Layered on top is the generative-AI side: standards for prompt engineering, evaluation frameworks that score LLM outputs before they ship, and retrieval pipelines that ground answers in the company's own documents. It touches the front end (the self-service surfaces and dashboards data scientists and product teams work in), the back end (the deployment pipelines, model registry, and serving infrastructure), and the data/AI side (feature stores, training pipelines, drift detection, and LLM/RAG evaluation). One platform, all three layers.",
+      "flagshipProject": "FAIR AI Industrialization Platform + RITA Enterprise AI Assistant",
+      "spans": ["backend", "ai_data", "infrastructure", "security_governance"],
+      "description": "Foundry for AI by Rackspace (FAIR) is Rackspace's framework for taking enterprise AI ideas from experimentation into secure, production-ready systems, with RITA as one of its flagship internal Generative AI applications. An employee uses RITA to ask IT, security-policy, and operational questions or complete supported self-service workflows; behind the interface, enterprise documents are ingested and indexed, retrieval finds the most relevant authorized content, an LLM produces a grounded response with source references, and evaluation and monitoring check quality before and after release. The broader FAIR industrialization path provides reusable patterns for model and prompt lifecycle management, deployment, evaluation, governance, observability, and scalable AI infrastructure across cloud environments. It touches the backend layer (AI services, APIs, orchestration, and deployment workflows), the data/AI layer (RAG, embeddings, retrieval, evaluation, and model lifecycle), the infrastructure layer (containers, Kubernetes, GPU-backed training and inference, and cloud services), and the security/governance layer (access controls, auditability, data protection, and release gates).",
       "isRecentTwo": true,
       "bulletsProvided": false,
       "bullets": []
@@ -26,9 +26,25 @@
       "bullets": []
     },
     {
+      "company": "Synophic Worldwide",
+      "role": "AI/ML Engineer",
+      "dateRange": "Mar 2020 - Jan 2022",
+      "flagshipProject": "Production ML inference & experimentation platform",
+      "spans": ["backend", "ai_data", "infrastructure"],
+      "description": "The production ML platform was the team's path for moving machine-learning work out of notebooks and into repeatable applications. An engineer develops and evaluates NLP or classification models over client text and transactional data; automated training and evaluation workflows compare experiments; approved models are packaged into versioned containerized inference services with rollback support; and experiment tracking records which model and configuration produced each result. It touches the backend layer (inference endpoints and deployment services), the data/AI layer (feature engineering, training, evaluation, NLP and classification), and the infrastructure layer (containers, model versioning, automated workflows and production deployment).",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Moved models out of notebooks into containerized inference endpoints with versioning and rollback, giving the team its first repeatable path to production.",
+        "Developed NLP and classification models over client text and transactional data, owning feature engineering through offline evaluation.",
+        "Automated the training and evaluation loop, taking idea-to-measured-result from 9 days to under 2 and making weekly iteration realistic for a 4-person team.",
+        "Introduced experiment tracking and model versioning, replacing the filename-and-spreadsheet convention the team had been relying on."
+      ]
+    },
+    {
       "company": "Globe Life",
       "role": "Data Scientist",
-      "dateRange": "Jul 2017 - Jan 2022",
+      "dateRange": "Jul 2017 - Mar 2020",
       "flagshipProject": "Underwriting & pricing analytics platform",
       "spans": ["frontend", "backend", "ai_data"],
       "description": "Underwriting and pricing analytics is how an insurer decides who to cover and at what price, backed by data rather than intuition. Policy, claims, and customer records land in a warehouse through scheduled data pipelines; statistical and machine-learning models score risk on that data; and the results surface as dashboards and reports the underwriting and business teams actually read when setting rates or reviewing an applicant. It touches the front end (the dashboards and reports business stakeholders use), the back end (the ETL jobs and cloud data infrastructure that keep those numbers current), and the data side (the exploratory analysis and the risk and pricing models themselves).",

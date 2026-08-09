@@ -35,7 +35,7 @@
       "location": "New York, NY",
       "title": "Senior Software Engineer",
       "startDate": "Nov 2019",
-      "endDate": "Present",
+      "endDate": "July 2024",
       "bullets": [
         "Architected a secure-by-default platform integrating SAST, DAST, secrets scanning, SBOM generation, dependency scanning, and IaC scanning into CI/CD across Azure and DigitalOcean; reduced critical pre-production vulnerabilities ~70% and production critical vulnerabilities ~50%.",
         "Automated continuous compliance for SOC 2 and ISO 27001 with Azure Defender, Orca, and Drata; cut manual audit-preparation effort 40%+ and improved compliance readiness.",
