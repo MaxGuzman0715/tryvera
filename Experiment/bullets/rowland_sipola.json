@@ -47,12 +47,10 @@
       "startDate": "Jan 2018",
       "endDate": "Jun 2019",
       "bullets": [
-        "Built backend services for a biomedical knowledge-discovery platform that turned scientific literature into searchable evidence for pharmaceutical and biotechnology research teams.",
+        "Built backend services for a biomedical knowledge-discovery platform that turned scientific literature into searchable evidence for pharmaceutical and biotech research teams.",
         "Developed NLP pipelines for biomedical entity and relationship extraction, converting unstructured research text into structured gene, disease, target, and evidence records.",
-        "Implemented search and ranking workflows over extracted biomedical evidence, improving the path from broad scientific queries to the most relevant supporting literature.",
-        "Built data-processing pipelines that normalized and enriched large document collections before NLP inference, reducing malformed records and inconsistent downstream features.",
-        "Integrated extracted relationships into a graph-oriented discovery layer so researchers could explore multi-hop connections across targets, diseases, mechanisms, and supporting evidence.",
-        "Instrumented model and pipeline quality checks around extraction precision, document coverage, and failed-processing cases so regressions were visible before new models reached research users."
+        "Implemented search and ranking workflows over extracted biomedical evidence, improving the path from a broad scientific query to the most relevant supporting literature.",
+        "Built data-processing pipelines that normalized and enriched large document collections before NLP inference, reducing malformed records and inconsistent downstream features."
       ],
       "paragraphs": []
     },
@@ -64,12 +62,9 @@
       "endDate": "Dec 2017",
       "bullets": [
         "Built backend and data services supporting Zillow's property-search and valuation experiences, serving model-derived housing information across high-traffic consumer surfaces.",
-        "Developed distributed pipelines that combined property facts, listing updates, comparable sales, and market signals into model-ready datasets used by valuation and search systems.",
         "Implemented production serving paths for automated valuation outputs, separating expensive model computation from latency-sensitive consumer requests through precomputation, caching, and asynchronous refresh.",
-        "Worked on evaluation workflows comparing predicted home values with subsequent transaction outcomes, giving model teams repeatable accuracy measurements across changing markets and geographies.",
         "Built event-driven processing for new and updated listings so property changes reached downstream search, analytics, and predictive systems without waiting for full batch reloads.",
-        "Optimized high-volume service and database access paths through indexing, caching, profiling, and query redesign, reducing tail latency on property and search requests.",
-        "Supported controlled experimentation around ranking and consumer-facing property features, using behavioral and quality metrics to determine whether changes should progress beyond limited rollout."
+        "Optimized high-volume service and database access paths through indexing, caching, profiling, and query redesign, reducing tail latency on property and search requests."
       ],
       "paragraphs": []
     },
@@ -82,9 +77,7 @@
       "bullets": [
         "Built distributed components in the Google Search serving path, supporting retrieval and ranking of candidate results under interactive latency requirements at global request scale.",
         "Developed large-scale MapReduce and Flume pipelines over search and web data used to refresh indexes and derive signals for retrieval and ranking workflows.",
-        "Worked on ranking and relevance infrastructure that combined multiple search signals into production result ordering, with offline evaluation used to measure changes before rollout.",
         "Optimized latency-sensitive RPC and data-access paths, diagnosing tail-latency regressions that propagated across dependent Search services.",
-        "Improved Borg job scheduling and resource utilization for production Search workloads, freeing capacity without compromising serving reliability.",
         "Refined Borgmon alerting and failure detection for tier-1 services, reducing noisy pages and making genuine serving regressions easier for on-call engineers to isolate."
       ],
       "paragraphs": []

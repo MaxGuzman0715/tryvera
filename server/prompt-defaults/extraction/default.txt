@@ -159,6 +159,9 @@ using your domain_scores:
   categorized skills. Keep each category's exact name and its "Category: a, b, c" shape (do NOT bold).
 - Return `skills` as an array of these category-line strings, in the new order. If the candidate's
   skills are empty or not categorized, return a flat, de-duped list ordered by relevance.
+- Return only the 6-8 most role-relevant skill categories.
+  Prioritize score-3 domains and the strongest score-2 domains; omit score-1 categories unless they contain an important always-keep skill.
+  Within selected categories, include only the strongest role-relevant technologies rather than the full master inventory.
 
 ════════════════════════════════════════════════════════════════
 RARE NICE-TO-HAVES  (shared, single list)

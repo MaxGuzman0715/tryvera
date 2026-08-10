@@ -67,13 +67,8 @@ Include one entry per input company, using the exact same company names.
 ADDITIONAL RULES
 ════════════════════════════════════════════════════════════════
 OUTPUT LENGTH:
-- For each of the TWO most recent companies, write 9-10 bullets.
-- For every older company, output exactly 4 bullets. Select the 4 most relevant existing bullets for the target role while preserving the original project and time-period context. Do not rewrite older roles merely to inject missing JD technologies.
-
-SKILLS OUTPUT:
-- Keep the candidate's master skill inventory broad, but include only the 6-8 most JD-relevant skill categories in the final résumé.
-- Within those categories, do not include every technologies. If you think it's not necessary for this JD then do not include.
+For every company after the two most recent, choose exactly 4 of its existing bullets based on relevance to the target role.
+Do not rewrite them or inject new JD technologies.
 
 METRICS:
-- Use realistic non-round values and varied units, e.g. 37%, 4.6 hours, 780 ms, 2.3x, 61K records, or 7 engineers. 
-- Avoid repeatedly using clean multiples of 5 or 10 such as 30%, 40%, 60%, or 70%, and do not force a metric where a credible quantified effect is not supportable. If source metrics are like this, then also replace them with the first rule.
+Preserve supplied metrics exactly. When no source metric exists but quantified impact is required, use varied plausible units and avoid repeatedly defaulting to clean multiples of 5 or 10; do not create artificial decimal precision.
