@@ -40,22 +40,22 @@
       "startDate": "Oct 2014",
       "endDate": "Nov 2018",
       "bullets": [
-        "Worked on Feed surface development, building client-side components for large-scale content delivery across web and mobile platforms.",
-        "Contributed to feed rendering and data-fetching pipelines, ensuring smooth infinite-scroll performance under high traffic conditions.",
-        "Improved frontend feed performance and stability through rendering optimizations and bug fixes in production systems.",
-        "Collaborated with backend and ranking teams to integrate content signals into feed delivery logic.",
-        "Supported experimentation and gradual rollout systems used for feed feature testing and performance evaluation."
+        "Built and owned client-side Feed surfaces used across web and mobile, taking components from design review through production rollout on a surface serving content to a global audience.",
+        "Rebuilt feed rendering and data-fetching paths to hold infinite-scroll smooth under high traffic, diagnosing jank and over-fetching that had degraded scroll performance on lower-end devices.",
+        "Diagnosed and fixed production stability regressions in the feed client, tracing crashes and layout thrash to their root cause rather than patching symptoms at the call site.",
+        "Worked with backend and ranking teams to land new content signals in the delivery path, negotiating the client contract so ranking changes shipped without a coordinated release.",
+        "Ran feature experiments and staged rollouts on Feed, owning the gating and measurement that decided whether a change graduated or was rolled back."
       ],
       "paragraphs": []
     }
   ],
   "skills": [
-    "Languages: Python, C++, Go, Java, Ruby, TypeScript, Swift, Kotlin",
+    "Languages: Python, C#, Go, Java, TypeScript, C++, Ruby, Kotlin, Swift",
     "AI & Machine Learning: ranking and recommendation systems (multitask neural nets), LLMs and RAG, fine-tuning (LLaMa, LoRA), embeddings and vector search, computer vision, agentic systems and tool use, PyTorch/TensorFlow, model evaluation and grounding",
     "ML Systems & Data Engineering: feature stores and feature pipelines, real-time and batch model serving, A/B testing and experimentation, streaming with Kafka/Flink/Spark, Airflow and dbt, MLOps, drift and performance monitoring",
-    "Backend & Distributed Systems: event-driven microservices, gRPC/GraphQL/REST APIs, large-scale low-latency serving for billions of users, sharding, replication and caching, PostgreSQL, MongoDB, Cassandra, Redis, Elasticsearch",
+    "Backend & Distributed Systems: .NET, ASP.NET Core, Entity Framework Core, SignalR, event-driven microservices, gRPC/GraphQL/REST APIs, large-scale low-latency serving for billions of users, sharding, replication and caching, PostgreSQL, MongoDB, Cassandra, Redis, Elasticsearch",
     "Frontend & Mobile: React, React Native, Next.js, iOS (Swift), Android (Kotlin), Flutter, on-device inference",
-    "Cloud & Platform: AWS, GCP, Azure, Kubernetes, Docker, Terraform, CI/CD, observability (OpenTelemetry, Prometheus, Grafana, Datadog), SLOs and on-call, authentication and authorization (OAuth2, OIDC)"
+    "Cloud & Platform: Azure SQL Database, Cosmos DB, Azure Data Factory, Databricks, Azure DevOps, AWS, GCP, Azure, Kubernetes, Docker, Terraform, CI/CD, observability (OpenTelemetry, Prometheus, Grafana, Datadog), SLOs and on-call, authentication and authorization (OAuth2, OIDC)"
   ],
   "education": [
     {

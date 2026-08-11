@@ -7,7 +7,12 @@
       "role": "Lead Software Engineer",
       "dateRange": "Jun 2025 - Present",
       "flagshipProject": "Cloud access-control (ACaaS) + mobile credentials",
-      "spans": ["frontend", "backend", "embedded", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "embedded",
+        "ai_data"
+      ],
       "description": "ASSA ABLOY's cloud access-control (ACaaS) and mobile credentials are the modern way buildings handle door access - physical keys give way to your phone and cloud-managed permissions, with mobile credentials the fastest-growing part of the market. An admin uses a web portal to grant or revoke access; a user opens a door with the mobile app (SMARTair / Openow, HID mobile access); the request travels to cloud services that check permissions; and the lock firmware on the door acts on the decision. It touches the front end (the web management portal and the mobile app), the back end (the cloud services managing credentials and permissions), the embedded layer (the lock firmware), and increasingly the data/AI side (usage analytics and features like energy-optimization and vision-based entry).",
       "isRecentTwo": true,
       "bulletsProvided": false,
@@ -19,7 +24,11 @@
       "dateRange": "Dec 2018 - May 2025",
       "consulting": true,
       "flagshipProject": null,
-      "spans": ["frontend", "backend", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data"
+      ],
       "description": "Consulting / client-services company - project summaries are NOT stored here. At generation, the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry PLUS one more arbitrary project, and uses those as this company's engagements (each opening with a 'did X for a [industry] client' master line).",
       "isRecentTwo": true,
       "bulletsProvided": false,
@@ -30,16 +39,20 @@
       "role": "Senior Software Engineer",
       "dateRange": "Oct 2014 - Nov 2018",
       "flagshipProject": "News Feed ranking",
-      "spans": ["frontend", "backend", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data"
+      ],
       "description": "News Feed ranking is the system that decides what order posts show up in when you open Facebook. When you open the app, your phone sends a request to Facebook's servers, which gather all the posts you could possibly see, score each one based on how likely you are to care about it, sort them, and send back a finished, ranked feed for your screen to display. It touches the front end (the feed you actually see and scroll), the back end (the servers that collect the posts and serve them fast to billions of people), and the data side (the machine-learning models that predict what matters most to you and the pipelines that feed them). One project, all three layers.",
       "isRecentTwo": false,
       "bulletsProvided": true,
       "bullets": [
-        "Worked on Feed surface development, building client-side components for large-scale content delivery across web and mobile platforms.",
-        "Contributed to feed rendering and data-fetching pipelines, ensuring smooth infinite-scroll performance under high traffic conditions.",
-        "Improved frontend feed performance and stability through rendering optimizations and bug fixes in production systems.",
-        "Collaborated with backend and ranking teams to integrate content signals into feed delivery logic.",
-        "Supported experimentation and gradual rollout systems used for feed feature testing and performance evaluation."
+        "Built and owned client-side Feed surfaces used across web and mobile, taking components from design review through production rollout on a surface serving content to a global audience.",
+        "Rebuilt feed rendering and data-fetching paths to hold infinite-scroll smooth under high traffic, diagnosing jank and over-fetching that had degraded scroll performance on lower-end devices.",
+        "Diagnosed and fixed production stability regressions in the feed client, tracing crashes and layout thrash to their root cause rather than patching symptoms at the call site.",
+        "Worked with backend and ranking teams to land new content signals in the delivery path, negotiating the client contract so ranking changes shipped without a coordinated release.",
+        "Ran feature experiments and staged rollouts on Feed, owning the gating and measurement that decided whether a change graduated or was rolled back."
       ]
     }
   ]
