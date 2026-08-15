@@ -54,26 +54,26 @@
       "notes": "Company was Sunroc Corporation during this period; rebranded to Suncore Construction & Materials in 2025. Anchor is grounded in publicly reported Clyde Companies / Sunroc modernization (cloud CRM tailored to ready-mix, dispatch and telematics integration, mobile access) plus secondary reporting of a construction ERP implementation in 2018. Bullets are INFERRED from that public record, not supplied by the candidate - confirm before any live submission."
     },
     {
-      "company": "Chartwell Retirement Residences",
+      "company": "Google",
       "role": "Senior Software Engineer",
       "dateRange": "Sep 2013 - Jun 2018",
-      "flagshipProject": "Enterprise Management Platform Modernization",
+      "flagshipProject": "Google Ads serving, spend and reporting",
       "spans": [
-        "frontend",
         "backend",
         "ai_data",
         "infrastructure"
       ],
-      "description": "Chartwell ran a multi-year modernization of the management systems supporting its growing retirement-residence portfolio, with company reporting through this period identifying operations, sales, marketing and information technology as the major areas of management-platform improvement. The technology environment served corporate and residence teams responsible for running a large portfolio of senior-living communities and for improving customer and operational processes as the Canadian business expanded. The work covers enterprise applications and the workflows residence staff use daily, integration and reporting across operational and financial systems, user-facing business tooling, and the platform reliability and access controls a regulated, resident-facing operator needs. The hard problems were consolidating systems across a portfolio that kept growing by acquisition, and making operational reporting consistent when each site had its own history.",
+      "description": "Backend work inside Google Ads: budget, pacing and eligibility constraints applied during ad selection; FlumeJava and MapReduce pipelines turning impression, click and conversion events into advertiser-spend and reporting datasets; reconciliation across the event-to-spend path; machine-learned relevance and conversion signals moved into production through controlled experiments; and shared production-readiness and on-call work. DOCUMENTATION ONLY - companies at index >= 2 never reach the LLM; only `bullets` render.",
       "isRecentTwo": false,
       "bulletsProvided": true,
       "bullets": [
-        "Built and modernized enterprise applications used by corporate and residence teams, replacing fragmented site-level tooling with shared workflows as the portfolio grew through acquisition.",
-        "Developed integrations and reporting across operational, sales and financial systems so leadership could see portfolio-wide performance instead of reconciling site-by-site extracts.",
-        "Delivered user-facing business tooling for residence operations, shaping workflows around how staff actually worked rather than how the underlying systems were structured.",
-        "Hardened platform reliability and access controls across resident-facing and corporate systems to meet the privacy and operational requirements of a regulated care environment."
+        "Built backend components in Google Ads serving, developing Java and C++ services that applied advertiser budget, pacing and eligibility constraints during latency-sensitive ad selection across global traffic.",
+        "Developed FlumeJava and MapReduce pipelines that aggregated impression, click and conversion events into advertiser-spend, budget-pacing and reporting datasets used by campaign-management workflows.",
+        "Built reconciliation and correctness checks across the event-to-spend path so logged impressions, recorded clicks and spend calculations stayed consistent under retries, delayed events and pipeline reprocessing.",
+        "Integrated machine-learned relevance and conversion signals into production ranking and pacing decisions, moving features from offline evaluation into controlled online experiments without regressing serving latency.",
+        "Contributed to production readiness and shared on-call rotations for Ads services, tracing spend and serving regressions across dependent systems and working with infrastructure and data teams on permanent fixes."
       ],
-      "notes": "Chartwell does not publicly document engineering projects. Anchor is deliberately descriptive and grounded in Chartwell's own reporting of management-platform modernization across operations, sales, marketing and IT during 2013-2018; NO branded platform name is claimed. Bullets are INFERRED - confirm before any live submission."
+      "notes": "Replaces the earlier Chartwell Retirement Residences entry (incorrect prior information). Corpus is Google Ads in Kitchener-Waterloo: public Google sources confirm the KW engineering office worked on Ads, Gmail, Chrome, Fiber and OnHub in this period, but NOT that the candidate was on Ads - confirm the actual product/team and rebuild the corpus around it if different. Framed as CONTRIBUTOR, never as owner or lead of a Google project. Deliberately shares no distinctive phrasing with rowland_sipola's Google/Search bullets. Prints VERBATIM (index >= 2)."
     },
     {
       "company": "CIBC",
