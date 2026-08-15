@@ -434,7 +434,7 @@ function resumeNameBlockLines(profile: Profile): string {
 function skillDomainNames(skills: string[]): string[] {
   const out: string[] = [];
   for (const s of skills) {
-    const m = /^([^,:]{2,40}):\s/.exec(s.trim());
+    const m = /^([^:]{2,40}):\s/.exec(s.trim());
     if (m) out.push(m[1].replace(/\*/g, "").trim());
   }
   return out;
@@ -447,11 +447,11 @@ function skillDomainNames(skills: string[]): string[] {
  */
 function renderSkillsList(skills: string[]): string {
   const cleaned = skills.map((s) => s.trim()).filter(Boolean);
-  const categorized = cleaned.some((s) => /^[^,:]{2,40}:\s/.test(s));
+  const categorized = cleaned.some((s) => /^[^:]{2,40}:\s/.test(s));
   if (!categorized) return cleaned.join(", ");
   return cleaned
     .map((s) => {
-      const m = /^([^,:]{2,40}):\s*(.*)$/.exec(s);
+      const m = /^([^:]{2,40}):\s*(.*)$/.exec(s);
       if (!m) return s;
       const label = m[1].replace(/\*/g, "").trim();
       return `**${label}:** ${m[2].trim()}`;

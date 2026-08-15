@@ -167,6 +167,8 @@ using your domain_scores:
 - CATEGORY LIMIT: return only the 6-7 most role-relevant skill categories total, never more than 7.
   Prioritize score-3 categories first, then the strongest score-2 categories. Do not include weaker
   categories merely to show the candidate's full skill inventory.
+- NEVER let this limit discard a skill the JD explicitly requires: if a category you are cutting holds an
+  always-keep skill, move that skill into the closest surviving category instead of dropping it.
 
 ════════════════════════════════════════════════════════════════
 RARE NICE-TO-HAVES  (shared, single list)
