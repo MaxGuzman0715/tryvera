@@ -1,0 +1,112 @@
+{
+  "id": "hansal_maniar",
+  "basic": {
+    "fullName": "Hansal Maniar",
+    "title": "Senior Software Engineer",
+    "email": "maniar.hansal@gmail.com",
+    "phone": "+1 (289) 216-9282",
+    "location": "Mississauga, Ontario, Canada | Remote ",
+    "summary": "Senior Software Engineer with nearly two decades of experience building and modernizing production systems across financial services, enterprise platforms, digital products, and data-intensive applications. Experienced across backend and distributed services, event-driven architectures, APIs, data and streaming pipelines, cloud infrastructure, web applications, AI/ML-enabled workflows, security, and platform reliability. Has led architecture and delivery for regulated, high-availability systems involving financial transactions, enterprise integrations, operational data, and large-scale modernization, translating complex business requirements into scalable software platforms that remain reliable under production load.",
+    "linkedin": "https://www.linkedin.com/in/humaniar/"
+  },
+  "experience": [
+    {
+      "company": "Wealthsimple",
+      "location": "Remote",
+      "title": "Senior Software Engineer",
+      "startDate": "Aug 2025",
+      "endDate": "Present",
+      "bullets": [
+        "Build backend and platform capabilities across Wealthsimple's Book of Record, the system of record for client money and assets, moving financial workflows onto the Financial Activity Model as the single validated, idempotent write funnel before balanced records are committed to the ledger, using controlled migration patterns that carry legacy financial logic across without compromising correctness.",
+        "Developed streaming calculation and materialized read-model components on the Financial Calculation Platform that derive balances, positions, book value and returns from ledger history, keeping app balances, the activity feed, statements and tax slips consistent with the authoritative record.",
+        "Built event-driven processing and reconciliation workflows around financial activities, handling lifecycle changes, reversals, settlement and recovery paths while preserving ordering, idempotency and consistency, with data-quality checks and observable processing states that surface breaks for operations review.",
+        "Extended the platform with machine-learning and statistical models over versioned financial-activity history for anomaly detection, reconciliation-break classification and transaction-risk scoring, owning feature extraction from ledger events, retraining as activity patterns shift, dataset-to-model-to-evaluation lineage for auditable promotion, and serving those decisions into money-movement and back-office investigation workflows."
+      ],
+      "paragraphs": [],
+      "notes": "Four bullets mapped onto the anchor: write path (Book of Record / Financial Activity Model / controlled migration), read path (Financial Calculation Platform / read models), event-driven processing and reconciliation, and the ML decisioning layer. Bullet 4 deliberately covers the FULL model lifecycle (feature extraction, retraining, lineage, promotion, serving, monitoring) but welds every stage to a financial object - ledger events, activity history, reconciliation breaks, money-movement and back-office workflows - so a JD's named tooling (MLflow, SageMaker, TorchServe) attaches to the financial story instead of floating as generic MLOps. No stage is left empty, because an empty stage is a slot the model fills from reframed_jd. Number-free, matching deepankar/rowland/andrew."
+    },
+    {
+      "company": "TEEMA",
+      "location": "Winnipeg, Manitoba, Canada | Remote",
+      "title": "Senior Software Engineer",
+      "startDate": "Nov 2020",
+      "endDate": "Jul 2025",
+      "bullets": [
+        "Delivered end-to-end software, data, and platform systems across client engagements, owning technical discovery through architecture, implementation, production deployment, and handover.",
+        "Built backend services, APIs, data pipelines, and cloud integrations that connected legacy enterprise systems with modern application and analytics capabilities while keeping client-facing contracts stable.",
+        "Applied distributed-systems, data-engineering, and applied-ML techniques where the client problem justified them, with reproducible evaluation and explicit production-quality gates rather than proof-of-concept delivery.",
+        "Established deployment, observability, security, and post-release operating practices as part of the engagement deliverable so client teams could operate and extend the systems after handover."
+      ],
+      "paragraphs": [],
+      "consulting": true,
+      "notes": "TEEMA is a staffing / contract-placement firm; the role is contract engineering delivered at client sites. Kept industry-neutral in the profile. At generation, projects/shared.json supplies the JD-matched anonymized client engagement(s)."
+    },
+    {
+      "company": "Suncore Construction & Materials",
+      "location": "Remote",
+      "title": "Senior Software Engineer",
+      "startDate": "Aug 2018",
+      "endDate": "Oct 2020",
+      "bullets": [
+        "Built backend services and integrations that connected the cloud CRM used by sales and estimating with dispatch, telematics and job-cost systems, replacing manual re-keying between platforms that had grown up separately.",
+        "Delivered quoting and project workflows for ready-mix and construction operations, surfacing customer history and live operational data together so sales teams could price and commit work without leaving the application.",
+        "Developed data pipelines consolidating project, job-cost, materials and fleet telemetry into reporting models that gave operations and finance one reconcilable view across business units.",
+        "Built mobile-accessible field workflows and the APIs behind them so crews and dispatchers could record and retrieve operational data on site rather than routing everything through the office."
+      ],
+      "paragraphs": [],
+      "notes": "Company operated as Sunroc Corporation during this period; rebranded to Suncore Construction & Materials in 2025."
+    },
+    {
+      "company": "Chartwell Retirement Residences",
+      "location": "Mississauga, Ontario, Canada | Hybrid",
+      "title": "Senior Software Engineer",
+      "startDate": "Sep 2013",
+      "endDate": "Jun 2018",
+      "bullets": [
+        "Built and modernized enterprise applications used by corporate and residence teams, replacing fragmented site-level tooling with shared workflows as the portfolio grew through acquisition.",
+        "Developed integrations and reporting across operational, sales and financial systems so leadership could see portfolio-wide performance instead of reconciling site-by-site extracts.",
+        "Delivered user-facing business tooling for residence operations, shaping workflows around how staff actually worked rather than how the underlying systems were structured.",
+        "Hardened platform reliability and access controls across resident-facing and corporate systems to meet the privacy and operational requirements of a regulated care environment."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "CIBC",
+      "location": "Toronto, Ontario, Canada",
+      "title": "Senior Application Developer",
+      "startDate": "Jun 2007",
+      "endDate": "Aug 2013",
+      "bullets": [
+        "Built client-facing banking applications and the digital-channel services behind them as CIBC extended from online banking into mobile, covering account access, transfers, bill payment and person-to-person money movement.",
+        "Developed integration layers between customer applications and core banking systems, isolating channel development from mainframe release cycles so new digital-channel features could evolve without waiting on core-system release cycles.",
+        "Implemented authentication, authorization and transaction security controls for a channel that was new to the bank, working within the audit and regulatory requirements of Canadian retail banking.",
+        "Delivered payment and transaction workflows with the availability and correctness guarantees money movement demands, including reconciliation and failure handling on client-initiated transfers."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Languages & Backend: Java, Kotlin, C#, .NET, Python, TypeScript, JavaScript, Go, SQL, PL/SQL, Bash, Spring Boot, ASP.NET Core, Entity Framework, Hibernate, FastAPI, Node.js, NestJS, Express, REST, GraphQL, gRPC, WebSockets and Protocol Buffers",
+    "Frontend & Mobile Engineering: React, Redux, React Query, Next.js, Angular, RxJS, TypeScript, JavaScript, HTML/CSS, Sass, Tailwind CSS, Webpack, Vite, iOS, Android, React Native, Objective-C, internal operations tooling and data visualization",
+    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, XGBoost, pandas, NumPy, Hugging Face Transformers, anomaly and outlier detection, classification, forecasting, time-series analysis, feature engineering and model evaluation",
+    "Generative & Agentic AI: LLMs, RAG, embeddings, vector search, semantic search, LangChain, LlamaIndex, OpenAI API, Anthropic API, pgvector, Pinecone, prompt engineering, fine-tuning, agentic systems, tool use, guardrails and LLM evaluation",
+    "Data Engineering & Streaming: Apache Kafka, Kafka Streams, Apache Spark, Apache Flink, Apache Airflow, Databricks, dbt, Snowflake, Debezium, Avro, Parquet, ETL/ELT, change data capture, event streaming and schema registry",
+    "Databases, Search & Retrieval: PostgreSQL, Oracle, IBM Db2, SQL Server, MySQL, MongoDB, DynamoDB, Amazon Neptune, Neo4j, Cassandra, Redis, Elasticsearch/OpenSearch, knowledge graphs, graph data modeling, indexing, partitioning, sharding, replication and query optimization",
+    "Cloud & Platform: AWS, Azure, GCP, EC2, S3, Lambda, RDS, ECS, EKS, SQS, SNS, API Gateway, CloudFormation, Azure Functions, Azure Service Bus, AKS, Docker, Kubernetes, Helm, Terraform, GitHub Actions, Azure DevOps, Jenkins, Argo CD and infrastructure as code",
+    "MLOps & Model Systems: MLflow, Kubeflow, Amazon SageMaker, Azure ML, Triton Inference Server, ONNX, model serving, experiment tracking, model registries, batch and real-time inference, drift monitoring and production evaluation",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, Splunk, ELK Stack, Jaeger, PagerDuty, structured logging, distributed tracing, SLOs/SLAs, error budgets, load testing and production debugging",
+    "Security, Identity & Compliance: OAuth 2.0, OpenID Connect, JWT, SAML, SSO, SCIM, RBAC, TLS, mTLS, HashiCorp Vault, AWS KMS, AES-256, OWASP Top 10, PCI DSS, SOC 2 and PIPEDA",
+    "Architecture & Distributed Systems: System design, microservices, event-driven architecture, domain-driven design, CQRS, event sourcing, saga pattern, idempotency, exactly-once semantics, circuit breakers, caching, API design and versioning, scalability, high availability and fault tolerance",
+    "Enterprise Integration & Core Banking: IBM MQ, RabbitMQ, ActiveMQ, Apache Camel, MuleSoft, Kong, Apigee, SOAP, XML, XSLT, JSON, CICS, COBOL interfaces, Salesforce, SAP, strangler fig pattern and anti-corruption layers",
+    "Financial Systems & Payments: Double-entry accounting, general ledger, ISO 20022, SWIFT, FIX protocol, ACH, EFT, Interac e-Transfer, payments and money movement, trading and settlement, T+1 settlement, reconciliation and break resolution, balances and positions, KYC, AML and IFRS",
+    "Testing & Engineering Practices: Git, JUnit, pytest, Jest, Playwright, Cypress, Selenium, JMeter, k6, Pact, code review, trunk-based development, unit/integration/end-to-end testing, TDD, contract testing and load and performance testing"
+  ],
+  "education": [
+    {
+      "school": "Bapuji Institute of Engineering & Technology, Davangere",
+      "degree": "Master",
+      "field": "Computer Science"
+    }
+  ],
+  "note": "Built from LinkedIn (5 roles, Jun 2007 - Present) plus researched public anchors per company. TEEMA is a staffing/contract-placement firm and is flagged consulting:true so shared.json supplies JD-matched client engagements. Skills inventory is deliberately broad to span 19 years across banking, enterprise operations, construction/industrial, consulting, and fintech; it is the hard cap on what the extraction step can surface (it only trims, never adds), so breadth here directly determines JD coverage. Rule for this list: every entry must be a NAMED technology, protocol, standard, or established pattern that a JD could keyword-match and an interviewer could question. Practice descriptions ('secrets management', 'encryption at rest and in transit', 'least privilege', 'cost optimization', 'incident response') were removed and replaced with the named things that implement them (HashiCorp Vault, AWS KMS, TLS/mTLS, AES-256, PagerDuty). Verify the inventory against the candidate's real experience before any live submission."
+}

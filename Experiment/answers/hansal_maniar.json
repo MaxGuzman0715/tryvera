@@ -1,0 +1,135 @@
+{
+  "items": [
+    {
+      "question": "What's your full address",
+      "answer": "60 Palomino Dr, Mississauga, ON, L4Z 3H8",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Address line",
+      "answer": "60 Palomino Dr",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "City",
+      "answer": "Mississauga",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "State/Province",
+      "answer": "Ontario",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Zip code",
+      "answer": "L4Z 3H8",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Country",
+      "answer": "Canada",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Date of birth",
+      "answer": "02/14/1976",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Candidate full legal name",
+      "answer": "Hansal Maniar Ushakant",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Phone type",
+      "answer": "Mobile",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the country where this role is based?",
+      "answer": "Yes",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Do you currently require sponsorship to work in Canada?",
+      "answer": "No",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Do you now, or will you in the future, require employer-sponsored work authorization in order to be employed in the country where this position is located?*",
+      "answer": "No",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Will you now or in the future require visa sponsorship for employment?",
+      "answer": "No",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Gender",
+      "answer": "Male",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "What are your pronouns?",
+      "answer": "He/Him",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Race / Ethnicity",
+      "answer": "White",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Are you Hispanic or Latino?",
+      "answer": "No",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Veteran status",
+      "answer": "I am not a protected veteran",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Disability status",
+      "answer": "No, I do not have a disability and have not had one in the past",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Are you open to relocation?",
+      "answer": "No",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Preferred work arrangement (onsite / hybrid / remote)?",
+      "answer": "Remote",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "What is your earliest available start date?",
+      "answer": "Next Monday",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "What is your notice period?",
+      "answer": "1 week",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "How did you hear about us?",
+      "answer": "Linkedin",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    },
+    {
+      "question": "Have you worked in our company or do you have a relative in our company?",
+      "answer": "No",
+      "updated_at": "2026-08-12T12:00:00+09:00"
+    }
+  ],
+  "seeded": true
+}

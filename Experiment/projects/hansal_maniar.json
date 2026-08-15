@@ -1,0 +1,101 @@
+{
+  "id": "hansal_maniar",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range, each chosen because it spans application, backend/platform, and data concerns and therefore supports a broad Senior Software Engineer corpus. TEEMA is a staffing/contract-placement firm, so it carries no fixed project: at generation, shared.json supplies the JD-matched anonymized client engagements. Anchors describe the project universe, NOT the candidate's personal contribution or a fixed technology stack; implementation specifics are selected per JD from within that universe. Bullets on companies at index 2+ render VERBATIM (the LLM never sees them), so they are written as finished lines.",
+  "projects": [
+    {
+      "company": "Wealthsimple",
+      "role": "Senior Software Engineer",
+      "dateRange": "Aug 2025 - Present",
+      "flagshipProject": "Book of Record + Financial Calculation Platform",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure",
+        "security_governance"
+      ],
+      "description": "Wealthsimple's Book of Record and Financial Calculation Platform form the financial systems foundation that records what happens to client money and continuously turns that history into the balances, positions, returns and activity clients see across Wealthsimple products. A client places a trade, deposits or transfers money, receives a dividend or completes another financial action; the request enters through the Financial Activity Model as a validated and idempotent activity, is recorded in the ledger as authoritative accounting history, and flows through streaming calculation and materialized read models that keep client-facing state continuously updated. When a transfer, trade or account activity looks unusual, machine-learning and statistical models scored on the same financial and behavioral history can flag it for review, detect anomalies, classify reconciliation breaks and surface risk signals to operations teams through internal workflows; those decisions feed fraud detection, money-movement controls and back-office investigation while preserving traceability to the underlying financial activity. It touches the frontend layer (balances, positions, activity feeds, statements and operational interfaces), the backend layer (financial APIs, event-driven services, lifecycle processing, reconciliation and orchestration), the data/AI layer (streaming calculations, financial features, anomaly detection, predictive models and model evaluation), the infrastructure layer (cloud deployment, containers, scalable processing, CI/CD and observability), and the security/governance layer (financial correctness, access controls, auditability, data protection and regulated financial controls).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "TEEMA",
+      "role": "Senior Software Engineer",
+      "dateRange": "Nov 2020 - Jul 2025",
+      "consulting": true,
+      "flagshipProject": "",
+      "spans": [],
+      "description": "Consulting / contract-placement company - project summaries are NOT fixed here. At generation, the code reads shared.json, selects an engagement whose industry matches the JD's extracted client_industry plus one additional complementary engagement, and hands those to this company. Do not add a fixed flagship project or bullets.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Suncore Construction & Materials",
+      "role": "Senior Software Engineer",
+      "dateRange": "Aug 2018 - Oct 2020",
+      "flagshipProject": "Construction Operations & Digital Platform Modernization",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
+      "description": "Suncore, then operating as Sunroc Corporation, was modernizing the software and data workflows supporting its construction and materials businesses across the Intermountain West. The initiative connected customer and sales workflows with estimating, quoting, project and job-cost information, dispatch and fleet telemetry, materials operations, billing, and enterprise reporting so field and office teams could work from one consistent view of operational data instead of systems that had grown up separately. Cloud-based customer and operational platforms brought mobile access to crews and sales staff, while construction ERP capabilities carried project management, cost control, procurement and financial workflows. The hard problems were integrating field systems with corporate platforms, keeping job-cost and billing data reconcilable across sources, and making operational data trustworthy enough for teams to quote and dispatch from. It spans enterprise applications, backend integrations and APIs, operational and financial data pipelines, mobile and web workflows, reporting, reliability and security.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built backend services and integrations that connected the cloud CRM used by sales and estimating with dispatch, telematics and job-cost systems, replacing manual re-keying between platforms that had grown up separately.",
+        "Delivered quoting and project workflows for ready-mix and construction operations, surfacing customer history and live operational data together so sales teams could price and commit work without leaving the application.",
+        "Developed data pipelines consolidating project, job-cost, materials and fleet telemetry into reporting models that gave operations and finance one reconcilable view across business units.",
+        "Built mobile-accessible field workflows and the APIs behind them so crews and dispatchers could record and retrieve operational data on site rather than routing everything through the office."
+      ],
+      "notes": "Company was Sunroc Corporation during this period; rebranded to Suncore Construction & Materials in 2025. Anchor is grounded in publicly reported Clyde Companies / Sunroc modernization (cloud CRM tailored to ready-mix, dispatch and telematics integration, mobile access) plus secondary reporting of a construction ERP implementation in 2018. Bullets are INFERRED from that public record, not supplied by the candidate - confirm before any live submission."
+    },
+    {
+      "company": "Chartwell Retirement Residences",
+      "role": "Senior Software Engineer",
+      "dateRange": "Sep 2013 - Jun 2018",
+      "flagshipProject": "Enterprise Management Platform Modernization",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
+      "description": "Chartwell ran a multi-year modernization of the management systems supporting its growing retirement-residence portfolio, with company reporting through this period identifying operations, sales, marketing and information technology as the major areas of management-platform improvement. The technology environment served corporate and residence teams responsible for running a large portfolio of senior-living communities and for improving customer and operational processes as the Canadian business expanded. The work covers enterprise applications and the workflows residence staff use daily, integration and reporting across operational and financial systems, user-facing business tooling, and the platform reliability and access controls a regulated, resident-facing operator needs. The hard problems were consolidating systems across a portfolio that kept growing by acquisition, and making operational reporting consistent when each site had its own history.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built and modernized enterprise applications used by corporate and residence teams, replacing fragmented site-level tooling with shared workflows as the portfolio grew through acquisition.",
+        "Developed integrations and reporting across operational, sales and financial systems so leadership could see portfolio-wide performance instead of reconciling site-by-site extracts.",
+        "Delivered user-facing business tooling for residence operations, shaping workflows around how staff actually worked rather than how the underlying systems were structured.",
+        "Hardened platform reliability and access controls across resident-facing and corporate systems to meet the privacy and operational requirements of a regulated care environment."
+      ],
+      "notes": "Chartwell does not publicly document engineering projects. Anchor is deliberately descriptive and grounded in Chartwell's own reporting of management-platform modernization across operations, sales, marketing and IT during 2013-2018; NO branded platform name is claimed. Bullets are INFERRED - confirm before any live submission."
+    },
+    {
+      "company": "CIBC",
+      "role": "Senior Application Developer",
+      "dateRange": "Jun 2007 - Aug 2013",
+      "flagshipProject": "Mobile Banking + Digital Channels Platform",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "security_governance"
+      ],
+      "description": "CIBC expanded its digital banking platform through this period from traditional online banking into a major mobile financial-services channel, launching Canada's first mobile banking application from a major bank in 2010 and then extending it across additional devices, brokerage, mobile web, tablet banking, payments and mobile cheque deposit. Clients could view accounts, transfer funds, pay bills, move money between people, access investing, and increasingly complete banking end to end from a phone. Supporting that required integration between client applications and core banking services, transaction and payment workflows, account and balance data, authentication and authorization, fraud and security controls, and the shared digital-channel services behind every banking experience. The hard problems were availability and correctness on money movement, securing a channel that was new to the bank, and evolving customer-facing applications on top of core systems that could not move at the same pace.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built client-facing banking applications and the digital-channel services behind them as CIBC extended from online banking into mobile, covering account access, transfers, bill payment and person-to-person money movement.",
+        "Developed integration layers between customer applications and core banking systems, isolating channel development from mainframe release cycles so new digital-channel features could evolve without waiting on core-system release cycles.",
+        "Implemented authentication, authorization and transaction security controls for a channel that was new to the bank, working within the audit and regulatory requirements of Canadian retail banking.",
+        "Delivered payment and transaction workflows with the availability and correctness guarantees money movement demands, including reconciliation and failure handling on client-initiated transfers."
+      ],
+      "notes": "Anchor grounded in CIBC's publicly documented digital-channel history: first Canadian major-bank iPhone app (2010), BlackBerry and additional devices (2010), mobile brokerage (2011), mobile-optimized web and iPad banking (2012), mobile cheque deposit (2013). Bullets are INFERRED from that public record - confirm before any live submission. SYNTHETIC: the 38% channel lead-time figure is illustrative, matching andrew_ray's single flagged older-company metric; base bullets were unquantified. Replace or drop before live submission."
+    }
+  ]
+}
