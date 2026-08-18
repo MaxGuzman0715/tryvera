@@ -59,6 +59,10 @@ export default function Logs() {
   const [q, setQ] = useState("");
   const [userFilter, setUserFilter] = useState<string>("");
   const [profileFilter, setProfileFilter] = useState<Set<string>>(new Set());
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [trackingFilter, setTrackingFilter] = useState<string>("");
+  const [fromFilter, setFromFilter] = useState<string>("");
+  const [toFilter, setToFilter] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
@@ -100,14 +104,25 @@ export default function Logs() {
     [rows]
   );
 
+  const statusOptions = useMemo(
+    () => Array.from(new Set(rows.map((r) => r.status).filter(Boolean))).sort(),
+    [rows]
+  );
+
   const visibleRows = useMemo(() => {
     // Rejected-duplicate marker rows are noise — never show them (they get
     // deleted in the background by the toast poller; hide instantly meanwhile).
     let out = rows.filter((r) => !(r.status === "failed" && r.duplicate_of));
     if (isAdmin && userFilter) out = out.filter((r) => r.user_id === userFilter);
     if (profileFilter.size > 0) out = out.filter((r) => profileFilter.has(r.resume_profile));
+    if (statusFilter) out = out.filter((r) => r.status === statusFilter);
+    if (trackingFilter) out = out.filter((r) => (r.tracking_status ?? "pending") === trackingFilter);
+    // created_at is an ISO string with an offset; the leading YYYY-MM-DD compares
+    // correctly against the date inputs without parsing or timezone conversion.
+    if (fromFilter) out = out.filter((r) => String(r.created_at).slice(0, 10) >= fromFilter);
+    if (toFilter) out = out.filter((r) => String(r.created_at).slice(0, 10) <= toFilter);
     return out;
-  }, [rows, userFilter, isAdmin, profileFilter]);
+  }, [rows, userFilter, isAdmin, profileFilter, statusFilter, trackingFilter, fromFilter, toFilter]);
 
   // Drop any selected profiles that no longer appear in the data.
   useEffect(() => {
@@ -122,7 +137,7 @@ export default function Logs() {
 
   useEffect(() => {
     setPage(1);
-  }, [q, pageSize, userFilter, profileFilter]);
+  }, [q, pageSize, userFilter, profileFilter, statusFilter, trackingFilter, fromFilter, toFilter]);
 
   useEffect(() => {
     setSelectedIds((prev) => {
@@ -683,6 +698,58 @@ export default function Logs() {
           )}
         </div>
       )}
+      <div
+        className="actions"
+        style={{ marginTop: "0.4rem", marginBottom: "0.4rem", alignItems: "center", flexWrap: "wrap" }}
+      >
+        <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+          Status
+          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+            <option value="">All</option>
+            {statusOptions.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+          Tracking
+          <select value={trackingFilter} onChange={(e) => setTrackingFilter(e.target.value)}>
+            <option value="">All</option>
+            <option value="pending">pending</option>
+            <option value="in_process">in process</option>
+            <option value="failed">failed</option>
+          </select>
+        </label>
+        <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+          From
+          <input type="date" value={fromFilter} onChange={(e) => setFromFilter(e.target.value)} />
+        </label>
+        <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+          To
+          <input type="date" value={toFilter} onChange={(e) => setToFilter(e.target.value)} />
+        </label>
+        {(statusFilter || trackingFilter || fromFilter || toFilter) && (
+          <button
+            type="button"
+            className="btn small"
+            onClick={() => {
+              setStatusFilter("");
+              setTrackingFilter("");
+              setFromFilter("");
+              setToFilter("");
+            }}
+          >
+            Clear
+          </button>
+        )}
+        {!isAdmin && (
+          <span className="sub mono" style={{ fontSize: "0.74rem" }}>
+            {visibleRows.length} of {rows.length} shown
+          </span>
+        )}
+      </div>
       <details className="card" style={{ padding: "0.7rem 0.9rem" }}>
         <summary className="mono">Columns</summary>
         <div className="actions" style={{ marginTop: "0.45rem" }}>

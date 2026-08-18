@@ -7,7 +7,12 @@
       "role": "Senior Software Engineer",
       "dateRange": "Aug 2024 - Present",
       "flagshipProject": "waterCAST Digital Water Platform + Capacity Planner",
-      "spans": ["frontend", "backend", "ai_data", "infrastructure"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
       "description": "waterCAST is Trinnex's digital-water software platform for bringing utility information, modeling, analytics, and operational workflows into one cloud-based environment, with Capacity Planner providing a focused application for evaluating wastewater capacity and future growth scenarios. A utility engineer uses the web application to review network conditions, test development or design scenarios, identify capacity constraints, and support planning decisions; behind the interface, services combine GIS, hydraulic-model, operational, sensor, and historical data, run analytical and predictive workflows, and return maps, metrics, forecasts, and scenario results. Machine-learning and statistical methods can use historical demand, weather, growth, asset, and operational signals for forecasting, anomaly detection, risk scoring, and decision support, while software services expose the resulting intelligence through APIs and interactive product workflows. It touches the frontend layer (maps, dashboards, planning workflows, and scenario tools), the backend layer (APIs, distributed services, workflow orchestration, and integrations), the data/AI layer (GIS and time-series pipelines, forecasting, anomaly detection, predictive analytics, and model evaluation), and the infrastructure layer (cloud deployment, containers, CI/CD, observability, and scalable data processing).",
       "isRecentTwo": true,
       "bulletsProvided": false,
@@ -19,7 +24,12 @@
       "dateRange": "Nov 2019 - Jul 2024",
       "consulting": true,
       "flagshipProject": null,
-      "spans": ["frontend", "backend", "ai_data", "infrastructure"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
       "description": "Consulting / client-services company - project summaries are NOT fixed here. At generation, the code reads shared.json, selects an engagement whose industry matches the JD's extracted client_industry plus one additional complementary engagement, and uses those client projects to surface the JD-relevant software, data, AI/ML, and cloud stack while keeping the Senior Software Engineer role and consulting context stable.",
       "isRecentTwo": true,
       "bulletsProvided": false,
@@ -30,7 +40,11 @@
       "role": "Senior Software Engineer",
       "dateRange": "Jan 2018 - Jun 2019",
       "flagshipProject": "Biomedical NLP + knowledge discovery platform",
-      "spans": ["frontend", "backend", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data"
+      ],
       "description": "Tellic's biomedical knowledge-discovery platform helps pharmaceutical and biotechnology teams turn large volumes of scientific literature into structured evidence they can search and explore during drug discovery. A scientist searches for a gene, disease, target, or biological relationship; backend services retrieve relevant biomedical documents, NLP and machine-learning pipelines extract entities and relationships from the text, and those relationships are organized into a knowledge graph that powers search, exploration, and evidence views. It touches the frontend layer (scientist-facing search and discovery workflows), the backend layer (search services, APIs, document processing, and graph queries), and the data/AI layer (biomedical NLP, entity and relation extraction, ranking, machine learning, text pipelines, and knowledge graphs).",
       "isRecentTwo": false,
       "bulletsProvided": true,
@@ -46,7 +60,11 @@
       "role": "Senior Software Engineer",
       "dateRange": "Jul 2014 - Dec 2017",
       "flagshipProject": "Zestimate valuation + real-estate intelligence platform",
-      "spans": ["frontend", "backend", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data"
+      ],
       "description": "Zillow's home-value and real-estate intelligence systems turn property facts, comparable sales, market activity, and listing information into predictive estimates and consumer-facing housing insights. A user opens a property or search experience and sees current home information and an estimated value; behind that surface, data pipelines continuously ingest and normalize property and market records, multiple predictive valuation models generate candidate estimates, backend services select and serve results at consumer scale, and evaluation pipelines compare estimates against subsequent transactions to measure accuracy. It touches the frontend layer (property and search experiences), the backend layer (high-traffic services, caching, APIs, and model-serving paths), and the data/AI layer (property-data pipelines, feature engineering, automated valuation models, ranking, experimentation, and model evaluation).",
       "isRecentTwo": false,
       "bulletsProvided": true,
@@ -59,10 +77,14 @@
     },
     {
       "company": "Google",
-      "role": "Senior Software Engineer",
+      "role": "Software Engineer",
       "dateRange": "Aug 2013 - Jul 2014",
       "flagshipProject": "Google Search ranking + low-latency serving platform",
-      "spans": ["backend", "ai_data", "infrastructure"],
+      "spans": [
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
       "description": "Google Search turns a user's query into a ranked result set by combining large-scale information retrieval, ranking signals, distributed data processing, and extremely latency-sensitive serving systems. A query enters the serving path, retrieves candidate documents from the search index, applies ranking and relevance signals to order the results, and returns the final page within an interactive latency budget; offline pipelines continuously process web and behavioral data used to refresh indexes and improve ranking models. It touches the backend layer (distributed query serving, RPCs, caching, and latency-sensitive services), the data/AI layer (information retrieval, learning-to-rank, relevance signals, search logs, and large-scale data processing), and the infrastructure layer (Borg scheduling, monitoring, capacity management, and production reliability).",
       "isRecentTwo": false,
       "bulletsProvided": true,

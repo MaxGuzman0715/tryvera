@@ -2,17 +2,17 @@
   "items": [
     {
       "question": "What's your full address",
-      "answer": "60 Palomino Dr, Mississauga, ON, L4Z 3H8",
+      "answer": "81 First Nations trail, Kleinburg, ON , Canada",
       "updated_at": "2026-08-12T12:00:00+09:00"
     },
     {
       "question": "Address line",
-      "answer": "60 Palomino Dr",
+      "answer": "81 First Nations trail",
       "updated_at": "2026-08-12T12:00:00+09:00"
     },
     {
       "question": "City",
-      "answer": "Mississauga",
+      "answer": "Kleinburg",
       "updated_at": "2026-08-12T12:00:00+09:00"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "question": "Zip code",
-      "answer": "L4Z 3H8",
+      "answer": "L4H 4V9",
       "updated_at": "2026-08-12T12:00:00+09:00"
     },
     {
