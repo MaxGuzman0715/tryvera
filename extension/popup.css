@@ -19,6 +19,57 @@
   --ok: #15803d;
 }
 
+/* Dark mirrors the Tryvera admin palette (neutral charcoal, lifted orange) so
+   the popup, the in-page panel and the web app read as one system. Follows the
+   OS/browser preference; an explicit [data-theme] on <html> overrides it. */
+:root {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --bg: #1b1e24;
+    --canvas: #14161a;
+    --fg: #e8eaed;
+    --muted: #9aa3af;
+    --faint: #6b7280;
+    --primary: #fb7a3c;
+    --primary-dark: #e8590c;
+    --soft: #2b1d14;
+    --soft-border: #4a2f1c;
+    --border: #2a2f38;
+    --hairline: #23272e;
+    --err: #f87171;
+    --ok: #4ade80;
+    --on-primary: #14161a;
+    --subtle: #23272e;
+    --info: #7aa2ff;
+    --info-soft: #131a26;
+    color-scheme: dark;
+  }
+}
+
+html[data-theme="dark"] {
+  --bg: #1b1e24;
+  --canvas: #14161a;
+  --fg: #e8eaed;
+  --muted: #9aa3af;
+  --faint: #6b7280;
+  --primary: #fb7a3c;
+  --primary-dark: #e8590c;
+  --soft: #2b1d14;
+  --soft-border: #4a2f1c;
+  --border: #2a2f38;
+  --hairline: #23272e;
+  --err: #f87171;
+  --ok: #4ade80;
+  --on-primary: #14161a;
+  --subtle: #23272e;
+  --info: #7aa2ff;
+  --info-soft: #131a26;
+  color-scheme: dark;
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -48,7 +99,7 @@ body {
   flex: 0 0 auto;
   border-radius: 8px;
   background: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,8 +145,8 @@ body {
   justify-content: center;
 }
 .ci svg { width: 14px; height: 14px; }
-.ci.blue { background: #eff6ff; color: #1d4ed8; }
-.ci.grey { background: #f3f4f6; color: var(--muted); }
+.ci.blue { background: var(--info-soft); color: var(--info); }
+.ci.grey { background: var(--subtle); color: var(--muted); }
 
 .ct { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .ct b { font-size: 12.8px; font-weight: 650; letter-spacing: -0.004em; }
@@ -126,7 +177,7 @@ select {
   font: inherit;
   font-size: 12.5px;
   color: var(--fg);
-  background: #fff;
+  background: var(--bg);
 }
 
 input::placeholder { color: var(--faint); }
@@ -160,7 +211,7 @@ button.primary {
   border: 1px solid var(--primary);
   border-radius: 8px;
   background: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
   font: inherit;
   font-size: 13px;
   font-weight: 650;
@@ -175,7 +226,7 @@ button.primary:disabled { opacity: 0.55; cursor: default; }
 button.link {
   flex: 0 0 auto;
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--bg);
   color: var(--muted);
   cursor: pointer;
   font: inherit;
@@ -298,3 +349,21 @@ button.link:hover { background: var(--canvas); color: var(--fg); }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* Compact theme switch — kept small so it never dominates the popup. */
+.themerow {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 10px; font-size: 11.5px; color: var(--muted);
+}
+.themerow .seg {
+  display: inline-flex; margin-left: auto;
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+.themerow .seg button {
+  appearance: none; border: 0; cursor: pointer;
+  padding: 4px 9px; font: inherit; font-size: 11.5px;
+  background: var(--bg); color: var(--muted);
+}
+.themerow .seg button + button { border-left: 1px solid var(--border); }
+.themerow .seg button:hover { background: var(--soft); color: var(--primary-dark); }
+.themerow .seg button.on { background: var(--soft); color: var(--primary-dark); font-weight: 600; }

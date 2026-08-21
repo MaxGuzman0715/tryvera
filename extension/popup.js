@@ -10,6 +10,8 @@ import {
   setAuth,
   clearAuth,
   getSelectedProfile,
+  getTheme,
+  setTheme,
   setSelectedProfile,
   getAutoDownloadPrefs,
   setAutoDownloadPrefs,
@@ -144,5 +146,25 @@ $("autoDir").addEventListener("change", async () => {
   await saveAutoPrefs();
   setStatus("Download-folder preference saved.", "ok");
 });
+
+// Theme: "system" leaves <html> bare so the stylesheet's prefers-color-scheme
+// rules decide; light/dark pin it via [data-theme]. Shared with the in-page
+// panel through the background worker.
+const themeSeg = $("themeSeg");
+function paintTheme(next) {
+  const t = next === "light" || next === "dark" ? next : "system";
+  if (t === "system") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", t);
+  for (const b of themeSeg.querySelectorAll("button")) {
+    b.classList.toggle("on", b.dataset.themeChoice === t);
+  }
+  return t;
+}
+themeSeg.addEventListener("click", (ev) => {
+  const b = ev.target.closest("button[data-theme-choice]");
+  if (!b) return;
+  void setTheme(paintTheme(b.dataset.themeChoice));
+});
+void getTheme().then(paintTheme);
 
 init();

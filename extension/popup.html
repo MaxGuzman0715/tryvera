@@ -68,6 +68,17 @@
           </button>
         </div>
       </div>
+      <div class="card">
+        <div class="cardhd"><b>Appearance</b></div>
+        <div class="themerow">
+          <span>Theme</span>
+          <span class="seg" id="themeSeg">
+            <button type="button" data-theme-choice="system">Auto</button>
+            <button type="button" data-theme-choice="light">Light</button>
+            <button type="button" data-theme-choice="dark">Dark</button>
+          </span>
+        </div>
+      </div>
     </section>
 
     <!-- Signed-in: profile picker -->
@@ -118,8 +129,9 @@
             <input id="autoDir" type="text" placeholder="C:\Users\you\Downloads\tryvera" autocomplete="off" spellcheck="false" />
           </label>
           <p class="hint dependent">
-            When set, "Copy output path" in the page panel copies this folder instead of
-            the server's output path — matching Tryvera's auto-download directory.
+            Chrome can only save inside your Downloads folder, so this works when the
+            folder is under Downloads (e.g. Downloads	ryvera). To use another location,
+            change it in chrome://settings/downloads.
           </p>
         </div>
       </div>

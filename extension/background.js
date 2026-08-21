@@ -4,7 +4,17 @@
 // ephemeral; all durable state lives in chrome.storage (see lib/session.js).
 
 import { me, listProfiles, generate, qaCreate, rerun, setApplyForm, listApplications, getApplication, deleteApplication, fillMap, fillMapProfile, fetchArtifactBlob, fetchBaseResumeBlob, getEnpplifySettings, getProfileAnswers, saveProfileAnswer, saveApplicationAnswer, ApiError } from "./lib/api.js";
-import { getAuth, getSelectedProfile, getAutoDownloadPrefs } from "./lib/storage.js";
+import {
+  getAuth,
+  getSelectedProfile,
+  getAutoDownloadPrefs,
+  getDownloadsRoot,
+  setDownloadsRoot,
+  getSavedRunDirs,
+  setSavedRunDir,
+  getTheme,
+  setTheme,
+} from "./lib/storage.js";
 import {
   getSession,
   saveSession,
@@ -374,12 +384,26 @@ function buildDisplayPath(rootDir, segments) {
  * Resolve the "Copy path" string with the same priority Tryvera uses:
  * client auto-download dir (root + run subfolder) → server absolute → relative.
  */
-function resolveCopyPath(auto, outputFolderAbs, outputFolder) {
-  if (auto.enabled && auto.dir) {
-    const segments = subfolderSegments(outputFolder);
-    return segments.length ? buildDisplayPath(auto.dir, segments) : auto.dir;
+/**
+ * Resolve what "Copy path" hands out, plus whether that path exists on THIS
+ * computer. Only a path Chrome reported after saving is treated as local; a
+ * prediction built from settings is not, because the folder may never have been
+ * created. Predictions also run through safeSegment(), since the download
+ * rewrites punctuation in folder names and an un-rewritten guess will not open.
+ */
+function resolveCopyPath(auto, outputFolderAbs, outputFolder, saved, downloadsRoot) {
+  if (saved && saved.dir) return { path: saved.dir, local: true };
+  if (saved && saved.file) return { path: splitPath(saved.file)[0], local: true };
+  const segments = subfolderSegments(outputFolder).map(safeSegment);
+  if (downloadsRoot && segments.length) {
+    const prefix = auto.enabled ? relativePrefix(auto.dir, downloadsRoot) : "";
+    const parts = prefix ? [...prefix.split("/"), ...segments] : segments;
+    return { path: buildDisplayPath(downloadsRoot, parts), local: false };
   }
-  return outputFolderAbs || outputFolder || "";
+  if (auto.enabled && auto.dir && segments.length) {
+    return { path: buildDisplayPath(auto.dir, segments), local: false };
+  }
+  return { path: outputFolderAbs || outputFolder || "", local: false };
 }
 
 /**
@@ -449,7 +473,11 @@ async function handleStatus({ appId, jobLink }, tabId) {
     const auto = await getAutoDownloadPrefs();
     const outputFolderAbs = result?.output_folder_abs || row.output_folder_abs || "";
     const outputFolder = result?.output_folder || row.output_folder || "";
-    const copyPath = resolveCopyPath(auto, outputFolderAbs, outputFolder);
+    const savedRun = (await getSavedRunDirs())[appId] || null;
+    const rootDir = await getDownloadsRoot();
+    const resolved = resolveCopyPath(auto, outputFolderAbs, outputFolder, savedRun, rootDir);
+    const copyPath = resolved.path;
+    const copyPathIsLocal = resolved.local;
 
     // Memory summary: what this run actually has on disk.
     const artifacts = result?.artifacts || {};
@@ -480,6 +508,7 @@ async function handleStatus({ appId, jobLink }, tabId) {
       outputFolderAbs,
       outputFolder,
       copyPath,
+      copyPathIsLocal,
       memory,
     };
   } catch (e) {
@@ -600,6 +629,116 @@ function safeSegment(s) {
     .slice(0, 120) || "file";
 }
 
+/**
+ * Resolve the absolute path Chrome wrote for a download. `download()` resolves
+ * when the transfer STARTS, so the filename is frequently empty or a
+ * .crdownload temp at that moment; poll until the item reports complete.
+ */
+function waitForDownloadPath(id, timeoutMs = 5000) {
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const tick = () => {
+      chrome.downloads.search({ id }, (items) => {
+        const it = items && items[0];
+        if (it && it.filename && it.state === "complete") return resolve(it.filename);
+        if (Date.now() - started > timeoutMs) {
+          return resolve(it && it.filename && it.state !== "interrupted" ? it.filename : "");
+        }
+        setTimeout(tick, 120);
+      });
+    };
+    tick();
+  });
+}
+
+/**
+ * The Downloads directory, which Chrome exposes through no API. Probe for it
+ * once by saving a scratch file at the root and reading back its absolute path,
+ * then remove both the file and its history entry. Doing this BEFORE the first
+ * real download is what lets a custom sub-folder apply from the very first run.
+ */
+async function ensureDownloadsRoot() {
+  const cached = await getDownloadsRoot();
+  if (cached) return cached;
+  try {
+    const id = await startDownload({
+      url: "data:text/plain;base64,MA==",
+      filename: "tryvify-path-probe.txt",
+      conflictAction: "overwrite",
+      saveAs: false,
+    });
+    const abs = await waitForDownloadPath(id);
+    chrome.downloads.removeFile(id, () => void chrome.runtime.lastError);
+    chrome.downloads.erase({ id }, () => void chrome.runtime.lastError);
+    if (abs) {
+      const root = splitPath(abs)[0];
+      if (root) {
+        await setDownloadsRoot(root);
+        return root;
+      }
+    }
+  } catch {
+    /* probing is best-effort; without a root the prefix is simply skipped */
+  }
+  return "";
+}
+
+/** Split an absolute path into [dir, base] using whichever separator it uses. */
+function splitPath(abs) {
+  const i = Math.max(String(abs).lastIndexOf("/"), String(abs).lastIndexOf("\\"));
+  return i < 0 ? ["", String(abs)] : [String(abs).slice(0, i), String(abs).slice(i + 1)];
+}
+
+/**
+ * Derive the browser Downloads root from one observed download: strip the
+ * relative filename we asked for off the absolute path Chrome reported. Cached,
+ * because Chrome exposes no API for it.
+ */
+async function learnDownloadsRoot(absPath, relFilename) {
+  if (!absPath || !relFilename) return "";
+  const BS = String.fromCharCode(92);
+  const toSlash = (x) => String(x).split(BS).join("/");
+  const abs = toSlash(absPath);
+  const rel = toSlash(relFilename);
+  let root = "";
+  const idx = abs.toLowerCase().lastIndexOf(rel.toLowerCase());
+  if (idx > 0) {
+    // Slicing on the normalised index is safe: separator swapping is 1:1, so
+    // offsets match the original string and its separators are preserved.
+    root = absPath.slice(0, idx);
+    while (root.endsWith("/") || root.endsWith(BS)) root = root.slice(0, -1);
+  } else {
+    root = splitPath(absPath)[0];
+  }
+  if (root) await setDownloadsRoot(root);
+  return root;
+}
+
+/**
+ * Chrome rejects absolute download paths, so a custom folder can only be
+ * honoured when it lives inside Downloads — then its remainder becomes a
+ * filename prefix. Returns "" when the folder is elsewhere (nothing we can do)
+ * or equals the root.
+ */
+function relativePrefix(customDir, downloadsRoot) {
+  if (!customDir || !downloadsRoot) return "";
+  const BS = String.fromCharCode(92);
+  const trimEnd = (x) => {
+    let v = String(x);
+    while (v.endsWith("/") || v.endsWith(BS)) v = v.slice(0, -1);
+    return v;
+  };
+  const toSlash = (x) => trimEnd(String(x).split(BS).join("/"));
+  const custom = toSlash(customDir);
+  const root = toSlash(downloadsRoot);
+  if (!root || custom.toLowerCase() === root.toLowerCase()) return "";
+  // Outside Downloads: nothing can be done, chrome.downloads would reject it.
+  if (!custom.toLowerCase().startsWith(root.toLowerCase() + "/")) return "";
+  let rest = custom.slice(root.length);
+  while (rest.startsWith("/")) rest = rest.slice(1);
+  return rest;
+}
+
 /** Promise wrapper for chrome.downloads.download → resolves the downloadId. */
 function startDownload(options) {
   return new Promise((resolve, reject) => {
@@ -628,10 +767,16 @@ async function handleDownload({ appId }) {
     const has = (key) => (status[key] === "completed" && artifacts[key]) || artifacts[key] || "";
 
     // The server's subfolder (MM_DD/profile/TS_company_role) → a relative dir
-    // under Downloads. No extra prefix, so the destination matches the path the
-    // "Copy path" button yields. chrome.downloads always uses "/" separators.
+    // under Downloads. chrome.downloads always uses "/" separators.
     const segments = subfolderSegments(result?.output_folder || "").map(safeSegment);
-    const dir = segments.join("/");
+    // A custom folder can only be honoured when it sits inside the browser's
+    // Downloads directory, since chrome.downloads rejects absolute paths. When it
+    // does, its remainder becomes a prefix so files land where the user asked.
+    const auto = await getAutoDownloadPrefs();
+    const root = await ensureDownloadsRoot();
+    const prefix = auto.enabled ? relativePrefix(auto.dir, root) : "";
+    const outsideDownloads = !!(auto.enabled && auto.dir && root && !prefix);
+    const dir = [prefix, ...segments].filter(Boolean).join("/");
 
     // Build the file list: the two PDFs (by their server filenames), the JD
     // text, and result.json.
@@ -649,17 +794,36 @@ async function handleDownload({ appId }) {
 
     const saved = [];
     const failed = [];
+    let savedAbsDir = "";
+    let savedResumeFile = "";
     for (const name of targets) {
       try {
         const { blob } = await fetchArtifactBlob(appId, name);
         const dataUrl = await blobToDataUrl(blob);
-        await startDownload({
+        const rel = dir ? `${dir}/${safeSegment(name)}` : safeSegment(name);
+        const id = await startDownload({
           url: dataUrl,
-          filename: dir ? `${dir}/${safeSegment(name)}` : safeSegment(name),
+          filename: rel,
           conflictAction: "overwrite",
           saveAs: false,
         });
         saved.push(name);
+        // First file only: ask Chrome where it actually landed. That yields both
+        // the Downloads root (cached for next time) and this run's exact folder,
+        // so "Copy path" reports an observed location rather than a prediction.
+        // Read back where Chrome actually put it: the first file establishes the
+        // Downloads root and the run folder; the résumé's own path is kept
+        // separately because that is what "Copy path" hands out.
+        if (!savedAbsDir || (name === resumeName && !savedResumeFile)) {
+          const abs = await waitForDownloadPath(id);
+          if (abs) {
+            if (!savedAbsDir) {
+              await learnDownloadsRoot(abs, rel);
+              savedAbsDir = splitPath(abs)[0];
+            }
+            if (name === resumeName) savedResumeFile = abs;
+          }
+        }
       } catch (e) {
         failed.push({ name, error: e?.message || String(e) });
       }
@@ -667,7 +831,13 @@ async function handleDownload({ appId }) {
     if (saved.length === 0) {
       return { ok: false, error: failed[0]?.error || "Nothing was generated to download." };
     }
-    return { ok: true, saved, failed, dir };
+    if (savedAbsDir || savedResumeFile) {
+      await setSavedRunDir(appId, { dir: savedAbsDir, file: savedResumeFile });
+    }
+    return {
+      ok: true, saved, failed, dir,
+      savedDir: savedAbsDir, savedFile: savedResumeFile, outsideDownloads,
+    };
   } catch (e) {
     return errPayload(e);
   }
@@ -760,6 +930,16 @@ async function handleAppQA({ appId } = {}) {
   }
 }
 
+/** UI theme for the popup and every in-page panel. */
+async function handleGetTheme() {
+  return { ok: true, theme: await getTheme() };
+}
+
+async function handleSetTheme({ theme } = {}) {
+  await setTheme(theme);
+  return { ok: true, theme: await getTheme() };
+}
+
 const HANDLERS = {
   "enpplify:getState": handleGetState,
   "enpplify:generate": handleGenerate,
@@ -773,6 +953,8 @@ const HANDLERS = {
   "enpplify:settings": handleSettings,
   "enpplify:baseResume": handleBaseResume,
   "enpplify:download": handleDownload,
+  "enpplify:getTheme": handleGetTheme,
+  "enpplify:setTheme": handleSetTheme,
   "enpplify:saveProfileAnswer": handleSaveProfileAnswer,
   "enpplify:saveAppAnswer": handleSaveAppAnswer,
   "enpplify:setApplyForm": handleSetApplyForm,

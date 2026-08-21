@@ -93,3 +93,62 @@ export async function setAutoDownloadPrefs(prefs) {
 }
 
 export { DEFAULT_API_BASE };
+
+/**
+ * Chrome can only write into the browser's own Downloads directory: a
+ * `chrome.downloads.download` filename is always resolved relative to it, and
+ * absolute paths are rejected outright. So the true destination is only
+ * knowable after the fact — we read it back via `chrome.downloads.search` and
+ * cache the root here. That buys two things: an exact "Copy path", and the
+ * ability to honour a custom folder whenever it happens to sit inside Downloads.
+ */
+export async function getDownloadsRoot() {
+  const { downloadsRoot } = await get("downloadsRoot");
+  return typeof downloadsRoot === "string" ? downloadsRoot : "";
+}
+
+/** @param {string} dir */
+export async function setDownloadsRoot(dir) {
+  await set({ downloadsRoot: String(dir || "") });
+}
+
+/**
+ * Where each run's files actually landed on this computer, keyed by appId:
+ * { dir, file } — the run folder, and the résumé PDF's full path. "Copy path"
+ * hands out `file` so it can be pasted straight into a file picker when the
+ * automatic attach fails and the résumé has to be uploaded by hand.
+ */
+export async function getSavedRunDirs() {
+  const { savedRunDirs } = await get("savedRunDirs");
+  return savedRunDirs && typeof savedRunDirs === "object" ? savedRunDirs : {};
+}
+
+/** @param {string} appId @param {{ dir?: string, file?: string }} info */
+export async function setSavedRunDir(appId, info) {
+  if (!appId) return;
+  const dirs = await getSavedRunDirs();
+  const prev = dirs[appId] && typeof dirs[appId] === "object" ? dirs[appId] : {};
+  dirs[appId] = {
+    dir: String(info?.dir || prev.dir || ""),
+    file: String(info?.file || prev.file || ""),
+  };
+  // Only recent runs matter for "Copy path"; keep the map from growing forever.
+  const keys = Object.keys(dirs);
+  if (keys.length > 50) for (const k of keys.slice(0, keys.length - 50)) delete dirs[k];
+  await set({ savedRunDirs: dirs });
+}
+
+/**
+ * UI theme for the popup and the in-page panel: "system" follows the OS/browser
+ * preference, "light"/"dark" pin it. Stored here so both surfaces agree and the
+ * choice survives service-worker restarts.
+ */
+export async function getTheme() {
+  const { uiTheme } = await get("uiTheme");
+  return uiTheme === "light" || uiTheme === "dark" ? uiTheme : "system";
+}
+
+/** @param {"system"|"light"|"dark"} value */
+export async function setTheme(value) {
+  await set({ uiTheme: value === "light" || value === "dark" ? value : "system" });
+}

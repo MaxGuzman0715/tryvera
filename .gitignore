@@ -16,3 +16,4 @@ extension v*.zip
 # Profile + bullet-store data under Experiment/bullets holds candidate PII, so it
 # stays local (mirrors how data/ is handled). Only the rohit_kumar demo profile
 # is tracked, as the worked example for the bullets-based tailoring system.
+extension.zip
