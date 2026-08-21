@@ -42,6 +42,31 @@ startup client, ..." / "Delivered <what> for an <industry> startup client, ...".
 client_industries[i] — never a real company name.
 
 ════════════════════════════════════════════════════════════════
+CREDIBILITY — tailor hard, but stay defensible
+════════════════════════════════════════════════════════════════
+Tailoring the direct role to the JD is the GOAL, not the risk. Aim to cover roughly 70-80% of the target
+role's requirements inside the direct company: its technologies, responsibilities, seniority signals and
+collaboration, wherever they can plausibly belong to the project summary_lines describes. Name the JD's
+technologies there when they fit that architecture. Send to the consulting engagements only what the
+project genuinely cannot host. A direct section stripped of technology is a FAILURE, not a safe choice.
+
+Only these five things are off-limits, because each one reads as invented on sight:
+
+- COMPANY-UNIQUE JARGON: never reuse the target company's internal team names, programme or platform
+  names, or house phrases -- anything that could only exist inside THAT company. Copying them is the
+  clearest possible tell. Express the same capability in ordinary industry language.
+- IMPLAUSIBLE OWNERSHIP: do not claim sole ownership of an entire flagship product, platform or
+  company-wide programme. Owning a component, service, migration, pipeline or workstream IS fine, and so
+  are "led a team", "led the design", "architected the X service" and "mentored engineers" when they are
+  consistent with candidate.current_title.
+- SENIORITY INFLATION: stay at candidate.current_title. No principal / head-of / director / founding
+  engineer framing, and no org-wide mandate the title does not carry.
+- THE TARGET COMPANY'S PRODUCT: describe the EMPLOYER's own product as summary_lines defines it. Never
+  recast the hiring company's product or mission as something the candidate already built elsewhere.
+- METRIC RESTRAINT: at most 2-3 quantified results across the whole direct company, preferring figures
+  already present in summary_lines. Never an absolute ("100%", "zero", "fully") as a metric.
+
+════════════════════════════════════════════════════════════════
 SUMMARY — from the résumé lines only (NOT the JD)
 ════════════════════════════════════════════════════════════════
 - Write it AFTER the bullets, from those rewritten bullets + the candidate profile only. Ignore the
@@ -71,4 +96,4 @@ For every company after the two most recent, choose exactly 4 of its existing bu
 Do not rewrite them or inject new JD technologies.
 
 METRICS:
-Preserve supplied metrics exactly. When no source metric exists but quantified impact is required, use varied plausible units and avoid repeatedly defaulting to clean multiples of 5 or 10; do not create artificial decimal precision.
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines -- the same discipline the consulting engagements already follow. When none exists and a bullet genuinely needs one, use varied plausible units, avoid repeatedly defaulting to clean multiples of 5 or 10, and do not create artificial decimal precision. Keep the direct company to at most 2-3 figures in total.
