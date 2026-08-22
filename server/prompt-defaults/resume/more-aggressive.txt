@@ -89,6 +89,20 @@ role's requirements inside the direct company: its technologies, responsibilitie
 collaboration, wherever they can plausibly belong to the project summary_lines describes. Name the JD's
 technologies there when they fit that architecture. A direct section stripped of technology is a FAILURE, not a
 safe choice.
+WEIGHT THE COVERAGE THE WAY THE JD DOES. Requirements are not all technologies, and a missing
+non-technical requirement costs exactly as much as a missing framework. Read what the reframed_jd actually
+keeps returning to and match that emphasis:
+- LEADERSHIP AND OWNERSHIP. Many senior roles care more about scope, judgement and influence than about the
+  stack, and say so: leading a team or workstream, owning an area end to end, setting technical direction,
+  mentoring, driving decisions across teams, being the person accountable when it breaks. When the JD leans
+  that way, give it REAL BULLETS in the direct company, several of them, with the same specificity you give
+  technology: what was led, who was mentored, which decision was owned, what the scope was. One vague
+  "mentored engineers" line at the end of the section does NOT cover a leadership-weighted JD.
+- COLLABORATION. Working with product, design, data, security or customers directly, when the JD asks.
+- WAYS OF WORKING. Experimentation and A/B testing, on-call and incident response, code review and testing
+  culture, documentation, 0-to-1 delivery.
+Count these toward the 70-80% exactly like a named technology, and treat whichever one the JD emphasises
+most as a core capability under THE ANCHOR IS THE SETTING rule below.
 Aim for roughly 70-80% in the CONSULTING company too, and choose the two sets so they OVERLAP AS LITTLE AS
 POSSIBLE: each company covers what the other could not host, so that together they cover the role almost
 completely. A requirement missing from BOTH companies is the real failure. When something fits both, give it to
@@ -112,12 +126,16 @@ Only these five things are off-limits, because each one reads as invented on sig
   consistent with candidate.current_title.
 - SENIORITY INFLATION: stay at candidate.current_title. No principal / head-of / director / founding
   engineer framing, and no org-wide mandate the title does not carry.
-  Specifically, an individual-contributor title never carries PEOPLE-MANAGEMENT duties, however much the
-  target role asks for them: no hiring, no interviewing, no headcount, no performance reviews, no direct
-  reports, no "people management", and no "engineering-manager track" framing. "Led a team", "led the
-  design", "architected the X service", "mentored engineers", "ran architecture reviews" and "set coding
-  standards" are all fine and are what a senior IC actually does. When the JD is a manager role, show
-  technical leadership at that ceiling and let the JD's management requirement go unmatched.
+  Specifically, an individual-contributor title does not carry a MANAGER's duties: no direct reports, no
+  headcount or budget, no hiring decisions, no performance reviews or ratings, no "people management", and
+  no "engineering-manager track" framing.
+  Everything a senior IC really does IS available and SHOULD be used: leading a team or a workstream,
+  acting as tech lead, owning the design and architecture of a service, setting technical direction,
+  mentoring and onboarding engineers, running architecture and design reviews, interviewing candidates and
+  sitting on hiring loops, defining coding and testing standards, driving cross-team alignment, leading
+  incident response and postmortems, and writing the technical strategy for an area.
+  When the JD is a manager role, take it to that ceiling and stop: lead the work and the engineers, do not
+  claim the reporting line.
 - THE TARGET COMPANY'S PRODUCT: describe the EMPLOYER's own product as summary_lines defines it. Never
   recast the hiring company's product or mission as something the candidate already built elsewhere, and do
   not import the target company's DOMAIN vocabulary into it. Carry over the JD's technology, not its
