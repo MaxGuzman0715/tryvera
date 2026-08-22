@@ -103,6 +103,11 @@ keeps returning to and match that emphasis:
   culture, documentation, 0-to-1 delivery.
 Count these toward the 70-80% exactly like a named technology, and treat whichever one the JD emphasises
 most as a core capability under THE ANCHOR IS THE SETTING rule below.
+FLOOR, so this does not vary between candidates: in the direct company, AT LEAST TWO bullets must show
+leadership or ownership and AT LEAST ONE must show collaboration with product, design or stakeholders.
+Where the JD weights leadership above the stack, raise that to three or four leadership bullets. Do not
+bundle them: "led X, mentored Y and ran Z" crammed into one line reads as a list of claims, while three
+bullets each naming one thing led, one person or team mentored, and one decision owned reads as a record.
 Aim for roughly 70-80% in the CONSULTING company too, and choose the two sets so they OVERLAP AS LITTLE AS
 POSSIBLE: each company covers what the other could not host, so that together they cover the role almost
 completely. A requirement missing from BOTH companies is the real failure. When something fits both, give it to
@@ -112,6 +117,13 @@ yourself every requirement and named technology in the reframed_jd that the dire
 cover THOSE first in the engagements. Consulting exists to close the gap, not to repeat the direct company:
 if a consulting section introduces no requirement the direct company missed, it has been wasted. Only after
 the gap is closed should the engagements add anything already covered.
+
+TECHNICAL COHERENCE. Every bullet must be a combination a working engineer would actually ship. Do not
+pair tools from different ecosystems or attach a term to the wrong technology: Django REST with Alembic
+migrations (Django has its own), MySQL with WAL tuning (WAL is PostgreSQL), Django ORM inside a FastAPI
+service, Kubernetes with docker-compose orchestration. Before writing a bullet that names two or more
+technologies, check they belong together in the same stack. One mismatch tells a senior reviewer the work
+did not happen, and costs more than a whole missing requirement.
 
 Only these five things are off-limits, because each one reads as invented on sight:
 

@@ -169,6 +169,12 @@ using your domain_scores:
   categories merely to show the candidate's full skill inventory.
 - NEVER let this limit discard a skill the JD explicitly requires: if a category you are cutting holds an
   always-keep skill, move that skill into the closest surviving category instead of dropping it.
+- NEVER cut the category that IS the candidate's own discipline, whatever its score. Read their title: a
+  "Data Scientist" or "ML Engineer" keeps the machine-learning category, a "Frontend Engineer" keeps the
+  frontend one, a "Data Engineer" keeps the data category. Dropping it because this particular JD leans
+  elsewhere makes the resume contradict its own header, which is worse than one weak category: a Staff Data
+  Scientist whose skills list no PyTorch, TensorFlow, scikit-learn or model serving reads as mislabeled.
+  Trim that category hard if the role does not need it, to its 2-3 strongest entries, but keep it.
 
 ════════════════════════════════════════════════════════════════
 RARE NICE-TO-HAVES  (shared, single list)
