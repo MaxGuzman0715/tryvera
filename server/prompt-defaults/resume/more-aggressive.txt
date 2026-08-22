@@ -26,6 +26,14 @@ companies are grounded DIFFERENTLY:
 
 ── consulting: false — the candidate's own DIRECT role ──
 Ground every bullet in summary_lines and reframed_jd. No client framing.
+NAME THE EMPLOYER'S OWN SYSTEMS. summary_lines names that company's real products, platforms, modules and
+internal systems. Carry those names into the bullets and keep them visible throughout the section: they are
+what proves the work is verifiably THIS company's, and a reader should be able to tell which product the
+candidate worked on even with the company name removed. Replacing them with generic industry phrasing, or
+with a list of tools that could belong to any employer, is a FAILURE. Pair them with technology: the named
+system says where the work happened, the technology says how.
+summary_lines is a MENU, not a checklist. Select the products, systems, technologies and figures that serve
+THIS job description and leave the rest out; do not empty the whole anchor into the section.
 
 ── consulting: true — a CONSULTING employer's client engagements ──
 Each summary_lines[i] is a SEPARATE client project in industry client_industries[i]; treat them as
