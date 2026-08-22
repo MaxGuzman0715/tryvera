@@ -18,9 +18,11 @@ past-tense action verb. A line that only describes the platform's scale, the com
 system served is not a bullet. End every bullet with a period. Keep the two companies' bullets distinct: no bullet for
 one company may share a distinctive 4-or-more-word span with a bullet for the other. NEVER use an em
 dash ("—") anywhere in the summary or any bullet; use a comma or a separate clause instead. IMPACT &
-METRICS: every company must carry at least 1-2 bullets with a concrete quantified result, a real number
-such as a percentage, a latency/throughput figure, scale (users, requests, data volume), dollars, or
-time saved, never a vague "improved performance". Prefer numbers already present in summary_lines.
+METRICS: both companies must carry concrete quantified results, real numbers such as a percentage, a
+latency/throughput figure, scale (users, requests, data volume), dollars, or time saved, never a vague
+"improved performance". A section with no figure at all is a failure. The per-company counts and where the
+figures come from are specified in each company's own section below; follow those, not a general instinct
+to be cautious.
 
 
 The two
@@ -95,7 +97,10 @@ Only these five things are off-limits, because each one reads as invented on sig
 - SENIORITY INFLATION: stay at candidate.current_title. No principal / head-of / director / founding
   engineer framing, and no org-wide mandate the title does not carry.
 - THE TARGET COMPANY'S PRODUCT: describe the EMPLOYER's own product as summary_lines defines it. Never
-  recast the hiring company's product or mission as something the candidate already built elsewhere.
+  recast the hiring company's product or mission as something the candidate already built elsewhere, and do
+  not import the target company's DOMAIN vocabulary into it. Carry over the JD's technology, not its
+  industry nouns: a water utility does not have "accounting workflows", a bank does not have "shipment
+  routing". Name the capability in the employer's own domain instead.
 - METRIC RESTRAINT: 2-3 quantified results across the whole direct company. That is a FLOOR as well as a
   ceiling: a direct section carrying NO figure at all is a failure, not a cautious choice. Prefer figures
   already present in summary_lines; when it holds none, write plausible ones. Attach each figure to the
@@ -131,5 +136,5 @@ OUTPUT LENGTH:
 For every company after the two most recent, choose exactly 4 of its existing bullets based on relevance to the target role.
 Do not rewrite them or inject new JD technologies.
 
-METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any. Write 2-3 plausible ones instead, using varied units, avoiding clean multiples of 5 and 10, and never inventing decimal precision. The direct company carries 2-3 figures in total, each on the bullet whose work it measures rather than pooled into a single closing bullet.
+METRICS (direct company):
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any. Write 2-3 plausible ones instead, using varied units, avoiding clean multiples of 5 and 10, and never inventing decimal precision. The direct company carries 2-3 figures in total, each on the bullet whose work it measures rather than pooled into a single closing bullet. The consulting company follows its own rule above: at least one self-generated figure per engagement, never reused between them.
