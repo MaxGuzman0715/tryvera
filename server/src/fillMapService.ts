@@ -93,7 +93,9 @@ type StandardKey =
   | "linkedin"
   | "github"
   | "portfolio"
-  | "location";
+  | "location"
+  | "jobTitle"
+  | "company";
 
 const STANDARD_FIELD_ALIASES: Record<StandardKey, string[]> = {
   email: ["email", "email address", "e mail", "e mail address", "your email", "work email", "contact email"],
@@ -108,7 +110,60 @@ const STANDARD_FIELD_ALIASES: Record<StandardKey, string[]> = {
   github: ["github", "github url", "github profile", "github link"],
   portfolio: ["portfolio", "portfolio url", "portfolio website", "website", "website url", "personal website", "personal site", "url"],
   location: ["city", "location", "city state", "current location", "current city", "city and state"],
+  jobTitle: [
+    "job title", "current job title", "most recent job title", "current title", "most recent title",
+    "position", "position title", "current position", "most recent position", "job position",
+    "role", "current role", "your title", "title",
+  ],
+  company: [
+    "company", "company name", "employer", "employer name", "current employer", "most recent employer",
+    "current company", "most recent company", "your employer",
+  ],
 };
+
+/**
+ * "Title" is also a salutation field (Mr/Ms/Dr), which is virtually always a
+ * select or radio group. Only treat it as a job title on a free-text input.
+ */
+function aliasAllowedForField(key: StandardKey, f: FieldDescriptor): boolean {
+  if (key !== "jobTitle") return true;
+  const bare = normalizeFieldLabel(f.label ?? f.ariaLabel ?? f.name);
+  if (bare !== "title" && bare !== "role") return true;
+  return f.type !== "select" && !(f.options && f.options.length > 0);
+}
+
+/**
+ * Values reaching a form field, from ANY pass. Fixes two defects seen on every
+ * application: the AI pass copying the resume header's "COMPANY | TITLE" into a
+ * single box, and an ALL-CAPS name lifted from the rendered PDF heading.
+ */
+function sanitizeFillValues(fields: FieldDescriptor[], values: FillValue[]): FillValue[] {
+  const keyByRef = new Map(fields.map((f) => [f.ref, classifyStandardField(f)]));
+  return values.map((v) => {
+    const key = keyByRef.get(v.ref);
+    // Collapse the stray whitespace and newlines that come back from PDF text.
+    let out = String(v.value ?? "").replace(/\s+/g, " ").trim();
+    if (key === "jobTitle") {
+      // "Trinnex | Senior Software Engineer" -> "Senior Software Engineer".
+      // Only when a separator splits it into two non-empty halves.
+      const m = /^(.+?)\s*[|\u2013\u2014]\s*(.+)$/.exec(out);
+      if (m && m[2].trim()) out = m[2].trim();
+    }
+    if (key === "company") {
+      // The mirror image: "Trinnex | Senior Software Engineer" -> "Trinnex".
+      const m = /^(.+?)\s*[|\u2013\u2014]\s*(.+)$/.exec(out);
+      if (m && m[1].trim()) out = m[1].trim();
+    }
+    if (key === "fullName" || key === "firstName" || key === "lastName" || key === "jobTitle") {
+      // A name or job title in caps came from a rendered heading, not from the
+      // profile. Company names are left alone: CIBC and ASSA ABLOY really are caps.
+      if (out === out.toUpperCase() && /[A-Z]{2}/.test(out)) {
+        out = out.toLowerCase().replace(/(^|[\s'\u2019-])([a-z])/g, (_, a, b) => a + b.toUpperCase());
+      }
+    }
+    return out === v.value ? v : { ...v, value: out };
+  });
+}
 
 /** normalized alias -> field key, built once from the alias table. */
 const ALIAS_TO_KEY: Map<string, StandardKey> = (() => {
@@ -178,12 +233,14 @@ function heuristicPass(
     github: b.github ?? "",
     portfolio: b.portfolio ?? "",
     location: b.location ?? "",
+    jobTitle: profile.experience?.[0]?.title ?? b.title ?? "",
+    company: profile.experience?.[0]?.company ?? "",
   };
   const values: FillValue[] = [];
   const leftovers: FieldDescriptor[] = [];
   for (const f of fields) {
     const key = classifyStandardField(f);
-    const v = key ? valueByKey[key] : "";
+    const v = key && aliasAllowedForField(key, f) ? valueByKey[key] : "";
     if (v) values.push({ ref: f.ref, value: v, source: "heuristic" });
     else leftovers.push(f);
   }
@@ -606,7 +663,7 @@ export async function buildFillMap(params: {
     }
     const matched = new Set(ai.map((v) => v.ref));
     const unmatchedRefs = params.fields.map((f) => f.ref).filter((r) => !matched.has(r));
-    return { values: ai, unmatchedRefs };
+    return { values: sanitizeFillValues(params.fields, ai), unmatchedRefs };
   }
 
   // Run profile basics first, then apply saved (profile reusable) answers ON TOP
@@ -623,7 +680,7 @@ export async function buildFillMap(params: {
   const leftovers = params.fields.filter((f) => !matchedRefs.has(f.ref));
 
   if (mode === "heuristic") {
-    return { values: instant, unmatchedRefs: leftovers.map((f) => f.ref) };
+    return { values: sanitizeFillValues(params.fields, instant), unmatchedRefs: leftovers.map((f) => f.ref) };
   }
 
   // mode "both": AI over whatever neither free pass could fill. With no usable
@@ -638,5 +695,5 @@ export async function buildFillMap(params: {
   }
   const matched = new Set([...instant, ...ai].map((v) => v.ref));
   const unmatchedRefs = params.fields.map((f) => f.ref).filter((r) => !matched.has(r));
-  return { values: [...instant, ...ai], unmatchedRefs };
+  return { values: sanitizeFillValues(params.fields, [...instant, ...ai]), unmatchedRefs };
 }
