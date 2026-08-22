@@ -53,6 +53,17 @@ on THIS project.
 Send to the consulting engagements only what genuinely does not fit this project: peripheral tooling, an
 unrelated domain, a one-off requirement. NEVER the core capability.
 
+HARD BOUNDARY ON THAT RULE. It extends the project's CAPABILITY, never its IDENTITY. The employer keeps its
+own product names, its own domain and its own users.
+- NEVER give the employer a product, platform, programme or team named anywhere in the reframed_jd. That name
+  belongs to the target company. Writing it into the candidate's own employer is the single clearest tell in
+  the entire document, worse than any missing requirement.
+- NEVER restate the employer's business as the target's business. A door-access company can gain a language
+  model; it does not gain an accounting product. A water utility can gain retrieval; it does not gain
+  bookkeeping. Add the capability, keep the domain, and name what it does in the EMPLOYER's own vocabulary.
+Test each bullet: strip the employer's name from it. If what remains describes the TARGET company's product
+rather than the employer's, the bullet is wrong however well it matches the JD.
+
 ── consulting: true — a CONSULTING employer's client engagements ──
 Each summary_lines[i] is a SEPARATE client project in industry client_industries[i]; treat them as
 distinct engagements and split the 10-12 bullets across them. THIS is where the JD's required stack
@@ -114,6 +125,9 @@ SUMMARY — from the résumé lines only (NOT the JD)
   reframed_jd here.
 - START with the candidate's seniority and discipline as a headline, e.g. "Senior Software Engineer"
   (use candidate.current_title), then the value proposition.
+- Never write the candidate's NAME and never use a third-person pronoun ("he", "she", "they"). Write the
+  summary as verb phrases about the role, e.g. "Senior Software Engineer who delivers ...", "Builds ...",
+  "Leads ...". "Rowland Sipola designs and ships ... He leads ..." is WRONG.
 - 2-4 sentences, senior, THIRD PERSON with no first-person pronouns (no "I"/"my"), at the level of
   disciplines and outcomes (no specific stacks/tools). No years-of-experience count, no company count.
   No clichés. Avoid the em dash.
