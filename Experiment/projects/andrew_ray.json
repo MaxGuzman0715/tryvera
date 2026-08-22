@@ -6,12 +6,18 @@
       "company": "Rackspace Technology",
       "role": "Staff Data Scientist",
       "dateRange": "Jun 2023 - Present",
-      "flagshipProject": "FAIR AI Industrialization Platform + RITA Enterprise AI Assistant",
-      "spans": ["backend", "ai_data", "infrastructure", "security_governance"],
-      "description": "Foundry for AI by Rackspace (FAIR) is Rackspace's framework for taking enterprise AI ideas from experimentation into secure, production-ready systems, with RITA as one of its flagship internal Generative AI applications. An employee uses RITA to ask IT, security-policy, and operational questions or complete supported self-service workflows; behind the interface, enterprise documents are ingested and indexed, retrieval finds the most relevant authorized content, an LLM produces a grounded response with source references, and evaluation and monitoring check quality before and after release. The broader FAIR industrialization path provides reusable patterns for model and prompt lifecycle management, deployment, evaluation, governance, observability, and scalable AI infrastructure across cloud environments. It touches the backend layer (AI services, APIs, orchestration, and deployment workflows), the data/AI layer (RAG, embeddings, retrieval, evaluation, and model lifecycle), the infrastructure layer (containers, Kubernetes, GPU-backed training and inference, and cloud services), and the security/governance layer (access controls, auditability, data protection, and release gates).",
+      "flagshipProject": "FAIR (Foundry for AI by Rackspace) + RITA Enterprise AI Assistant",
+      "spans": [
+        "backend",
+        "ai_data",
+        "infrastructure",
+        "security_governance"
+      ],
+      "description": "Foundry for AI by Rackspace (FAIR) is Rackspace's framework for taking enterprise AI from experimentation into secure, production-ready systems, and RITA is its flagship internal Generative AI assistant. An employee asks RITA an IT, security-policy or operational question, or runs a supported self-service workflow; behind the interface enterprise documents from Confluence, SharePoint and ServiceNow-style knowledge bases are ingested and chunked, embeddings are written to a vector store, hybrid retrieval with reranking finds the most relevant authorized content, an LLM served through Azure OpenAI or Amazon Bedrock produces a grounded answer with source citations, and evaluation harnesses score faithfulness, retrieval recall and latency before and after release. RITA serves thousands of Rackspace employees over a corpus in the tens of thousands of documents, and FAIR carries multiple enterprise AI use cases through the same production path rather than one-off per-team builds. FAIR's industrialization path supplies the reusable pieces around that: prompt and model lifecycle management, feature and dataset versioning, MLflow experiment tracking and model registries, training and fine-tuning pipelines on GPU-backed compute, Triton and ONNX serving for latency-sensitive paths, drift and quality monitoring, and release gates that keep ungrounded or unevaluated workloads off production surfaces. Workloads run on Kubernetes with Terraform-managed infrastructure across AWS, Azure and GCP, since Rackspace delivers into whichever cloud the customer already uses. It touches the backend layer (AI services, retrieval APIs, orchestration and deployment workflows), the data/AI layer (RAG, embeddings, vector search, reranking, evaluation and model lifecycle), the infrastructure layer (containers, Kubernetes, GPU training and inference, multi-cloud services), and the security/governance layer (access controls, prompt and data lineage, auditability, PII handling and release gates).",
       "isRecentTwo": true,
       "bulletsProvided": false,
-      "bullets": []
+      "bullets": [],
+      "notes": "FAIR (Foundry for AI by Rackspace) and RITA are publicly documented Rackspace offerings; FAIR's industrialization framing and RITA as an internal enterprise GenAI assistant come from Rackspace's own material. The named components (Azure OpenAI, Amazon Bedrock, MLflow, Triton, ONNX, Kubernetes, Terraform, multi-cloud) are consistent with Rackspace's published multi-cloud AI practice and the candidate's own skills inventory, but are architecturally implied rather than individually cited - treat as plausible-adjacent. No numeric figures are asserted here because none are publicly sourced for FAIR/RITA."
     },
     {
       "company": "Avanade",
@@ -19,7 +25,11 @@
       "dateRange": "Jan 2022 - Jun 2023",
       "consulting": true,
       "flagshipProject": null,
-      "spans": ["frontend", "backend", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data"
+      ],
       "description": "Consulting / client-services company - project summaries are NOT stored here. At generation, the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry PLUS one more arbitrary project, and uses those as this company's engagements (each opening with a 'did X for a [industry] client' master line).",
       "isRecentTwo": true,
       "bulletsProvided": false,
@@ -30,7 +40,11 @@
       "role": "AI/ML Engineer",
       "dateRange": "Mar 2020 - Jan 2022",
       "flagshipProject": "Network Operations Intelligence + AIOps Platform",
-      "spans": ["backend", "ai_data", "infrastructure"],
+      "spans": [
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
       "description": "The network-operations intelligence platform helped engineering and managed-services teams detect and investigate problems across large enterprise and service-provider environments before they became prolonged outages. Network telemetry, device events, performance metrics, and operational logs flowed through data pipelines into a common analytical layer; machine-learning models identified anomalous behavior, grouped related events, and surfaced higher-risk conditions; and backend services exposed those results to operational workflows used for investigation and remediation. It touches the backend layer (Python services, APIs, event processing, and automation workflows), the data/AI layer (telemetry pipelines, time-series features, anomaly detection, classification, and model evaluation), and the infrastructure layer (distributed network environments, containerized deployment, monitoring, and production model operations).",
       "isRecentTwo": false,
       "bulletsProvided": true,
@@ -46,7 +60,11 @@
       "role": "Data Scientist",
       "dateRange": "Jul 2017 - Mar 2020",
       "flagshipProject": "Underwriting Risk & Pricing ML Platform",
-      "spans": ["backend", "ai_data", "frontend"],
+      "spans": [
+        "backend",
+        "ai_data",
+        "frontend"
+      ],
       "description": "The underwriting and pricing platform helped insurance teams evaluate applicant and policy risk using historical data rather than relying only on manually maintained rules. Policy, claims, customer, and underwriting records flowed through scheduled pipelines into an analytical dataset; feature-engineering and statistical or machine-learning models produced risk scores and segments; batch scoring workflows generated results for underwriting and pricing processes; and dashboards let actuarial and business teams inspect model behavior and portfolio trends. It touches the backend layer (ETL, scheduled scoring, SQL services, and data-quality workflows), the data/AI layer (feature engineering, gradient boosting, generalized linear models, risk classification, and model validation), and the frontend layer (Power BI reporting and model-performance views used by underwriting and actuarial teams).",
       "isRecentTwo": false,
       "bulletsProvided": true,
