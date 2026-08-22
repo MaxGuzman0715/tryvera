@@ -921,17 +921,19 @@ app.post<{ id: string }>("/api/applications/:id/rerun", requireAuth, async (req,
 async function patchResultJsonExtras(
   appId: string,
   patch: (data: Record<string, unknown>) => void,
-): Promise<void> {
+): Promise<boolean> {
   const entry = await getApplication(appId);
-  if (!entry || entry.status === "generating" || !entry.result_file) return;
+  if (!entry || entry.status === "generating" || !entry.result_file) return false;
   try {
     const abs = toAbsoluteFromStoredPath(entry.result_file);
     const raw = await fs.readFile(abs, "utf8");
     const data = JSON.parse(raw) as Record<string, unknown>;
     patch(data);
     await fs.writeFile(abs, JSON.stringify(data, null, 2), "utf8");
+    return true;
   } catch {
     // best-effort persistence — caller still returns the live computed value
+    return false;
   }
 }
 
@@ -1240,7 +1242,7 @@ app.put<{ id: string }>("/api/applications/:id/answers", requireAuth, async (req
     if (!loaded.ok) return res.status(loaded.status).json({ error: loaded.error });
     const key = normalizeQuestion(body.question);
     const trimmed = body.answer.trim();
-    await patchResultJsonExtras(req.params.id, (data) => {
+    const persisted = await patchResultJsonExtras(req.params.id, (data) => {
       const answers = (Array.isArray(data.answers) ? data.answers : (data.answers = [])) as {
         question: string;
         answer: string;
@@ -1253,6 +1255,18 @@ app.put<{ id: string }>("/api/applications/:id/answers", requireAuth, async (req
         answers.push({ question: body.question, answer: trimmed });
       }
     });
+    // patchResultJsonExtras is best-effort and SKIPS a run that is mid-generation
+    // (runGeneration rewrites result.json wholesale on completion, so a patch
+    // written now would be clobbered on finish). Returning ok:true in that case
+    // made the extension's "Add to Q&A" look successful while the answer was
+    // silently discarded, which is exactly how that button appeared dead.
+    if (!persisted) {
+      return res.status(409).json({
+        error:
+          "Answer not saved: this run's result file could not be written. " +
+          "If a generation is still in progress, wait for it to finish and add the answer again.",
+      });
+    }
     res.json({ ok: true });
   } catch (e) {
     if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });

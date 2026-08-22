@@ -1326,8 +1326,17 @@
       .backbtn:hover { background: var(--canvas); border-color: var(--border-strong); }
 
       #app:has(#fldMenu:not(.hidden)) > .jobhd,
-      #app:has(#fldMenu:not(.hidden)) > .statusline,
       #app:has(#fldMenu:not(.hidden)) > .sec.first { display: none; }
+      /* The status line is the ONLY feedback channel the Easy Fill / Q&A lists
+         have: every Add, Generate and Save in there reports through setStatus.
+         Hiding it in this view made both errors and confirmations invisible, so
+         a failed "Add to Q&A" was indistinguishable from a dead button. Keep it,
+         ordered last (#app is a flex column) so it sits under the internally
+         scrolling list rather than above the back bar. It still collapses to
+         nothing while empty, so the view is unchanged when there is no message. */
+      #app:has(#fldMenu:not(.hidden)) > .statusline {
+        order: 3; padding: 9px 12px; border-top: 1px solid var(--hairline);
+      }
       .sec:has(#fldMenu:not(.hidden)) > .grp,
       .sec:has(#fldMenu:not(.hidden)) > #moreBtn,
       .sec:has(#fldMenu:not(.hidden)) > #moreWrap { display: none; }
@@ -2901,10 +2910,20 @@
     row.querySelector(".fldbtn.save").addEventListener("click", async () => {
       const q = qi.value.trim(); const a = ta.value.trim();
       if (!q || !a) { setStatus("Enter a question and an answer.", "err"); return; }
-      if (!activeAppId) { const ok = await ensureQaSlot(); if (!ok) return; }
-      const res = await send("enpplify:saveAppAnswer", { appId: activeAppId, question: q, answer: a });
-      if (res.ok) { setStatus(`Added "${q}" to Q&A.`, "ok"); void renderQA(); }
-      else setStatus(res.error || "Could not add.", "err");
+      // With no run yet, ensureQaSlot() makes a real (multi-second) LLM call, so
+      // the button has to show it is working or it reads as unresponsive.
+      const btn = row.querySelector(".fldbtn.save");
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = "Adding…";
+      try {
+        if (!activeAppId) { const ok = await ensureQaSlot(); if (!ok) return; }
+        const res = await send("enpplify:saveAppAnswer", { appId: activeAppId, question: q, answer: a });
+        if (!res.ok) { setStatus(res.error || "Could not add.", "err"); return; }
+        setStatus(`Added "${q}" to this application's Q&A. Press → Profile on the row to reuse it on every application.`, "ok");
+        void renderQA();
+      } finally {
+        btn.disabled = false; btn.textContent = label;
+      }
     });
     return row;
   }
@@ -2951,6 +2970,7 @@
   async function openEasyFill() {
     if (openMenuMode === "easy" && !fldMenu.classList.contains("hidden")) { closeFieldMenu(); return; }
     closeFieldMenu();
+    setStatus(""); // the list's own messages render here now, so start clean
     openMenuMode = "easy";
     flCaret.classList.add("open");
     fldMenu.classList.remove("hidden");
@@ -3033,6 +3053,7 @@
   async function openQA() {
     if (openMenuMode === "qa" && !fldMenu.classList.contains("hidden")) { closeFieldMenu(); return; }
     closeFieldMenu();
+    setStatus(""); // the list's own messages render here now, so start clean
     openMenuMode = "qa";
     aiCaret.classList.add("open");
     fldMenu.classList.remove("hidden");
