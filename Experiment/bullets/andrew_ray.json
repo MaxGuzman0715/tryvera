@@ -78,12 +78,12 @@
     "Data Engineering & Streaming: Kafka, Spark, Flink, Airflow, Databricks, dbt, Snowflake, BigQuery, ETL/ELT, batch and streaming pipelines, feature pipelines, event-driven processing, data quality and schema evolution",
     "MLOps & Model Platforms: MLflow, Kubeflow, SageMaker, Azure ML, Vertex AI, Triton Inference Server, vLLM, model serving, experiment tracking, model registries, feature stores, training pipelines, drift monitoring, GPU training and inference",
     "Databases, Search & Retrieval: PostgreSQL, MySQL, SQL Server, MongoDB, DynamoDB, Cassandra, Redis, Elasticsearch/OpenSearch, Neo4j, pgvector, Pinecone, Weaviate, vector search, indexing, query optimization, caching, sharding and replication",
-    "Cloud & AI Platforms: AWS, Azure, GCP, Amazon Bedrock, Azure OpenAI, SageMaker, Azure ML, Vertex AI, serverless computing, scalable compute, storage, networking, load balancing and multi-cloud architecture",
+    "Cloud & AI Platforms: AWS, Azure, GCP, Amazon Bedrock, Azure OpenAI, SageMaker, Azure ML, Vertex AI, serverless computing, storage, networking, load balancing and multi-cloud architecture",
     "Containers, DevOps & Delivery: Docker, Kubernetes, Terraform, Helm, GitHub Actions, GitLab CI, Jenkins, Azure DevOps, Argo CD, CI/CD, infrastructure as code, blue-green and canary deployments, release automation",
-    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing, SLOs/SLAs, alerting, incident response, capacity planning, performance profiling and production debugging",
-    "Security & AI Governance: OAuth2, OIDC, JWT, RBAC, secrets management, encryption, least privilege, audit logging, data privacy, model and prompt lineage, AI safety, evaluation gates, secure software delivery and threat modeling",
-    "Architecture & Distributed Systems: System design, microservices, event-driven architecture, distributed systems, asynchronous processing, concurrency, caching strategies, API design, domain-driven design, scalability, high availability, fault tolerance and resilience patterns",
-    "Engineering Practices: Git, code review, trunk-based development, unit/integration/end-to-end testing, TDD, contract testing, load and performance testing, profiling, data structures and algorithms, networking and operating-system fundamentals"
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing, SLOs/SLAs and alerting",
+    "Security & AI Governance: OAuth2, OIDC, JWT, RBAC, secrets management, encryption, least privilege, audit logging, data privacy, model and prompt lineage, AI safety, evaluation gates and threat modeling",
+    "Architecture & Distributed Systems: Microservices, event-driven architecture, distributed systems, asynchronous processing, concurrency, caching strategies, API design, domain-driven design and high availability",
+    "Engineering Practices: Git, unit/integration/end-to-end testing, TDD, contract testing, load testing and performance testing"
   ],
   "education": [
     {

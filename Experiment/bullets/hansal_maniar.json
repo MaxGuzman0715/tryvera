@@ -95,13 +95,13 @@
     "Data Engineering & Streaming: Apache Kafka, Kafka Streams, Apache Spark, Apache Flink, Apache Airflow, Databricks, Delta Lake, lakehouse architecture, dbt, Snowflake, Debezium, Avro, Parquet, ETL/ELT, change data capture, event streaming and schema registry",
     "Databases, Search & Retrieval: PostgreSQL, Oracle, IBM Db2, SQL Server, MySQL, MongoDB, DynamoDB, Amazon Neptune, Neo4j, Cassandra, Redis, Elasticsearch/OpenSearch, knowledge graphs, graph data modeling, indexing, partitioning, sharding, replication and query optimization",
     "Cloud & Platform: AWS, Azure, GCP, EC2, S3, Lambda, RDS, ECS, EKS, SQS, SNS, API Gateway, CloudFormation, Azure Functions, Azure Service Bus, AKS, Docker, Kubernetes, Helm, Terraform, GitHub Actions, Azure DevOps, Jenkins, Argo CD and infrastructure as code",
-    "MLOps & Model Systems: MLflow, Kubeflow, Amazon SageMaker, Azure ML, Triton Inference Server, ONNX, model serving, experiment tracking, model registries, batch and real-time inference, drift monitoring and production evaluation",
-    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, Splunk, ELK Stack, Jaeger, PagerDuty, structured logging, distributed tracing, SLOs/SLAs, error budgets, load testing and production debugging",
+    "MLOps & Model Systems: MLflow, Kubeflow, Amazon SageMaker, Azure ML, Triton Inference Server, ONNX, model serving, experiment tracking, model registries, batch inference, real-time inference and drift monitoring",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, Splunk, ELK Stack, Jaeger, PagerDuty, structured logging, distributed tracing, SLOs/SLAs, error budgets and load testing",
     "Security, Identity & Compliance: OAuth 2.0, OpenID Connect, JWT, SAML, SSO, SCIM, RBAC, TLS, mTLS, HashiCorp Vault, AWS KMS, AES-256, OWASP Top 10, PCI DSS, SOC 2 and PIPEDA",
-    "Architecture & Distributed Systems: System design, microservices, event-driven architecture, domain-driven design, CQRS, event sourcing, saga pattern, idempotency, exactly-once semantics, circuit breakers, caching, API design and versioning, scalability, high availability and fault tolerance",
+    "Architecture & Distributed Systems: Microservices, event-driven architecture, domain-driven design, CQRS, event sourcing, saga pattern, idempotency, exactly-once semantics, circuit breakers, caching, API versioning and high availability",
     "Enterprise Integration & Core Banking: IBM MQ, RabbitMQ, ActiveMQ, Apache Camel, MuleSoft, Kong, Apigee, SOAP, XML, XSLT, JSON, CICS, COBOL interfaces, Salesforce, SAP, strangler fig pattern and anti-corruption layers",
     "Financial Systems & Payments: Double-entry accounting, general ledger, ISO 20022, SWIFT, FIX protocol, ACH, EFT, Interac e-Transfer, payments and money movement, trading and settlement, T+1 settlement, reconciliation and break resolution, balances and positions, KYC, AML and IFRS",
-    "Testing & Engineering Practices: Git, JUnit, pytest, Jest, Playwright, Cypress, Selenium, JMeter, k6, Pact, code review, trunk-based development, unit/integration/end-to-end testing, TDD, contract testing and load and performance testing"
+    "Testing & Engineering Practices: Git, JUnit, pytest, Jest, Playwright, Cypress, Selenium, JMeter, k6, Pact, unit/integration/end-to-end testing, TDD, contract testing and load testing"
   ],
   "education": [
     {

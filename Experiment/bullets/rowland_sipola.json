@@ -86,19 +86,18 @@
   ],
   "skills": [
     "Languages & Backend: Python, Java, Go, C++, C#, .NET, Rust, TypeScript, JavaScript, SQL, Bash, Ruby, PHP, FastAPI, Django, Flask, Spring Boot, ASP.NET Core, Entity Framework Core, Node.js, NestJS, REST, GraphQL, gRPC, WebSockets",
-    "Frontend & Product Engineering: React, Next.js, Angular, Vue, Svelte, TypeScript, JavaScript, HTML/CSS, state management, responsive web applications, interactive dashboards, geospatial interfaces, data visualization and API-driven product development",
-    "Mobile Engineering: React Native, Flutter, Swift, Objective-C, Kotlin, mobile API integration, offline synchronization and cross-platform application development",
+    "Frontend & Product Engineering: React, Next.js, Angular, Vue, Svelte, TypeScript, JavaScript, HTML/CSS, state management, interactive dashboards, geospatial interfaces and data visualization",
+    "Mobile Engineering: React Native, Flutter, Swift, Objective-C, Kotlin and offline synchronization",
     "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, XGBoost, Hugging Face Transformers, ranking and recommendation systems, NLP, forecasting, anomaly detection, predictive modeling, classification, feature engineering, model evaluation and experimentation",
     "Generative & Agentic AI: LLMs, RAG, embeddings, vector search, hybrid retrieval, reranking, semantic search, LangChain, LangGraph, LlamaIndex, MCP, agentic systems, tool use, prompt engineering, grounding, fine-tuning, evaluation and guardrails",
-    "Data Engineering & Analytics: Kafka, Spark, Flink, Airflow, Databricks, dbt, Snowflake, BigQuery, ETL/ELT, batch and streaming pipelines, geospatial data, time-series data, feature pipelines and analytical processing",
+    "Data Engineering & Analytics: Kafka, Spark, Flink, Airflow, Databricks, dbt, Snowflake, BigQuery, ETL/ELT, batch and streaming pipelines, geospatial data, time-series data and feature pipelines",
     "Databases, Search & Geospatial: PostgreSQL, PostGIS, MySQL, SQL Server, MongoDB, DynamoDB, Cassandra, Redis, Elasticsearch/OpenSearch, Neo4j, TimescaleDB, vector databases, ArcGIS, GeoPandas, GDAL, indexing and query optimization",
-    "Cloud & Platform: AWS, Azure, GCP, Kubernetes, Docker, Terraform, Helm, Azure DevOps, GitHub Actions, GitLab CI, Jenkins, Argo CD, serverless computing, scalable compute and infrastructure as code",
-    "MLOps & Model Systems: MLflow, Kubeflow, ONNX, model serving, experiment tracking, model registries, feature pipelines, batch and real-time inference, model monitoring, drift detection and production evaluation",
-    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing, SLOs/SLAs, incident response, performance profiling, capacity planning and production debugging",
-    "Security & Identity: OAuth2, OIDC, JWT, RBAC, secrets management, encryption, least privilege, OWASP practices, dependency scanning, audit logging, threat modeling and secure software delivery",
-    "Architecture & Distributed Systems: System design, microservices, event-driven architecture, domain-driven design, asynchronous processing, concurrency, distributed systems, caching, API design, messaging, scalability, high availability, resilience and fault tolerance",
-    "Testing & Engineering Practices: Git, code review, trunk-based development, unit/integration/end-to-end testing, TDD, mocking, contract testing, load and performance testing, data structures and algorithms, networking and operating-system fundamentals",
-    "Technical Leadership: Architecture reviews, technical design, mentoring, cross-functional delivery, stakeholder communication, production readiness, incident leadership and engineering standards"
+    "Cloud & Platform: AWS, Azure, GCP, Kubernetes, Docker, Terraform, Helm, Azure DevOps, GitHub Actions, GitLab CI, Jenkins, Argo CD, serverless computing and infrastructure as code",
+    "MLOps & Model Systems: MLflow, Kubeflow, ONNX, model serving, experiment tracking, model registries, feature pipelines, batch and real-time inference, model monitoring and drift detection",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing and SLOs/SLAs",
+    "Security & Identity: OAuth2, OIDC, JWT, RBAC, secrets management, encryption, least privilege, OWASP practices, dependency scanning, audit logging and threat modeling",
+    "Architecture & Distributed Systems: Microservices, event-driven architecture, domain-driven design, asynchronous processing, concurrency, distributed systems, caching, API design, messaging and high availability",
+    "Testing & Engineering Practices: Git, unit/integration/end-to-end testing, TDD, mocking, contract testing, load testing and performance testing"
   ],
   "education": [
     {
