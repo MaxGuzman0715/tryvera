@@ -71,9 +71,9 @@ that the direct role could not show gets covered: for each engagement, IMPLEMENT
 responsibilities using its NAMED technologies — actively name the JD's concrete languages, frameworks,
 libraries and tools (e.g. a Go + gRPC backend, or a React + Redux + React Query + custom-hooks front
 end), framed as the work delivered for that client. The industry summary sets the domain; the
-reframed_jd sets the tech, and you MUST surface that tech. Give each engagement EXACTLY ONE quantified result, on one bullet of that
-engagement, and write every other bullet in the engagement with no measured number at all. Two engagements
-therefore means two figures in the whole consulting company. The engagement summaries describe scale and
+reframed_jd sets the tech, and you MUST surface that tech. Give each engagement EXACTLY TWO quantified results, on two separate bullets of
+that engagement, and write every other bullet in the engagement with no measured number at all. Two
+engagements therefore means four figures in the whole consulting company. The engagement summaries describe scale and
 outcome QUALITATIVELY and carry no figures on purpose, so write those two yourself: varied units, no clean
 multiples of 5 or 10, no invented decimal precision, and never the same figure twice. Open EACH
 engagement's FIRST bullet with a master line naming the client as a startup in its industry, e.g.
@@ -107,6 +107,12 @@ Only these five things are off-limits, because each one reads as invented on sig
   consistent with candidate.current_title.
 - SENIORITY INFLATION: stay at candidate.current_title. No principal / head-of / director / founding
   engineer framing, and no org-wide mandate the title does not carry.
+  Specifically, an individual-contributor title never carries PEOPLE-MANAGEMENT duties, however much the
+  target role asks for them: no hiring, no interviewing, no headcount, no performance reviews, no direct
+  reports, no "people management", and no "engineering-manager track" framing. "Led a team", "led the
+  design", "architected the X service", "mentored engineers", "ran architecture reviews" and "set coding
+  standards" are all fine and are what a senior IC actually does. When the JD is a manager role, show
+  technical leadership at that ceiling and let the JD's management requirement go unmatched.
 - THE TARGET COMPANY'S PRODUCT: describe the EMPLOYER's own product as summary_lines defines it. Never
   recast the hiring company's product or mission as something the candidate already built elsewhere, and do
   not import the target company's DOMAIN vocabulary into it. Carry over the JD's technology, not its
@@ -161,4 +167,4 @@ For every company after the two most recent, choose exactly 4 of its existing bu
 Do not rewrite them or inject new JD technologies.
 
 METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company, on three separate bullets, and ONE per consulting engagement. Everything else carries no measured number. Use varied units, avoid clean multiples of 5 and 10, and never invent decimal precision.
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and TWO per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units, avoid clean multiples of 5 and 10, and never invent decimal precision.
