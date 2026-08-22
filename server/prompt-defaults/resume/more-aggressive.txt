@@ -127,10 +127,14 @@ Only these five things are off-limits, because each one reads as invented on sig
   direct company's bullets, spread through the section, and give each one a single quantified result.
   Write every other bullet with NO measured number at all. Do not count as you go and do not let a fourth
   slip in: three bullets carry a figure, the rest carry none.
-  A "measured number" means a result: a percentage, a latency or throughput figure, a count of users or
+  A "measured number" means a DIGIT: a percentage, a latency or throughput figure, a count of users or
   records, an amount of money or time saved. Standard and protocol names (SOC 2 Type 2, ISO 20022, OAuth2,
   TLS 1.3), percentile labels (p95, p99), version numbers and product names containing digits are NOT
   metrics and are always allowed anywhere.
+  A VAGUE QUANTIFIER IS NOT A METRIC. "dozens of", "hundreds of", "hundreds of millions of", "thousands of",
+  "tens of thousands of" and "hundreds of thousands of lines" do NOT satisfy this rule, even when
+  summary_lines phrases the scale that way. Where the anchor hedges the scale, WRITE AN ACTUAL NUMBER for
+  your three bullets. Three bullets with real digits, or the section has failed.
   Prefer figures already present in summary_lines; when it holds none, write plausible ones. Never pool
   several figures into one bullet, and never use an absolute ("100%", "zero", "fully") as a metric.
 
@@ -167,4 +171,9 @@ For every company after the two most recent, choose exactly 4 of its existing bu
 Do not rewrite them or inject new JD technologies.
 
 METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and TWO per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units, avoid clean multiples of 5 and 10, and never invent decimal precision.
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and TWO per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units and avoid clean multiples of 5 and 10, but write numbers the way an engineer actually
+reports them: at most TWO significant figures, in the unit a human would choose. "1.4M events per minute",
+"under 1.7s", "~27,000 assets", "21,000 documents", "190 ms" are right. "1,373,000 events per minute",
+"1,637ms", "27,413 assets", "2,163,000 daily lookups" and "186 milliseconds" are WRONG: that much precision
+on a remembered figure reads as invented, which is the opposite of what the number is for. Percentages stay
+whole (37%, 22%), never 3.7% or 6.1%, unless the figure was supplied.
