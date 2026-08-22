@@ -57,7 +57,14 @@ export async function readProfile(id: string): Promise<Profile | null> {
     const parsed = JSON.parse(raw) as unknown;
     const migrated = migrateProfileJson(parsed);
     return profileBodySchema.parse(migrated);
-  } catch {
+  } catch (err) {
+    // A bare catch here reports every cause as "Profile not found": a missing
+    // file, malformed JSON, and a schema violation all look identical in the UI.
+    // A single invalid field (e.g. education.field = "") silently disappears the
+    // whole profile, so say which file failed and why.
+    if ((err as NodeJS.ErrnoException)?.code !== "ENOENT") {
+      console.warn("[enpply] readProfile failed for " + file + " —", err instanceof Error ? err.message : err);
+    }
     return null;
   }
 }
