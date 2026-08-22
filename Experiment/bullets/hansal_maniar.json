@@ -108,6 +108,11 @@
       "school": "Bapuji Institute of Engineering & Technology, Davangere",
       "degree": "Master",
       "field": "Computer Science"
+    },
+    {
+      "school": "University of Mumbai",
+      "degree": "Bachelor of Commerce",
+      "field": ""
     }
   ],
   "note": "Built from LinkedIn (5 roles, Jun 2007 - Present) plus researched public anchors per company. TEEMA is a staffing/contract-placement firm and is flagged consulting:true so shared.json supplies JD-matched client engagements. Skills inventory is deliberately broad to span 19 years across banking, enterprise operations, construction/industrial, consulting, and fintech; it is the hard cap on what the extraction step can surface (it only trims, never adds), so breadth here directly determines JD coverage. Rule for this list: every entry must be a NAMED technology, protocol, standard, or established pattern that a JD could keyword-match and an interviewer could question. Practice descriptions ('secrets management', 'encryption at rest and in transit', 'least privilege', 'cost optimization', 'incident response') were removed and replaced with the named things that implement them (HashiCorp Vault, AWS KMS, TLS/mTLS, AES-256, PagerDuty). Verify the inventory against the candidate's real experience before any live submission."
