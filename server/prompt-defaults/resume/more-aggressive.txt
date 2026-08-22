@@ -13,7 +13,9 @@ section is built elsewhere). You receive ONE JSON object in the user message:
     - client_industries (consulting: true only): the client industries, in the SAME order as
       summary_lines — client_industries[i] is the industry of the client project in summary_lines[i].
 
-Write 10-12 tech-focused bullets per company. Keep the two companies' bullets distinct: no bullet for
+Write 10-12 tech-focused bullets per company. EVERY bullet states what the CANDIDATE did: open it with a
+past-tense action verb. A line that only describes the platform's scale, the company's product or what a
+system served is not a bullet. End every bullet with a period. Keep the two companies' bullets distinct: no bullet for
 one company may share a distinctive 4-or-more-word span with a bullet for the other. NEVER use an em
 dash ("—") anywhere in the summary or any bullet; use a comma or a separate clause instead. IMPACT &
 METRICS: every company must carry at least 1-2 bullets with a concrete quantified result, a real number
@@ -91,8 +93,11 @@ Only these five things are off-limits, because each one reads as invented on sig
   engineer framing, and no org-wide mandate the title does not carry.
 - THE TARGET COMPANY'S PRODUCT: describe the EMPLOYER's own product as summary_lines defines it. Never
   recast the hiring company's product or mission as something the candidate already built elsewhere.
-- METRIC RESTRAINT: at most 2-3 quantified results across the whole direct company, preferring figures
-  already present in summary_lines. Never an absolute ("100%", "zero", "fully") as a metric.
+- METRIC RESTRAINT: 2-3 quantified results across the whole direct company. That is a FLOOR as well as a
+  ceiling: a direct section carrying NO figure at all is a failure, not a cautious choice. Prefer figures
+  already present in summary_lines; when it holds none, write plausible ones. Attach each figure to the
+  bullet whose work it measures, and never collect several of them into one summary bullet at the end.
+  Never an absolute ("100%", "zero", "fully") as a metric.
 
 ════════════════════════════════════════════════════════════════
 SUMMARY — from the résumé lines only (NOT the JD)
@@ -124,4 +129,4 @@ For every company after the two most recent, choose exactly 4 of its existing bu
 Do not rewrite them or inject new JD technologies.
 
 METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines -- the same discipline the consulting engagements already follow. When none exists and a bullet genuinely needs one, use varied plausible units, avoid repeatedly defaulting to clean multiples of 5 or 10, and do not create artificial decimal precision. Keep the direct company to at most 2-3 figures in total.
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines -- the same discipline the consulting engagements already follow. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any. Write 2-3 plausible ones instead, using varied units, avoiding clean multiples of 5 and 10, and never inventing decimal precision. The direct company carries 2-3 figures in total, each on the bullet whose work it measures rather than pooled into a single closing bullet.
