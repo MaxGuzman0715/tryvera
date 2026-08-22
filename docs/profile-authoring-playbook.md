@@ -264,11 +264,21 @@ wrong however well it matches the JD.
 **Both companies at 70–80%, with complementary gaps.** Whatever one cannot host, the other
 carries. A requirement missing from both is the failure. Ties go to the direct company.
 
-**Metrics need a floor, not just a ceiling.** Giving the direct company two ceilings and no
-floor produced sections with **zero** figures where the anchor had none, and four figures
-stacked in one closing bullet where it had four. Target: **2–3 in the direct company, each
-attached to the bullet whose work it measures**; at least one per consulting engagement, never
-reused between them.
+**A global metric count does not bind; a per-bullet rule does.** Two attempts failed here.
+Giving the direct company two ceilings and no floor produced sections with **zero** figures
+where the anchor had none. Adding a floor then produced **1 figure for one profile and 9 for
+another on the same prompt and the same JD** — the rule had no effect in either direction,
+because "2–3 across the whole company" asks the model to hold a running count across eleven
+independently generated bullets, which it will not do. The working form is positional and
+decided up front: **exactly three bullets in the direct company carry a figure and every other
+bullet carries no measured number; exactly one per consulting engagement.** Standard names
+(SOC 2 Type 2, ISO 20022, OAuth2), percentile labels (p95, p99) and version numbers are
+explicitly not metrics, or the rule bans legitimate text.
+
+**Uniformity across profiles is the goal, so the outlier conforms to the group.** When one
+profile's output diverges — 9 metrics against 1, 2 and 3; accounting nouns in a lock company
+when the other three are clean — fix the rule so it produces the same shape everywhere rather
+than tuning that profile.
 
 **Bullet-count expansion drives paraphrase.** Lowering the direct-company quota to 7–9 made
 the model split each source bullet in half — measured 34% verbatim lift, one bullet at 82%.
@@ -289,8 +299,10 @@ was useful once, to find that Rowland's anchor had no document surface at all.
    Rowland's best run hit 4/4 waterCAST module names.
 3. **Foreign-name absence** — grep the direct section for every product/platform name in the
    JD. Any hit is fatal.
-4. **Metric count and placement** — 2–3 in the direct company, spread across bullets, not
-   pooled in a closing line.
+4. **Metric count and placement** — exactly three bullets in the direct company carry a figure,
+   spread through the section, never pooled in a closing line; exactly one per consulting
+   engagement. Compare the count across all profiles generated for the same JD: they should
+   match. A profile that diverges means the rule is not binding, not that the profile is odd.
 5. **Verbatim lift** — n-gram overlap between generated bullets and their source
    `summary_lines`. Above ~30% means the model paraphrased instead of synthesising.
 6. **Cross-profile collision** — diff the consulting sections of any two profiles applying to

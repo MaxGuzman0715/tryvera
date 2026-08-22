@@ -71,11 +71,11 @@ that the direct role could not show gets covered: for each engagement, IMPLEMENT
 responsibilities using its NAMED technologies — actively name the JD's concrete languages, frameworks,
 libraries and tools (e.g. a Go + gRPC backend, or a React + Redux + React Query + custom-hooks front
 end), framed as the work delivered for that client. The industry summary sets the domain; the
-reframed_jd sets the tech, and you MUST surface that tech. Every engagement (not just the company as a
-whole) must carry at least one quantified impact/metric of its own. The engagement summaries describe scale
-and outcome QUALITATIVELY and deliberately carry no figures, so write the numbers yourself: varied units, no
-clean multiples of 5 or 10, no invented decimal precision, and a different figure for each engagement. Never
-reuse a figure across engagements. Open EACH
+reframed_jd sets the tech, and you MUST surface that tech. Give each engagement EXACTLY ONE quantified result, on one bullet of that
+engagement, and write every other bullet in the engagement with no measured number at all. Two engagements
+therefore means two figures in the whole consulting company. The engagement summaries describe scale and
+outcome QUALITATIVELY and carry no figures on purpose, so write those two yourself: varied units, no clean
+multiples of 5 or 10, no invented decimal precision, and never the same figure twice. Open EACH
 engagement's FIRST bullet with a master line naming the client as a startup in its industry, e.g.
 "Built <what> for a <industry>
 startup client, ..." / "Delivered <what> for an <industry> startup client, ...". Use the industry from
@@ -112,11 +112,21 @@ Only these five things are off-limits, because each one reads as invented on sig
   not import the target company's DOMAIN vocabulary into it. Carry over the JD's technology, not its
   industry nouns: a water utility does not have "accounting workflows", a bank does not have "shipment
   routing". Name the capability in the employer's own domain instead.
-- METRIC RESTRAINT: 2-3 quantified results across the whole direct company. That is a FLOOR as well as a
-  ceiling: a direct section carrying NO figure at all is a failure, not a cautious choice. Prefer figures
-  already present in summary_lines; when it holds none, write plausible ones. Attach each figure to the
-  bullet whose work it measures, and never collect several of them into one summary bullet at the end.
-  Never an absolute ("100%", "zero", "fully") as a metric.
+  TEST every domain noun before you use it: would it appear in the EMPLOYER's own marketing? If it names
+  the TARGET company's line of business, it is wrong here however well it matches the JD. "Invoice
+  matching", "dispute triage", "receipt matching" and "month-end close" belong to an accounting product; a
+  door-lock company has credential billing, not accounts payable. Replace the noun with the employer's
+  real equivalent, or drop the bullet.
+- METRIC PLACEMENT: decide WHICH bullets carry a figure BEFORE writing them. Pick exactly THREE of the
+  direct company's bullets, spread through the section, and give each one a single quantified result.
+  Write every other bullet with NO measured number at all. Do not count as you go and do not let a fourth
+  slip in: three bullets carry a figure, the rest carry none.
+  A "measured number" means a result: a percentage, a latency or throughput figure, a count of users or
+  records, an amount of money or time saved. Standard and protocol names (SOC 2 Type 2, ISO 20022, OAuth2,
+  TLS 1.3), percentile labels (p95, p99), version numbers and product names containing digits are NOT
+  metrics and are always allowed anywhere.
+  Prefer figures already present in summary_lines; when it holds none, write plausible ones. Never pool
+  several figures into one bullet, and never use an absolute ("100%", "zero", "fully") as a metric.
 
 ════════════════════════════════════════════════════════════════
 SUMMARY — from the résumé lines only (NOT the JD)
@@ -150,5 +160,5 @@ OUTPUT LENGTH:
 For every company after the two most recent, choose exactly 4 of its existing bullets based on relevance to the target role.
 Do not rewrite them or inject new JD technologies.
 
-METRICS (direct company):
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any. Write 2-3 plausible ones instead, using varied units, avoiding clean multiples of 5 and 10, and never inventing decimal precision. The direct company carries 2-3 figures in total, each on the bullet whose work it measures rather than pooled into a single closing bullet. The consulting company follows its own rule above: at least one self-generated figure per engagement, never reused between them.
+METRICS:
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company, on three separate bullets, and ONE per consulting engagement. Everything else carries no measured number. Use varied units, avoid clean multiples of 5 and 10, and never invent decimal precision.
