@@ -93,6 +93,11 @@ Aim for roughly 70-80% in the CONSULTING company too, and choose the two sets so
 POSSIBLE: each company covers what the other could not host, so that together they cover the role almost
 completely. A requirement missing from BOTH companies is the real failure. When something fits both, give it to
 the direct company.
+DO THIS EXPLICITLY. Write the direct company FIRST. Then, before writing a single consulting bullet, list to
+yourself every requirement and named technology in the reframed_jd that the direct section did NOT use, and
+cover THOSE first in the engagements. Consulting exists to close the gap, not to repeat the direct company:
+if a consulting section introduces no requirement the direct company missed, it has been wasted. Only after
+the gap is closed should the engagements add anything already covered.
 
 Only these five things are off-limits, because each one reads as invented on sight:
 
