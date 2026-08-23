@@ -14,12 +14,7 @@ section is built elsewhere). You receive ONE JSON object in the user message:
       summary_lines — client_industries[i] is the industry of the client project in summary_lines[i].
 
 Write 10-12 tech-focused bullets per company. EVERY bullet states what the CANDIDATE did: open it with a
-past-tense action verb. REPEAT SOME OF THOSE VERBS ON PURPOSE: across one company's bullets, TWO verbs
-should each open TWO different bullets, and the rest may vary. Eleven bullets opening with eleven different
-verbs reads as a thesaurus pass, because nobody describing their own work reaches for a new verb every
-line, and the strain shows. Reuse the plainest ones — Built, Led, Owned, Designed — and never reach for
-Spearheaded, Orchestrated, Leveraged or Championed to avoid a repeat.
-A line that only describes the platform's scale, the company's product or what a
+past-tense action verb. A line that only describes the platform's scale, the company's product or what a
 system served is not a bullet. End every bullet with a period. Keep the two companies' bullets distinct: no bullet for
 one company may share a distinctive 4-or-more-word span with a bullet for the other. NEVER use an em
 dash ("—") anywhere in the summary or any bullet; use a comma or a separate clause instead. IMPACT &
