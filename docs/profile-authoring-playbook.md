@@ -142,6 +142,39 @@ across every application.
 
 **Target: 800–2500 chars. Prefer the low end. Ideas and real product names, not stacks.**
 
+### Why the shortest anchor outperforms the longest ones
+
+Measured on one JD, per profile, anchor size against direct-company coverage:
+
+| anchor | coverage | technologies used | from the JD | from the anchor |
+| --- | --- | --- | --- | --- |
+| **797** deepankar | 67% | 16 | **15** | **1** |
+| 2282 andrew | **81%** | **24** | 13 | 11 |
+| 2422 hansal | 80% | 15 | 7 | 8 |
+| **3432** rowland | **56%** | **11** | 6 | 5 |
+
+Two mechanisms, and the second matters more.
+
+**The bullet budget is fixed at 10–12.** Anchor material and JD material compete for the same
+slots. Every bullet spent restating the anchor is a bullet not spent on what the JD asked
+for. Deepankar's thin anchor doesn't compete, so 15 of his 16 technologies came straight
+from the reframed_jd.
+
+**A short anchor pre-commits nothing.** Deepankar's whole architecture is one causal chain:
+"An admin uses a web portal to grant or revoke access; a user opens a door with the mobile
+app (SMARTair / Openow, HID mobile access); the request travels to cloud services that check
+permissions; and the lock firmware acts on the decision." That gives the model named products
+for identity, a chain of steps to attach work to, and **zero stack commitments**. Any
+technology the JD names can be hung on any step without contradiction.
+
+A long anchor naming ArcGIS Pro, PostGIS, SCADA, glass-box models and SOC 2 Type 2 does the
+opposite: it has already chosen the stack. When the JD wants Go, gRPC and Kafka the model must
+either ignore the anchor or blend awkwardly, and coverage drops — which is exactly what
+rowland's 56% is.
+
+**An anchor should be a stage, not a set.** Deepankar's is a stage with named props. The long
+ones were sets already dressed for a different play.
+
 ### What to put in
 
 1. **The company's own product, platform and module names.** These are what prove the section

@@ -2892,7 +2892,8 @@
     row.innerHTML =
       `<input class="fldqinput" placeholder="New question" />` +
       `<textarea class="fldinput" rows="2" placeholder="Answer — Generate or type"></textarea>` +
-      `<div class="fldacts"><button type="button" class="fldbtn gen">Generate</button><button type="button" class="fldbtn save">＋ Add to Q&amp;A</button></div>`;
+      `<div class="fldacts"><button type="button" class="fldbtn gen">Generate</button><button type="button" class="fldbtn save">＋ Add to Q&amp;A</button>` +
+      `<button type="button" class="fldbtn toprofile" title="Save to this application AND to the profile, so it fills automatically on every future application">＋ Q&amp;A + Profile</button></div>`;
     const qi = row.querySelector(".fldqinput");
     const ta = row.querySelector(".fldinput");
     autosize(ta); ta.addEventListener("input", () => autosize(ta));
@@ -2920,6 +2921,27 @@
         const res = await send("enpplify:saveAppAnswer", { appId: activeAppId, question: q, answer: a });
         if (!res.ok) { setStatus(res.error || "Could not add.", "err"); return; }
         setStatus(`Added "${q}" to this application's Q&A. Press → Profile on the row to reuse it on every application.`, "ok");
+        void renderQA();
+      } finally {
+        btn.disabled = false; btn.textContent = label;
+      }
+    });
+    // Same as above PLUS the profile store. Only a profile answer reappears on
+    // the next application; an app-scoped one never can.
+    row.querySelector(".fldbtn.toprofile").addEventListener("click", async () => {
+      const q = qi.value.trim(); const a = ta.value.trim();
+      if (!q || !a) { setStatus("Enter a question and an answer.", "err"); return; }
+      if (!currentProfileId) { setStatus("No profile selected.", "err"); return; }
+      const btn = row.querySelector(".fldbtn.toprofile");
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = "Saving…";
+      try {
+        if (!activeAppId) { const ok = await ensureQaSlot(); if (!ok) return; }
+        const app = await send("enpplify:saveAppAnswer", { appId: activeAppId, question: q, answer: a });
+        if (!app.ok) { setStatus(app.error || "Could not add to Q&A.", "err"); return; }
+        const prof = await send("enpplify:saveProfileAnswer", { profileId: currentProfileId, question: q, answer: a });
+        if (!prof.ok) { setStatus("Added to Q&A, but not to the profile: " + (prof.error || "failed"), "err"); return; }
+        setStatus("Saved to this application and to the profile. It will fill automatically next time.", "ok");
         void renderQA();
       } finally {
         btn.disabled = false; btn.textContent = label;
