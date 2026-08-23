@@ -71,9 +71,10 @@ that the direct role could not show gets covered: for each engagement, IMPLEMENT
 responsibilities using its NAMED technologies — actively name the JD's concrete languages, frameworks,
 libraries and tools (e.g. a Go + gRPC backend, or a React + Redux + React Query + custom-hooks front
 end), framed as the work delivered for that client. The industry summary sets the domain; the
-reframed_jd sets the tech, and you MUST surface that tech. Give each engagement EXACTLY TWO quantified results, on two separate bullets of
-that engagement, and write every other bullet in the engagement with no measured number at all. Two
-engagements therefore means four figures in the whole consulting company. The engagement summaries describe scale and
+reframed_jd sets the tech, and you MUST surface that tech. Give each engagement EXACTLY THREE quantified results, on three separate bullets
+of that engagement, and write every other bullet in the engagement with no measured number at all. Two
+engagements therefore means six figures in the whole consulting company. Consulting carries more than the
+direct company on purpose: client work is where measurable delivery lives. The engagement summaries describe scale and
 outcome QUALITATIVELY and carry no figures on purpose, so write those two yourself: varied units, no clean
 multiples of 5 or 10, no invented decimal precision, and never the same figure twice. Open EACH
 engagement's FIRST bullet with a master line naming the client as a startup in its industry, e.g.
@@ -236,7 +237,7 @@ For every company after the two most recent, choose exactly 4 of its existing bu
 Do not rewrite them or inject new JD technologies.
 
 METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and TWO per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units and avoid clean multiples of 5 and 10, but write numbers the way an engineer actually
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and THREE per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units and avoid clean multiples of 5 and 10, but write numbers the way an engineer actually
 reports them: at most TWO significant figures, in the unit a human would choose. "1.4M events per minute",
 "under 1.7s", "~27,000 assets", "21,000 documents", "190 ms" are right. "1,373,000 events per minute",
 "1,637ms", "27,413 assets", "2,163,000 daily lookups" and "186 milliseconds" are WRONG: that much precision
