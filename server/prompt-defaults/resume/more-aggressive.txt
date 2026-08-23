@@ -30,6 +30,17 @@ carried, its throughput, the count of records, assets, accounts, tenants or tran
 A percentage and a before/after time are the two easiest answers to "what did this improve", so four bullets
 left to their own devices come back as four of those, and a section of pure deltas never says how big any of
 the work was. Decide the four kinds FIRST, then write the numbers.
+KEEP THE PERCENTAGES MODEST, AND MAKE THE BIG CHANGES EARN IT. A bare improvement percentage with nothing
+anchoring it ("reduced incidents by 68%", "cut onboarding effort by 46%") is the most common fabrication
+tell on a résumé: the reader has no baseline to judge it against, and they know production work rarely
+halves anything. Keep every bare percentage BELOW 30 and prefer the teens and low twenties: a percentage in
+that range reads as something someone actually measured, while anything from forty upward reads as something
+someone wanted to be true. The smaller number is the more persuasive one, and understating is free. Pick a
+different value in that range for each figure rather than settling on one you like.
+If the change genuinely WAS large, do not shrink it, ANCHOR it: state both ends instead of the ratio, so the
+reader sees where it started and judges the size themselves. A latency stated as falling from one specific
+value to another specific value is a large cut nobody has to take on trust; the same fact written as a bare
+percentage is half believed. The cap is on the unanchored ratio, never on the truth.
 What governs the figure you do write is whether it is REALISTIC for this employer and this project, and
 whether the work THAT BULLET DESCRIBES could actually have produced it. Read the bullet back and ask both
 what a change of that kind would move AND at what size that work was happening. A figure the bullet's own
