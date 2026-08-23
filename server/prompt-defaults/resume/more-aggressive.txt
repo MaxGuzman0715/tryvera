@@ -125,7 +125,17 @@ service, Kubernetes with docker-compose orchestration.
 Never name TWO COMPETING tools for the same job in one bullet either. "FastAPI and Django REST
 microservices", "Flask and Express endpoints", "Postgres and MySQL schemas for the same service", "Kafka
 and RabbitMQ event pipelines" all describe a choice nobody makes twice in one system. Pick the one that
-fits the employer and the JD, and give the other its own bullet or leave it out. Before writing a bullet that names two or more
+fits the employer and the JD, and give the other its own bullet or leave it out.
+
+THE FIGURE MUST MEASURE WHAT ITS OWN BULLET DID. Attach each number to the outcome that bullet's verb
+actually produces. A recommendation service moves relevance, click-through or conversion, NOT model
+accuracy or valuation error. A caching or index change moves latency or throughput, NOT prediction quality.
+A migration moves deployment, rollback or remediation time. A retraining pipeline moves model error. If the
+best number you have belongs to different work, put it on THAT work's bullet instead of borrowing it: a
+figure sitting on the wrong bullet reads as a number looking for a home.
+Counting note: a scale figure quoted to give a result its context is part of that one result, not a second
+metric. "held p95 search latency under 1.6s across 270,000 listings" is ONE metric. Two separate claims of
+achievement in one bullet is what to avoid. Before writing a bullet that names two or more
 technologies, check they belong together in the same stack. One mismatch tells a senior reviewer the work
 did not happen, and costs more than a whole missing requirement.
 
