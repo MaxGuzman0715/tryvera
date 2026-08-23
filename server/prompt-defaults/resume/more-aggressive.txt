@@ -197,6 +197,17 @@ Only these five things are off-limits, because each one reads as invented on sig
   records, an amount of money or time saved. Standard and protocol names (SOC 2 Type 2, ISO 20022, OAuth2,
   TLS 1.3), percentile labels (p95, p99), version numbers and product names containing digits are NOT
   metrics and are always allowed anywhere.
+  VARY THE KIND OF MEASUREMENT, not just the value. No two figures in the same company may be the same
+  kind, and a section where every number is a percentage is the single clearest sign a resume was
+  generated. Pick from all of these across a document:
+    - a percentage change ("28% fewer", "cut by 43%")
+    - an absolute latency or duration ("under 180 ms", "p99 at 1.2 s")
+    - a throughput or rate ("4,700 a minute", "90,000 an hour", "2M a day")
+    - a count of real things ("38,000 locks", "900 services", "26,000 assets", "1.4M accounts")
+    - time saved or a window shortened ("a 47-minute window", "from two days to four hours")
+    - a frequency ("weekly releases to several a day", "two incidents a quarter")
+    - money ("$40k a month", "cut spend by a third")
+  A percentage is the laziest of the seven. Reach for it last, not first.
   A VAGUE QUANTIFIER IS NOT A METRIC. "dozens of", "hundreds of", "hundreds of millions of", "thousands of",
   "tens of thousands of" and "hundreds of thousands of lines" do NOT satisfy this rule, even when
   summary_lines phrases the scale that way. Where the anchor hedges the scale, WRITE AN ACTUAL NUMBER for
@@ -237,9 +248,13 @@ For every company after the two most recent, choose exactly 4 of its existing bu
 Do not rewrite them or inject new JD technologies.
 
 METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and THREE per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units and avoid clean multiples of 5 and 10, but write numbers the way an engineer actually
-reports them: at most TWO significant figures, in the unit a human would choose. "1.4M events per minute",
-"under 1.7s", "~27,000 assets", "21,000 documents", "190 ms" are right. "1,373,000 events per minute",
-"1,637ms", "27,413 assets", "2,163,000 daily lookups" and "186 milliseconds" are WRONG: that much precision
-on a remembered figure reads as invented, which is the opposite of what the number is for. Percentages stay
-whole (37%, 22%), never 3.7% or 6.1%, unless the figure was supplied.
+Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and THREE per consulting engagement on separate bullets. Everything else carries no measured number. Write every number the way an engineer would SAY IT OUT LOUD in a standup, and use the full range that
+allows. "About 4,700 a minute", "under 200 ms", "roughly 29,000 assets", "a 47-minute window", "1.4M
+accounts", "from two days to four hours" are all how people talk. "1,373,000 events per minute", "1,637ms",
+"27,413 assets", "2,163,000 daily lookups" and "186 milliseconds" are not: nobody recalls a figure to seven
+digits, so the precision itself reads as invented. Percentages stay whole (37%, 22%), never 3.7% or 6.1%,
+unless the figure was supplied.
+DERIVE THE MAGNITUDE FROM THIS EMPLOYER'S OWN SCALE, as summary_lines describes it. A platform serving
+millions of consumer accounts, a fleet of a few thousand devices, and one utility's network are three
+different numeric worlds, and figures that ignore that are the ones that read as generic. Let the
+employer's size choose the order of magnitude before you choose the digits.
