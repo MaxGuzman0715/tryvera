@@ -175,6 +175,12 @@ using your domain_scores:
   elsewhere makes the resume contradict its own header, which is worse than one weak category: a Staff Data
   Scientist whose skills list no PyTorch, TensorFlow, scikit-learn or model serving reads as mislabeled.
   Trim that category hard if the role does not need it, to its 2-3 strongest entries, but keep it.
+  A GENERATIVE-AI CATEGORY DOES NOT SUBSTITUTE FOR THE ML STACK. "LLMs, RAG, embeddings, LangChain" is not
+  machine learning experience; it is API usage. For any Data Scientist, ML Engineer, MLOps or ML Platform
+  title, the surviving discipline category MUST name actual model frameworks (PyTorch, TensorFlow,
+  scikit-learn, XGBoost) and model-platform tooling (MLflow, model serving, experiment tracking) if the
+  candidate lists them. Keeping only the generative-AI line for an ML title is the failure this rule exists
+  to prevent.
 
 ════════════════════════════════════════════════════════════════
 RARE NICE-TO-HAVES  (shared, single list)

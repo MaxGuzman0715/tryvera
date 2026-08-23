@@ -121,7 +121,11 @@ the gap is closed should the engagements add anything already covered.
 TECHNICAL COHERENCE. Every bullet must be a combination a working engineer would actually ship. Do not
 pair tools from different ecosystems or attach a term to the wrong technology: Django REST with Alembic
 migrations (Django has its own), MySQL with WAL tuning (WAL is PostgreSQL), Django ORM inside a FastAPI
-service, Kubernetes with docker-compose orchestration. Before writing a bullet that names two or more
+service, Kubernetes with docker-compose orchestration.
+Never name TWO COMPETING tools for the same job in one bullet either. "FastAPI and Django REST
+microservices", "Flask and Express endpoints", "Postgres and MySQL schemas for the same service", "Kafka
+and RabbitMQ event pipelines" all describe a choice nobody makes twice in one system. Pick the one that
+fits the employer and the JD, and give the other its own bullet or leave it out. Before writing a bullet that names two or more
 technologies, check they belong together in the same stack. One mismatch tells a senior reviewer the work
 did not happen, and costs more than a whole missing requirement.
 
