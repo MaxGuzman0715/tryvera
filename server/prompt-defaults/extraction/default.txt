@@ -172,9 +172,14 @@ using your domain_scores:
   THIS role. Prioritize languages explicitly required by the JD, then the candidate's strongest
   complementary languages. Frameworks, APIs, databases, and other technologies in the same category
   do NOT count toward this 6-7 programming-language limit.
-- CATEGORY LIMIT: return only the 6-7 most role-relevant skill categories total, never more than 7.
-  Prioritize score-3 categories first, then the strongest score-2 categories. Do not include weaker
-  categories merely to show the candidate's full skill inventory.
+- CATEGORY COUNT: return EXACTLY 7 categories, or all of them when the candidate has fewer than 7. Never
+  more than 7 and never fewer when 7 are available -- 7 is a target to fill, not a ceiling to stay under.
+  Fill the slots strictly by score: every score-3 category first, then score-2 in order, then score-1 only
+  if slots remain. Count the categories you are returning before you finish; stopping at 5 or 6 while a
+  scored category sits unused wastes a slot the candidate paid for.
+  TIE-BREAK. When two categories share a score and only one slot is left, the one that answers a stated
+  QUALIFICATION in the reframed_jd wins, every time. A JD requiring "exposure to large language model
+  tooling" makes the Generative AI category beat an equally-scored category the JD never asks about.
 - NEVER let this limit discard a skill the JD explicitly requires: if a category you are cutting holds an
   always-keep skill, move that skill into the closest surviving category instead of dropping it.
 - NEVER cut the category that IS the candidate's own discipline, whatever its score. Read their title: a
