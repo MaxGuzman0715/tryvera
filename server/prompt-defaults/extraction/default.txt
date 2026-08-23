@@ -163,21 +163,22 @@ using your domain_scores:
       and it costs far more than one low-relevance category costs in space.
 - Float the always-keep skills toward the FRONT of their category, spread naturally (not all bunched
   at the very start).
-- ONLY keep skills the candidate ALREADY lists — NEVER add a skill from the JD that is not in their
-  categorized skills. Keep each category's exact name and its "Category: a, b, c" shape (do NOT bold).
-- ONE NARROW EXCEPTION, and only for REQUIRED items. When the reframed_jd lists a named technology under
-  its Required / must-have section, and the candidate does not list that exact technology BUT does list
-  others from the SAME FAMILY, add it to the category that already holds its siblings.
-  Same family means interchangeable tools for the same job, where someone who has shipped one could
-  credibly claim the other in an interview: React / Angular / Svelte -> Vue, Java / Kotlin -> C#,
-  Postgres <-> MySQL, Terraform -> Pulumi, Datadog / Grafana -> New Relic, RabbitMQ -> Kafka,
-  Hibernate / SQLAlchemy -> Entity Framework.
-  It does NOT mean a neighbouring discipline. A backend engineer who lists no frontend framework at all
-  does not get Vue. Someone who has never run a cloud does not get AWS. Nobody gets a domain they have
-  never worked in. If the candidate has no same-family evidence, LEAVE THE REQUIREMENT UNCOVERED: a gap
-  is recoverable, a claim that collapses in a technical screen is not.
-  Add at most 2-3 of these in total, place them mid-list rather than at the front, and never for a
-  Preferred / nice-to-have item.
+- WHICH SKILLS MAY APPEAR. Two sources, and nothing else.
+  (a) Skills the candidate ALREADY lists in their categorized skills. This is the normal case.
+  (b) SAME-FAMILY ADJACENT skills, for REQUIRED items only. When the reframed_jd names a technology in
+      its Required / must-have section and the candidate does not list that exact one BUT does list
+      others from the same family, add it to the category that already holds its siblings and treat it
+      as ALWAYS-KEEP from that point on, so the score trim and the category cap cannot drop it again.
+      Same family means interchangeable tools for one job, where someone who shipped one could credibly
+      claim the other in an interview: React / Angular / Svelte -> Vue, Java / Kotlin -> C#,
+      Postgres <-> MySQL, Terraform -> Pulumi, Datadog / Grafana -> New Relic, RabbitMQ -> Kafka,
+      Hibernate / SQLAlchemy -> Entity Framework. At most 2-3 in total.
+  Anything else is invention and must not appear. Same family does NOT mean a neighbouring discipline:
+  a backend engineer who lists no frontend framework at all does not get Vue, someone who has never run
+  a cloud does not get AWS, and nobody gets a domain they have never worked in. Never do this for a
+  Preferred / nice-to-have item. With no same-family evidence, LEAVE THE REQUIREMENT UNCOVERED: a gap is
+  recoverable, a claim that collapses in a technical screen is not.
+  Keep each category's exact name and its "Category: a, b, c" shape (do NOT bold).
 - Return `skills` as an array of these category-line strings, in the new order. If the candidate's
   skills are empty or not categorized, return a flat, de-duped list ordered by relevance.
 - SPECIAL LANGUAGE LIMIT: if a category contains programming languages (for example "Languages",
@@ -193,12 +194,6 @@ using your domain_scores:
   TIE-BREAK. When two categories share a score and only one slot is left, the one that answers a stated
   QUALIFICATION in the reframed_jd wins, every time. A JD requiring "exposure to large language model
   tooling" makes the Generative AI category beat an equally-scored category the JD never asks about.
-- FINAL CHECK, before you return `skills`. List the named technologies in the reframed_jd's Required /
-  must-have section. For each one, confirm it appears somewhere in the categories you are returning, OR
-  that the candidate has no same-family evidence for it. A required technology the candidate could
-  credibly claim, missing from the skills section, is the most expensive omission this whole step can
-  make: the skills block is what keyword screening reads first, and a reader who sees a technology in the
-  bullets but not in the skills list reads the bullet as padding.
 - NEVER let this limit discard a skill the JD explicitly requires: if a category you are cutting holds an
   always-keep skill, move that skill into the closest surviving category instead of dropping it.
 - NEVER cut the category that IS the candidate's own discipline, whatever its score. Read their title: a
@@ -213,6 +208,13 @@ using your domain_scores:
   scikit-learn, XGBoost) and model-platform tooling (MLflow, model serving, experiment tracking) if the
   candidate lists them. Keeping only the generative-AI line for an ML title is the failure this rule exists
   to prevent.
+- FINAL CHECK, and do this last, after every rule above has been applied. Write out the named technologies
+  in the reframed_jd's Required / must-have section. Walk that list and confirm each one either appears
+  somewhere in the categories you are about to return, or has no same-family evidence in the candidate's
+  skills. If one is missing and the evidence exists, put it back before returning. A required technology
+  the candidate could credibly claim, absent from the skills section, is the most expensive omission this
+  whole step can make: the skills block is what keyword screening reads first, and a reader who sees a
+  technology in the bullets but not in the skills list reads the bullet as padding.
 
 ════════════════════════════════════════════════════════════════
 RARE NICE-TO-HAVES  (shared, single list)
