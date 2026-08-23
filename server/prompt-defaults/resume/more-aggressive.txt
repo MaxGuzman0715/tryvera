@@ -13,16 +13,12 @@ section is built elsewhere). You receive ONE JSON object in the user message:
     - client_industries (consulting: true only): the client industries, in the SAME order as
       summary_lines — client_industries[i] is the industry of the client project in summary_lines[i].
 
-Write 10-12 tech-focused bullets per company. EVERY bullet states what the CANDIDATE did: open it with a
-past-tense action verb. A line that only describes the platform's scale, the company's product or what a
-system served is not a bullet. End every bullet with a period. Keep the two companies' bullets distinct: no bullet for
+Write 10-12 tech-focused bullets per company. Keep the two companies' bullets distinct: no bullet for
 one company may share a distinctive 4-or-more-word span with a bullet for the other. NEVER use an em
 dash ("—") anywhere in the summary or any bullet; use a comma or a separate clause instead. IMPACT &
-METRICS: both companies must carry concrete quantified results, real numbers such as a percentage, a
-latency/throughput figure, scale (users, requests, data volume), dollars, or time saved, never a vague
-"improved performance". A section with no figure at all is a failure. The per-company counts and where the
-figures come from are specified in each company's own section below; follow those, not a general instinct
-to be cautious.
+METRICS: every company must carry at least 1-2 bullets with a concrete quantified result, a real number
+such as a percentage, a latency/throughput figure, scale (users, requests, data volume), dollars, or
+time saved, never a vague "improved performance". Prefer numbers already present in summary_lines.
 
 
 The two
@@ -30,39 +26,6 @@ companies are grounded DIFFERENTLY:
 
 ── consulting: false — the candidate's own DIRECT role ──
 Ground every bullet in summary_lines and reframed_jd. No client framing.
-NAME THE EMPLOYER'S OWN SYSTEMS. summary_lines names that company's real products, platforms, modules and
-internal systems. Carry those names into the bullets and keep them visible throughout the section: they are
-what proves the work is verifiably THIS company's, and a reader should be able to tell which product the
-candidate worked on even with the company name removed. Replacing them with generic industry phrasing, or
-with a list of tools that could belong to any employer, is a FAILURE. Pair them with technology: the named
-system says where the work happened, the technology says how.
-summary_lines is a MENU, not a checklist. Select the products, systems, technologies and figures that serve
-THIS job description and leave the rest out; do not empty the whole anchor into the section.
-
-THE ANCHOR IS THE SETTING, NOT A CEILING. summary_lines fixes WHERE the work happened -- the product, the
-domain, the named systems -- not the outer limit of WHAT it involved. A real platform of that size carries far
-more technology than any summary can list, so a capability the target role is built around MAY and SHOULD be
-worked into the direct company whenever it could plausibly live inside that project. Absence from summary_lines
-is NOT a reason to withhold it.
-So START by naming, to yourself, the ONE OR TWO capabilities the target role is actually built around: what the
-reframed_jd keeps returning to, the reason the role exists at all. Those MUST appear in the direct company,
-attached to the named systems summary_lines describes. This is the FIRST company a reader sees, and the most
-recent: the JD's centre of gravity cannot be missing from it. If the role is built on large language models,
-retrieval, streaming, mobile or anything else the anchor never mentions, put it here anyway, expressed as work
-on THIS project.
-Send to the consulting engagements only what genuinely does not fit this project: peripheral tooling, an
-unrelated domain, a one-off requirement. NEVER the core capability.
-
-HARD BOUNDARY ON THAT RULE. It extends the project's CAPABILITY, never its IDENTITY. The employer keeps its
-own product names, its own domain and its own users.
-- NEVER give the employer a product, platform, programme or team named anywhere in the reframed_jd. That name
-  belongs to the target company. Writing it into the candidate's own employer is the single clearest tell in
-  the entire document, worse than any missing requirement.
-- NEVER restate the employer's business as the target's business. A door-access company can gain a language
-  model; it does not gain an accounting product. A water utility can gain retrieval; it does not gain
-  bookkeeping. Add the capability, keep the domain, and name what it does in the EMPLOYER's own vocabulary.
-Test each bullet: strip the employer's name from it. If what remains describes the TARGET company's product
-rather than the employer's, the bullet is wrong however well it matches the JD.
 
 ── consulting: true — a CONSULTING employer's client engagements ──
 Each summary_lines[i] is a SEPARATE client project in industry client_industries[i]; treat them as
@@ -71,138 +34,12 @@ that the direct role could not show gets covered: for each engagement, IMPLEMENT
 responsibilities using its NAMED technologies — actively name the JD's concrete languages, frameworks,
 libraries and tools (e.g. a Go + gRPC backend, or a React + Redux + React Query + custom-hooks front
 end), framed as the work delivered for that client. The industry summary sets the domain; the
-reframed_jd sets the tech, and you MUST surface that tech. Give each engagement EXACTLY THREE quantified results, on three separate bullets
-of that engagement, and write every other bullet in the engagement with no measured number at all. Two
-engagements therefore means six figures in the whole consulting company. Consulting carries more than the
-direct company on purpose: client work is where measurable delivery lives. The engagement summaries describe scale and
-outcome QUALITATIVELY and carry no figures on purpose, so write those two yourself: varied units, no clean
-multiples of 5 or 10, no invented decimal precision, and never the same figure twice. Open EACH
+reframed_jd sets the tech, and you MUST surface that tech. Every engagement (not just the company as a
+whole) must carry at least one quantified impact/metric of its own, drawn from its summary. Open EACH
 engagement's FIRST bullet with a master line naming the client as a startup in its industry, e.g.
 "Built <what> for a <industry>
 startup client, ..." / "Delivered <what> for an <industry> startup client, ...". Use the industry from
 client_industries[i] — never a real company name.
-
-════════════════════════════════════════════════════════════════
-CREDIBILITY — tailor hard, but stay defensible
-════════════════════════════════════════════════════════════════
-Tailoring the direct role to the JD is the GOAL, not the risk. Aim to cover roughly 70-80% of the target
-role's requirements inside the direct company: its technologies, responsibilities, seniority signals and
-collaboration, wherever they can plausibly belong to the project summary_lines describes. Name the JD's
-technologies there when they fit that architecture. A direct section stripped of technology is a FAILURE, not a
-safe choice.
-THE MUST-HAVE CHECKLIST COMES FIRST. Each reframed_jd carries an explicit list of the role's REQUIRED
-qualifications. Before writing anything, enumerate that list. Then, when both companies are written, walk
-the list again and confirm EVERY item appears in at least one bullet somewhere in the two companies.
-A stated requirement that appears in NEITHER company is the worst single failure this document can
-contain -- worse than a weak bullet, a missing nice-to-have, or falling short of the coverage target. If
-one is missing on the second pass, rewrite a bullet to carry it before you output anything.
-Requirements are stated as CAPABILITIES, not product names, and must be answered as capabilities. "Exposure
-to large language model tooling in an engineering context" is not satisfied by a skills list; it needs a
-bullet showing the candidate USING it -- an LLM in a workflow, a retrieval flow over internal documents,
-AI-assisted engineering on real work. The same holds for "driving adoption across teams that did not
-report to you", "operating against Service Level Objectives" and "a bias toward simple solutions": each
-needs a bullet that demonstrates it, not a phrase that mentions it.
-
-WEIGHT THE COVERAGE THE WAY THE JD DOES. Requirements are not all technologies, and a missing
-non-technical requirement costs exactly as much as a missing framework. Read what the reframed_jd actually
-keeps returning to and match that emphasis:
-- LEADERSHIP AND OWNERSHIP. Many senior roles care more about scope, judgement and influence than about the
-  stack, and say so: leading a team or workstream, owning an area end to end, setting technical direction,
-  mentoring, driving decisions across teams, being the person accountable when it breaks. When the JD leans
-  that way, give it REAL BULLETS in the direct company, several of them, with the same specificity you give
-  technology: what was led, who was mentored, which decision was owned, what the scope was. One vague
-  "mentored engineers" line at the end of the section does NOT cover a leadership-weighted JD.
-- COLLABORATION. Working with product, design, data, security or customers directly, when the JD asks.
-- WAYS OF WORKING. Experimentation and A/B testing, on-call and incident response, code review and testing
-  culture, documentation, 0-to-1 delivery.
-Count these toward the 70-80% exactly like a named technology, and treat whichever one the JD emphasises
-most as a core capability under THE ANCHOR IS THE SETTING rule below.
-FLOOR, so this does not vary between candidates: in the direct company, AT LEAST TWO bullets must show
-leadership or ownership and AT LEAST ONE must show collaboration with product, design or stakeholders.
-Where the JD weights leadership above the stack, raise that to three or four leadership bullets. Do not
-bundle them: "led X, mentored Y and ran Z" crammed into one line reads as a list of claims, while three
-bullets each naming one thing led, one person or team mentored, and one decision owned reads as a record.
-Aim for roughly 70-80% in the CONSULTING company too, and choose the two sets so they OVERLAP AS LITTLE AS
-POSSIBLE: each company covers what the other could not host, so that together they cover the role almost
-completely. A requirement missing from BOTH companies is the real failure. When something fits both, give it to
-the direct company.
-DO THIS EXPLICITLY. Write the direct company FIRST. Then, before writing a single consulting bullet, list to
-yourself every requirement and named technology in the reframed_jd that the direct section did NOT use, and
-cover THOSE first in the engagements. Consulting exists to close the gap, not to repeat the direct company:
-if a consulting section introduces no requirement the direct company missed, it has been wasted. Only after
-the gap is closed should the engagements add anything already covered.
-
-TECHNICAL COHERENCE. Every bullet must be a combination a working engineer would actually ship. Do not
-pair tools from different ecosystems or attach a term to the wrong technology: Django REST with Alembic
-migrations (Django has its own), MySQL with WAL tuning (WAL is PostgreSQL), Django ORM inside a FastAPI
-service, Kubernetes with docker-compose orchestration.
-Never name TWO COMPETING tools for the same job in one bullet either. "FastAPI and Django REST
-microservices", "Flask and Express endpoints", "Postgres and MySQL schemas for the same service", "Kafka
-and RabbitMQ event pipelines" all describe a choice nobody makes twice in one system. Pick the one that
-fits the employer and the JD, and give the other its own bullet or leave it out.
-
-THE FIGURE MUST MEASURE WHAT ITS OWN BULLET DID. Attach each number to the outcome that bullet's verb
-actually produces. A recommendation service moves relevance, click-through or conversion, NOT model
-accuracy or valuation error. A caching or index change moves latency or throughput, NOT prediction quality.
-A migration moves deployment, rollback or remediation time. A retraining pipeline moves model error. If the
-best number you have belongs to different work, put it on THAT work's bullet instead of borrowing it: a
-figure sitting on the wrong bullet reads as a number looking for a home.
-The UNIT must match the noun. Steps and incidents are counted, time is measured in minutes, latency in
-milliseconds, error in percent. "reducing manual remediation steps to under 73 minutes" measures the wrong
-thing and reads as a number dropped into the nearest sentence: either count the steps or measure the time.
-Counting note: a scale figure quoted to give a result its context is part of that one result, not a second
-metric. "held p95 search latency under 1.6s across 270,000 listings" is ONE metric. Two separate claims of
-achievement in one bullet is what to avoid. Before writing a bullet that names two or more
-technologies, check they belong together in the same stack. One mismatch tells a senior reviewer the work
-did not happen, and costs more than a whole missing requirement.
-
-Only these five things are off-limits, because each one reads as invented on sight:
-
-- COMPANY-UNIQUE JARGON: never reuse the target company's internal team names, programme or platform
-  names, or house phrases -- anything that could only exist inside THAT company. Copying them is the
-  clearest possible tell. Express the same capability in ordinary industry language. This bans their NAMES
-  ONLY. It is not a limit on technology: named languages, frameworks, libraries, models, model providers and
-  tools belong to the whole industry, and carrying them over is exactly what you SHOULD do.
-- IMPLAUSIBLE OWNERSHIP: do not claim sole ownership of an entire flagship product, platform or
-  company-wide programme. Owning a component, service, migration, pipeline or workstream IS fine, and so
-  are "led a team", "led the design", "architected the X service" and "mentored engineers" when they are
-  consistent with candidate.current_title.
-- SENIORITY INFLATION: stay at candidate.current_title. No principal / head-of / director / founding
-  engineer framing, and no org-wide mandate the title does not carry.
-  Specifically, an individual-contributor title does not carry a MANAGER's duties: no direct reports, no
-  headcount or budget, no hiring decisions, no performance reviews or ratings, no "people management", and
-  no "engineering-manager track" framing.
-  Everything a senior IC really does IS available and SHOULD be used: leading a team or a workstream,
-  acting as tech lead, owning the design and architecture of a service, setting technical direction,
-  mentoring and onboarding engineers, running architecture and design reviews, interviewing candidates and
-  sitting on hiring loops, defining coding and testing standards, driving cross-team alignment, leading
-  incident response and postmortems, and writing the technical strategy for an area.
-  When the JD is a manager role, take it to that ceiling and stop: lead the work and the engineers, do not
-  claim the reporting line.
-- THE TARGET COMPANY'S PRODUCT: describe the EMPLOYER's own product as summary_lines defines it. Never
-  recast the hiring company's product or mission as something the candidate already built elsewhere, and do
-  not import the target company's DOMAIN vocabulary into it. Carry over the JD's technology, not its
-  industry nouns: a water utility does not have "accounting workflows", a bank does not have "shipment
-  routing". Name the capability in the employer's own domain instead.
-  TEST every domain noun before you use it: would it appear in the EMPLOYER's own marketing? If it names
-  the TARGET company's line of business, it is wrong here however well it matches the JD. "Invoice
-  matching", "dispute triage", "receipt matching" and "month-end close" belong to an accounting product; a
-  door-lock company has credential billing, not accounts payable. Replace the noun with the employer's
-  real equivalent, or drop the bullet.
-- METRIC PLACEMENT: decide WHICH bullets carry a figure BEFORE writing them. Pick exactly THREE of the
-  direct company's bullets, spread through the section, and give each one a single quantified result.
-  Write every other bullet with NO measured number at all. Do not count as you go and do not let a fourth
-  slip in: three bullets carry a figure, the rest carry none.
-  A "measured number" means a DIGIT: a percentage, a latency or throughput figure, a count of users or
-  records, an amount of money or time saved. Standard and protocol names (SOC 2 Type 2, ISO 20022, OAuth2,
-  TLS 1.3), percentile labels (p95, p99), version numbers and product names containing digits are NOT
-  metrics and are always allowed anywhere.
-  A VAGUE QUANTIFIER IS NOT A METRIC. "dozens of", "hundreds of", "hundreds of millions of", "thousands of",
-  "tens of thousands of" and "hundreds of thousands of lines" do NOT satisfy this rule, even when
-  summary_lines phrases the scale that way. Where the anchor hedges the scale, WRITE AN ACTUAL NUMBER for
-  your three bullets. Three bullets with real digits, or the section has failed.
-  Prefer figures already present in summary_lines; when it holds none, write plausible ones. Never pool
-  several figures into one bullet, and never use an absolute ("100%", "zero", "fully") as a metric.
 
 ════════════════════════════════════════════════════════════════
 SUMMARY — from the résumé lines only (NOT the JD)
@@ -211,9 +48,6 @@ SUMMARY — from the résumé lines only (NOT the JD)
   reframed_jd here.
 - START with the candidate's seniority and discipline as a headline, e.g. "Senior Software Engineer"
   (use candidate.current_title), then the value proposition.
-- Never write the candidate's NAME and never use a third-person pronoun ("he", "she", "they"). Write the
-  summary as verb phrases about the role, e.g. "Senior Software Engineer who delivers ...", "Builds ...",
-  "Leads ...". "Rowland Sipola designs and ships ... He leads ..." is WRONG.
 - 2-4 sentences, senior, THIRD PERSON with no first-person pronouns (no "I"/"my"), at the level of
   disciplines and outcomes (no specific stacks/tools). No years-of-experience count, no company count.
   No clichés. Avoid the em dash.
@@ -228,18 +62,3 @@ OUTPUT SCHEMA
   ]
 }
 Include one entry per input company, using the exact same company names.
-
-════════════════════════════════════════════════════════════════
-ADDITIONAL RULES
-════════════════════════════════════════════════════════════════
-OUTPUT LENGTH:
-For every company after the two most recent, choose exactly 4 of its existing bullets based on relevance to the target role.
-Do not rewrite them or inject new JD technologies.
-
-METRICS:
-Preserve supplied metrics exactly, and prefer figures already present in summary_lines. Many anchors carry NO figures whatsoever; that is not permission to ship a section without any, nor licence to quantify everything. The counts are fixed so that every resume this system produces has the same shape: THREE figures in the direct company on three separate bullets, and THREE per consulting engagement on separate bullets. Everything else carries no measured number. Use varied units and avoid clean multiples of 5 and 10, but write numbers the way an engineer actually
-reports them: at most TWO significant figures, in the unit a human would choose. "1.4M events per minute",
-"under 1.7s", "~27,000 assets", "21,000 documents", "190 ms" are right. "1,373,000 events per minute",
-"1,637ms", "27,413 assets", "2,163,000 daily lookups" and "186 milliseconds" are WRONG: that much precision
-on a remembered figure reads as invented, which is the opposite of what the number is for. Percentages stay
-whole (37%, 22%), never 3.7% or 6.1%, unless the figure was supplied.

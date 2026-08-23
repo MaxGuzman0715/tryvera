@@ -2,44 +2,37 @@
   "id": "rowland_sipola",
   "basic": {
     "fullName": "Rowland Sipola",
-    "title": "Senior Software Engineer",
-    "email": "rowland.s24123@outlook.com",
-    "phone": "+1 (631) 320-5313",
-    "location": "West Islip, NY | Remote",
-    "summary": "Senior software engineer building production systems across distributed backend services, data-intensive applications, machine learning, cloud platforms, and user-facing products. Work spans search and ranking, predictive analytics, NLP, real-time data pipelines, APIs, interactive web applications, and the infrastructure needed to operate them reliably at scale. Currently focused on AI-enabled software for utility planning and operations, combining product engineering, geospatial and time-series data, predictive models, cloud-native services, and production observability.",
+    "title": "Senior DevSecOps Engineer / Site Reliability Engineer",
+    "email": "fdern10@gmail.com",
+    "location": "West Islip, NY | Remote or Hybrid",
+    "summary": "Senior Cloud Security & Platform Architect designing, securing, and operating production-grade infrastructure across Azure, AWS, GCP, and DigitalOcean. Builds multi-region Kubernetes platforms, secure-by-default golden paths, DevSecOps controls (SAST, DAST, secrets scanning, SBOM, policy-as-code, and supply-chain security), cloud-native observability, and SLO frameworks. Proven impact includes MTTR reduction, 40%+ lower security and audit effort, 25-30% cloud spend reduction, and 99.9% uptime across mission-critical workloads. Microsoft, AWS, and Google certified; experienced leading platform and security initiatives across 20+ engineers and translating SOC 2, ISO 27001, CIS, NIST, and OWASP into engineering practice.",
     "linkedin": "https://www.linkedin.com/in/rowland-s-8681544/"
   },
   "experience": [
     {
-      "company": "Trinnex",
-      "title": "Senior Software Engineer",
-      "startDate": "Aug 2024",
-      "endDate": "Present",
-      "bullets": [
-        "Built product and platform capabilities across Trinnex's waterCAST digital-water ecosystem and Capacity Planner, helping utility teams analyze network conditions, evaluate capacity constraints, and plan future infrastructure scenarios through cloud-based software.",
-        "Developed the application and service architecture connecting GIS, hydraulic-model, asset, operational, sensor, and historical information into interactive analytical and planning workflows used by utility engineers.",
-        "Extended the platform with predictive and data-driven capabilities for forecasting, anomaly detection, infrastructure risk, scenario analysis, and decision support while keeping analytical outputs integrated directly into normal product workflows.",
-        "Led production engineering across application, backend, data, AI/ML, and cloud concerns, including system design, performance, reliability, observability, deployment practices, architecture reviews, and technical mentoring."
-      ],
-      "paragraphs": [],
-      "notes": "waterCAST and Capacity Planner are used as the Trinnex project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified. The role is intentionally positioned as broad production software engineering with AI/ML, data, product, and cloud depth rather than as a DevOps-only role.",
-      "location": "Remote"
-    },
-    {
       "company": "Deloitte",
       "location": "New York, NY",
-      "title": "Senior Software Engineer",
+      "title": "Senior DevSecOps Engineer | Site Reliability Engineer",
       "startDate": "Nov 2019",
-      "endDate": "Jul 2024",
+      "endDate": "Present",
       "bullets": [
-        "Delivered production software and data-intensive systems for enterprise clients across regulated and high-scale environments, owning architecture from application and API design through cloud deployment and operational handoff.",
-        "Built distributed backend services, data pipelines, and integration layers in Python, Java, Go, and cloud-native environments, replacing tightly coupled client systems with independently deployable services.",
-        "Applied machine learning, NLP, forecasting, and analytical modeling to client workflows where predictive or automated decision support replaced manual review and rules-based processing.",
-        "Led technical design and delivery across application, data, AI, and platform teams, translating business constraints into scalable systems with measurable reliability, security, and operational requirements."
+        "Architected a secure-by-default platform integrating SAST, DAST, secrets scanning, SBOM generation, dependency scanning, and IaC scanning into CI/CD across Azure and DigitalOcean; reduced critical pre-production vulnerabilities ~70% and production critical vulnerabilities ~50%.",
+        "Automated continuous compliance for SOC 2 and ISO 27001 with Azure Defender, Orca, and Drata; cut manual audit-preparation effort 40%+ and improved compliance readiness.",
+        "Hardened cloud baselines against CIS benchmarks using private endpoints, Azure Policy, and just-in-time access; reduced public-internet attack surface ~60%.",
+        "Drove shift-left training and PR-gated review workflows across 4 engineering teams; halved repeat findings quarter-over-quarter.",
+        "Designed an enterprise multi-region Kubernetes platform with GitOps delivery, zero-trust networking, observability-by-default, disaster-recovery controls, DR runbooks, RPO/RTO targets, encryption at rest/in transit, and private networking.",
+        "Built a cloud-native observability platform for 50+ microservices on multi-region AKS; reduced MTTR ~40% and improved on-call efficiency.",
+        "Established SLOs, SLAs, and error-budget policies adopted by 6 engineering teams; lowered customer-impacting incidents ~35% quarter-over-quarter.",
+        "Mentored 10+ engineers in chaos engineering, on-call hygiene, and runbook authoring to improve reliability practices and delivery velocity.",
+        "Led AWS-to-Azure migration for multi-region Kubernetes workloads; standardized IaC, observability, and security policy while cutting cloud spend ~25%.",
+        "Designed centralized monitoring with auto-remediation, eliminating ~80% of recurring alert toil and freeing engineering capacity for feature delivery.",
+        "Established secure baseline configurations and policy-as-code guardrails using OPA / Sentinel patterns to enable self-service infrastructure for product teams.",
+        "Led DevOps function and platform roadmap; rebuilt CI/CD across 8 services, achieving 2x deployment frequency and ~60% reduction in failed deployments.",
+        "Integrated IoT, blockchain, and security initiatives into hardened DevOps workflows aligned with product strategy.",
+        "Optimized AWS infrastructure for cost and scale, reducing monthly spend ~30% through right-sizing and reserved instance strategy.",
+        "Automated operational tasks with Python and Bash, eliminating 15+ hours per week of manual work and accelerating deployment cycles from weekly to multiple times daily."
       ],
-      "paragraphs": [],
-      "consulting": true,
-      "notes": "Consulting role intentionally kept broad. JD-specific client engagements are generated dynamically from shared.json and Variation B rather than permanently fixing Deloitte to one technology or industry story."
+      "paragraphs": []
     },
     {
       "company": "Tellic",
@@ -48,10 +41,11 @@
       "startDate": "Jan 2018",
       "endDate": "Jun 2019",
       "bullets": [
-        "Built backend services for a biomedical knowledge-discovery platform that turned scientific literature into searchable evidence for pharmaceutical and biotech research teams.",
-        "Developed NLP pipelines for biomedical entity and relationship extraction, converting unstructured research text into structured gene, disease, target, and evidence records.",
-        "Implemented search and ranking workflows over extracted biomedical evidence, improving the path from a broad scientific query to the most relevant supporting literature.",
-        "Built data-processing pipelines that normalized and enriched large document collections before NLP inference, reducing malformed records and inconsistent downstream features."
+        "Managed and hardened Linux (Ubuntu / CentOS) fleets of web, mail, and messaging servers while maintaining 99.9% uptime across production services.",
+        "Deployed OpenVPN gateways, iptables firewalls, and Snort IDS/IPS to reduce external intrusion attempts within six months.",
+        "Containerized internal services with Docker and automated deployments with Ansible, reducing environment setup from days to hours per service.",
+        "Built an automated patch pipeline using Bash, Ansible, and cron, bringing servers to CVE compliance within 72 hours of critical releases.",
+        "Centralized log aggregation with ELK (Elasticsearch, Logstash, Kibana), reducing time to detect security anomalies from days to hours."
       ],
       "paragraphs": []
     },
@@ -60,44 +54,96 @@
       "location": "Sunnyvale, CA",
       "title": "Senior Software Engineer",
       "startDate": "Jul 2014",
-      "endDate": "Dec 2017",
+      "endDate": "Jul 2016",
       "bullets": [
-        "Built backend and data services supporting Zillow's property-search and valuation experiences, serving model-derived housing information across high-traffic consumer surfaces.",
-        "Implemented production serving paths for automated valuation outputs, separating expensive model computation from latency-sensitive consumer requests through precomputation, caching, and asynchronous refresh.",
-        "Built event-driven processing for new and updated listings so property changes reached downstream search, analytics, and predictive systems without waiting for full batch reloads.",
-        "Optimized high-volume service and database access paths through indexing, caching, profiling, and query redesign, reducing tail latency on property and search requests."
+        "Built a self-service deployment platform using Python, Jenkins, and EC2 for 60+ engineers; reduced environment provisioning from days to hours and lowered platform support load.",
+        "Migrated core services from bare-metal EC2 to Docker and ECS, accelerating releases from bi-weekly to daily and eliminating environment parity bugs.",
+        "Centralized secrets management with AWS KMS and supported SOC 2 Type I compliance readiness.",
+        "Built a real-time property listing pipeline using Kafka, Python, and PostgreSQL, supporting 99.9% uptime and same-day data freshness for Zillow's core search product.",
+        "Optimized PostgreSQL queries across high-traffic services using indexing and EXPLAIN ANALYZE, reducing API p99 latency and monthly RDS spend.",
+        "Introduced Terraform for AWS IaC, mentored mid-level engineers, and reduced manual provisioning errors."
       ],
       "paragraphs": []
     },
     {
       "company": "Google",
       "location": "Cambridge, MA",
-      "title": "Software Engineer",
+      "title": "Senior Software Engineer",
       "startDate": "Aug 2013",
       "endDate": "Jul 2014",
       "bullets": [
-        "Built distributed components in the Google Search serving path, supporting retrieval and ranking of candidate results under interactive latency requirements at global request scale.",
-        "Developed large-scale MapReduce and Flume pipelines over search and web data used to refresh indexes and derive signals for retrieval and ranking workflows.",
-        "Optimized latency-sensitive RPC and data-access paths, diagnosing tail-latency regressions that propagated across dependent Search services.",
-        "Refined Borgmon alerting and failure detection for tier-1 services, reducing noisy pages and making genuine serving regressions easier for on-call engineers to isolate."
+        "Built data pipeline components for Google Search indexing using MapReduce and Flume, supporting sub-second document freshness SLOs at petabyte scale.",
+        "Rewrote flapping-detection logic in the Borgmon monitoring framework, reducing false-positive on-call pages.",
+        "Tuned Borg job scheduling for a tier-1 serving cluster, improving CPU utilization and freeing compute capacity for reallocation.",
+        "Fixed critical p99 latency regressions in an internal Go RPC library used by 12+ services; shipped with full unit and integration test coverage.",
+        "Owned Search backend on-call using Oncall and Buganizer; authored postmortems that eliminated recurrence of top incident classes within one quarter."
       ],
       "paragraphs": []
     }
   ],
   "skills": [
-    "Languages & Backend: Python, Java, Go, C++, C#, .NET, Rust, TypeScript, JavaScript, SQL, Bash, Ruby, PHP, FastAPI, Django, Flask, Spring Boot, ASP.NET Core, Entity Framework Core, Node.js, NestJS, REST, GraphQL, gRPC, WebSockets",
-    "Frontend & Product Engineering: React, Next.js, Angular, Vue, Svelte, TypeScript, JavaScript, HTML/CSS, state management, interactive dashboards, geospatial interfaces and data visualization",
-    "Mobile Engineering: React Native, Flutter, Swift, Objective-C, Kotlin and offline synchronization",
-    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, XGBoost, Hugging Face Transformers, ranking and recommendation systems, NLP, forecasting, anomaly detection, predictive modeling, classification, feature engineering, model evaluation and experimentation",
-    "Generative & Agentic AI: LLMs, RAG, embeddings, vector search, hybrid retrieval, reranking, semantic search, LangChain, LangGraph, LlamaIndex, MCP, agentic systems, tool use, prompt engineering, grounding, fine-tuning, evaluation and guardrails",
-    "Data Engineering & Analytics: Kafka, Spark, Flink, Airflow, Databricks, dbt, Snowflake, BigQuery, ETL/ELT, batch and streaming pipelines, geospatial data, time-series data and feature pipelines",
-    "Databases, Search & Geospatial: PostgreSQL, PostGIS, MySQL, SQL Server, MongoDB, DynamoDB, Cassandra, Redis, Elasticsearch/OpenSearch, Neo4j, TimescaleDB, vector databases, ArcGIS, GeoPandas, GDAL, indexing and query optimization",
-    "Cloud & Platform: AWS, Azure, GCP, Kubernetes, Docker, Terraform, Helm, Azure DevOps, GitHub Actions, GitLab CI, Jenkins, Argo CD, serverless computing and infrastructure as code",
-    "MLOps & Model Systems: MLflow, Kubeflow, ONNX, model serving, experiment tracking, model registries, feature pipelines, batch and real-time inference, model monitoring and drift detection",
-    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing and SLOs/SLAs",
-    "Security & Identity: OAuth2, OIDC, JWT, RBAC, secrets management, encryption, least privilege, OWASP practices, dependency scanning, audit logging and threat modeling",
-    "Architecture & Distributed Systems: Microservices, event-driven architecture, domain-driven design, asynchronous processing, concurrency, distributed systems, caching, API design, messaging and high availability",
-    "Testing & Engineering Practices: Git, unit/integration/end-to-end testing, TDD, mocking, contract testing, load testing and performance testing"
+    "AWS",
+    "Azure",
+    "GCP",
+    "DigitalOcean",
+    "Multi-region HA",
+    "DR / RPO & RTO",
+    "microservices",
+    "zero trust",
+    "landing zones",
+    "internal developer platform",
+    "golden paths",
+    "secure-by-default workflows",
+    "self-service infrastructure",
+    "developer experience",
+    "governance automation",
+    "Terraform",
+    "Azure Bicep",
+    "AWS CloudFormation",
+    "Ansible",
+    "Kubernetes",
+    "AKS",
+    "EKS",
+    "Docker",
+    "Helm",
+    "ArgoCD",
+    "GitHub Actions",
+    "Azure DevOps",
+    "GitLab CI",
+    "Jenkins",
+    "SAST",
+    "DAST",
+    "SBOM",
+    "supply-chain security",
+    "Azure Defender",
+    "Orca",
+    "Drata",
+    "runtime security",
+    "secrets scanning",
+    "SOC 2",
+    "ISO 27001",
+    "CIS",
+    "NIST",
+    "OWASP",
+    "IAM hardening",
+    "Prometheus",
+    "Grafana",
+    "Azure Monitor",
+    "Log Analytics",
+    "OpenTelemetry",
+    "PagerDuty",
+    "distributed tracing",
+    "Python",
+    "Go",
+    "Bash",
+    "PowerShell",
+    "SRE",
+    "DevSecOps",
+    "platform engineering",
+    "SLO/SLA design",
+    "incident management",
+    "chaos engineering",
+    "FinOps"
   ],
   "education": [
     {
@@ -114,6 +160,5 @@
       "startDate": "Apr 2008",
       "endDate": "May 2011"
     }
-  ],
-  "note": "Final Rowland universal-corpus design. The source profile remains broad Senior Software Engineering rather than DevOps-first. Trinnex retains the complete 69-selector Deepankar baseline and adds 38 current-market/Rowland-relevant selectors for 107 selector families and 535 hidden bullets, all constrained to the waterCAST + Capacity Planner product universe. Deloitte retains the same universal baseline plus the applicable additions for 106 selector families and 530 hidden bullets; MCP is omitted there for tenure chronology. For Deloitte, no technology selector owns a client vertical: projects/shared.json selects the JD-relevant anonymized client engagement(s), while the hidden corpus contributes reusable technical implementation depth, debugging/performance texture, reliability/security/data controls, testing, observability, and production handoff patterns. Older Tellic, Zillow, and Google roles remain fixed. Candidate-specific implementations and quantitative impacts are synthetic/inferred resume-generation material unless independently verified before live use."
+  ]
 }
