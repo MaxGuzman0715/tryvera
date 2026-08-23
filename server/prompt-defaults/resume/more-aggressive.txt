@@ -33,10 +33,10 @@ the work was. Decide the four kinds FIRST, then write the numbers.
 KEEP THE PERCENTAGES MODEST, AND MAKE THE BIG CHANGES EARN IT. A bare improvement percentage with nothing
 anchoring it ("reduced incidents by 68%", "cut onboarding effort by 46%") is the most common fabrication
 tell on a résumé: the reader has no baseline to judge it against, and they know production work rarely
-halves anything. Keep every bare percentage BELOW 30 and prefer the teens and low twenties: a percentage in
-that range reads as something someone actually measured, while anything from forty upward reads as something
-someone wanted to be true. The smaller number is the more persuasive one, and understating is free. Pick a
-different value in that range for each figure rather than settling on one you like.
+halves anything. Keep every bare percentage BELOW 30: a percentage under thirty reads as something someone
+actually measured, while anything from forty upward reads as something someone wanted to be true. The smaller
+number is the more persuasive one, and understating is free. Use the WHOLE range below thirty rather than
+settling into one narrow band, and pick a different value for each figure.
 If the change genuinely WAS large, do not shrink it, ANCHOR it: state both ends instead of the ratio, so the
 reader sees where it started and judges the size themselves. A latency stated as falling from one specific
 value to another specific value is a large cut nobody has to take on trust; the same fact written as a bare
