@@ -3,18 +3,19 @@
   "basic": {
     "fullName": "Rhazel Anne Galura",
     "title": "Senior Fullstack AI Engineer",
+    "phone": "+63 977 683 4472",
     "email": "galurarhazel7@gmail.com",
-    "location": "Philippines (GMT+8) | Remote / Distributed Teams",
+    "location": "Angeles City, Pampanga, Philippines(GMT+8) | Remote ",
     "linkedin": "https://www.linkedin.com/in/rhazel-g-7127013b9/",
     "summary": "Hands-on AI fullstack engineer who builds AI products that actually ship. Six-plus years turning messy data, product ideas, and business needs into production-ready AI systems for US/EU enterprises and early-stage startups, across backend services, APIs, data pipelines, LLM and agent workflows, model deployment, and production reliability, with a focus on regulated domains like healthcare and finance."
   },
   "experience": [
     {
-      "company": "QTX / Accenture",
+      "company": "QTX Group",
       "location": "Remote",
-      "title": "Senior AI Fullstack Engineer / Azure Fabric Engineer",
-      "startDate": "Oct 2025",
-      "endDate": "Jun 2026",
+      "title": "Senior AI Fullstack Engineer / Azure AI / Fabric Engineer",
+      "startDate": "Feb 2026",
+      "endDate": "Present",
       "bullets": [
         "Built a production-grade GenAI assistant PoC for BaptistCare (Australian aged care): a RAG system over clinical and policy documents on Azure OpenAI and Azure AI Search, with a FastAPI backend and a streaming React/Next.js UI.",
         "Designed the document-intelligence pipeline (Azure Document Intelligence, semantic chunking, embeddings, hybrid retrieval) and an evaluation framework measuring retrieval recall, answer faithfulness, and latency.",
@@ -27,8 +28,8 @@
       "company": "Accenture",
       "location": "Remote",
       "title": "Senior AI Fullstack Engineer",
-      "startDate": "Jan 2020",
-      "endDate": "Jun 2026",
+      "startDate": "Mar 2021",
+      "endDate": "Jan 2026",
       "bullets": [
         "Led production ML/AI systems for a Fortune 500 US financial-services client, improving fraud detection accuracy by +18%.",
         "Built and deployed LLM applications (chat assistants, document QA) using fine-tuned models and RAG pipelines, plus agent-based workflows for enterprise automation.",

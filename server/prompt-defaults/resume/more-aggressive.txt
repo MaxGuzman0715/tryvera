@@ -20,9 +20,12 @@ one company may share a distinctive 4-or-more-word span with a bullet for the ot
 dash ("—") anywhere in the summary or any bullet; use a comma or a separate clause instead. IMPACT &
 METRICS: both companies must carry concrete quantified results, real numbers such as a percentage, a
 latency/throughput figure, scale (users, requests, data volume), dollars, or time saved, never a vague
-"improved performance". Quantify wherever the work genuinely produced a result worth measuring, and do not
-ration figures to hit a count. What governs a figure is whether it is REALISTIC for this employer and this
-project, never how many others are already on the page. Prefer numbers already present in summary_lines.
+"improved performance". Choose exactly FIVE of this company's bullets, spread through the section rather than
+clustered at the top, and give each ONE measured result. Every OTHER bullet carries no figure at all. A
+before/after pair ("from 1,800 ms to 420 ms") is ONE result stated twice, not two, and is the most credible
+form; a bullet that states a count AND a share AND an improvement is three claims pooled into one and is
+wrong. What governs the figure you do write is whether it is REALISTIC for this employer and this project.
+Prefer numbers already present in summary_lines.
 
 
 The two
@@ -71,8 +74,8 @@ that the direct role could not show gets covered: for each engagement, IMPLEMENT
 responsibilities using its NAMED technologies — actively name the JD's concrete languages, frameworks,
 libraries and tools (e.g. a Go + gRPC backend, or a React + Redux + React Query + custom-hooks front
 end), framed as the work delivered for that client. The industry summary sets the domain; the
-reframed_jd sets the tech, and you MUST surface that tech. Every engagement must carry quantified impact of its own, not just the
-company as a whole. The engagement summaries describe scale and outcome QUALITATIVELY and carry no figures
+reframed_jd sets the tech, and you MUST surface that tech. Spread this company's FIVE quantified bullets across its engagements so
+that EACH engagement carries at least two. The engagement summaries describe scale and outcome QUALITATIVELY and carry no figures
 on purpose, so write the numbers yourself, sized to what that client's work would actually have produced:
 a startup's traffic, team and data volumes are not an enterprise's. Vary the units, avoid defaulting to
 clean multiples of 5 or 10, and never repeat a figure between engagements. Open EACH
@@ -191,8 +194,11 @@ Only these five things are off-limits, because each one reads as invented on sig
   to that system would actually move. A platform serving millions of consumer accounts, a fleet of a few
   thousand devices and one utility's network are three different numeric worlds, and a figure that ignores
   which one it is in reads as generic no matter how precise it looks.
-  Quantify wherever the work produced a result worth measuring. Do not stop at a quota and do not force a
-  number onto a bullet that did not produce one.
+  FIVE quantified bullets per company. Not six, not eleven. The bullets you leave unquantified are not the
+  weaker ones, they are the reason the five that carry a number get believed: no real engineer measured every
+  single thing they did, so a section where every bullet ends in a percentage reads as invented however
+  plausible each individual figure looks. Choose the five whose results a hiring manager would actually ask
+  about, write the rest on their substance alone, and never force a number onto a bullet that produced none.
   A VAGUE QUANTIFIER IS NOT A METRIC. "dozens of", "hundreds of", "thousands of" and "hundreds of millions
   of" do not count, even when summary_lines phrases the scale that way: where the anchor hedges, write an
   actual number.
@@ -238,3 +244,5 @@ Preserve supplied metrics exactly. Many anchors carry NO figures whatsoever; tha
 a section without any. Where none exists, write your own, sized to this employer and this project. Use
 varied units, avoid repeatedly defaulting to clean multiples of 5 or 10, and do not invent decimal
 precision on a figure nobody would recall that way.
+COUNT THEM BEFORE YOU RETURN: exactly five bullets carry a figure in the most recent company and exactly
+five in the one before it. If a sixth carries one, delete that figure and keep the bullet's substance.
