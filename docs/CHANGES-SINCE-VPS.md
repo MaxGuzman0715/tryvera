@@ -166,7 +166,11 @@ it was being over-read as "don't import the JD's stack".
 `shared.json` are shared infrastructure.
 
 ### shared.json
-**All 34 hard figures removed across all 13 engagements.** `64%`, `3,100`, `1.5M+`, `1M+`,
+**All 34 hard figures removed across all 13 engagements.** Traced afterwards to commit
+`4da29cb "Consulting Profile Number"`, which **added** them: at the initial commit only
+fintech and media carried figures and the other ten engagements had none. So removing
+them restored the original design rather than inventing a new one. An earlier version of
+this file claimed the figures were original — that was wrong. `64%`, `3,100`, `1.5M+`, `1M+`,
 `12 languages`, `8,000+`, `90M+`, `340k`, `12M-SKU`, `380 ms`, `300 ms`, `3.7M` and the rest are
 now qualitative. The prompt writes its own per run, so they differ between profiles.
 

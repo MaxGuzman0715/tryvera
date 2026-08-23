@@ -142,6 +142,15 @@ across every application.
 
 **Target: 800–2500 chars. Prefer the low end. Ideas and real product names, not stacks.**
 
+**REQUIRED: one scale clause.** Name the order of magnitude the employer operates at —
+"millions of client accounts", "tens of thousands of service lines per utility",
+"thousands of employees over tens of thousands of documents". This is a company fact, not
+an achievement, and the prompt's vague-quantifier rule stops it being claimed as a
+result. Without it the model has no per-employer numeric basis and falls back to a
+generic default: three profiles independently produced "190 ms" on one JD when the
+anchors carried no scale at all. It costs one sentence and it is the only per-profile
+work needed to keep invented figures distinct.
+
 ### Why the shortest anchor outperforms the longest ones
 
 Measured on one JD, per profile, anchor size against direct-company coverage:
@@ -296,6 +305,11 @@ wrong however well it matches the JD.
 
 **Both companies at 70–80%, with complementary gaps.** Whatever one cannot host, the other
 carries. A requirement missing from both is the failure. Ties go to the direct company.
+
+**SUPERSEDED 2026-08-23 — see `SESSION-STATE.md` §4.** The whole counting apparatus was
+removed. Metrics are now governed by one test, "realistic for this employer and this
+project", with no count, ceiling or placement rule. The history below is kept because it
+records what was tried and why each attempt failed.
 
 **A global metric count does not bind; a per-bullet rule does.** Two attempts failed here.
 Giving the direct company two ceilings and no floor produced sections with **zero** figures
