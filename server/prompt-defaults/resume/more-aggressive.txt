@@ -89,6 +89,19 @@ role's requirements inside the direct company: its technologies, responsibilitie
 collaboration, wherever they can plausibly belong to the project summary_lines describes. Name the JD's
 technologies there when they fit that architecture. A direct section stripped of technology is a FAILURE, not a
 safe choice.
+THE MUST-HAVE CHECKLIST COMES FIRST. Each reframed_jd carries an explicit list of the role's REQUIRED
+qualifications. Before writing anything, enumerate that list. Then, when both companies are written, walk
+the list again and confirm EVERY item appears in at least one bullet somewhere in the two companies.
+A stated requirement that appears in NEITHER company is the worst single failure this document can
+contain -- worse than a weak bullet, a missing nice-to-have, or falling short of the coverage target. If
+one is missing on the second pass, rewrite a bullet to carry it before you output anything.
+Requirements are stated as CAPABILITIES, not product names, and must be answered as capabilities. "Exposure
+to large language model tooling in an engineering context" is not satisfied by a skills list; it needs a
+bullet showing the candidate USING it -- an LLM in a workflow, a retrieval flow over internal documents,
+AI-assisted engineering on real work. The same holds for "driving adoption across teams that did not
+report to you", "operating against Service Level Objectives" and "a bias toward simple solutions": each
+needs a bullet that demonstrates it, not a phrase that mentions it.
+
 WEIGHT THE COVERAGE THE WAY THE JD DOES. Requirements are not all technologies, and a missing
 non-technical requirement costs exactly as much as a missing framework. Read what the reframed_jd actually
 keeps returning to and match that emphasis:
@@ -133,6 +146,9 @@ accuracy or valuation error. A caching or index change moves latency or throughp
 A migration moves deployment, rollback or remediation time. A retraining pipeline moves model error. If the
 best number you have belongs to different work, put it on THAT work's bullet instead of borrowing it: a
 figure sitting on the wrong bullet reads as a number looking for a home.
+The UNIT must match the noun. Steps and incidents are counted, time is measured in minutes, latency in
+milliseconds, error in percent. "reducing manual remediation steps to under 73 minutes" measures the wrong
+thing and reads as a number dropped into the nearest sentence: either count the steps or measure the time.
 Counting note: a scale figure quoted to give a result its context is part of that one result, not a second
 metric. "held p95 search latency under 1.6s across 270,000 listings" is ONE metric. Two separate claims of
 achievement in one bullet is what to avoid. Before writing a bullet that names two or more

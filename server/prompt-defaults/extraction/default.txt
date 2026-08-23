@@ -148,11 +148,19 @@ Build the candidate's résumé SKILLS section from those SAME categorized skills
 using your domain_scores:
 - ORDER the categories by score: all score-3 categories first, then score-2, then score-1 (keep the
   original order within the same score). The most role-relevant domains lead.
-- TRIM each category by its score, but ALWAYS keep any skill named in EITHER reframed_jd variation
-  ("always-keep"):
+- TRIM each category by its score, but ALWAYS keep any skill the JD calls for ("always-keep"). A skill is
+  always-keep if EITHER reframed_jd variation names it OUTRIGHT, **or** asks for a CAPABILITY that this
+  skill delivers. Requirements are usually written as capabilities, not product names: "exposure to large
+  language model tooling" makes the candidate's LLM, RAG, embeddings, LangChain and vector-store entries
+  always-keep even though no tool is named; "an observability platform" makes Datadog, Grafana and
+  Prometheus always-keep; "infrastructure-as-code" makes Terraform and Pulumi always-keep. Match on what
+  the requirement ASKS FOR, never on string equality:
     score 3 -> keep about 8-12 of the category's strongest role-relevant items (plus always-keep).
     score 2 -> keep about 4-5 of the category's most role-relevant items (plus always-keep).
-    score 1 -> normally OMIT the category. Include it only if it contains an important skill explicitly required by the JD; if included, keep only 2-3 relevant items.
+    score 1 -> normally OMIT the category. Include it, trimmed to its 2-3 strongest items, whenever it
+      holds an always-keep skill by the definition above. A category scoring 1 that answers a stated
+      qualification is NOT optional: a JD requirement with no matching skill line is a screening failure,
+      and it costs far more than one low-relevance category costs in space.
 - Float the always-keep skills toward the FRONT of their category, spread naturally (not all bunched
   at the very start).
 - ONLY keep skills the candidate ALREADY lists — NEVER add a skill from the JD that is not in their
