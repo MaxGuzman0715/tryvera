@@ -207,12 +207,23 @@ the anchor.
 
 
 ════════════════════════════════════════════════════════════════════════════════
-PART 4 — THE ANCHOR. THIS IS THE WHOLE GAME.
+PART 4 — THE ANCHOR. HALF THE GAME; PART 5 IS THE OTHER HALF.
 ════════════════════════════════════════════════════════════════════════════════
 
-projects[].description for each non-consulting recent company. Everything else in both
-files is bookkeeping by comparison. Get this wrong and no prompt rule downstream will
-save the résumé.
+projects[].description for each non-consulting recent company. Get this wrong and no
+prompt rule downstream will save the résumé.
+
+Read PART 5 BEFORE you write the anchor, and treat the two as one job. The pipeline hands
+the model summary_lines = [anchor, ...the recent company's bullets], so the anchor is only
+half the grounding. This was the most expensive lesson in building this repo: four profiles
+were diagnosed, measured and rewritten at the anchor for weeks while the actual difference
+sat in the bullets, in a file nobody reopened. The split of labour is fixed and simple:
+
+  the ANCHOR describes the SYSTEM  — the domain, and the path a request takes through it
+  the BULLETS describe the PROJECTS — one named product each, and what the candidate did
+
+A named product belongs in the BULLETS, not in anchor prose. The anchor may mention it in
+passing; the bullet is where it becomes something the model can build a real bullet on.
 
 THE ANCHOR IS A STAGE, NOT A SET.
 
@@ -225,7 +236,33 @@ reads first, is silent on the thing the posting is built around.
 So the anchor's job is to give the model a world specific enough to be credible and
 open enough to be tailored. Concretely:
 
-  TARGET LENGTH: 700 to 900 characters. One paragraph. Plain prose.
+  ENUMERATED DOMAIN NOUNS ARE FLAVOUR, NOT FACTS. CUT THEM ALL.
+
+  A comma list of domain objects reads as expertise while you write it and as somebody
+  else's industry when a recruiter reads it. One anchor here carried twelve of them: SCADA,
+  rainfall history, tap cards, permits, work orders, asset registers, water-quality
+  compliance, overflow alerting, overflow prediction, anomaly detection, collection-system
+  monitoring, sensor time-series. Deleting ALL TWELVE cost 11 percent of the length and
+  ZERO facts, because every one sat inside a comma list. The generated summary went from
+  six domain nouns to one, and the candidate stopped reading as a water-utility specialist
+  and started reading as an engineer who happens to work in water.
+
+  The test: strike the noun and reread the sentence. If nothing you could build changed,
+  it was flavour. Keep the ONE noun carrying the causal step; drop its four siblings.
+
+  This matters more the more niche the domain is. Access-control, finance and AI-platform
+  vocabulary doubles as transferable engineering vocabulary — a credential system IS an
+  auth system, a ledger IS a correctness problem. Water networks, underwriting and
+  logistics vocabulary does not. A niche domain needs harsher cutting, not more
+  explanation.
+
+  TARGET LENGTH: 700 to 900 characters, and 3 to 4 SENTENCES. One paragraph. Plain prose.
+
+  Sentence count is the better target because it is harder to game. The reference anchor
+  covers an entire product domain, its request path and its five engineering layers in
+  THREE sentences. The three anchors that underperformed used six or seven. If you are on
+  sentence five and have not reached the layer list, you are explaining the industry
+  instead of describing the system.
 
   This is measured, not aesthetic. deepankar_kalra's anchor is 797 characters and
   converts better than any other profile in this repo. When three anchors were grown to
@@ -321,24 +358,68 @@ entry is 339 characters of exactly this. Its content is never rendered.
 PART 5 — GROUND-TRUTH BULLETS FOR THE RECENT TWO (FILE 1)
 ════════════════════════════════════════════════════════════════════════════════
 
-For the ANCHOR company, experience[].bullets in FILE 1 is not decoration. The pipeline
-builds summary_lines as [description, ...bullets], so these lines are the second half of
-what grounds every generated bullet. Write 4 to 5.
+These are not decoration and not a summary of the anchor. summary_lines is [anchor,
+...these bullets], so they are half of everything the model has, and they are the half
+that decides whether the résumé reads as specific or as a reformatted job posting. Write
+4. Write 5 only if the company genuinely has more named systems than four bullets hold.
 
-They differ from the anchor in exactly one way: they are about the CANDIDATE, where the
-anchor is about the SYSTEM. Same world, same names, same absence of figures.
+EVERY BULLET NAMES ONE PRODUCT, PLATFORM OR SYSTEM AND SAYS WHAT WAS DONE TO IT.
 
-  - open with a past-tense verb, or present tense for a current role, consistently
-  - name the same products the anchor named, and no others
-  - one real, verifiable achievement each, where you have one from research
-  - a real certification or external validation is worth more than any invented number
-  - no metrics
-  - one sentence, roughly 25 to 40 words
+That is the whole rule, and it is measured. Of the reference profile's four bullets, FOUR
+name a specific product. Of the three profiles that kept producing generic résumés, ONE in
+four did. Fixing that ratio moved the output more than any anchor edit did.
 
-The reference profile's four ASSA ABLOY lines are the model: one scope line covering
-the whole portfolio, then one line each for the three named sub-systems, one of which
-carries the real TUV SUD "Low-Risk AI" test mark. That single sourced fact does more for
-credibility than a page of invented percentages.
+NEVER WRITE A SCOPE STATEMENT. Both of these shipped here, and they are the exact failure
+to avoid:
+
+  "Led production engineering across application, backend, data, AI/ML, and cloud
+   concerns, including system design, performance, reliability, observability, deployment
+   practices, architecture reviews, and technical mentoring."
+
+  "Led architecture and production-readiness work across backend, AI/ML, data, cloud,
+   reliability, and governance concerns, including performance, observability, security
+   controls, release quality, and engineering standards."
+
+Eight nouns and eleven nouns. No product. Nothing built. Both are lists of DISCIPLINES,
+and a discipline is what the job posting already says — so when the model reaches for
+grounding and finds a discipline list, it writes the posting back at you. That is the
+mechanism behind every "this reads like a reformatted JD" complaint this repo has had. A
+bullet naming ecoLOGIC yields a bullet about a real-time inference pipeline; a bullet
+naming "cloud concerns" yields whatever the posting asked for.
+
+The word "concerns" is a reliable tell. So are "capabilities", "across X and Y domains",
+and any bullet you could paste into another candidate's profile unchanged.
+
+THE SHAPE, which the reference profile follows exactly:
+
+  [1] THE PORTFOLIO LINE. Names every product at this company, each with a short
+      parenthetical saying what it is. The only bullet that may cover more than one
+      product, and it still NAMES them — it is not a scope line.
+  [2]-[4] ONE NAMED PRODUCT EACH. Verb, the product, what was built, and who it serves or
+      what it made possible. If a shared platform sits under the products, that platform
+      is a legitimate subject for one of these.
+
+PER BULLET:
+  - 200 to 260 characters. One sentence.
+  - open past-tense, or present tense throughout for a current role
+  - exactly ONE named product, platform or system as its subject
+  - end on a consequence: what it made possible, who it serves, what it replaced
+  - NO metrics and no digits. The résumé prompt writes those per posting, and a figure
+    stored here reappears identically on every résumé the profile ever generates.
+  - a real certification or external validation outweighs any invented figure. The
+    reference profile's TUV SUD "Low-Risk AI" test mark is worth more than a page of
+    percentages, because a reader can check it.
+
+THE CANDIDATE'S REAL PROJECTS GO HERE. NOT IN THE ANCHOR.
+
+This is where the earlier mistake was made, and it is worth stating plainly because it is
+easy to repeat. Four genuine candidate-confirmed projects — an Esri integration lineage
+plus the templates that standardised it, a Bentley ProjectWise connector, reusable
+client-integration libraries that replaced one-off per-client scripts, and completion
+tracking for pipelines that had been marking themselves successful at handoff rather than
+at finish — were written into anchor PROSE. They almost never reached a résumé. Moved into
+bullets, all four surfaced on the very next generation. Anything the candidate personally
+tells you they built gets a bullet with its own subject.
 
 For the CONSULTING company, bullets[] in FILE 1 is unused. Leave it as an empty array.
 
@@ -509,6 +590,12 @@ this list, which is every failure this repo has actually shipped:
       company, compared as strings
   [ ] the anchor is 700-900 chars, has zero digits, and names zero frameworks
   [ ] the anchor has exactly one qualitative scale clause
+  [ ] the anchor is 3-4 sentences and carries zero enumerated domain nouns
+  [ ] EVERY anchor-company bullet names one product, platform or system
+  [ ] no bullet contains "concerns", "capabilities across", or a list of disciplines
+  [ ] each bullet is 200-260 chars and ends on a consequence, not a task
+  [ ] every project the candidate personally described is a bullet, not anchor prose
+  [ ] anchor + bullets together is under ~2,000 chars; the reference profile is 1,614
   [ ] the consulting company has no anchor and empty bullets in FILE 1
   [ ] every education[].field is non-empty
   [ ] every education[] date pair is both-filled or both-empty
