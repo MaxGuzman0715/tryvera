@@ -1,0 +1,598 @@
+PROFILE AUTHORING — build a complete new candidate profile from a LinkedIn export
+================================================================================
+
+This file is NOT loaded by the application. PROMPT_KEYS in server/src/defaultPrompts.ts
+is a fixed five-key list (extraction, resume, coverLetter, qa, matchScore), and the
+directory scan in promptStore.ts only ever runs inside one of those five folders. This
+folder is inert on purpose: it lives here so it sits beside the prompts it has to stay
+consistent with, and so that editing a résumé rule and forgetting to update the
+authoring rule is hard to do by accident.
+
+Read this end to end before writing a single line of JSON. It is the distilled result
+of building five profiles and regenerating them against real job postings dozens of
+times. Almost every rule below exists because its absence produced a specific, visible
+defect in a generated résumé. Where that is true the defect is named, so you can tell a
+load-bearing rule from a preference.
+
+You are given: a LinkedIn profile export (usually PDF), plus a short sheet of basic
+info (email, phone, city, the real current title, sometimes a target role).
+You produce: two JSON files, and nothing else.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 0 — WHAT YOU PRODUCE, AND WHICH FIELDS ARE ACTUALLY ALIVE
+════════════════════════════════════════════════════════════════════════════════
+
+FILE 1 — Experiment/bullets/<id>.json          THE PROFILE. Schema-validated.
+FILE 2 — Experiment/projects/<id>.json         THE ANCHOR STORE. Not validated.
+
+<id> must satisfy /^[a-z0-9_-]+$/i and must be IDENTICAL in both filenames and in the
+"id" field inside each file. Convention is firstname_lastname, lowercase.
+
+FILE 1 is parsed by profileBodySchema in server/src/types.ts. Zod .parse() STRIPS
+unknown keys and REJECTS the whole file on any violation, and readProfile surfaces a
+rejection to the UI as "Profile not found" — not as a validation error. A single bad
+character in this file makes the profile vanish from the app with no useful message.
+The authoritative shape, copied from types.ts:
+
+  {
+    "id": string,                          required, /^[a-z0-9_-]+$/i
+    "basic": {
+      "fullName": string,                  required, non-empty
+      "email":    string,                  required, non-empty
+      "location": string,                  required, non-empty
+      "title":    string?,                 optional
+      "phone":    string?,                 optional
+      "summary":  string?,                 optional  <- leave it OUT, see PART 8
+      "linkedin": string?,                 optional
+      "github":   string?,                 optional
+      "portfolio":string?                  optional
+    },
+    "experience": [ {
+      "company":   string,                 required, non-empty
+      "title":     string,                 required, non-empty
+      "startDate": string,                 required, non-empty
+      "endDate":   string,                 required, non-empty
+      "location":  string?,
+      "bullets":   string[]?,
+      "consulting":boolean?,               <- THE flag that routes the pipeline
+      "paragraphs":string[]?, "projectName":string?, "rawLines":string?, "notes":string?
+    } ],
+    "skills":    string[],                 required (may be empty array, never absent)
+    "education": [ {
+      "school":    string,                 required, non-empty
+      "degree":    string,                 required, non-empty
+      "field":     string,                 required, NON-EMPTY  <- see PART 8
+      "startDate": string,                 required, "" allowed
+      "endDate":   string                  required, "" allowed
+    } ]
+  }
+
+There is NO "companies" key in the schema. Older versions of this system had a rich
+companies{} corpus keyed by stack; Zod strips it silently, so anything written there is
+dead weight that looks alive. Experiment/bullets/BULLET_WRITING_PRACTICES.txt documents
+that dead architecture — read it for the bullet-craft advice in sections 3 and 4, and
+ignore its sections 1, 2 and 7, which describe a slicer that no longer exists.
+
+FILE 2 is read by loadProfileProjects in server/src/generation.ts. It is NOT
+schema-validated, and only FOUR things in it are ever read:
+
+  ALIVE    projects[].company           matched against experience[].company by name
+  ALIVE    projects[].description       THE ANCHOR. Becomes summary_lines[0].
+  ALIVE    projects[].flagshipProject   fallback for description if description is absent
+  ALIVE    projects[].bullets           used VERBATIM for companies at index 2 and later
+
+  DEAD     projects[].role, .dateRange, .isRecentTwo, .bulletsProvided, .spans, .note
+           and projects[].consulting
+
+Those dead fields are worth writing anyway, because they document intent for the next
+person, but understand that they change nothing. In particular: setting
+consulting:true in FILE 2 has NO effect. The only consulting flag the pipeline reads is
+experience[].consulting in FILE 1. Getting this wrong is silent — the profile works,
+it just never touches the consulting engagement pool, and you will not find out until
+you notice a résumé with no client work in it.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 1 — WHAT TO COLLECT BEFORE YOU WRITE ANYTHING
+════════════════════════════════════════════════════════════════════════════════
+
+From the LinkedIn export, extract exactly:
+  - full name, headline, city/region
+  - every employer, with title, start month/year, end month/year, and location
+  - every school, with degree, field of study, and dates
+  - the skills LinkedIn lists, and any named projects, certifications or publications
+
+From the basic-info sheet: email, phone, and the location string you will actually
+render. Ask for anything missing rather than inventing it. Contact details are the one
+part of a résumé where a wrong value costs the candidate the interview outright, and a
+phone number carried over from a different profile has happened in this repo before.
+
+Then STOP and check the dates against each other. LinkedIn is frequently wrong or
+stale, and the export is not a source of truth about itself:
+  - overlapping employment, unless the person genuinely held two roles
+  - gaps longer than six months, which a recruiter will ask about
+  - an end date in the future
+  - a degree that finishes after the first job starts, which is fine, but should be
+    deliberate rather than accidental
+  - a start date that contradicts the tenure LinkedIn prints next to it
+
+Where the export and the sheet disagree, the sheet wins and you say so. Where both are
+silent, ask. Never quietly pick one.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 2 — CLASSIFY THE COMPANIES. THIS DECIDES EVERYTHING DOWNSTREAM.
+════════════════════════════════════════════════════════════════════════════════
+
+Order experience[] STRICTLY reverse-chronologically. The pipeline does not sort; it
+takes experience[0] and experience[1] as "the recent two" positionally. An out-of-order
+array silently tailors the wrong companies.
+
+The recent two get three possible roles:
+
+  ANCHOR       experience[0] or [1], consulting NOT set.
+               Bullets are written live at generation time, tailored to the JD, and
+               grounded in FILE 2's description plus this entry's own bullets.
+
+  CONSULTING   experience[0] or [1], "consulting": true.
+               Bullets are written live from Experiment/projects/shared.json, using the
+               two industries the extraction step picked out of the JD. FILE 2 stores
+               NO description for this company, and this entry's bullets[] are unused.
+
+  OLDER        experience[2] and beyond.
+               Never tailored, never touched by the LLM. Rendered verbatim from FILE 2's
+               bullets[] where present, otherwise from FILE 1's bullets[].
+
+AT LEAST ONE of the recent two should be consulting. That is what gives the résumé a
+plausible home for work the candidate's real employer would never have done, and it is
+the entire mechanism by which one profile covers a wide range of job postings. A
+profile with two non-consulting recent companies can only ever say what those two
+companies actually do.
+
+Mark consulting:true when the employer is a consultancy, staffing firm, agency or
+systems integrator: Accenture, Deloitte, Avanade, TEEMA, Infosys, Cognizant, EPAM,
+Slalom, Thoughtworks, and the like. Do NOT mark a product company consulting merely
+because the person worked on many things there.
+
+Two failure modes seen in this repo:
+  - A profile with no consulting flag anywhere. It never reads shared.json, so it has
+    no client work and covers a narrow band of postings. rhazel_galura is still in this
+    state.
+  - An anchor whose FILE 2 company name does not match FILE 1's experience[].company
+    string. findProjectForCompany matches by name; a mismatch means description is
+    empty, summary_lines loses its first and richest line, and the section quietly
+    degrades to whatever the ground-truth bullets say. rohit_kumar has this bug: FILE 2
+    names RBC while FILE 1's most recent company is Accenture, so his anchor has never
+    once bound. Check this explicitly, by string comparison, not by eye.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 3 — RESEARCH THE REAL FLAGSHIP PROJECT, PER COMPANY
+════════════════════════════════════════════════════════════════════════════════
+
+Do this for every non-consulting company, before writing any prose. You are looking for
+ONE real, named, publicly documented system per employer that the candidate could
+plausibly have worked on given their title and dates.
+
+Search for, in rough order of value:
+  - the company's own product pages and docs, for the actual product and module names
+  - their engineering blog, for architecture and system names
+  - press releases and case studies, for scale claims and named customers
+  - conference talks, certification and standards announcements
+  - for public companies, the annual report, for scale and segment vocabulary
+
+What you are trying to come back with:
+  - the PRODUCT NAMES. Not "the access-control platform" but SMARTair, Openow, HID
+    mobile access. Not "the water utility tool" but waterCAST, LeadCAST, Capacity
+    Planner. Not "the assistant" but RITA and FAIR. Unique proper nouns are what make
+    a generated bullet unfalsifiable and specific at the same time, and they are the
+    single highest-value thing this research produces.
+  - the SHAPE OF ONE REQUEST through the system: who starts it, what decides, what
+    acts. See PART 4 — this becomes the anchor's spine.
+  - ONE scale fact, in the company's own units: how many doors, accounts, service
+    lines, documents, employees, devices.
+  - any regulatory or certification frame: SOC 2, TUV SUD, HIPAA, PCI, a state
+    reporting requirement.
+
+Choose the project that spans the most layers in one coherent request path — front end,
+back end, and data or AI. A project that only touches one layer lets the résumé claim
+only one layer, no matter what the job posting asks for.
+
+WHAT NOT TO BRING BACK: the technology stack. You are researching WHAT the system does
+and WHAT it is called. Whether it runs on .NET or Go, Postgres or Mongo, AWS or Azure
+is deliberately not part of the anchor. PART 4 explains why at length. If your research
+turns up the real stack, keep it for the skills section in PART 7 and keep it out of
+the anchor.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 4 — THE ANCHOR. THIS IS THE WHOLE GAME.
+════════════════════════════════════════════════════════════════════════════════
+
+projects[].description for each non-consulting recent company. Everything else in both
+files is bookkeeping by comparison. Get this wrong and no prompt rule downstream will
+save the résumé.
+
+THE ANCHOR IS A STAGE, NOT A SET.
+
+It fixes WHERE the work happened and WHAT KIND of system it was. It does not fix what
+the work involved. At generation time the résumé prompt is explicitly allowed to put
+the job posting's core capability into this company even when the anchor never mentions
+it — because the alternative is a candidate whose most recent role, the one a recruiter
+reads first, is silent on the thing the posting is built around.
+
+So the anchor's job is to give the model a world specific enough to be credible and
+open enough to be tailored. Concretely:
+
+  TARGET LENGTH: 700 to 900 characters. One paragraph. Plain prose.
+
+  This is measured, not aesthetic. deepankar_kalra's anchor is 797 characters and
+  converts better than any other profile in this repo. When three anchors were grown to
+  2,000-3,400 characters to "help" the model, coverage of the job posting FELL: the
+  797-character anchor produced 67 percent coverage with 15 of 16 posting technologies
+  present, while a 3,432-character anchor produced 56 percent with 11. A long anchor
+  does not inform the model, it BINDS it — every additional specific is one more thing
+  the model feels obliged to honour instead of tailoring.
+
+  NAME THE REAL THINGS. Product names, module names, platform names, certifications,
+  named customers if public. These are free: they cost no flexibility, because a name
+  is not a constraint on what the work involved. This is where all the research from
+  PART 3 goes. deepankar's 797 characters carry SMARTair, Openow, HID mobile access,
+  ACaaS, and mobile credentials.
+
+  WRITE THE CAUSAL FLOW, NOT A FEATURE LIST. Trace one request end to end, in the order
+  it actually happens, in plain language a non-engineer would follow. The reference
+  anchor does exactly this: an admin uses a web portal to grant or revoke access; a user
+  opens a door with the mobile app; the request travels to cloud services that check
+  permissions; the lock firmware acts on the decision. Four clauses, four layers, one
+  causal chain. That structure is what lets the generator write a front-end bullet, a
+  back-end bullet and a data bullet that all describe the same system — which is what
+  makes a section read as one job rather than a list of claims.
+
+  NAME THE LAYERS EXPLICITLY, ONCE, AT THE END. Close with a sentence that says which
+  layers the project touches: the front end (what), the back end (what), the embedded
+  or data or AI side (what). This is the permission slip that lets the generator claim
+  all of them.
+
+  EXACTLY ONE SCALE CLAUSE. In the employer's own units, qualitative, no digits:
+  "millions of client accounts", "tens of thousands of service lines", "thousands of
+  employees across tens of thousands of documents", "large door fleets". One clause,
+  and only one.
+
+  This clause is doing specific work. The generator invents its own figures at
+  generation time, and the ONLY thing that keeps two profiles' invented numbers apart
+  is that their anchors describe different-sized worlds. Without it every profile
+  defaults to the same generic mid-size numbers and the figures collide across
+  résumés. With it, a utility network and a consumer bank produce visibly different
+  magnitudes. Do not skip it, and do not write two.
+
+  NEVER PUT A HARD FIGURE IN AN ANCHOR. No digits. No "700,000 lines", no "40+ repos",
+  no "247M predictions", no "~500 engineers".
+
+  This one is expensive and was learned the hard way. hansal_maniar's anchor was the
+  only one in the repo carrying real sourced figures, and the résumé prompt prefers
+  figures already present in summary_lines — so the SAME FOUR NUMBERS appeared in every
+  résumé he ever generated. Removing them was correct and cost him his metrics
+  entirely, twice, because the qualitative hedges that replaced them ("dozens of
+  production models", "hundreds of millions of predictions") were copied verbatim and
+  treated as though they had quantified something. The prompt now says a vague
+  quantifier is not a metric, and the anchors now carry neither figures nor hedges. Do
+  not reintroduce either.
+
+  COMMIT TO NO TECHNOLOGY. Zero framework names. Zero language names. Zero database,
+  cloud or vendor names, except where the vendor IS the product being described.
+
+  This is the rule most likely to feel wrong and is the most important one here. Three
+  anchors in this repo once carried 14, 4 and 18 generic technology mentions between
+  them; reshaping them to deepankar's shape brought that to 0, 0 and 1, and every one
+  of the 53 unique product names survived. Coverage went up. The reason is mechanical:
+  a stack named in the anchor is a stack the generator treats as fixed, and a posting
+  asking for something else gets a résumé that argues with itself. Say what the system
+  DOES. Let the posting decide what it was built with.
+
+  Two consequences you should accept deliberately, because the alternative is worse:
+  the same anchor will produce a Go bullet for one posting and a C# bullet for another,
+  and the skills section will re-orient hard to each posting. That is the system working
+  as designed. It has been explicitly sanctioned in this project: the anchors describe
+  ideas and systems, not stacks, and the projects are invented on that stage.
+
+  NO METRICS, NO ADJECTIVES, NO SELLING. The anchor is a briefing, not a pitch. No
+  "cutting-edge", no "industry-leading", no "robust and scalable". If a sentence would
+  fit in marketing copy, cut it.
+
+CHECKLIST for each anchor before you move on. All eight, every time:
+  [ ] 700-900 characters
+  [ ] at least two real proper nouns from research
+  [ ] one traceable request path, in causal order
+  [ ] closing sentence naming the layers
+  [ ] exactly one qualitative scale clause
+  [ ] zero digits
+  [ ] zero framework, language, database or cloud names
+  [ ] a non-engineer could read it and say what the product does
+
+FOR THE CONSULTING COMPANY, write no anchor. Put a short marker in description saying
+project summaries are not stored here and that at generation the code reads shared.json
+and picks the industry-matched entry plus one more. The reference profile's Accenture
+entry is 339 characters of exactly this. Its content is never rendered.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 5 — GROUND-TRUTH BULLETS FOR THE RECENT TWO (FILE 1)
+════════════════════════════════════════════════════════════════════════════════
+
+For the ANCHOR company, experience[].bullets in FILE 1 is not decoration. The pipeline
+builds summary_lines as [description, ...bullets], so these lines are the second half of
+what grounds every generated bullet. Write 4 to 5.
+
+They differ from the anchor in exactly one way: they are about the CANDIDATE, where the
+anchor is about the SYSTEM. Same world, same names, same absence of figures.
+
+  - open with a past-tense verb, or present tense for a current role, consistently
+  - name the same products the anchor named, and no others
+  - one real, verifiable achievement each, where you have one from research
+  - a real certification or external validation is worth more than any invented number
+  - no metrics
+  - one sentence, roughly 25 to 40 words
+
+The reference profile's four ASSA ABLOY lines are the model: one scope line covering
+the whole portfolio, then one line each for the three named sub-systems, one of which
+carries the real TUV SUD "Low-Risk AI" test mark. That single sourced fact does more for
+credibility than a page of invented percentages.
+
+For the CONSULTING company, bullets[] in FILE 1 is unused. Leave it as an empty array.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 6 — OLDER COMPANIES, INDEX 2 AND BEYOND
+════════════════════════════════════════════════════════════════════════════════
+
+These are never tailored and never seen by the LLM. They render verbatim from FILE 2's
+bullets[], falling back to FILE 1's. Write them in FILE 2, and mirror them into FILE 1
+so the profile still reads correctly if FILE 2 is ever missing.
+
+Write 4 to 5 per company. These are the most human-sounding lines in the finished
+résumé precisely because no model rewrites them, and reviewers notice: in every
+generated résumé from this repo, the sections that read most naturally are these. Use
+them as the style target for everything else.
+
+  - NO METRICS AT ALL. Not one figure. These bullets earn credibility by being specific
+    about the problem and honest about the outcome, and a résumé where the twelve-year-old
+    role carries percentages reads as invented.
+  - CLOSE ON A DIRECTIONAL OUTCOME, in words: reducing, improving, eliminating,
+    enabling, without waiting for, rather than routing through. This is the shape that
+    makes a figure-free bullet still say something happened.
+  - PITCH THE SENIORITY TO THAT POINT IN THE CAREER. A 2013 role does not get
+    architecture ownership. Early-career bullets say what was built and what it fixed.
+  - NAME THE FAILURE MODE where you know it. Jank and over-fetching, layout thrash,
+    malformed records, batch reload latency, tail-latency regression. Specificity here
+    signals seniority better than any adjective.
+  - STAY IN THAT ERA'S TECHNOLOGY. No LLMs in a 2014 bullet.
+
+Two real examples of the target texture, both from this repo, both untouched by any
+model:
+
+  "Rebuilt feed rendering and data-fetching paths to hold infinite-scroll smooth under
+   high traffic, diagnosing jank and over-fetching that had degraded scroll performance
+   on lower-end devices."
+
+  "Optimized high-volume service and database access paths through indexing, caching,
+   profiling, and query redesign, reducing tail latency on property and search
+   requests."
+
+No numbers. A named problem, the work, and a direction of travel.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 7 — SKILLS
+════════════════════════════════════════════════════════════════════════════════
+
+FILE 1's skills[] is a flat array of strings, but each string must be a CATEGORY LINE
+in the form "Category Name: item, item, item". The renderer detects the colon and
+prints one bolded category per line; without colons it falls back to flat prose, which
+looks broken. Every entry must have a colon or none should.
+
+  TARGET 7 CATEGORIES. The extraction prompt orders, trims and re-floats these per
+  posting and aims to emit exactly seven, so give it at least seven to choose from.
+  Fewer than seven upstream means a thin skills section downstream.
+
+  ORDER THEM by how central they are to the candidate's actual discipline, most
+  central first. Extraction re-orders by posting relevance, but its tie-breaks favour
+  what came first.
+
+  BE GENEROUS. 150 to 230 individual terms across the seven is normal here. Extraction
+  trims aggressively per posting; anything absent from this list can never appear, and
+  the generator is separately instructed to stay inside the candidate's inventory.
+
+  EVERY CATEGORY HEADER MUST BE HONOURED BY ITS CONTENTS. If a header says Geospatial,
+  something geospatial must be in it. This has failed repeatedly in generated output —
+  "Databases, Search & Geospatial" has printed with PostGIS, ArcGIS, GeoPandas and GDAL
+  all trimmed away, leaving a header promising something the line does not deliver.
+  Author the categories so that no single trim can empty a noun out of a header: either
+  keep the header narrow, or give each noun in it several entries.
+
+  INCLUDE THE FRAMEWORK NAMES, not just the discipline. Write "unit/integration/end-to-end
+  testing (xUnit/NUnit, Vitest, Jest, Cypress)", not "unit and integration testing". A
+  profile whose testing category was generic produced generated bullets naming xUnit and
+  Vitest that appeared nowhere in the skills section, because the generator filled a gap
+  it could see in the posting and could not see in the inventory.
+
+  NEVER INCLUDE PROCESS NOUNS OR SOFT SKILLS. No "system design", "scalability", "code
+  review", "trunk-based development", "communication", "stakeholder management",
+  "mentoring", "agile". One profile carried 27 such entries in a single category and the
+  whole category was deleted. Skills are things with names and version numbers.
+  Leadership belongs in bullets, where it can be evidenced.
+
+  NEVER INCLUDE PROJECT, PRODUCT OR CLIENT NAMES. Esri, Bentley ProjectWise, waterCAST,
+  RITA are products, not skills. They belong in the anchor and in bullets. Adding them
+  to skills was a real mistake made in this repo and correctly rejected.
+
+  MATCH THE OTHER PROFILES' CATEGORY VOCABULARY where the candidate's discipline
+  overlaps, so profiles stay comparable. The existing set, as a starting point:
+    Languages / Languages & Backend
+    Backend & Distributed Systems
+    Frontend & Product Engineering  (or Frontend & Mobile)
+    Databases, Search & Retrieval
+    Cloud & Platform
+    Architecture & Distributed Systems
+    Data Engineering & Streaming
+    AI & Machine Learning
+    Generative & Agentic AI
+    Observability & Reliability
+    Security & Identity
+    Testing & Engineering Practices
+  Pick the seven-plus that the candidate genuinely has. Never keep a category the
+  candidate cannot support, and never drop the category that IS their discipline: an ML
+  engineer keeps their ML stack even on a posting that only asks about generative AI.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 8 — BASIC AND EDUCATION: THE SCHEMA TRAPS
+════════════════════════════════════════════════════════════════════════════════
+
+education[].field MUST BE NON-EMPTY. z.string().min(1). A degree with no field of
+study, which LinkedIn produces constantly for older or non-standard qualifications,
+fails validation and takes the ENTIRE PROFILE down. It presents in the app as "Profile
+not found", which points at the filename and not at the field. This has happened: a
+Bachelor of Commerce with field:"" made a whole profile disappear. Where LinkedIn gives
+no field, infer the obvious one from the degree name — Bachelor of Commerce becomes
+degree "Bachelor", field "Commerce" — and never leave it blank.
+
+education[] dates are BOTH OR NEITHER. A .refine() rejects one filled and one empty, to
+avoid rendering "(Sep 2018 – )". If you only know the graduation year, put "" in both
+and let the entry render without a date range.
+
+basic.location, basic.email and basic.fullName are all min(1). Trim them. A trailing
+space in location has shipped to a rendered résumé from this repo.
+
+LEAVE basic.summary OUT. It is optional, and the résumé generator writes a fresh
+posting-tailored summary on every run. A stored summary is only ever used as the
+untailored fallback when generation fails, where it is better to have nothing than
+something stale and off-target. The reference profile has no summary field at all.
+
+basic.title should be the candidate's REAL current title. The résumé prompt pins
+seniority to it and refuses to inflate past it, so an aspirational title here is how
+you get a résumé claiming a level the candidate has never held. Do not invent a level:
+one profile in this repo carries an invented "Staff" title and it is a known defect,
+not a template.
+
+FORMAT NOTES that have each caused a visible defect:
+  - Dates as "Mon YYYY", e.g. "Aug 2024". Current roles use endDate "Present".
+  - Phone in the format matching the location's real area code.
+  - Full name in normal case. ALL CAPS names get title-cased by the extension's fill
+    sanitiser now, but the PDF text layer is a separate problem: letter-spacing above
+    about 0.04em on the name heading makes PDF parsers insert word breaks mid-name, so
+    "HANSAL MANIAR" was read by one job board as "HA NSA L MA NIA R".
+  - LinkedIn URL in full https form, and verify it against the export. A stale URL
+    copied from an old résumé has shipped here before.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 9 — VALIDATE BEFORE YOU HAND OVER
+════════════════════════════════════════════════════════════════════════════════
+
+Run the real schema, not your judgement. From the repo root, with server built:
+
+  node -e "const {profileBodySchema}=require('./server/dist/types.js');
+           const p=require('./Experiment/bullets/<id>.json');
+           const r=profileBodySchema.safeParse(p);
+           console.log(r.success?'VALID':JSON.stringify(r.error.issues,null,2));"
+
+If server/dist is not built, check the constraints by hand against PART 0. Then walk
+this list, which is every failure this repo has actually shipped:
+
+  [ ] both files exist, same <id>, id field matches the filename
+  [ ] FILE 1 parses against profileBodySchema
+  [ ] experience[] is strictly reverse-chronological
+  [ ] exactly one of experience[0] / experience[1] has consulting:true
+  [ ] FILE 2's projects[].company string EQUALS FILE 1's experience[].company, per
+      company, compared as strings
+  [ ] the anchor is 700-900 chars, has zero digits, and names zero frameworks
+  [ ] the anchor has exactly one qualitative scale clause
+  [ ] the consulting company has no anchor and empty bullets in FILE 1
+  [ ] every education[].field is non-empty
+  [ ] every education[] date pair is both-filled or both-empty
+  [ ] no basic.summary
+  [ ] basic.title is the real current title
+  [ ] skills[] has 7+ entries, every one containing a colon
+  [ ] every skills category header is supported by its own contents
+  [ ] no process nouns, soft skills, or product names anywhere in skills[]
+  [ ] older companies have 4-5 bullets each, zero figures, each closing on a direction
+  [ ] no trailing or double spaces in any string
+  [ ] contact details match the basic-info sheet exactly
+
+Then GENERATE. A profile is not finished until it has produced a résumé against a real
+posting, and the pipeline's duplicate check returns the existing run for a repeated job
+link — so you must use Force regenerate or you are testing nothing. Read the output for:
+
+  - does the recent company's section reflect the POSTING, not just the anchor? If the
+    posting's core capability is missing from the first section a reader sees, the
+    anchor is over-constraining and is probably too long or naming a stack.
+  - do the two recent sections cover different parts of the posting, or the same part
+    twice? They are supposed to be complementary.
+  - are there exactly four figures per recent company, of at least three different
+    kinds, with at least one magnitude?
+  - does the skills section contradict the bullets?
+  - is the client industry named once per engagement, or repeated down every bullet?
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 10 — THE REFERENCE PROFILE
+════════════════════════════════════════════════════════════════════════════════
+
+deepankar_kalra is the standard. Read both of his files before writing your first
+anchor, and again after, and make yours look like his:
+
+  Experiment/projects/deepankar_kalra.json     anchor 797 chars, 3 companies
+  Experiment/bullets/deepankar_kalra.json      6 skill categories, 3 experience entries
+
+Its shape, as a template:
+  experience[0]  ASSA ABLOY Group   Lead SWE          Jun 2024-Present   4 bullets
+  experience[1]  Accenture          Senior SWE        Dec 2018-May 2024  consulting, 0 bullets
+  experience[2]  Meta               Senior SWE        Oct 2014-Nov 2018  5 bullets
+  projects[0]    ASSA ABLOY         description 797 chars, the anchor
+  projects[1]    Accenture          description 339 chars, an inert marker
+  projects[2]    Meta               description 667 chars + 5 verbatim bullets
+
+He is the least elaborate profile in the repo and converts the best. That is the lesson,
+and it is worth repeating because the instinct to add more is very strong: every time an
+anchor in this repo was made longer or more specific in order to help the model, the
+generated résumé got worse. The anchor is a stage. Build the stage, name the props,
+and let the posting write the play.
+
+
+════════════════════════════════════════════════════════════════════════════════
+PART 11 — THINGS THAT HAVE ACTUALLY GONE WRONG. DO NOT REDISCOVER THESE.
+════════════════════════════════════════════════════════════════════════════════
+
+  field:"" on one education entry made an entire profile return "Profile not found".
+  The bare catch in readProfile masked the schema error as a missing file; it now logs,
+  but the symptom still points at the wrong thing.
+
+  Anchors grown from ~1,200 to ~3,400 characters to improve coverage REDUCED it, from
+  67 percent down to 56, and cut posting-technology hits from 15 to 11.
+
+  Hard figures in an anchor produced the identical four numbers on every résumé that
+  profile ever generated.
+
+  Replacing those figures with qualitative hedges produced zero metrics, because the
+  hedges were copied verbatim and counted as quantification.
+
+  Shared static figures in shared.json put the same 64 percent, 3,100 and 1.5M into
+  four different candidates' résumés. Tracing the history showed those figures had been
+  ADDED later; only two of thirteen engagements carried any at the initial commit.
+  Stripping them restored the original design.
+
+  A projects-file company name that does not match the profile's company name silently
+  disables that profile's anchor. One profile has shipped in this state.
+
+  Product names in the skills section (Esri, Bentley ProjectWise) are wrong and were
+  correctly rejected. Products go in anchors and bullets.
+
+  Generic-only testing and geospatial categories caused the generator to invent
+  framework names to fill posting gaps it could see and inventory gaps it could not.
+
+  Two profiles drawing the same industry from shared.json produce near-identical
+  consulting bullets, because there is exactly one summary string per industry. This is
+  a known limitation of the data, not of any prompt, and it is most visible when two
+  profiles are read side by side.
