@@ -16,10 +16,10 @@
       "startDate": "Aug 2024",
       "endDate": "Present",
       "bullets": [
-        "Built product and platform capabilities across Trinnex's waterCAST digital-water ecosystem and Capacity Planner, helping utility teams analyze network conditions, evaluate capacity constraints, and plan future infrastructure scenarios through cloud-based software.",
-        "Developed the application and service architecture connecting GIS, hydraulic-model, asset, operational, sensor, and historical information into interactive analytical and planning workflows used by utility engineers.",
-        "Extended the platform with predictive and data-driven capabilities for forecasting, anomaly detection, infrastructure risk, scenario analysis, and decision support while keeping analytical outputs integrated directly into normal product workflows.",
-        "Led production engineering across application, backend, data, AI/ML, and cloud concerns, including system design, performance, reliability, observability, deployment practices, architecture reviews, and technical mentoring."
+        "Build product and platform capabilities across Trinnex's digital-water portfolio, spanning LeadCAST (lead-service-line inventory and replacement planning), waterCAST (AI digital-twin for capacity, water quality and real-time monitoring), and Capacity Planner.",
+        "Developed the waterCAST scenario path that fuses a utility's own records with models and sensor history, so an engineer can test a growth scenario in the browser and get back maps and constraint lists explainable enough to defend to a regulator.",
+        "Built successive generations of the Esri integration feeding LeadCAST, plus the templates that standardise the next ones, consolidating scattered municipal records into one defensible register a utility can prove service-line material from.",
+        "Engineered the shared data platform underneath both products: the Bentley ProjectWise document connector, reusable client-integration libraries that replaced one-off per-utility scripts, and completion tracking for pipelines that had been marking themselves successful at handoff rather than at finish."
       ],
       "paragraphs": [],
       "notes": "waterCAST and Capacity Planner are used as the Trinnex project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified. The role is intentionally positioned as broad production software engineering with AI/ML, data, product, and cloud depth rather than as a DevOps-only role.",

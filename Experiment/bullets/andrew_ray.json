@@ -17,10 +17,10 @@
       "startDate": "Jun 2023",
       "endDate": "Present",
       "bullets": [
-        "Led engineering across Rackspace's FAIR AI industrialization platform and RITA enterprise AI assistant, helping move AI use cases from experimentation into secure, production-ready systems used across enterprise workflows.",
-        "Built the application, data, and AI architecture behind grounded enterprise-assistant experiences, connecting internal knowledge and operational systems to retrieval, reasoning, evaluation, and governed action workflows.",
-        "Developed reusable platform capabilities for training, retrieval, evaluation, deployment, monitoring, and lifecycle management so AI and machine-learning workloads could move through a consistent production path rather than team-specific implementations.",
-        "Led architecture and production-readiness work across backend, AI/ML, data, cloud, reliability, and governance concerns, including performance, observability, security controls, release quality, and engineering standards."
+        "Led engineering across Rackspace's FAIR platform, Foundry for AI by Rackspace, the framework that takes enterprise AI from experimentation into secure production-ready systems, and RITA, its flagship internal Generative AI assistant.",
+        "Built RITA's retrieval path end to end: enterprise documents from Confluence, SharePoint and ServiceNow-style knowledge bases ingested and chunked, indexed so they can be searched by meaning, then retrieved and ranked within what the asker is authorized to see before an external model provider produces a grounded answer carrying source citations.",
+        "Developed RITA's evaluation and admin surfaces, scoring faithfulness, retrieval recall and latency before and after each release, and letting operators tune prompt, model and retrieval settings and review answer quality in production.",
+        "Built the reusable pieces of FAIR so no team rebuilt them: prompt and model lifecycle management, dataset versioning, experiment tracking, fine-tuning pipelines, latency-tuned serving paths, drift monitoring, and release gates that keep ungrounded or unevaluated workloads off production surfaces."
       ],
       "paragraphs": [],
       "notes": "FAIR and RITA are used as the Rackspace project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified; preserve the non-round metric style but replace unsupported figures before live submission."
