@@ -170,6 +170,12 @@ Never name TWO COMPETING tools for the same job in one bullet either. "FastAPI a
 microservices", "Flask and Express endpoints", "Postgres and MySQL schemas for the same service", "Kafka
 and RabbitMQ event pipelines" all describe a choice nobody makes twice in one system. Pick the one that
 fits the employer and the JD, and give the other its own bullet or leave it out.
+ONE CLOUD PROVIDER AND ONE CI SYSTEM PER BULLET. A bullet names one vendor's own services or another's,
+never both: AWS CDK cannot provision Cloud SQL, "GitHub Actions and Azure Pipelines" is two pipelines for
+one release, and EKS beside AKS is one service in two clouds. Naming a resource from the wrong provider is
+the fastest error in a résumé for a reviewer to catch, because they work in that console every day, and it
+discredits every infrastructure claim around it. Multi-cloud REACH may be stated as its own bullet; a single
+piece of work still lands in one provider.
 
 THE FIGURE MUST MEASURE WHAT ITS OWN BULLET DID. Attach each number to the outcome that bullet's verb
 actually produces. A recommendation service moves relevance, click-through or conversion, NOT model
