@@ -50,12 +50,19 @@
     }
   ],
   "skills": [
-    "Languages: Python, C#, Go, Java, TypeScript, C++, Ruby, Kotlin, Swift",
-    "AI & Machine Learning: ranking and recommendation systems (multitask neural nets), LLMs and RAG, fine-tuning (LLaMa, LoRA), embeddings and vector search, computer vision, agentic systems and tool use, PyTorch/TensorFlow, model evaluation and grounding",
-    "ML Systems & Data Engineering: feature stores and feature pipelines, real-time and batch model serving, A/B testing and experimentation, streaming with Kafka/Flink/Spark, Airflow and dbt, MLOps, drift and performance monitoring",
-    "Backend & Distributed Systems: .NET, ASP.NET Core, Entity Framework Core, SignalR, event-driven microservices, gRPC/GraphQL/REST APIs, large-scale low-latency serving for billions of users, sharding, replication and caching, PostgreSQL, MongoDB, Cassandra, Redis, Elasticsearch",
-    "Frontend & Mobile: React, React Native, Next.js, iOS (Swift), Android (Kotlin), Flutter, on-device inference",
-    "Cloud & Platform: Azure SQL Database, Cosmos DB, Azure Data Factory, Databricks, Azure DevOps, AWS, GCP, Azure, Kubernetes, Docker, Terraform, CI/CD, observability (OpenTelemetry, Prometheus, Grafana, Datadog), SLOs and on-call, authentication and authorization (OAuth2, OIDC)"
+    "Languages: Python, C#, Go, Java, TypeScript, Kotlin, Swift, C++, SQL, Bash, Ruby",
+    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, XGBoost, Hugging Face Transformers, ranking and recommendation systems (multitask neural nets), computer vision, object detection and face recognition, forecasting, anomaly detection, classification, feature engineering, model evaluation and calibration, A/B testing and experiment design",
+    "ML Systems & Data Engineering: feature stores and feature pipelines, real-time and batch model serving, experimentation and A-B platforms, streaming with Kafka, Kafka Streams, Flink and Spark Structured Streaming, Spark (PySpark, Spark SQL), Delta Lake, lakehouse architecture, Airflow and dbt, Snowflake, Parquet, ETL/ELT, change data capture, data quality and lineage, schema evolution, MLOps, drift and performance monitoring",
+    "Backend & Distributed Systems: .NET, ASP.NET Core, Entity Framework Core, SignalR, FastAPI, Node.js, Spring Boot, event-driven microservices, gRPC/GraphQL/REST APIs, WebSockets, large-scale low-latency serving for billions of users, sharding, replication and caching, idempotency, backpressure, rate limiting",
+    "Frontend & Mobile: React, React Native, Next.js, TypeScript, Redux, HTML/CSS, iOS (Swift), Android (Kotlin), Flutter, admin and management consoles, data visualization, offline synchronization",
+    "Cloud & Platform: AWS (S3, Lambda, EKS, IAM, KMS), Azure (SQL Database, Cosmos DB, Data Factory, DevOps, Functions, AKS), GCP, Databricks (Unity Catalog, Workflows, Repos), Kubernetes, Docker, Helm, Terraform, GitHub Actions, Argo CD, CI/CD, serverless computing and infrastructure as code",
+    "Generative & Agentic AI: LLMs, RAG, embeddings and vector search, semantic search, reranking, fine-tuning (LLaMA, LoRA, PEFT), prompt engineering, agentic systems and tool use, function calling, grounding and citations, guardrails, LLM evaluation, LangChain, LlamaIndex",
+    "MLOps & Model Systems: MLflow (tracking, Projects, Model Registry), Kubeflow, SageMaker, ONNX, Triton Inference Server, model serving, experiment tracking, model registries and versioning, training and inference pipelines, batch and real-time inference, automated retraining, canary and blue-green rollout, drift monitoring, model lineage",
+    "Databases, Search & Retrieval: PostgreSQL, MongoDB, Cassandra, Redis, Elasticsearch/OpenSearch, DynamoDB, MySQL, time-series stores, vector stores (FAISS, pgvector), indexing, partitioning, query optimization and data modelling",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing, SLOs and error budgets, alerting and runbooks, on-call and incident response, postmortems, load and performance testing, capacity planning",
+    "Security, Identity & Access: OAuth 2.0, OpenID Connect, JWT, SAML, SSO, SCIM, RBAC and fine-grained authorization, TLS and mTLS, PKI and certificate management, credential issuance and revocation, secrets management, encryption at rest and in transit, least privilege, audit logging, OWASP Top 10, SOC 2 and threat modeling",
+    "Embedded & On-Device: firmware interfaces, on-device inference, model quantization, edge deployment, BLE and NFC integration, over-the-air update flows, constrained-device performance tuning, offline-first behaviour and hardware-in-the-loop testing",
+    "Testing & Engineering Practices: Git, pytest, JUnit, Jest, Playwright, Selenium, k6, JMeter, Pact, unit/integration/end-to-end testing, TDD, contract testing, load testing and performance testing"
   ],
   "education": [
     {
