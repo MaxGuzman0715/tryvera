@@ -21,14 +21,14 @@
       "company": "Microsoft",
       "role": "Senior Machine Learning & Data Engineer",
       "dateRange": "Jun 2020 - Mar 2026",
-      "flagshipProject": "Azure Machine Learning and Microsoft Fabric - training, serving, monitoring and generative evaluation",
+      "flagshipProject": "Wellspring, Assay and Vantage - internal data access, model evaluation and review",
       "spans": [
         "frontend",
         "backend",
         "ai_data",
         "infrastructure"
       ],
-      "description": "Azure Machine Learning and Microsoft Fabric are the two halves of how Microsoft asks enterprises to get a model into production: Fabric puts the data in one place, and Azure Machine Learning owns everything that happens to a model afterwards. Data lands in OneLake regardless of which database or cloud it came from; a model is trained and registered in Azure Machine Learning, the single source of truth for which version is approved; it deploys to a managed online endpoint that collects its own production inference data; and monitoring compares that data against the training baseline for data drift, prediction drift, data quality and feature-attribution drift. Generative work runs the same way: prompt flow orchestrates the prompts and deploys to the same kind of endpoint, Azure AI Foundry supplies the models, Azure AI Search supplies the grounding, and the Responsible AI dashboard scores groundedness and relevance before anything reaches a customer. It serves tens of thousands of paying organisations who never let Microsoft see the data inside, and it touches the front end (studio, endpoint and monitoring surfaces), the back end (training and inference control planes), the data/AI side (lakehouse access, feature and retrieval pipelines, evaluation), the infrastructure layer (compute allocation and multi-tenant capacity) and the governance layer (tenant isolation, lineage and responsible-AI controls).",
+      "description": "Microsoft's product groups each arrived at their own answer to the same two questions -- where the data lives, and whether a model built on it can be defended to somebody who did not build it -- and the cost of that showed up as the same work done a dozen times over. Wellspring is the internal data layer that lets a group reach data where it already sits instead of copying it again, and it keeps the record of exactly which data produced which model. Assay scores that model against what it was trained on and, for generative work, scores whether an answer was genuinely supported by the documents behind it, before anything reaches a user; Vantage is where a group sees what shipped, what it answered and which gate it cleared. Between them they sit behind products used by hundreds of millions of people, and touch the front end (web consoles and the mobile clients that consume these models), the back end (the cloud services behind training, serving and orchestration), the data/AI side (reaching scattered data, retrieval, evaluation), the platform layer (compute allocation and shared capacity) and the security and governance layer (keeping groups apart, provenance, and the controls that decide what is allowed to ship).",
       "isRecentTwo": true,
       "bulletsProvided": false,
       "bullets": []

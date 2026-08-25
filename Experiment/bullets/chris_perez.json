@@ -26,10 +26,10 @@
       "startDate": "Jun 2020",
       "endDate": "Mar 2026",
       "bullets": [
-        "Built and operated the machine-learning platform work across Azure Machine Learning and Microsoft Fabric: OneLake data access, model versioning and sign-off, the serving path, and the monitoring behind it.",
-        "Engineered Azure Machine Learning's monitoring path so a deployed model records every request and response it handles, then scores that record against its training distribution for input drift, output drift, data quality and feature attribution, and alarms the owning team rather than whoever happened to notice.",
-        "Built Azure Machine Learning's evaluation and release path for generative applications, grounding answers on a customer's own indexed content and scoring them for support and relevance before they shipped behind the same kind of service as a conventional model.",
-        "Developed the OneLake data-access layer that let training and retrieval read one copy across databases and clouds, removing the per-project extract that was the usual reason a model had learned from something production no longer looked like."
+        "Built and ran Wellspring, the internal data layer that lets a product group reach data where it already sits rather than copying it, carrying the record of which data produced which model.",
+        "Engineered Assay, the evaluation service that scores a deployed model against its training distribution and, for generative work, scores whether an answer was actually supported by the documents retrieved for it.",
+        "Built Vantage, the review surface where a product group sees what shipped, what it answered and which gate it cleared, so an investigation started from one record instead of from logs nobody had kept.",
+        "Delivered the serving path behind all three, keeping every request and response a model handled so evaluation and incident investigation worked from the same evidence rather than reconstructing it afterwards."
       ],
       "paragraphs": []
     },

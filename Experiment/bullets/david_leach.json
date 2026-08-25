@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Jan 2025",
       "bullets": [
-        "Built and operated platform capabilities across SageMaker, spanning the hosted training workspace, the approval path a model passes through before it can serve, the Feature Store, and the surfaces customers watch production models through.",
-        "Engineered SageMaker's monitoring path that measures what a deployed model is actually being asked against what it learned from, covering input quality, output quality, bias and which features are carrying the decision, so a customer is told rather than left to notice.",
-        "Built SageMaker's approval gates between a trained model and live traffic, running quality and fairness checks automatically so nothing reaches customers without the evidence a regulated buyer needs to defend the decisions it makes.",
-        "Developed SageMaker's sizing and packing path for serving, letting teams measure a configuration under load before committing to it and letting many quiet models share hardware instead of each holding its own."
+        "Built and ran Trellis, the internal platform that carries a model from a notebook to something on call, covering registration, automated review and the promotion gates a model clears before it is allowed to answer live requests.",
+        "Engineered Bellwether, the monitoring service that compares what live traffic actually sends against what a model learned from, and raises input, output, quality and attribution shifts to the team that owns the model rather than to whoever noticed.",
+        "Built Quarry, the shared feature and dataset layer, so two service teams computing the same signal got the same answer instead of maintaining two implementations that drifted apart unnoticed.",
+        "Delivered the web console and review surfaces teams work in, replacing a collection of scripts and wiki pages with one place to see what is deployed, what it is answering and who approved it."
       ],
       "paragraphs": []
     },
