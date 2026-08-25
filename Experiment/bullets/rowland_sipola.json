@@ -19,7 +19,7 @@
         "Build full-stack and AI capabilities across Trinnex's digital-twin portfolio, spanning LeadCAST (asset inventory and replacement planning), waterCAST (the AI digital twin for capacity and condition), and Capacity Planner.",
         "Designed the scenario path behind waterCAST that fuses an operator's own inventory with physical models and field-reading history, so an engineer tests a growth scenario in the browser and gets back maps and constraint lists explainable enough to defend to a regulator.",
         "Owned the integration platform feeding LeadCAST, replacing one-off per-deployment scripts with reusable connectors for Esri ArcGIS inventories and Bentley ProjectWise documents, plus the templates that standardise the next rollout.",
-        "Extended Capacity Planner with unknown-attribute prediction and risk scoring, surfacing feature attributions so a planner can show an auditor why an asset was ranked where it was."
+        "Extended Capacity Planner with machine-learning prediction and risk scoring, promoting models through a versioned serving path with drift monitoring, and surfacing feature attributions so a planner can show an auditor why an asset was ranked where it was."
       ],
       "paragraphs": [],
       "notes": "waterCAST and Capacity Planner are used as the Trinnex project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified. The role is intentionally positioned as broad production software engineering with AI/ML, data, product, and cloud depth rather than as a DevOps-only role.",

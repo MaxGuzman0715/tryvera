@@ -19,7 +19,7 @@
       "bullets": [
         "Build full-stack and AI capabilities across Wealthsimple's Book of Record estate, spanning the Financial Activity Model (the single validated write funnel), the Financial Calculation Platform (streaming recomputation of derived views), and the Machine Learning Platform.",
         "Architected the streaming recomputation and materialized views behind the Financial Calculation Platform, so every customer-facing surface derives from one record rather than from separate copies that drift apart.",
-        "Delivered the cloud backend and app-facing read paths for the Book of Record, letting a customer see current state and every past movement across all four products from a single authoritative source.",
+        "Delivered the cloud backend, web and mobile read paths and internal reporting surfaces for the Book of Record, letting a customer or an operations analyst see current state and every past movement from a single authoritative source.",
         "Embedded anomaly detection and exception classification on the Machine Learning Platform and AI Inference Platform, and prototyped retrieval over internal policy and operations documents through the LLM Gateway."
       ],
       "paragraphs": [],
