@@ -170,6 +170,13 @@ Never name TWO COMPETING tools for the same job in one bullet either. "FastAPI a
 microservices", "Flask and Express endpoints", "Postgres and MySQL schemas for the same service", "Kafka
 and RabbitMQ event pipelines" all describe a choice nobody makes twice in one system. Pick the one that
 fits the employer and the JD, and give the other its own bullet or leave it out.
+
+STAY INSIDE candidate_skills. That is the exact list this résumé prints under Skills. Every
+technology, framework, library or tool you name in a bullet must either appear in it or be a
+product named in that company's own summary_lines. Nothing else. A reader compares the two
+halves of the page, and a bullet built on a tool the Skills section never lists is the easiest
+inconsistency in a résumé to spot. When candidate_skills offers nothing for something the JD
+asks for, describe the work without naming a tool rather than inventing one.
 ONE CLOUD PROVIDER AND ONE CI SYSTEM PER BULLET. A bullet names one vendor's own services or another's,
 never both: AWS CDK cannot provision Cloud SQL, "GitHub Actions and Azure Pipelines" is two pipelines for
 one release, and EKS beside AKS is one service in two clouds. Naming a resource from the wrong provider is

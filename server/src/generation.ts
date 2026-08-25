@@ -624,6 +624,11 @@ async function buildResumeDoc(params: {
       full_name: profile.basic.fullName,
       current_title: profile.basic.title ?? "",
     },
+    // The exact skills list this résumé will RENDER, built by extraction from the profile's
+    // categorized skills. Sent so the bullets and the Skills section describe one engineer:
+    // without it the model named technologies the candidate never listed while the Skills
+    // block omitted ones the bullets were built on.
+    candidate_skills: skillsOut,
     // Per-company shape. An explicit `consulting` flag tells the model which is which:
     //   consulting        — true = consulting/client-services employer, false = the candidate's own role.
     //   reframed_jd       — this company's JD angle (variation A for the anchor, B for consulting).
