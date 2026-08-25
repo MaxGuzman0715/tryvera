@@ -17,11 +17,10 @@
       "startDate": "Aug 2025",
       "endDate": "Present",
       "bullets": [
-        "Build backend and platform capabilities across Wealthsimple's Book of Record, the system of record for client money and assets spanning the Trade, Cash, Managed Investing and Tax products over millions of accounts.",
-        "Moved financial workflows onto the Financial Activity Model, the single validated and idempotent write funnel for financial intent, using controlled migration patterns and AI-assisted migration through the internal LLM Gateway to carry legacy logic across behind anti-corruption layers without compromising correctness.",
-        "Developed streaming calculation and materialized read-model components on the Financial Calculation Platform that derive balances, positions, book value and returns from ledger history, keeping app balances, the activity feed, statements and tax slips consistent with the authoritative record.",
-        "Built event-driven processing and reconciliation workflows around financial activities, handling lifecycle changes, reversals, settlement and recovery paths while preserving ordering, idempotency and consistency, with data-quality checks and observable processing states that surface breaks for operations review.",
-        "Extended the platform with machine-learning models on Wealthsimple's Machine Learning Platform, served by its AI Inference Platform, for anomaly detection, reconciliation-break classification and transaction-risk scoring over versioned financial-activity history, owning feature extraction from ledger events, retraining as patterns shift, and dataset-to-model-to-evaluation lineage for auditable promotion."
+        "Shipped the balances and activity experience clients actually open, a TypeScript React and Next.js surface plus a mobile read API, served from materialized read models over PostgreSQL instead of querying the ledger directly.",
+        "Owned the Financial Activity Model write funnel end to end: idempotent, schema-validated .NET service APIs, Kafka propagation of every consequence, and a workflow engine driving money movement that takes days to settle.",
+        "Stood up the reporting estate that finance, operations and compliance all argue from, moving ledger and eight upstream systems through Airflow and dbt into Snowflake with master data reconciliation, surfaced in Looker.",
+        "Put machine learning into the posting path on the Machine Learning Platform and AI Inference Platform, with scikit-learn and PyTorch anomaly and reconciliation-break models, versioned promotion through MLflow, and retrieval over policy documents via the internal LLM Gateway."
       ],
       "paragraphs": [],
       "notes": "Four bullets mapped onto the anchor: write path (Book of Record / Financial Activity Model / controlled migration), read path (Financial Calculation Platform / read models), event-driven processing and reconciliation, and the ML decisioning layer. Bullet 4 deliberately covers the FULL model lifecycle (feature extraction, retraining, lineage, promotion, serving, monitoring) but welds every stage to a financial object - ledger events, activity history, reconciliation breaks, money-movement and back-office workflows - so a JD's named tooling (MLflow, SageMaker, TorchServe) attaches to the financial story instead of floating as generic MLOps. No stage is left empty, because an empty stage is a slot the model fills from reframed_jd. Number-free, matching deepankar/rowland/andrew."
@@ -32,12 +31,7 @@
       "title": "Senior Software Engineer",
       "startDate": "Nov 2020",
       "endDate": "Jul 2025",
-      "bullets": [
-        "Delivered end-to-end software, data, and platform systems across client engagements, owning technical discovery through architecture, implementation, production deployment, and handover.",
-        "Built backend services, APIs, data pipelines, and cloud integrations that connected legacy enterprise systems with modern application and analytics capabilities while keeping client-facing contracts stable.",
-        "Applied distributed-systems, data-engineering, and applied-ML techniques where the client problem justified them, with reproducible evaluation and explicit production-quality gates rather than proof-of-concept delivery.",
-        "Established deployment, observability, security, and post-release operating practices as part of the engagement deliverable so client teams could operate and extend the systems after handover."
-      ],
+      "bullets": [],
       "paragraphs": [],
       "consulting": true,
       "notes": "TEEMA is a staffing / contract-placement firm; the role is contract engineering delivered at client sites. Kept industry-neutral in the profile. At generation, projects/shared.json supplies the JD-matched anonymized client engagement(s)."
@@ -108,12 +102,16 @@
     {
       "school": "Bapuji Institute of Engineering & Technology, Davangere",
       "degree": "Master",
-      "field": "Computer Science"
+      "field": "Computer Science",
+      "startDate": "",
+      "endDate": ""
     },
     {
       "school": "University of Mumbai",
       "degree": "Bachelor",
-      "field": "Commerce"
+      "field": "Commerce",
+      "startDate": "",
+      "endDate": ""
     }
   ],
   "note": "Built from LinkedIn (5 roles, Jun 2007 - Present) plus researched public anchors per company. TEEMA is a staffing/contract-placement firm and is flagged consulting:true so shared.json supplies JD-matched client engagements. Skills inventory is deliberately broad to span 19 years across banking, enterprise operations, construction/industrial, consulting, and fintech; it is the hard cap on what the extraction step can surface (it only trims, never adds), so breadth here directly determines JD coverage. Rule for this list: every entry must be a NAMED technology, protocol, standard, or established pattern that a JD could keyword-match and an interviewer could question. Practice descriptions ('secrets management', 'encryption at rest and in transit', 'least privilege', 'cost optimization', 'incident response') were removed and replaced with the named things that implement them (HashiCorp Vault, AWS KMS, TLS/mTLS, AES-256, PagerDuty). Verify the inventory against the candidate's real experience before any live submission."

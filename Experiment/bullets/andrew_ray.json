@@ -17,10 +17,10 @@
       "startDate": "Jun 2023",
       "endDate": "Present",
       "bullets": [
-        "Led engineering across Rackspace's FAIR platform, Foundry for AI by Rackspace, the framework that takes enterprise AI from experimentation into secure production-ready systems, and RITA, its flagship internal Generative AI assistant.",
-        "Built RITA's retrieval path end to end: enterprise documents from Confluence, SharePoint and ServiceNow-style knowledge bases ingested and chunked, indexed so they can be searched by meaning, then retrieved and ranked within what the asker is authorized to see before an external model provider produces a grounded answer carrying source citations.",
-        "Developed RITA's evaluation and admin surfaces, scoring faithfulness, retrieval recall and latency before and after each release, and letting operators tune prompt, model and retrieval settings and review answer quality in production.",
-        "Built the reusable pieces of FAIR so no team rebuilt them: prompt and model lifecycle management, dataset versioning, experiment tracking, fine-tuning pipelines, latency-tuned serving paths, drift monitoring, and release gates that keep ungrounded or unevaluated workloads off production surfaces."
+        "Delivered RITA, Rackspace's internal Generative AI assistant, as a TypeScript React interface with streaming answers and citation views over a Python FastAPI service, retrieving only what the asker is authorized to see.",
+        "Engineered the document-intelligence path feeding it, pulling Confluence, SharePoint and ServiceNow-style sources through semantic chunking, embeddings and hybrid retrieval, and scoring the result for recall, faithfulness and latency before release.",
+        "Consolidated FAIR's analytics onto one footing, with Airflow ingestion into a Delta Lake medallion layout, dbt models, reconciled reference data, and Trino queries exposed through Superset dashboards gated per team.",
+        "Ran the model lifecycle for FAIR: PyTorch and scikit-learn training pipelines, an MLflow registry, drift and feature-attribution monitors, scheduled retraining, and release gates that stop an unevaluated model reaching a production surface."
       ],
       "paragraphs": [],
       "notes": "FAIR and RITA are used as the Rackspace project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified; preserve the non-round metric style but replace unsupported figures before live submission."
@@ -31,12 +31,7 @@
       "title": "Senior Machine Learning Data Scientist",
       "startDate": "Jan 2022",
       "endDate": "Jun 2023",
-      "bullets": [
-        "Delivered end-to-end software, data, and machine-learning systems across enterprise consulting engagements, owning technical discovery through production deployment and client handoff.",
-        "Built backend services, APIs, data pipelines, and cloud integrations that connected legacy enterprise systems with modern analytics and ML capabilities while keeping client-facing contracts stable.",
-        "Applied predictive modeling, NLP, forecasting, retrieval, and decision-support techniques where the client problem justified them, with reproducible evaluation and explicit production-quality gates rather than demo-only models.",
-        "Established deployment, observability, data-quality, security, and post-release operating practices as part of the engagement deliverable so client teams could tell whether a system was still healthy after handoff."
-      ],
+      "bullets": [],
       "paragraphs": [],
       "notes": "Consulting role intentionally kept industry-neutral in the profile. At generation, projects/shared.json supplies the JD-matched anonymized client engagement(s); the Avanade hidden corpus supplies technology-specific implementation evidence. Candidate-specific implementation details and metrics are synthetic/inferred test material unless independently verified.",
       "consulting": true

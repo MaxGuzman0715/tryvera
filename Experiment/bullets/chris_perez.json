@@ -26,10 +26,10 @@
       "startDate": "Jun 2020",
       "endDate": "Mar 2026",
       "bullets": [
-        "Built and ran Wellspring, the internal data layer that lets a product group reach data where it already sits rather than copying it, carrying the record of which data produced which model.",
-        "Engineered Assay, the evaluation service that scores a deployed model against its training distribution and, for generative work, scores whether an answer was actually supported by the documents retrieved for it.",
-        "Built Vantage, the review surface where a product group sees what shipped, what it answered and which gate it cleared, so an investigation started from one record instead of from logs nobody had kept.",
-        "Delivered the serving path behind all three, keeping every request and response a model handled so evaluation and incident investigation worked from the same evidence rather than reconstructing it afterwards."
+        "Built Vantage, the surface a product group reviews from: a TypeScript React and Next.js client over a .NET service layer showing what shipped, what it answered, and which gate it cleared.",
+        "Engineered Assay's retrieval and scoring path, chunking and embedding a group's own documents into a vector index and grading answers for groundedness, relevance and latency before any of it faces a user.",
+        "Brought Wellspring's data side together, with Airflow ingestion reaching across databases and clouds into a Delta Lake layout, dbt models, reconciled reference data, and Power BI reporting scoped by row-level security.",
+        "Owned the model lifecycle across both, keeping PyTorch and scikit-learn training under an MLflow registry, serving through versioned endpoints, and measuring input drift, output drift and feature attribution against the training baseline."
       ],
       "paragraphs": []
     },

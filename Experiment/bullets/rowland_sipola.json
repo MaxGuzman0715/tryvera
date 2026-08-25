@@ -16,10 +16,10 @@
       "startDate": "Aug 2024",
       "endDate": "Present",
       "bullets": [
-        "Build product and platform capabilities across Trinnex's digital-water portfolio, spanning LeadCAST (lead-service-line inventory and replacement planning), waterCAST (AI digital-twin for capacity, water quality and real-time monitoring), and Capacity Planner.",
-        "Developed the waterCAST scenario path that fuses a utility's own records with models and sensor history, so an engineer can test a growth scenario in the browser and get back maps and constraint lists explainable enough to defend to a regulator.",
-        "Built successive generations of the Esri integration feeding LeadCAST, plus the templates that standardise the next ones, consolidating scattered municipal records into one defensible register a utility can prove service-line material from.",
-        "Engineered the shared data platform underneath both products: the Bentley ProjectWise document connector, reusable client-integration libraries that replaced one-off per-utility scripts, and completion tracking for pipelines that had been marking themselves successful at handoff rather than at finish."
+        "Built the scenario and inventory web clients for LeadCAST and waterCAST in Vue 3 with the Composition API, Pinia and Vite, alongside the field-facing mobile views, over an ASP.NET Core API layer on PostgreSQL.",
+        "Owned the integration platform that turns a client's scattered records into one defensible register: successive Esri connector generations, a Bentley ProjectWise document connector, and reusable client-integration libraries in place of per-deployment scripts.",
+        "Designed Capacity Planner's analytics backbone, landing telemetry and operational records through Dagster into a Databricks Delta Lake warehouse, modelling it with dbt, and publishing Tableau workbooks scoped per client.",
+        "Trained the forecasting, anomaly-detection and risk-scoring models over that warehouse in scikit-learn and XGBoost, served them behind a versioned inference API, and attached feature-attribution traces so an engineer can defend a score to a regulator."
       ],
       "paragraphs": [],
       "notes": "waterCAST and Capacity Planner are used as the Trinnex project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified. The role is intentionally positioned as broad production software engineering with AI/ML, data, product, and cloud depth rather than as a DevOps-only role.",
@@ -31,12 +31,7 @@
       "title": "Senior Software Engineer",
       "startDate": "Nov 2019",
       "endDate": "Jul 2024",
-      "bullets": [
-        "Delivered production software and data-intensive systems for enterprise clients across regulated and high-scale environments, owning architecture from application and API design through cloud deployment and operational handoff.",
-        "Built distributed backend services, data pipelines, and integration layers in Python, Java, Go, and cloud-native environments, replacing tightly coupled client systems with independently deployable services.",
-        "Applied machine learning, NLP, forecasting, and analytical modeling to client workflows where predictive or automated decision support replaced manual review and rules-based processing.",
-        "Led technical design and delivery across application, data, AI, and platform teams, translating business constraints into scalable systems with measurable reliability, security, and operational requirements."
-      ],
+      "bullets": [],
       "paragraphs": [],
       "consulting": true,
       "notes": "Consulting role intentionally kept broad. JD-specific client engagements are generated dynamically from shared.json and Variation B rather than permanently fixing Deloitte to one technology or industry story."

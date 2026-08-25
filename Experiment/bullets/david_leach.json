@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Jan 2025",
       "bullets": [
-        "Built and ran Trellis, the internal platform that carries a model from a notebook to something on call, covering registration, automated review and the promotion gates a model clears before it is allowed to answer live requests.",
-        "Engineered Bellwether, the monitoring service that compares what live traffic actually sends against what a model learned from, and raises input, output, quality and attribution shifts to the team that owns the model rather than to whoever noticed.",
-        "Built Quarry, the shared feature and dataset layer, so two service teams computing the same signal got the same answer instead of maintaining two implementations that drifted apart unnoticed.",
-        "Delivered the web console and review surfaces teams work in, replacing a collection of scripts and wiki pages with one place to see what is deployed, what it is answering and who approved it."
+        "Built Trellis's console and review experience, a TypeScript React front end on a Python FastAPI service, where a team registers what it trained, watches what is live, and signs off what may answer real requests.",
+        "Assembled the retrieval layer behind the internal engineering assistant, embedding runbooks and design documents into a vector index and grading answers on grounding, recall and response time before anyone leaned on them.",
+        "Owned Quarry, the shared feature and analytics platform: Spark jobs orchestrated by Step Functions into an Iceberg lakehouse on S3, dbt models over it, reconciled reference data, and Athena queries surfaced in QuickSight per team.",
+        "Made Bellwether the thing that catches a stale model, wiring scikit-learn and PyTorch training pipelines to an MLflow registry, watching input, output and feature-attribution shift, and kicking off retraining without anyone asking."
       ],
       "paragraphs": []
     },

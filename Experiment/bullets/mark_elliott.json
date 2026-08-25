@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Aug 2025",
       "bullets": [
-        "Built and operated the data and machine-learning platform inside Dover Digital Labs, spanning device telemetry ingestion, the shared cloud data estate and the model-serving paths behind DX Wetstock, Markem-Imaje's CoLOS suite and Systech UniSecure.",
-        "Engineered the reconciliation models behind DX Wetstock, aligning delivery, tank-gauge and dispenser records so a fuel retailer sees a specific discrepancy and its likely cause instead of an unexplained variance at month end.",
-        "Built the data pipelines feeding Markem-Imaje's CoLOS coding and traceability platform, normalising line events and product master data so coding rules that differ by country and material could be applied and later proven from one record.",
-        "Delivered the model-serving path for Systech UniSecure, scoring captured pack images against known-genuine features so a distributor or pharmacy can judge authenticity on the spot rather than sending a unit away to a lab."
+        "Built the console operators actually work in for DX Wetstock, a TypeScript React application with mobile views for field staff, on a Python FastAPI service over PostgreSQL, so a discrepancy lands with whoever must act on it.",
+        "Engineered the image and document intelligence behind Markem-Imaje's CoLOS suite and Systech UniSecure, running OCR, chunking and embeddings into a vector index, and tracking extraction accuracy and false-accept rate as release criteria.",
+        "Unified Dover Digital Labs' telemetry into one analytics estate, ingesting through Kafka and Azure Data Factory into Synapse, reconciling reference data across operating companies, and publishing Grafana dashboards each business unit reads from.",
+        "Trained the detection side in scikit-learn and XGBoost for loss detection, forecasting and anomalies, added PyTorch vision inspection for print and pack defects, and promoted all of it through an MLflow registry with drift monitoring and scheduled retraining."
       ],
       "paragraphs": []
     },
