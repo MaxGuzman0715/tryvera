@@ -482,8 +482,15 @@ looks broken. Every entry must have a colon or none should.
   what came first.
 
   BE GENEROUS. 150 to 230 individual terms across the seven is normal here. Extraction
-  trims aggressively per posting; anything absent from this list can never appear, and
-  the generator is separately instructed to stay inside the candidate's inventory.
+  trims aggressively per posting; anything absent from this list can never appear.
+
+  THIS LIST IS A HARD CONSTRAINT ON THE BULLETS NOW, not just a section of the résumé.
+  The trimmed version of it reaches the generation call as candidate_skills, and the résumé
+  prompt forbids naming any technology that is not in it, or is not a product named in that
+  company's own summary_lines. So a gap here does not produce a thin skills section, it
+  produces one of two failures: a bullet naming a tool the Skills block never lists, or a
+  bullet describing the work with no tool named at all. Both show on the page, and the
+  second one costs keyword matches.
 
   EVERY CATEGORY HEADER MUST BE HONOURED BY ITS CONTENTS. If a header says Geospatial,
   something geospatial must be in it. This has failed repeatedly in generated output —
@@ -497,6 +504,23 @@ looks broken. Every entry must have a colon or none should.
   profile whose testing category was generic produced generated bullets naming xUnit and
   Vitest that appeared nowhere in the skills section, because the generator filled a gap
   it could see in the posting and could not see in the inventory.
+
+  AND INCLUDE THE BORING WORKHORSE TOOLS, NOT ONLY THE HEADLINE ONES. This is a separate
+  failure from the one above and an easier one to make, because the impressive names feel
+  like the ones worth listing. One profile's AI category read "LLMs and RAG, fine-tuning
+  (LoRA), embeddings and vector search, computer vision, agentic systems, PyTorch/
+  TensorFlow" and contained no pandas, no NumPy and no scikit-learn. On a posting asking
+  for SQL and Python dataset investigation the generator had nothing legitimate to name, so
+  it wrote pandas and scikit-learn into the bullets anyway and the Skills section
+  contradicted them. The layer that gets forgotten, per discipline:
+
+    data / ML    pandas, NumPy, scikit-learn, Jupyter, SQLAlchemy, matplotlib
+    backend      the ORM and the driver, not just the web framework
+    frontend     the state, router and build tooling, not just the framework
+    infra        the CLI and templating tools, not just the platform
+
+  Rule of thumb: if the candidate opens it most days it belongs in the list, however
+  unremarkable it looks beside the framework names.
 
   NEVER INCLUDE PROCESS NOUNS OR SOFT SKILLS. No "system design", "scalability", "code
   review", "trunk-based development", "communication", "stakeholder management",
@@ -619,7 +643,13 @@ link — so you must use Force regenerate or you are testing nothing. Read the o
     twice? They are supposed to be complementary.
   - are there exactly four figures per recent company, of at least three different
     kinds, with at least one magnitude?
-  - does the skills section contradict the bullets?
+  - does the skills section contradict the bullets? List every technology named in the
+    bullets and check each against the printed Skills block. Anything in a bullet and not
+    in Skills is either a gap in this list or an extraction trim.
+  - open the PDF and select a section header. If it extracts as "S U M M A R Y" the
+    template letter-spacing is too wide: 0.12em and below is safe, 0.14em and above breaks.
+    Section headers are how an ATS segments a document, so a broken one costs more than a
+    broken name.
   - is the client industry named once per engagement, or repeated down every bullet?
 
 
