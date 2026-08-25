@@ -17,10 +17,10 @@
       "startDate": "Aug 2025",
       "endDate": "Present",
       "bullets": [
-        "Build full-stack and AI capabilities across Wealthsimple's Book of Record estate, spanning the Financial Activity Model (the validated write funnel for financial intent), the Financial Calculation Platform (streaming balance and position calculation), and the Machine Learning Platform.",
-        "Architected the streaming calculation and materialized read models behind the Financial Calculation Platform, so app balances, activity feeds, statements and tax slips all derive from the ledger rather than from separate sources that drift apart.",
-        "Delivered the cloud backend and app-facing read paths for the Book of Record, letting clients see balances and every movement across Trade, Cash, Managed Investing and Tax from one authoritative record.",
-        "Embedded anomaly detection and reconciliation-break classification on the Machine Learning Platform and AI Inference Platform, and prototyped retrieval over policy and operations documents through the internal LLM Gateway."
+        "Build full-stack and AI capabilities across Wealthsimple's Book of Record estate, spanning the Financial Activity Model (the single validated write funnel), the Financial Calculation Platform (streaming recomputation of derived views), and the Machine Learning Platform.",
+        "Architected the streaming recomputation and materialized views behind the Financial Calculation Platform, so every customer-facing surface derives from one record rather than from separate copies that drift apart.",
+        "Delivered the cloud backend and app-facing read paths for the Book of Record, letting a customer see current state and every past movement across all four products from a single authoritative source.",
+        "Embedded anomaly detection and exception classification on the Machine Learning Platform and AI Inference Platform, and prototyped retrieval over internal policy and operations documents through the LLM Gateway."
       ],
       "paragraphs": [],
       "notes": "Four bullets mapped onto the anchor: write path (Book of Record / Financial Activity Model / controlled migration), read path (Financial Calculation Platform / read models), event-driven processing and reconciliation, and the ML decisioning layer. Bullet 4 deliberately covers the FULL model lifecycle (feature extraction, retraining, lineage, promotion, serving, monitoring) but welds every stage to a financial object - ledger events, activity history, reconciliation breaks, money-movement and back-office workflows - so a JD's named tooling (MLflow, SageMaker, TorchServe) attaches to the financial story instead of floating as generic MLOps. No stage is left empty, because an empty stage is a slot the model fills from reframed_jd. Number-free, matching deepankar/rowland/andrew."

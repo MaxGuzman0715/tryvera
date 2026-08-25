@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Aug 2025",
       "bullets": [
-        "Lead full-stack and AI capabilities across Dover Digital Labs' connected-product portfolio, spanning DX Wetstock (fuel reconciliation and loss detection), Markem-Imaje's CoLOS suite (coding and traceability), and Systech UniSecure (product authentication).",
-        "Trained the reconciliation models behind DX Wetstock and ProGauge gauge data, aligning delivery, gauge and sales records so a retailer sees a specific discrepancy and its likely cause instead of an unexplained variance at month end.",
-        "Rebuilt the cloud backend and operator consoles for the CoLOS suite, holding the GS1-compliant coding and traceability rules that differ by country and material so a production line can be proven compliant from one record.",
-        "Added image-based authentication to Systech UniSecure, scoring captured packs against known-genuine features so a distributor can judge a counterfeit on the spot rather than sending it away to a lab."
+        "Lead full-stack and AI capabilities across Dover Digital Labs' connected-product portfolio, spanning DX Wetstock (inventory reconciliation and loss detection), Markem-Imaje's CoLOS suite (labelling and traceability), and Systech UniSecure (item authentication).",
+        "Trained the reconciliation models behind DX Wetstock and ProGauge readings, aligning what was received, what is on hand and what went out so an operator sees a specific exception and its likely cause instead of an unexplained variance at period end.",
+        "Rebuilt the cloud backend and operator consoles for the CoLOS suite, holding the GS1-aligned labelling and traceability rules that differ by market and material so a line can be proven compliant from one record.",
+        "Added image-based authentication to Systech UniSecure, scoring captured items against known-genuine features so a distributor can judge authenticity on the spot rather than sending one away to a lab."
       ],
       "paragraphs": []
     },
