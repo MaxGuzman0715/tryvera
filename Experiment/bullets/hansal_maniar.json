@@ -17,10 +17,10 @@
       "startDate": "Aug 2025",
       "endDate": "Present",
       "bullets": [
-        "Shipped the balances and activity experience clients actually open, a TypeScript React and Next.js surface plus a mobile read API, served from materialized read models over PostgreSQL instead of querying the ledger directly.",
-        "Owned the Financial Activity Model write funnel end to end: idempotent, schema-validated .NET service APIs, Kafka propagation of every consequence, and a workflow engine driving money movement that takes days to settle.",
-        "Stood up the reporting estate that finance, operations and compliance all argue from, moving ledger and eight upstream systems through Airflow and dbt into Snowflake with master data reconciliation, surfaced in Looker.",
-        "Put machine learning into the posting path on the Machine Learning Platform and AI Inference Platform, with scikit-learn and PyTorch anomaly and reconciliation-break models, versioned promotion through MLflow, and retrieval over policy documents via the internal LLM Gateway."
+        "Build full-stack and AI capabilities across Wealthsimple's Book of Record estate, spanning the Financial Activity Model (the validated write funnel for financial intent), the Financial Calculation Platform (streaming balance and position calculation), and the Machine Learning Platform.",
+        "Architected the streaming calculation and materialized read models behind the Financial Calculation Platform, so app balances, activity feeds, statements and tax slips all derive from the ledger rather than from separate sources that drift apart.",
+        "Delivered the cloud backend and app-facing read paths for the Book of Record, letting clients see balances and every movement across Trade, Cash, Managed Investing and Tax from one authoritative record.",
+        "Embedded anomaly detection and reconciliation-break classification on the Machine Learning Platform and AI Inference Platform, and prototyped retrieval over policy and operations documents through the internal LLM Gateway."
       ],
       "paragraphs": [],
       "notes": "Four bullets mapped onto the anchor: write path (Book of Record / Financial Activity Model / controlled migration), read path (Financial Calculation Platform / read models), event-driven processing and reconciliation, and the ML decisioning layer. Bullet 4 deliberately covers the FULL model lifecycle (feature extraction, retraining, lineage, promotion, serving, monitoring) but welds every stage to a financial object - ledger events, activity history, reconciliation breaks, money-movement and back-office workflows - so a JD's named tooling (MLflow, SageMaker, TorchServe) attaches to the financial story instead of floating as generic MLOps. No stage is left empty, because an empty stage is a slot the model fills from reframed_jd. Number-free, matching deepankar/rowland/andrew."

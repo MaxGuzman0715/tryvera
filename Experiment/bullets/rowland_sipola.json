@@ -16,10 +16,10 @@
       "startDate": "Aug 2024",
       "endDate": "Present",
       "bullets": [
-        "Built the scenario and inventory web clients for LeadCAST and waterCAST in Vue 3 with the Composition API, Pinia and Vite, alongside the field-facing mobile views, over an ASP.NET Core API layer on PostgreSQL.",
-        "Owned the integration platform that turns a client's scattered records into one defensible register: successive Esri connector generations, a Bentley ProjectWise document connector, and reusable client-integration libraries in place of per-deployment scripts.",
-        "Designed Capacity Planner's analytics backbone, landing telemetry and operational records through Dagster into a Databricks Delta Lake warehouse, modelling it with dbt, and publishing Tableau workbooks scoped per client.",
-        "Trained the forecasting, anomaly-detection and risk-scoring models over that warehouse in scikit-learn and XGBoost, served them behind a versioned inference API, and attached feature-attribution traces so an engineer can defend a score to a regulator."
+        "Build full-stack and AI capabilities across Trinnex's digital-water portfolio, spanning LeadCAST (service-line inventory and replacement planning), waterCAST (AI digital twin for capacity and water quality), and Capacity Planner.",
+        "Designed the scenario path behind waterCAST that fuses a utility's own records with hydraulic models and SCADA history, so an engineer tests a growth scenario in the browser and gets back maps and constraint lists explainable enough to defend to a regulator.",
+        "Owned the integration platform feeding LeadCAST, replacing one-off per-utility scripts with reusable connectors for Esri ArcGIS inventories and Bentley ProjectWise documents, plus the templates that standardise the next deployment.",
+        "Extended Capacity Planner with unknown-material prediction and risk scoring, surfacing feature attributions so a planner can show an auditor why a service line was ranked where it was under the Lead and Copper Rule."
       ],
       "paragraphs": [],
       "notes": "waterCAST and Capacity Planner are used as the Trinnex project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified. The role is intentionally positioned as broad production software engineering with AI/ML, data, product, and cloud depth rather than as a DevOps-only role.",

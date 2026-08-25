@@ -26,10 +26,10 @@
       "startDate": "Jun 2020",
       "endDate": "Mar 2026",
       "bullets": [
-        "Built Vantage, the surface a product group reviews from: a TypeScript React and Next.js client over a .NET service layer showing what shipped, what it answered, and which gate it cleared.",
-        "Engineered Assay's retrieval and scoring path, chunking and embedding a group's own documents into a vector index and grading answers for groundedness, relevance and latency before any of it faces a user.",
-        "Brought Wellspring's data side together, with Airflow ingestion reaching across databases and clouds into a Delta Lake layout, dbt models, reconciled reference data, and Power BI reporting scoped by row-level security.",
-        "Owned the model lifecycle across both, keeping PyTorch and scikit-learn training under an MLflow registry, serving through versioned endpoints, and measuring input drift, output drift and feature attribution against the training baseline."
+        "Own full-stack and AI platform capabilities across Microsoft's internal data and model estate, spanning Wellspring (reaching data where it already sits), Lattice (training and sign-off), Assay (model and answer evaluation), Vantage (the review surface groups work from), and Waypoint (versioned serving).",
+        "Consolidated Wellspring so a product group reads one copy of the data across databases and clouds, carrying the record of exactly which data produced which model instead of a per-project extract nobody can trace.",
+        "Extended Assay's scoring path for conventional and generative work alike, measuring a model against what it was trained on and measuring whether an answer was genuinely supported by the documents behind it.",
+        "Instrumented Vantage's review and sign-off flow so a group sees what shipped, what it answered and which Responsible AI Standard and ISO 27001 gate it cleared, and an investigation starts from one record rather than from logs nobody kept."
       ],
       "paragraphs": []
     },

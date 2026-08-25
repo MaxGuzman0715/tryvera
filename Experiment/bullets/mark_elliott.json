@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Aug 2025",
       "bullets": [
-        "Built the console operators actually work in for DX Wetstock, a TypeScript React application with mobile views for field staff, on a Python FastAPI service over PostgreSQL, so a discrepancy lands with whoever must act on it.",
-        "Engineered the image and document intelligence behind Markem-Imaje's CoLOS suite and Systech UniSecure, running OCR, chunking and embeddings into a vector index, and tracking extraction accuracy and false-accept rate as release criteria.",
-        "Unified Dover Digital Labs' telemetry into one analytics estate, ingesting through Kafka and Azure Data Factory into Synapse, reconciling reference data across operating companies, and publishing Grafana dashboards each business unit reads from.",
-        "Trained the detection side in scikit-learn and XGBoost for loss detection, forecasting and anomalies, added PyTorch vision inspection for print and pack defects, and promoted all of it through an MLflow registry with drift monitoring and scheduled retraining."
+        "Lead full-stack and AI capabilities across Dover Digital Labs' connected-product portfolio, spanning DX Wetstock (fuel reconciliation and loss detection), Markem-Imaje's CoLOS suite (coding and traceability), and Systech UniSecure (product authentication).",
+        "Trained the reconciliation models behind DX Wetstock and ProGauge gauge data, aligning delivery, gauge and sales records so a retailer sees a specific discrepancy and its likely cause instead of an unexplained variance at month end.",
+        "Rebuilt the cloud backend and operator consoles for the CoLOS suite, holding the GS1-compliant coding and traceability rules that differ by country and material so a production line can be proven compliant from one record.",
+        "Added image-based authentication to Systech UniSecure, scoring captured packs against known-genuine features so a distributor can judge a counterfeit on the spot rather than sending it away to a lab."
       ],
       "paragraphs": []
     },

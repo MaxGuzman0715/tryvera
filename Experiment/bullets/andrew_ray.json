@@ -17,10 +17,10 @@
       "startDate": "Jun 2023",
       "endDate": "Present",
       "bullets": [
-        "Delivered RITA, Rackspace's internal Generative AI assistant, as a TypeScript React interface with streaming answers and citation views over a Python FastAPI service, retrieving only what the asker is authorized to see.",
-        "Engineered the document-intelligence path feeding it, pulling Confluence, SharePoint and ServiceNow-style sources through semantic chunking, embeddings and hybrid retrieval, and scoring the result for recall, faithfulness and latency before release.",
-        "Consolidated FAIR's analytics onto one footing, with Airflow ingestion into a Delta Lake medallion layout, dbt models, reconciled reference data, and Trino queries exposed through Superset dashboards gated per team.",
-        "Ran the model lifecycle for FAIR: PyTorch and scikit-learn training pipelines, an MLflow registry, drift and feature-attribution monitors, scheduled retraining, and release gates that stop an unevaluated model reaching a production surface."
+        "Lead full-stack and AI capabilities across Rackspace's FAIR platform, spanning RITA (the internal Generative AI assistant), the retrieval and evaluation services behind it, and the shared model lifecycle tooling other teams build on.",
+        "Shipped RITA's retrieval path end to end, ingesting Confluence, SharePoint and ServiceNow content and indexing it so it can be searched by meaning, and returning answers within what the asker is authorized to see.",
+        "Standardised the evaluation and admin surfaces around RITA, scoring answer faithfulness, retrieval recall and latency before and after each release, and letting operators tune prompt, model and retrieval settings in production.",
+        "Consolidated the shared model lifecycle into FAIR so no team rebuilt it, covering dataset versioning, experiment tracking, fine-tuning, drift monitoring, and release gates aligned to SOC 2 evidence requirements."
       ],
       "paragraphs": [],
       "notes": "FAIR and RITA are used as the Rackspace project anchor. Numeric impact figures and candidate-specific implementation details are synthetic test data for resume-generation testing unless independently verified; preserve the non-round metric style but replace unsupported figures before live submission."

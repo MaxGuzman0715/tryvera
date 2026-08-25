@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Jan 2025",
       "bullets": [
-        "Built Trellis's console and review experience, a TypeScript React front end on a Python FastAPI service, where a team registers what it trained, watches what is live, and signs off what may answer real requests.",
-        "Assembled the retrieval layer behind the internal engineering assistant, embedding runbooks and design documents into a vector index and grading answers on grounding, recall and response time before anyone leaned on them.",
-        "Owned Quarry, the shared feature and analytics platform: Spark jobs orchestrated by Step Functions into an Iceberg lakehouse on S3, dbt models over it, reconciled reference data, and Athena queries surfaced in QuickSight per team.",
-        "Made Bellwether the thing that catches a stale model, wiring scikit-learn and PyTorch training pipelines to an MLflow registry, watching input, output and feature-attribution shift, and kicking off retraining without anyone asking."
+        "Build full-stack and AI platform capabilities across AWS's internal machine-learning estate, spanning Slipway (the hosted training workspace), Trellis (registration and promotion), Quarry (shared features and datasets), Bellwether (production monitoring), and Wayfinder (inference sizing).",
+        "Owned the promotion path behind Trellis, running quality and fairness checks between a trained model and live traffic so nothing serves customers without the evidence a FedRAMP-scoped team needs to defend it.",
+        "Delivered the Slipway workspace and the Trellis review console service teams work in, replacing scripts and wiki pages with one place to see what is deployed, what it is answering and who approved it.",
+        "Wired drift detection into Bellwether, measuring what production actually sends against what a model learned from and raising it to the team that owns the model before its customers notice, feeding the Well-Architected reviews each service team runs."
       ],
       "paragraphs": []
     },
