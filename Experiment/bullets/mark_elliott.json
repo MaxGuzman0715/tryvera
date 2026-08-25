@@ -1,0 +1,102 @@
+{
+  "id": "mark_elliott",
+  "basic": {
+    "fullName": "Mark Elliott",
+    "title": "Senior Machine Learning & Data Engineer",
+    "email": "mark.elliott1003@outlook.com",
+    "phone": "+1 (763) 421-8890",
+    "location": "Champlin, MN",
+    "linkedin": "https://www.linkedin.com/in/mark-elliott-mle"
+  },
+  "experience": [
+    {
+      "company": "Tredence",
+      "location": "Minneapolis, MN | Remote",
+      "title": "Senior Machine Learning & Data Engineer",
+      "startDate": "Aug 2025",
+      "endDate": "Present",
+      "bullets": [],
+      "paragraphs": [],
+      "consulting": true
+    },
+    {
+      "company": "Dover Corporation",
+      "location": "Remote",
+      "title": "Senior Machine Learning & Data Engineer",
+      "startDate": "Dec 2021",
+      "endDate": "Aug 2025",
+      "bullets": [
+        "Built and operated the data and machine-learning platform inside Dover Digital Labs, spanning device telemetry ingestion, the shared cloud data estate and the model-serving paths behind DX Wetstock, Markem-Imaje's CoLOS suite and Systech UniSecure.",
+        "Engineered the reconciliation models behind DX Wetstock, aligning delivery, tank-gauge and dispenser records so a fuel retailer sees a specific discrepancy and its likely cause instead of an unexplained variance at month end.",
+        "Built the data pipelines feeding Markem-Imaje's CoLOS coding and traceability platform, normalising line events and product master data so coding rules that differ by country and material could be applied and later proven from one record.",
+        "Delivered the model-serving path for Systech UniSecure, scoring captured pack images against known-genuine features so a distributor or pharmacy can judge authenticity on the spot rather than sending a unit away to a lab."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Genesis10",
+      "location": "Minneapolis, MN",
+      "title": "Senior Machine Learning & Data Engineer",
+      "startDate": "Nov 2019",
+      "endDate": "Dec 2021",
+      "bullets": [
+        "Delivered machine-learning and data-engineering work for enterprise clients through Genesis10, embedding with client teams to take models from a proof of concept into something their own engineers could operate.",
+        "Built cloud data platforms and ingestion pipelines that replaced spreadsheet-and-extract reporting, giving client analytics teams one reconcilable source instead of several that disagreed.",
+        "Developed forecasting and classification models for retail, healthcare and manufacturing clients, sized to the data each client actually had rather than the data the engagement had assumed.",
+        "Established deployment, monitoring and handover practices on each engagement so models kept running after the consultants left, including runbooks and retraining schedules owned by the client."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "CVS Health",
+      "location": "Minneapolis, MN",
+      "title": "Senior Machine Learning & Data Engineer",
+      "startDate": "Jul 2016",
+      "endDate": "Nov 2019",
+      "bullets": [
+        "Owned the machine-learning services behind pharmacy operations at CVS Health, scoring prescriptions and member history so adherence risk surfaced while a pharmacist could still act on it.",
+        "Built fraud, waste and abuse detection over pharmacy and benefit claims, separating genuine clinical exceptions from patterns worth reviewing instead of flagging on cost alone.",
+        "Rebuilt the data foundation underneath, turning claims, prescription, benefit and store-operations sources into pipelines that produced the identical training set on every run.",
+        "Forecast retail pharmacy demand per location, so store and supply-chain teams stocked against their own dispensing pattern rather than a single national assumption.",
+        "Wrote the model documentation that clinical, compliance and pharmacy leadership signed off, stating plainly what each score meant and which calls it was not permitted to make."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Google",
+      "location": "Mountain View, CA",
+      "title": "Machine Learning Engineer",
+      "startDate": "Jun 2013",
+      "endDate": "Jul 2016",
+      "bullets": [
+        "Built data and machine-learning components behind YouTube recommendation and ranking, working on the pipelines and signals that decide which videos a viewer is offered next.",
+        "Developed large-scale batch and streaming pipelines over watch, engagement and metadata logs, producing the training and feature datasets recommendation models were built from.",
+        "Implemented candidate-generation and ranking experiments in production, moving signals from offline evaluation into live traffic behind gating and measurement rather than shipping them outright.",
+        "Diagnosed data-quality and freshness problems in the recommendation pipeline, tracing degraded model behaviour back to upstream logging changes rather than retuning the model around them.",
+        "Worked with infrastructure and product teams on serving cost and latency for ranking, keeping model improvements inside the budget a globally served surface allows."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Languages & Tooling: Python, SQL, Scala, Java, Bash, Jupyter, JupyterLab, pandas, NumPy, SciPy, statsmodels, matplotlib, seaborn, Polars, Git, pytest",
+    "Machine Learning: scikit-learn, XGBoost, LightGBM, CatBoost, PyTorch, TensorFlow, Keras, gradient boosting, random forests, clustering, anomaly and outlier detection (isolation forest, one-class SVM, autoencoders), ensemble and stacking methods, feature engineering and selection, hyperparameter tuning (Optuna), model evaluation and calibration, imbalanced-class handling, time-series forecasting (ARIMA, Prophet, gradient-boosted), survival analysis, A/B testing and experiment design, quantile regression, drift-aware thresholds, active learning, label-noise handling",
+    "Computer Vision & Industrial AI: image classification, object detection, defect and print inspection, OCR and code verification, OpenCV, edge inference, model quantization, sensor fusion, predictive maintenance, remaining-useful-life estimation, condition monitoring, anomaly segmentation, template matching, camera calibration, synthetic data generation",
+    "Generative & Agentic AI: LLMs, retrieval-augmented generation, embeddings and semantic search, prompt engineering and evaluation, fine-tuning (LoRA, PEFT), agent orchestration and tool use, guardrails and grounding, Hugging Face Transformers, LangChain, Azure OpenAI Service",
+    "Data Engineering & Streaming: Apache Spark, PySpark, Databricks, Delta Lake, Apache Airflow, Apache Kafka, Azure Event Hubs, dbt, Azure Data Factory, Synapse Analytics, Microsoft Fabric, Parquet, Iceberg, ETL/ELT, medallion architecture, change data capture, data quality and contract testing, schema evolution, IoT telemetry ingestion, Kafka Connect, Debezium, Great Expectations, backfill and replay, late-arriving data handling",
+    "MLOps & Model Systems: MLflow, Azure Machine Learning, model serving, real-time and batch inference, managed online endpoints, model registries and versioning, experiment tracking, feature stores, training and inference pipelines, drift and performance monitoring, automated retraining, canary and blue-green rollout, model lineage",
+    "Databases, Search & Retrieval: PostgreSQL, SQL Server, MySQL, Cosmos DB, Snowflake, Redis, Elasticsearch/OpenSearch, Azure Data Lake Storage, time-series stores, vector stores (FAISS, pgvector), indexing and query optimization, data modelling",
+    "Cloud & Platform: Azure (Machine Learning, Data Factory, Synapse, Functions, AKS, Event Hubs, Key Vault, Monitor), AWS (S3, Lambda, EKS), Docker, Kubernetes, Helm, Terraform, Azure DevOps, GitHub Actions, CI/CD, edge and IoT deployment",
+    "Reliability & Governance: Prometheus, Grafana, Azure Monitor, OpenTelemetry, structured logging, distributed tracing, SLOs and error budgets, alerting and runbooks, on-call and incident response, load and performance testing, traceability and audit trails, PII handling, model documentation, chaos and failure-injection drills, capacity planning, data retention policy, access control"
+  ],
+  "education": [
+    {
+      "school": "University of Minnesota Duluth",
+      "degree": "Bachelor of Science",
+      "field": "Chemistry",
+      "startDate": "2008",
+      "endDate": "2013"
+    }
+  ],
+  "note": "Ground-truth profile. experience[0] is the consulting employer (bullets intentionally empty; engagements come from shared.json at generation). experience[1] is the anchor company. Older companies ship ready-made bullets."
+}

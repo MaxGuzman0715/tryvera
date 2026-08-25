@@ -1,0 +1,76 @@
+{
+  "id": "david_leach",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range, chosen because it spans front-end + back-end + data/AI in a single request path. For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only - bullets are tailored live at generation. For older companies we ship ready-made bullets. Consulting companies (consulting:true) store NO project - at generation their engagements are pulled from shared.json.",
+  "projects": [
+    {
+      "company": "Accenture",
+      "role": "Senior Machine Learning Engineer",
+      "dateRange": "Jul 2025 - Present",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation the engagements are pulled from shared.json, industry-matched to the posting.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Amazon Web Services (AWS)",
+      "role": "Senior Machine Learning Engineer",
+      "dateRange": "Dec 2021 - Jan 2025",
+      "flagshipProject": "Amazon SageMaker - managed ML training, deployment and monitoring",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
+      "description": "Amazon SageMaker is AWS's managed platform for building, training and running machine-learning models, and customers judge it on one thing: whether a model that worked in a notebook keeps working in production. A data scientist trains in Studio and registers the result in the Model Registry; a Pipeline gates promotion with quality and bias checks; Inference Recommender sizes the endpoint that will serve it; and once real traffic arrives, Model Monitor and Clarify watch data quality, bias and feature-attribution drift and raise it when the live distribution stops matching the training one. Feature Store keeps features consistent across that boundary, JumpStart puts pre-trained and foundation models one step from a deployment, and the platform serves tens of thousands of customer accounts whose data AWS never sees, which makes isolation and lineage part of the product rather than an afterthought. It touches the front end (Studio and the monitoring surfaces), the back end (training and inference control planes), the data/AI side (feature pipelines, drift detection, evaluation), the infrastructure layer (instance selection and multi-tenant capacity) and the governance layer (tenant isolation, lineage and audit).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "USAA",
+      "role": "Senior Machine Learning Engineer",
+      "dateRange": "Jun 2018 - Dec 2021",
+      "flagshipProject": "Claims scoring, fraud detection and catastrophe-response analytics",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "USAA serves military members and their families with banking, insurance and investments. Claims and fraud are where machine learning earns its place: a claim arrives and has to be triaged and routed, and a payment or login has to be judged before it completes, both inside a regulated workflow where every automated decision has to be explainable to an actuary or an examiner.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Delivered the claims-scoring services at USAA, triaging incoming auto and property claims by severity and routing them so straightforward losses settled without an adjuster ever opening the file.",
+        "Developed fraud and account-takeover detection across member servicing and payments, weighing behavioural history against device and session signals to raise activity for review rather than blocking a member outright.",
+        "Stood up the training and feature pipelines those models ran on, replacing hand-cut extracts of claims, policy, payment and contact history with a reproducible build an examiner could follow.",
+        "Ranked exposure and dispatch priority after hurricanes and hailstorms, giving claims operations a defensible order of work in the weeks when volume arrived faster than adjusters could be assigned.",
+        "Sat with actuarial, compliance and claims leadership through model reviews, and wrote up what each score was entitled to decide, which is the reason any of it was allowed near underwriting."
+      ]
+    },
+    {
+      "company": "Coinbase",
+      "role": "Machine Learning Engineer",
+      "dateRange": "Sep 2015 - Jun 2018",
+      "flagshipProject": "Payments risk, identity verification and transaction monitoring",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "Coinbase is a retail crypto exchange, and in this period its problem was growth: onboarding, funding and withdrawal all had to be judged in real time while volume grew faster than the systems behind them were designed for. Risk scoring, identity verification and transaction monitoring were the models that decided whether a customer got through in seconds or waited for a human.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built risk and fraud scoring for deposits, withdrawals and card funding at Coinbase, separating genuine new customers from chargeback and stolen-instrument attempts at the point of transaction.",
+        "Developed identity-verification and onboarding models that decided which applications could clear automatically and which needed manual review, keeping compliance obligations met without stalling legitimate signups.",
+        "Engineered transaction-monitoring pipelines over on-chain and internal ledger activity, surfacing patterns that mattered to anti-money-laundering review instead of alerting on raw volume.",
+        "Rebuilt the batch and streaming data paths behind those models when trading volume grew far faster than the original design assumed, moving scoring off overnight jobs and onto the request path."
+      ]
+    }
+  ]
+}

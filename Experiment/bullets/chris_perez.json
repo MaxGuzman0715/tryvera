@@ -1,0 +1,87 @@
+{
+  "id": "chris_perez",
+  "basic": {
+    "fullName": "Chris Perez",
+    "title": "Senior Machine Learning & Data Engineer",
+    "email": "chris.perez0806@outlook.com",
+    "phone": "+1 (407) 512-6693",
+    "location": "Winter Garden, FL",
+    "linkedin": "https://www.linkedin.com/in/chris-perez-mle"
+  },
+  "experience": [
+    {
+      "company": "Avanade",
+      "location": "Orlando, FL | Remote",
+      "title": "Senior Machine Learning & Data Engineer",
+      "startDate": "Mar 2026",
+      "endDate": "Present",
+      "bullets": [],
+      "paragraphs": [],
+      "consulting": true
+    },
+    {
+      "company": "Microsoft",
+      "location": "Remote",
+      "title": "Senior Machine Learning & Data Engineer",
+      "startDate": "Jun 2020",
+      "endDate": "Mar 2026",
+      "bullets": [
+        "Built and operated machine-learning platform capabilities across Azure Machine Learning and Microsoft Fabric, spanning OneLake data access, the model registry, managed online endpoints, Azure AI Foundry model access and the monitoring behind them.",
+        "Engineered the model-monitoring path in Azure Machine Learning that compares collected production inference data against the training baseline across data drift, prediction drift, data quality and feature attribution, and raises it to the owning team rather than to whoever first noticed the output looked wrong.",
+        "Built the prompt flow evaluation and deployment path, grounding generative applications on Azure AI Search and scoring them for groundedness, relevance and coherence before they shipped to the same managed endpoint type as a classical model.",
+        "Developed the OneLake access layer that let training and retrieval read one copy of the data across databases and clouds, removing the per-project extract that had been the usual reason a model trained on something production no longer looked like."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Stryker",
+      "location": "Kalamazoo, MI",
+      "title": "Senior Machine Learning Engineer",
+      "startDate": "Feb 2013",
+      "endDate": "Jun 2020",
+      "bullets": [
+        "Developed the in-line quality models at Stryker, reading inspection and process data so a drifting production line showed itself before it turned out implants that would fail final inspection.",
+        "Engineered image-analysis pipelines behind orthopaedic planning and device imaging, deriving the measurements downstream planning tools relied on instead of leaving them to manual annotation.",
+        "Clustered free-text device complaints and field-service reports so quality engineering saw a recurring failure mode as one problem rather than two hundred unrelated tickets.",
+        "Consolidated manufacturing, quality, service and clinical-registry sources into a single traceable data estate, which in a validated device environment is the precondition for using any of it in a model.",
+        "Produced the validation packages quality, regulatory and manufacturing engineering required, setting out what each model measured and the point at which a person had to decide instead."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "CACI International",
+      "location": "Arlington, VA",
+      "title": "Machine Learning Engineer",
+      "startDate": "Nov 2010",
+      "endDate": "Feb 2013",
+      "bullets": [
+        "Built data-processing and analytics services for federal programs at CACI, turning large volumes of structured and document data into records analysts could actually query.",
+        "Developed entity-resolution and record-linkage pipelines that reconciled the same person, place or asset across sources that had never agreed on identifiers.",
+        "Implemented document and text-extraction workflows that pulled structure out of scanned and free-text material before it reached downstream analysis.",
+        "Automated reporting and quality checks that replaced hand-built spreadsheet cycles, giving program teams the same numbers on the same schedule."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Languages & Tooling: Python, SQL, C#, Scala, Bash, PowerShell, Jupyter, JupyterLab, pandas, NumPy, SciPy, statsmodels, matplotlib, seaborn, Polars, Git, pytest",
+    "Machine Learning: scikit-learn, XGBoost, LightGBM, CatBoost, PyTorch, TensorFlow, Keras, gradient boosting, random forests, clustering, dimensionality reduction, anomaly and outlier detection (isolation forest, one-class SVM, autoencoders), ensemble and stacking methods, feature engineering and selection, hyperparameter tuning (Optuna), model evaluation and calibration, imbalanced-class handling, time-series forecasting, statistical process control, design of experiments, A/B testing",
+    "Computer Vision & Signal: image classification, segmentation, object detection, medical and industrial image analysis, OCR and document extraction, OpenCV, MONAI, DICOM handling, image registration, augmentation, edge inference, model quantization",
+    "Generative & Agentic AI: LLMs, retrieval-augmented generation, embeddings and semantic search, chunking and reranking, prompt engineering, prompt and response evaluation, groundedness and hallucination scoring, fine-tuning (LoRA, PEFT), agent orchestration and tool use, function calling, guardrails and content safety, Hugging Face Transformers, LangChain, Semantic Kernel, Azure OpenAI Service",
+    "MLOps & Model Systems: Azure Machine Learning, MLflow, prompt flow, model serving, real-time and batch inference, managed online and batch endpoints, model registries and versioning, experiment tracking, feature stores, training and inference pipelines, data and prediction drift monitoring, feature-attribution monitoring, automated retraining, canary and blue-green rollout, model lineage, responsible-AI evaluation",
+    "Data Engineering & Analytics: Microsoft Fabric, OneLake, Azure Data Factory, Synapse Analytics, Apache Spark, PySpark, Databricks, Delta Lake, Apache Airflow, Apache Kafka, Azure Event Hubs, dbt, Parquet, medallion architecture, ETL/ELT, change data capture, data quality and contract testing, schema evolution, Power BI semantic models",
+    "Databases, Search & Retrieval: Azure SQL Database, SQL Server, PostgreSQL, Cosmos DB, Snowflake, Redis, Azure AI Search, Elasticsearch/OpenSearch, Azure Data Lake Storage, vector stores (FAISS, pgvector), indexing and query optimization, data modelling",
+    "Cloud & Platform: Azure (Machine Learning, AI Foundry, Data Factory, Synapse, Functions, AKS, Container Apps, Event Hubs, Key Vault, Monitor, Entra ID), AWS (S3, Lambda), Docker, Kubernetes, Helm, Terraform, Bicep, Azure DevOps, GitHub Actions, CI/CD",
+    "Reliability & Governance: Azure Monitor, Application Insights, Prometheus, Grafana, OpenTelemetry, structured logging, distributed tracing, SLOs and error budgets, alerting and runbooks, on-call and incident response, load and performance testing, tenant isolation, PHI and PII handling, GxP and validated-environment practice, audit trails, model documentation"
+  ],
+  "education": [
+    {
+      "school": "Georgia Institute of Technology",
+      "degree": "Master of Science",
+      "field": "Computer Science",
+      "startDate": "2014",
+      "endDate": "2017"
+    }
+  ],
+  "note": "Ground-truth profile. experience[0] is the consulting employer (bullets intentionally empty; engagements come from shared.json at generation). experience[1] is the anchor company. Older companies ship ready-made bullets. Education: only the most recent of three degrees is carried, per instruction."
+}

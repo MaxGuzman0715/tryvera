@@ -1,0 +1,96 @@
+{
+  "id": "mark_elliott",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range. For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only - bullets are tailored live at generation. For older companies we ship ready-made bullets. Consulting companies (consulting:true) store NO project - engagements are pulled from shared.json.",
+  "projects": [
+    {
+      "company": "Tredence",
+      "role": "Senior Machine Learning & Data Engineer",
+      "dateRange": "Aug 2025 - Present",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation the engagements are pulled from shared.json, industry-matched to the posting.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Dover Corporation",
+      "role": "Senior Machine Learning & Data Engineer",
+      "dateRange": "Dec 2021 - Aug 2025",
+      "flagshipProject": "Dover Digital Labs - connected products, wetstock loss detection and industrial traceability",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
+      "description": "Dover is a diversified industrial manufacturer, and Dover Digital Labs is the group that turns its machines into connected products: sensors, software and machine learning attached to equipment that was purely mechanical for most of a century. A fuel dispenser or a coding line reports what it did; the readings land in a cloud data platform beside the transaction and inventory records that ought to agree with them; models reconcile the two and score whatever does not match; and the answer reaches an operator as a specific discrepancy rather than a chart, because the person reading it has to decide whether to send somebody out. DX Wetstock does this for fuel, Markem-Imaje's CoLOS suite for product identification and traceability, and Systech UniSecure for authentication, and in every case the hard part is that the machine is in the field, only intermittently connected, and cannot be asked to explain itself twice. It runs across tens of thousands of installed machines, and touches the front end (operator and retailer dashboards), the back end (telemetry ingestion and reconciliation services), the data/AI side (loss detection, vision inspection, forecasting), the infrastructure layer (cloud delivery to disconnected sites) and the governance layer (traceability, regulatory coding and audit).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Genesis10",
+      "role": "Senior Machine Learning & Data Engineer",
+      "dateRange": "Nov 2019 - Dec 2021",
+      "flagshipProject": "Client ML and cloud data platform delivery",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "Genesis10 places engineers into client delivery teams, so the work is a sequence of engagements rather than one product: take a client's data estate and a model idea, get something into production that the client's own engineers can run afterwards, and hand it over with the runbooks that make that possible.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Delivered machine-learning and data-engineering work for enterprise clients through Genesis10, embedding with client teams to take models from a proof of concept into something their own engineers could operate.",
+        "Built cloud data platforms and ingestion pipelines that replaced spreadsheet-and-extract reporting, giving client analytics teams one reconcilable source instead of several that disagreed.",
+        "Developed forecasting and classification models for retail, healthcare and manufacturing clients, sized to the data each client actually had rather than the data the engagement had assumed.",
+        "Established deployment, monitoring and handover practices on each engagement so models kept running after the consultants left, including runbooks and retraining schedules owned by the client."
+      ]
+    },
+    {
+      "company": "CVS Health",
+      "role": "Senior Machine Learning & Data Engineer",
+      "dateRange": "Jul 2016 - Nov 2019",
+      "flagshipProject": "Pharmacy adherence, claims integrity and retail demand forecasting",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "CVS Health runs retail pharmacy, a pharmacy benefit manager and clinics, and the machine learning that matters there sits on prescriptions and claims: whether a member will keep taking a medication, whether a claim pattern warrants review, and how much stock a particular store will need. All of it runs inside regulated pharmacy and benefit workflows, so an automated decision has to be explainable to a pharmacist or an auditor.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Owned the machine-learning services behind pharmacy operations at CVS Health, scoring prescriptions and member history so adherence risk surfaced while a pharmacist could still act on it.",
+        "Built fraud, waste and abuse detection over pharmacy and benefit claims, separating genuine clinical exceptions from patterns worth reviewing instead of flagging on cost alone.",
+        "Rebuilt the data foundation underneath, turning claims, prescription, benefit and store-operations sources into pipelines that produced the identical training set on every run.",
+        "Forecast retail pharmacy demand per location, so store and supply-chain teams stocked against their own dispensing pattern rather than a single national assumption.",
+        "Wrote the model documentation that clinical, compliance and pharmacy leadership signed off, stating plainly what each score meant and which calls it was not permitted to make."
+      ]
+    },
+    {
+      "company": "Google",
+      "role": "Machine Learning Engineer",
+      "dateRange": "Jun 2013 - Jul 2016",
+      "flagshipProject": "YouTube recommendation data and ranking signals",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "YouTube recommendation decides what a viewer is offered next, and it is built from logs: what was watched, for how long, and what was ignored. The engineering is the pipelines that turn those logs into training and feature data, the candidate-generation and ranking steps that use them, and the experiment machinery that decides whether a new signal graduates to global traffic.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built data and machine-learning components behind YouTube recommendation and ranking, working on the pipelines and signals that decide which videos a viewer is offered next.",
+        "Developed large-scale batch and streaming pipelines over watch, engagement and metadata logs, producing the training and feature datasets recommendation models were built from.",
+        "Implemented candidate-generation and ranking experiments in production, moving signals from offline evaluation into live traffic behind gating and measurement rather than shipping them outright.",
+        "Diagnosed data-quality and freshness problems in the recommendation pipeline, tracing degraded model behaviour back to upstream logging changes rather than retuning the model around them.",
+        "Worked with infrastructure and product teams on serving cost and latency for ranking, keeping model improvements inside the budget a globally served surface allows."
+      ]
+    }
+  ]
+}

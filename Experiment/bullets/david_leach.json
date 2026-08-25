@@ -1,0 +1,86 @@
+{
+  "id": "david_leach",
+  "basic": {
+    "fullName": "David Leach",
+    "title": "Senior Machine Learning Engineer",
+    "email": "david.leach0925@outlook.com",
+    "phone": "+1 (210) 638-4471",
+    "location": "San Antonio, TX",
+    "linkedin": "https://www.linkedin.com/in/david-leach-ml"
+  },
+  "experience": [
+    {
+      "company": "Accenture",
+      "location": "San Antonio, TX | Remote",
+      "title": "Senior Machine Learning Engineer",
+      "startDate": "Jul 2025",
+      "endDate": "Present",
+      "bullets": [],
+      "paragraphs": [],
+      "consulting": true
+    },
+    {
+      "company": "Amazon Web Services (AWS)",
+      "location": "Austin, TX",
+      "title": "Senior Machine Learning Engineer",
+      "startDate": "Dec 2021",
+      "endDate": "Jan 2025",
+      "bullets": [
+        "Built and operated platform capabilities across Amazon SageMaker, spanning Feature Store and the Model Registry, Pipelines for promotion, JumpStart for pre-trained and foundation models, and the monitoring surfaces customers run production models on.",
+        "Engineered the Model Monitor path that watches deployed endpoints for data-quality, model-quality, bias and feature-attribution drift, so a customer learns their live traffic has stopped matching their training data before their own business metrics show it.",
+        "Built the Pipelines promotion gates that run quality and bias checks between a registered model and a live endpoint, so nothing ships without the evidence a regulated customer needs to defend the decision it makes.",
+        "Developed Inference Recommender's load-testing and sizing path so teams could measure an endpoint configuration before committing to it, and extended multi-model serving so many low-traffic models share compute instead of each holding an instance."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "USAA",
+      "location": "San Antonio, TX",
+      "title": "Senior Machine Learning Engineer",
+      "startDate": "Jun 2018",
+      "endDate": "Dec 2021",
+      "bullets": [
+        "Delivered the claims-scoring services at USAA, triaging incoming auto and property claims by severity and routing them so straightforward losses settled without an adjuster ever opening the file.",
+        "Developed fraud and account-takeover detection across member servicing and payments, weighing behavioural history against device and session signals to raise activity for review rather than blocking a member outright.",
+        "Stood up the training and feature pipelines those models ran on, replacing hand-cut extracts of claims, policy, payment and contact history with a reproducible build an examiner could follow.",
+        "Ranked exposure and dispatch priority after hurricanes and hailstorms, giving claims operations a defensible order of work in the weeks when volume arrived faster than adjusters could be assigned.",
+        "Sat with actuarial, compliance and claims leadership through model reviews, and wrote up what each score was entitled to decide, which is the reason any of it was allowed near underwriting."
+      ],
+      "paragraphs": []
+    },
+    {
+      "company": "Coinbase",
+      "location": "San Francisco, CA",
+      "title": "Machine Learning Engineer",
+      "startDate": "Sep 2015",
+      "endDate": "Jun 2018",
+      "bullets": [
+        "Built risk and fraud scoring for deposits, withdrawals and card funding at Coinbase, separating genuine new customers from chargeback and stolen-instrument attempts at the point of transaction.",
+        "Developed identity-verification and onboarding models that decided which applications could clear automatically and which needed manual review, keeping compliance obligations met without stalling legitimate signups.",
+        "Engineered transaction-monitoring pipelines over on-chain and internal ledger activity, surfacing patterns that mattered to anti-money-laundering review instead of alerting on raw volume.",
+        "Rebuilt the batch and streaming data paths behind those models when trading volume grew far faster than the original design assumed, moving scoring off overnight jobs and onto the request path."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Languages & Tooling: Python, SQL, Scala, Go, Bash, Jupyter, JupyterLab, pandas, NumPy, SciPy, statsmodels, matplotlib, seaborn, Polars, Git, pytest, Poetry",
+    "Machine Learning: scikit-learn, XGBoost, LightGBM, CatBoost, PyTorch, TensorFlow, Keras, gradient boosting, random forests, logistic and linear models, clustering, anomaly and outlier detection (isolation forest, one-class SVM), ensemble and stacking methods, feature engineering and selection, hyperparameter tuning (Optuna, Ray Tune), model evaluation and calibration, imbalanced-class handling, time-series forecasting, survival analysis, causal inference and uplift modelling, A/B testing and experiment design",
+    "Generative & Agentic AI: LLMs, retrieval-augmented generation, embeddings and semantic search, chunking and reranking, prompt engineering, prompt and response evaluation, fine-tuning (LoRA, QLoRA, PEFT), instruction tuning, agent orchestration and tool use, function calling, guardrails and grounding, hallucination detection, Hugging Face Transformers, LangChain, LlamaIndex, Amazon Bedrock",
+    "MLOps & Model Systems: Amazon SageMaker, MLflow, Weights & Biases, model serving, real-time and batch inference, asynchronous and serverless inference, multi-model endpoints, model registries, model versioning, experiment tracking, feature stores, training and inference pipelines, drift and performance monitoring, bias and feature-attribution monitoring, shadow deployment, canary and blue-green rollout, automated retraining, model lineage",
+    "Data Engineering & Streaming: Apache Spark, PySpark, Apache Airflow, Apache Kafka, Amazon Kinesis, AWS Glue, dbt, Amazon Athena, Amazon EMR, Parquet, Iceberg, ETL/ELT, feature pipelines, batch and streaming processing, change data capture, data quality checks, schema evolution, partitioning",
+    "Databases, Search & Retrieval: PostgreSQL, MySQL, DynamoDB, Amazon Redshift, Redis, OpenSearch, Elasticsearch, S3 data lakes, vector stores (FAISS, pgvector, OpenSearch k-NN), indexing and query optimization, data modelling",
+    "Cloud & Platform: AWS (EC2, S3, Lambda, ECS, EKS, Step Functions, Batch, IAM, KMS, CloudWatch, VPC, API Gateway, CloudFormation), Docker, Kubernetes, Helm, Terraform, GitHub Actions, CI/CD, serverless patterns, GPU and accelerator instances, cost and capacity optimization",
+    "Reliability & Governance: Prometheus, Grafana, Amazon CloudWatch, OpenTelemetry, structured logging, distributed tracing, SLOs and error budgets, alerting and runbooks, on-call and incident response, postmortems, load and performance testing, tenant isolation, PII handling and redaction, model documentation, audit trails"
+  ],
+  "education": [
+    {
+      "school": "The University of Texas at Austin",
+      "degree": "Bachelor of Science",
+      "field": "Mathematics",
+      "startDate": "2009",
+      "endDate": "2015"
+    }
+  ],
+  "note": "Ground-truth profile. experience[0] is the consulting employer (bullets intentionally empty; engagements come from shared.json at generation). experience[1] is the anchor company. Older companies ship ready-made bullets."
+}

@@ -1,0 +1,76 @@
+{
+  "id": "chris_perez",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range. For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only - bullets are tailored live at generation. For older companies we ship ready-made bullets. Consulting companies (consulting:true) store NO project - engagements are pulled from shared.json.",
+  "projects": [
+    {
+      "company": "Avanade",
+      "role": "Senior Machine Learning & Data Engineer",
+      "dateRange": "Mar 2026 - Present",
+      "consulting": true,
+      "flagshipProject": null,
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation the engagements are pulled from shared.json, industry-matched to the posting.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Microsoft",
+      "role": "Senior Machine Learning & Data Engineer",
+      "dateRange": "Jun 2020 - Mar 2026",
+      "flagshipProject": "Azure Machine Learning and Microsoft Fabric - training, serving, monitoring and generative evaluation",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure"
+      ],
+      "description": "Azure Machine Learning and Microsoft Fabric are the two halves of how Microsoft asks enterprises to get a model into production: Fabric puts the data in one place, and Azure Machine Learning owns everything that happens to a model afterwards. Data lands in OneLake regardless of which database or cloud it came from; a model is trained and registered in Azure Machine Learning, the single source of truth for which version is approved; it deploys to a managed online endpoint that collects its own production inference data; and monitoring compares that data against the training baseline for data drift, prediction drift, data quality and feature-attribution drift. Generative work runs the same way: prompt flow orchestrates the prompts and deploys to the same kind of endpoint, Azure AI Foundry supplies the models, Azure AI Search supplies the grounding, and the Responsible AI dashboard scores groundedness and relevance before anything reaches a customer. It serves tens of thousands of paying organisations who never let Microsoft see the data inside, and it touches the front end (studio, endpoint and monitoring surfaces), the back end (training and inference control planes), the data/AI side (lakehouse access, feature and retrieval pipelines, evaluation), the infrastructure layer (compute allocation and multi-tenant capacity) and the governance layer (tenant isolation, lineage and responsible-AI controls).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    },
+    {
+      "company": "Stryker",
+      "role": "Senior Machine Learning Engineer",
+      "dateRange": "Feb 2013 - Jun 2020",
+      "flagshipProject": "Manufacturing quality analytics, device imaging and complaint intelligence",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "Stryker makes orthopaedic implants, surgical instruments and medical equipment, and the machine learning that matters there is about not shipping a defect: in-line inspection and process data that says a production line is drifting, image analysis feeding surgical planning, and complaint and field-service text that reveals a failure mode long before a recall would. All of it lives in a validated, regulated environment where a model has to be documented and traceable before it goes anywhere near production.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Developed the in-line quality models at Stryker, reading inspection and process data so a drifting production line showed itself before it turned out implants that would fail final inspection.",
+        "Engineered image-analysis pipelines behind orthopaedic planning and device imaging, deriving the measurements downstream planning tools relied on instead of leaving them to manual annotation.",
+        "Clustered free-text device complaints and field-service reports so quality engineering saw a recurring failure mode as one problem rather than two hundred unrelated tickets.",
+        "Consolidated manufacturing, quality, service and clinical-registry sources into a single traceable data estate, which in a validated device environment is the precondition for using any of it in a model.",
+        "Produced the validation packages quality, regulatory and manufacturing engineering required, setting out what each model measured and the point at which a person had to decide instead."
+      ]
+    },
+    {
+      "company": "CACI International",
+      "role": "Machine Learning Engineer",
+      "dateRange": "Nov 2010 - Feb 2013",
+      "flagshipProject": "Federal program data processing, entity resolution and document extraction",
+      "spans": [
+        "backend",
+        "ai_data"
+      ],
+      "description": "CACI delivers technology and analytics to US federal programs. The work is unglamorous and specific: take structured records and scanned documents from sources that never agreed on identifiers or formats, resolve them into something an analyst can query, and produce the same reports on the same schedule without anyone rebuilding a spreadsheet.",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built data-processing and analytics services for federal programs at CACI, turning large volumes of structured and document data into records analysts could actually query.",
+        "Developed entity-resolution and record-linkage pipelines that reconciled the same person, place or asset across sources that had never agreed on identifiers.",
+        "Implemented document and text-extraction workflows that pulled structure out of scanned and free-text material before it reached downstream analysis.",
+        "Automated reporting and quality checks that replaced hand-built spreadsheet cycles, giving program teams the same numbers on the same schedule."
+      ]
+    }
+  ]
+}
