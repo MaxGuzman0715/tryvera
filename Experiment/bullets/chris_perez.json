@@ -26,10 +26,10 @@
       "startDate": "Jun 2020",
       "endDate": "Mar 2026",
       "bullets": [
-        "Own full-stack and AI platform capabilities across Microsoft's internal data and model estate, spanning Wellspring (reaching data where it already sits), Lattice (training and sign-off), Assay (model and answer evaluation), Vantage (the review surface groups work from), and Waypoint (versioned serving).",
-        "Consolidated Wellspring so a product group reads one copy of the data across databases and clouds, carrying the record of exactly which data produced which model instead of a per-project extract nobody can trace.",
-        "Extended Assay's scoring path for machine-learning and generative work alike, measuring a trained model against its own baseline through ingestion and reporting pipelines, and measuring whether a generated answer was genuinely supported by the documents behind it.",
-        "Instrumented Vantage's review and sign-off flow so a group sees what shipped, what it answered and which Responsible AI Standard and ISO 27001 gate it cleared, and an investigation starts from one record rather than from logs nobody kept."
+        "Own full-stack and AI platform capabilities across Microsoft's internal data and model estate, spanning Federated Data Access (reaching data where it already sits), the Model Passport (which data produced which model), the Answer Evaluation Service (scoring models and generated answers), and Release Review (the gate a group has to clear).",
+        "Consolidated Federated Data Access so a product group reads one copy of the data across databases and clouds, carrying the Model Passport record instead of a per-project extract nobody can trace.",
+        "Extended the Answer Evaluation Service for machine-learning and generative work alike, measuring a trained model against its own baseline and measuring whether a generated answer was genuinely supported by the documents behind it.",
+        "Instrumented Release Review so a group sees what shipped, what it answered and which Responsible AI Standard and ISO 27001 gate it cleared, and an investigation starts from one record rather than from logs nobody kept."
       ],
       "paragraphs": []
     },

@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Jan 2025",
       "bullets": [
-        "Build full-stack and AI platform capabilities across AWS's internal machine-learning estate, spanning Slipway (the hosted training workspace), Trellis (registration and promotion), Quarry (shared features and datasets), Bellwether (production monitoring), and Wayfinder (inference sizing).",
-        "Owned the promotion path behind Trellis, running quality and fairness checks between a trained model and live traffic, and the retrieval assistant teams query it through, so nothing serves customers without the evidence a FedRAMP-scoped team needs to defend it.",
-        "Delivered the Slipway workspace and the Trellis review console service teams work in, replacing scripts and wiki pages with one place to see what is deployed, what it is answering and who approved it.",
-        "Wired drift detection into Bellwether, measuring what production actually sends against what a model learned from and raising it to the team that owns the model before its customers notice, feeding the Well-Architected reviews each service team runs."
+        "Build full-stack and AI platform capabilities across AWS's internal machine-learning estate, spanning the Model Workbench (where a model is built and trained), the Model Promotion Service (registration, review and promotion), the Feature Registry (shared features and datasets), and the Model Health Service (production monitoring).",
+        "Owned the promotion path in the Model Promotion Service, running quality and fairness checks between a trained model and live traffic, so nothing scores a customer request without the evidence a FedRAMP-scoped team needs to defend it.",
+        "Delivered the Model Workbench and the review console service teams work in, replacing scripts and wiki pages with one place to see what is deployed, what it is answering and who approved it.",
+        "Wired drift detection into the Model Health Service, measuring what production actually sends against what a model learned from and raising it to the owning team before a customer notices, feeding the Well-Architected reviews each service team runs."
       ],
       "paragraphs": []
     },

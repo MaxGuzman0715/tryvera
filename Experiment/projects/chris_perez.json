@@ -21,14 +21,14 @@
       "company": "Microsoft",
       "role": "Senior Machine Learning & Data Engineer",
       "dateRange": "Jun 2020 - Mar 2026",
-      "flagshipProject": "Wellspring, Assay and Vantage - internal data access, model evaluation and review",
+      "flagshipProject": "Internal data and model platform - Federated Data Access, Model Passport, Answer Evaluation Service, Release Review",
       "spans": [
         "frontend",
         "backend",
         "ai_data",
         "infrastructure"
       ],
-      "description": "Microsoft's product groups each arrived at their own answer to where the data lives and whether a model built on it can be defended to somebody who did not build it - and paid for that by doing the same work a dozen times over. A group reaches data where it already sits through Wellspring; Lattice trains, versions and signs it off with a record of exactly which data produced it; the result goes behind a service that keeps what it was asked and what it answered; Assay scores that record back against what the model learned from; Waypoint serves it behind versioned endpoints; and Vantage is where the group sees which gate it cleared under the Responsible AI Standard. It touches the data/AI side first (training, retrieval, evaluation and drift monitoring), the back end (the cloud services behind training, serving and rollout), the front end (review and evaluation consoles), and the governance layer (separation, provenance and what is allowed to ship).",
+      "description": "Microsoft's product groups each arrived at their own answer to where the data lives and whether a model built on it can be defended to somebody who did not build it - and paid for that by doing the same work a dozen times over. A user asks a product surface a question or triggers a decision; the model behind it answers from data reached in place through Federated Data Access rather than from a copy; its Model Passport records exactly which data produced it; the Answer Evaluation Service scores the response against the training baseline and against the documents that should support it; and Release Review is where the group shows which gate it cleared. It touches the data/AI side first (training, retrieval, evaluation and drift monitoring), the back end (the cloud services behind training, serving and rollout), the front end (review and evaluation consoles), and the governance layer (separation, provenance and the Responsible AI Standard controls that decide what ships).",
       "isRecentTwo": true,
       "bulletsProvided": false,
       "bullets": []
