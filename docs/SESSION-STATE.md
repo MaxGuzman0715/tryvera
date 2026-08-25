@@ -339,3 +339,65 @@ Re-render: `node <script>` against the `.html`, or edit the HTML and re-run.
 - **`node --check` parses as CommonJS** and hides ESM syntax errors. Use
   `node --input-type=module --check`.
 - **CRLF:** most repo files are CRLF. Match line endings when patching or nothing matches.
+
+---
+
+# SESSION 2 — anchors, three new profiles, and the plausibility gap
+
+Read `docs/ANCHOR-DESIGN.md` first. It supersedes the anchor guidance in
+`profile-authoring-playbook.md` where the two disagree, and it records the six
+measurements any anchor edit has to hold.
+
+## What changed
+
+- **Six anchors rebuilt** on the measured finding that portability comes from universal
+  concept nouns, not from length, technology count, field count or name count.
+  `deepankar_kalra` and `rhazel_galura` untouched throughout and used as the references.
+- **Three new US AI/ML profiles**: `david_leach` (AWS), `mark_elliott` (Dover),
+  `chris_perez` (Microsoft). Dover's products are real and researched; David's and Chris's
+  system names are invented descriptive compounds because their employers' real ones are
+  household names.
+- **Prompt**: metric rules settled at four figures per company of four different kinds
+  with a magnitude floor and bare percentages under 30; client named once per engagement;
+  one cloud and one CI system per bullet; `candidate_skills` now passed into the
+  generation call (`generation.ts`, two lines) so bullets cannot name a tool the Skills
+  block omits.
+- **Templates**: section-header `letter-spacing` capped at 0.12em in 8 rules across 7
+  files, after measuring that 0.13em extracts cleanly from the PDF text layer and 0.14em
+  breaks. `text-transform: uppercase` on the name still rewrites the text layer in all 12
+  templates and is deliberately unfixed — it is a design decision.
+- **Authoring prompt** (`server/prompt-defaults/profile/default.txt`, inert by design):
+  gained the bullets-are-half-the-grounding finding, the skills-list-is-a-hard-constraint
+  rule, and the boring-workhorse-tools rule.
+
+## Defects found in review, worth not re-introducing
+
+- `consulting: true` must be in the **bullets** file. `generation.ts:579` reads
+  `exp.consulting` from there, not from `projects/`.
+- Three profiles carried 4 stored bullets on their consulting company, which the rule
+  forbids; they were a template triplicate holding all 45 shared spans between two
+  profiles. Emptied.
+- `hansal_maniar` education had no `startDate`/`endDate` keys at all and had been
+  schema-INVALID the whole time. The review script never caught it because it only tested
+  school, degree and field.
+
+## Deploy state
+
+`main` is at `93ff396` and has none of this. Nothing has been pushed since `f3bab8f`;
+later commits are local only, at the user's instruction. Prompts and profile JSON are read
+per request so they take effect without a rebuild — anything under `server/src/` needs
+`npm run build` and a restart.
+
+## Open, ranked
+
+1. **The plausibility gap** — see section 6 of `ANCHOR-DESIGN.md`. One clause, unapplied.
+2. **Cross-profile figure collisions** — needs a used-figure registry in code; no prompt
+   rule can fix it, because each generation is blind to the others.
+3. **Cost-savings figures dominating** — five money figures across four profiles.
+4. **`shared.json` has one narrative per industry**, so two profiles drawing the same
+   industry converge. Deliberately not touched.
+5. **The extraction trim** still drops categories it should not — an empty "Geospatial"
+   header, a missing cloud category.
+6. **Nothing has been generated against the rebuilt anchors.** Everything above is
+   structural measurement. Rowland against a posting with no infrastructure angle is the
+   sharpest test.
