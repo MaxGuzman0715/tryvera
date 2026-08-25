@@ -26,10 +26,10 @@
       "startDate": "Jun 2020",
       "endDate": "Mar 2026",
       "bullets": [
-        "Built and operated machine-learning platform capabilities across Azure Machine Learning and Microsoft Fabric, spanning OneLake data access, the model registry, managed online endpoints, Azure AI Foundry model access and the monitoring behind them.",
-        "Engineered the model-monitoring path in Azure Machine Learning that compares collected production inference data against the training baseline across data drift, prediction drift, data quality and feature attribution, and raises it to the owning team rather than to whoever first noticed the output looked wrong.",
-        "Built the prompt flow evaluation and deployment path, grounding generative applications on Azure AI Search and scoring them for groundedness, relevance and coherence before they shipped to the same managed endpoint type as a classical model.",
-        "Developed the OneLake access layer that let training and retrieval read one copy of the data across databases and clouds, removing the per-project extract that had been the usual reason a model trained on something production no longer looked like."
+        "Built and operated the machine-learning platform work across Azure Machine Learning and Microsoft Fabric: OneLake data access, model versioning and sign-off, the serving path, and the monitoring behind it.",
+        "Engineered Azure Machine Learning's monitoring path so a deployed model records every request and response it handles, then scores that record against its training distribution for input drift, output drift, data quality and feature attribution, and alarms the owning team rather than whoever happened to notice.",
+        "Built Azure Machine Learning's evaluation and release path for generative applications, grounding answers on a customer's own indexed content and scoring them for support and relevance before they shipped behind the same kind of service as a conventional model.",
+        "Developed the OneLake data-access layer that let training and retrieval read one copy across databases and clouds, removing the per-project extract that was the usual reason a model had learned from something production no longer looked like."
       ],
       "paragraphs": []
     },

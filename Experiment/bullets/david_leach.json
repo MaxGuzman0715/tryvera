@@ -26,10 +26,10 @@
       "startDate": "Dec 2021",
       "endDate": "Jan 2025",
       "bullets": [
-        "Built and operated platform capabilities across Amazon SageMaker, spanning Feature Store and the Model Registry, Pipelines for promotion, JumpStart for pre-trained and foundation models, and the monitoring surfaces customers run production models on.",
-        "Engineered the Model Monitor path that watches deployed endpoints for data-quality, model-quality, bias and feature-attribution drift, so a customer learns their live traffic has stopped matching their training data before their own business metrics show it.",
-        "Built the Pipelines promotion gates that run quality and bias checks between a registered model and a live endpoint, so nothing ships without the evidence a regulated customer needs to defend the decision it makes.",
-        "Developed Inference Recommender's load-testing and sizing path so teams could measure an endpoint configuration before committing to it, and extended multi-model serving so many low-traffic models share compute instead of each holding an instance."
+        "Built and operated platform capabilities across SageMaker, spanning the hosted training workspace, the approval path a model passes through before it can serve, the Feature Store, and the surfaces customers watch production models through.",
+        "Engineered SageMaker's monitoring path that measures what a deployed model is actually being asked against what it learned from, covering input quality, output quality, bias and which features are carrying the decision, so a customer is told rather than left to notice.",
+        "Built SageMaker's approval gates between a trained model and live traffic, running quality and fairness checks automatically so nothing reaches customers without the evidence a regulated buyer needs to defend the decisions it makes.",
+        "Developed SageMaker's sizing and packing path for serving, letting teams measure a configuration under load before committing to it and letting many quiet models share hardware instead of each holding its own."
       ],
       "paragraphs": []
     },
