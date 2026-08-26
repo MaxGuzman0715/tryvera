@@ -68,6 +68,7 @@
   ],
   "skills": [
     "Languages & Backend: Python, Java, Go, C++, C#, .NET, TypeScript, JavaScript, SQL, Bash, Rust, Ruby, PHP, FastAPI, Django, Flask, Spring Boot, ASP.NET Core, Node.js, NestJS, REST, GraphQL, gRPC, WebSockets",
+    "Frontend & Product Engineering: React, Next.js, TypeScript, JavaScript, Redux, RTK Query, React Query, HTML/CSS, Tailwind CSS, Vite, server components, the assistant interface and citation views, admin consoles, interactive dashboards, data visualization and accessibility",
     "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, XGBoost, Hugging Face Transformers, NLP, computer vision, forecasting, ranking and recommendation systems, classification, anomaly detection, feature engineering, model calibration, model evaluation and experimentation",
     "Generative & Agentic AI: LLMs, RAG, agentic systems, tool use, LangChain, LangGraph, LlamaIndex, MCP, prompt engineering, embeddings, semantic search, vector databases, hybrid retrieval, reranking, grounding, citations, fine-tuning, guardrails and LLM evaluation",
     "Data Engineering & Streaming: Kafka, Spark, Flink, Airflow, Databricks, dbt, Snowflake, BigQuery, ETL/ELT, batch and streaming pipelines, feature pipelines, event-driven processing, data quality and schema evolution",
@@ -75,10 +76,10 @@
     "Databases, Search & Retrieval: PostgreSQL, MySQL, SQL Server, MongoDB, DynamoDB, Cassandra, Redis, Elasticsearch/OpenSearch, Neo4j, pgvector, Pinecone, Weaviate, vector search, indexing, query optimization, caching, sharding and replication",
     "Cloud & AI Platforms: AWS, Azure, GCP, Amazon Bedrock, Azure OpenAI, SageMaker, Azure ML, Vertex AI, serverless computing, storage, networking, load balancing and multi-cloud architecture",
     "Containers, DevOps & Delivery: Docker, Kubernetes, Terraform, Helm, GitHub Actions, GitLab CI, Jenkins, Azure DevOps, Argo CD, CI/CD, infrastructure as code, blue-green and canary deployments, release automation",
-    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing, SLOs/SLAs and alerting",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, structured logging, metrics, distributed tracing, SLOs/SLAs and alerting, PagerDuty, ELK Stack, Jaeger, error budgets, runbooks, on-call and incident response, postmortems, load and performance testing, capacity planning",
     "Security & AI Governance: OAuth2, OIDC, JWT, RBAC, secrets management, encryption, least privilege, audit logging, data privacy, model and prompt lineage, AI safety, evaluation gates and threat modeling",
     "Architecture & Distributed Systems: Microservices, event-driven architecture, distributed systems, asynchronous processing, concurrency, caching strategies, API design, domain-driven design and high availability",
-    "Engineering Practices: Git, unit/integration/end-to-end testing, TDD, contract testing, load testing and performance testing"
+    "Engineering Practices: Git, unit/integration/end-to-end testing, TDD, contract testing, load testing and performance testing, pytest, Jest, Vitest, React Testing Library, Cypress, Playwright, k6, Locust, Pact, data and model regression testing, code review practice"
   ],
   "education": [
     {
