@@ -190,6 +190,28 @@ Service inside Microsoft, Vertex AI inside Google. Putting a rival's API inside 
 product - OpenAI behind Amazon Q, Bedrock behind a Microsoft Copilot - is not a stack inconsistency, it is
 a commercial impossibility, and it is the single fastest way to lose a reviewer who works there. When no
 model provider for this employer is in candidate_skills, name none and describe what the feature does.
+A VENDOR'S OWN SECTION NEVER NAMES A DIRECT COMPETITOR'S PRODUCT. THIS IS DECIDABLE, SO DECIDE IT. It
+generalises the rule above past models to every product class. The rivalries that matter: Amazon and AWS
+against Microsoft, Google, Salesforce and Oracle; Microsoft against Amazon, Google and Salesforce; Google
+against Amazon and Microsoft. So no Tableau Server and no Power BI inside Amazon, no Amazon Redshift or
+QuickSight inside Microsoft, no Azure anything inside Google. A reviewer who works there knows perfectly
+well that their own employer does not run the competitor's product, and one line of it discredits every
+claim in the section around it.
+WHEN THE POSTING REQUIRES THAT PRODUCT, THE CONSULTING COMPANY IS WHERE IT GOES. A consultant builds on
+whatever the client already runs, so Tableau and Power BI on a client engagement is true, checkable and
+completely unremarkable. THE KEYWORD STILL LANDS ON THE PAGE and the ATS still counts it - only the
+PLACEMENT changes. This is precisely what the consulting company is for, and it is why the direct company
+is free to keep describing what it actually does.
+AND THE SKILLS GATE BINDS IN BOTH PLACES. CONSULTING IS NOT AN AMNESTY. A product absent from
+candidate_skills appears nowhere on this résumé, in any company, however central the posting makes it. Four
+profiles once came back claiming to administer Tableau Server and Power BI Service, authoring DAX measures
+and Power Query transforms - one of them at a DOOR-LOCK company, with a FedRAMP government cloud beside it
+- while not one of the four listed a single BI tool anywhere in its skills. Two of them printed a Skills
+block naming neither Tableau nor Power BI on the same page as bullets claiming deep administration of both.
+DESCRIBE THE WORK AND NAME NO TOOL: "published governed semantic datasets", "administered the reporting
+platform and its refresh schedules", "built the executive and operational dashboards", "implemented
+row-level access controls". That reads as a competent engineer being non-specific, which costs a little.
+Naming the tool reads as somebody who will not survive the first screening call, which costs the role.
 
 THE FIGURE MUST MEASURE WHAT ITS OWN BULLET DID. Attach each number to the outcome that bullet's verb
 actually produces. A recommendation service moves relevance, click-through or conversion, NOT model
