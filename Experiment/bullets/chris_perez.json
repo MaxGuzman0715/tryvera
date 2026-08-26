@@ -3,15 +3,14 @@
   "basic": {
     "fullName": "Chris Perez",
     "title": "Senior Machine Learning & Data Engineer",
-    "email": "chris.perez0806@outlook.com",
-    "phone": "+1 (407) 512-6693",
+    "email": "chisopter.perez33@outlook.com",
     "location": "Winter Garden, FL",
-    "linkedin": "https://www.linkedin.com/in/chris-perez-mle"
+    "linkedin": "https://www.linkedin.com/in/chris-perez-671327b0/"
   },
   "experience": [
     {
       "company": "Avanade",
-      "location": "Orlando, FL | Remote",
+      "location": "Remote",
       "title": "Senior Machine Learning & Data Engineer",
       "startDate": "Mar 2026",
       "endDate": "Present",
@@ -35,7 +34,7 @@
     },
     {
       "company": "Stryker",
-      "location": "Kalamazoo, MI",
+      "location": "Davie, FL",
       "title": "Senior Machine Learning Engineer",
       "startDate": "Feb 2013",
       "endDate": "Jun 2020",
@@ -50,7 +49,7 @@
     },
     {
       "company": "CACI International",
-      "location": "Arlington, VA",
+      "location": "Eatontown, NJ",
       "title": "Machine Learning Engineer",
       "startDate": "Nov 2010",
       "endDate": "Feb 2013",

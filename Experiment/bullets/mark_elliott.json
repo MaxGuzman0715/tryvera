@@ -11,7 +11,7 @@
   "experience": [
     {
       "company": "Tredence",
-      "location": "Minneapolis, MN | Remote",
+      "location": "Remote",
       "title": "Senior Machine Learning & Data Engineer",
       "startDate": "Aug 2025",
       "endDate": "Present",
@@ -21,7 +21,7 @@
     },
     {
       "company": "Dover Corporation",
-      "location": "Remote",
+      "location": "California",
       "title": "Senior Machine Learning & Data Engineer",
       "startDate": "Dec 2021",
       "endDate": "Aug 2025",
@@ -64,7 +64,6 @@
     },
     {
       "company": "Google",
-      "location": "Mountain View, CA",
       "title": "Machine Learning Engineer",
       "startDate": "Jun 2013",
       "endDate": "Jul 2016",

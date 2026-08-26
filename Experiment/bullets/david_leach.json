@@ -2,17 +2,16 @@
   "id": "david_leach",
   "basic": {
     "fullName": "David Leach",
-    "title": "Senior Machine Learning Engineer",
-    "email": "david.leach0925@outlook.com",
-    "phone": "+1 (210) 638-4471",
+    "title": "Senior AI/ML & Data Engineer",
+    "email": "david.leach77@outlook.com",
     "location": "San Antonio, TX",
-    "linkedin": "https://www.linkedin.com/in/david-leach-ml"
+    "linkedin": "https://www.linkedin.com/in/david-leach-40ab8690/"
   },
   "experience": [
     {
       "company": "Accenture",
-      "location": "San Antonio, TX | Remote",
-      "title": "Senior Machine Learning Engineer",
+      "location": "Remote",
+      "title": "Senior AI/ML & Data Engineer",
       "startDate": "Jul 2025",
       "endDate": "Present",
       "bullets": [],
@@ -21,8 +20,8 @@
     },
     {
       "company": "Amazon Web Services (AWS)",
-      "location": "Austin, TX",
-      "title": "Senior Machine Learning Engineer",
+      "location": "Remote",
+      "title": "Senior AI/ML & Data Engineer",
       "startDate": "Dec 2021",
       "endDate": "Jan 2025",
       "bullets": [
@@ -50,7 +49,7 @@
     },
     {
       "company": "Coinbase",
-      "location": "San Francisco, CA",
+      "location": "San Antonio, TX",
       "title": "Machine Learning Engineer",
       "startDate": "Sep 2015",
       "endDate": "Jun 2018",
