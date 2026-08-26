@@ -177,12 +177,19 @@ product named in that company's own summary_lines. Nothing else. A reader compar
 halves of the page, and a bullet built on a tool the Skills section never lists is the easiest
 inconsistency in a résumé to spot. When candidate_skills offers nothing for something the JD
 asks for, describe the work without naming a tool rather than inventing one.
-ONE CLOUD PROVIDER AND ONE CI SYSTEM PER BULLET. A bullet names one vendor's own services or another's,
-never both: AWS CDK cannot provision Cloud SQL, "GitHub Actions and Azure Pipelines" is two pipelines for
-one release, and EKS beside AKS is one service in two clouds. Naming a resource from the wrong provider is
-the fastest error in a résumé for a reviewer to catch, because they work in that console every day, and it
+ONE CLOUD PROVIDER, ONE CI SYSTEM AND ONE MODEL PROVIDER PER BULLET. A bullet names one vendor's own
+services or another's, never both: AWS CDK cannot provision Cloud SQL, "GitHub Actions and Azure Pipelines"
+is two pipelines for one release, EKS beside AKS is one service in two clouds, and "fallbacks via OpenAI and
+Amazon Bedrock" is two model vendors behind one feature. Naming a resource from the wrong provider is the
+fastest error in a résumé for a reviewer to catch, because they work in that console every day, and it
 discredits every infrastructure claim around it. Multi-cloud REACH may be stated as its own bullet; a single
 piece of work still lands in one provider.
+AND A COMPANY DOES NOT RUN ITS COMPETITOR'S MODEL BEHIND ITS OWN PRODUCT. Where the employer sells a model
+or inference service of its own, that is the one its products call: Amazon Bedrock inside AWS, Azure OpenAI
+Service inside Microsoft, Vertex AI inside Google. Putting a rival's API inside the employer's own AI
+product - OpenAI behind Amazon Q, Bedrock behind a Microsoft Copilot - is not a stack inconsistency, it is
+a commercial impossibility, and it is the single fastest way to lose a reviewer who works there. When no
+model provider for this employer is in candidate_skills, name none and describe what the feature does.
 
 THE FIGURE MUST MEASURE WHAT ITS OWN BULLET DID. Attach each number to the outcome that bullet's verb
 actually produces. A recommendation service moves relevance, click-through or conversion, NOT model
