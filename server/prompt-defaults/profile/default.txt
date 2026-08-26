@@ -166,6 +166,51 @@ Two failure modes seen in this repo:
     names RBC while FILE 1's most recent company is Accenture, so his anchor has never
     once bound. Check this explicitly, by string comparison, not by eye.
 
+THE EARLY COMPANIES HAVE TO THREAD TO THE ANCHOR COMPANY.
+
+Every company from index 2 down is doing one job: making the anchor company look like
+where this person was always going to end up. A reader spends four seconds on the older
+half of a résumé, and what they are checking is whether the story is a story. Pick the
+older companies, and pick what those sections say they did, so that ONE capability runs
+through all of them and arrives at the anchor.
+
+The strongest threads in this repo, and what makes them work:
+
+  chris_perez    CACI (document and text extraction over federal records) -> Stryker
+                 (image analysis, complaint clustering, a validated device environment)
+                 -> Microsoft (speech to draft to clinical record). Regulated work, and
+                 pulling structure out of documents, three jobs running.
+  mark_elliott   Google/YouTube (recommendation and ranking, feature pipelines) -> CVS
+                 Health (adherence risk, fraud-waste-abuse detection, demand forecasting
+                 per store) -> Dover (discrepancy detection, forecasting, anomaly
+                 scoring). FWA detection maps DIRECTLY onto discrepancy detection, and
+                 pharmacy demand onto inventory forecasting.
+  rowland_sipola Google Search serving -> Zillow property search and valuation -> Tellic
+                 biomedical literature search -> Trinnex document retrieval. Retrieval
+                 and ranking over messy data, four jobs running.
+
+And the two weak links, so you recognise the shape:
+
+  A COMPANY OFF THE THREAD. hansal_maniar runs CIBC (money movement, reconciliation) ->
+  Google Ads (budget pacing, spend reconciliation under retries) -> Wealthsimple (an
+  authoritative record). Correctness-of-money, three jobs. Then Suncore Construction &
+  Materials sits in the middle of it, ready-mix concrete dispatch, connected to nothing
+  either side. One such company is survivable; it is still the least defensible entry in
+  the repo.
+
+  A MODALITY JUMP WITH THE BRIDGE LEFT UNSAID. david_leach runs Coinbase (fraud,
+  identity verification) -> USAA (claims triage, account takeover) -> AWS (Amazon
+  Connect: real-time speech, transcription, agent assist). Tabular risk scoring to
+  speech and retrieval is a real jump. The bridge exists -- USAA is one of the largest
+  contact-centre operators in US financial services, and claims intake IS a contact
+  centre -- but his USAA bullets never say "contact centre", so the reader has to find
+  it themselves. When a transition needs a bridge, BUILD IT INTO THE EARLIER COMPANY'S
+  BULLETS. One clause naming the earlier employer's version of the later problem turns a
+  jump into a progression, and it costs nothing.
+
+Do this while you are still choosing what the older companies did, not afterwards. It is
+almost free at that point and nearly impossible later.
+
 
 ════════════════════════════════════════════════════════════════════════════════
 PART 3 — RESEARCH THE REAL FLAGSHIP PROJECT, PER COMPANY
@@ -233,6 +278,63 @@ the job posting's core capability into this company even when the anchor never m
 it — because the alternative is a candidate whose most recent role, the one a recruiter
 reads first, is silent on the thing the posting is built around.
 
+
+  THE SUBJECT IS A PRODUCT SOMEONE USES. THIS IS THE FIRST THING TO GET RIGHT.
+
+  Write about a thing with a user, a job and a market. Do NOT write about internal
+  platform plumbing built for other engineers, however sophisticated it is. Two anchors
+  in this repo opened "none of whom want to build the same plumbing twice" and "paid for
+  that by doing the same work a dozen times over" -- an internal ML platform and an
+  internal data-governance platform. Both were rebuilt, because both produced résumés
+  that read as MLOps specialists and nothing else. There was no user in them to write a
+  front-end bullet about, no market to justify scale, and no job anyone outside the
+  platform team could recognise.
+
+  The four that work all pass the same test. ASSA ABLOY: a door opens. Rackspace: someone
+  asks a question and gets a cited answer. Dover: an operator sees an exception and has to
+  decide today. Amazon Connect: someone calls about an order that went wrong. Microsoft:
+  a clinician and a patient talk in a room.
+
+  ML BELONGS IN THE MECHANISM, NOT IN THE IDENTITY. An AI/ML profile is NOT an anchor
+  about an ML platform. It is an anchor about a product whose interesting parts happen to
+  be models. This is counter-intuitive and it is measured: deepankar_kalra's anchor is a
+  DOOR product with AI in its last clause, and his résumés come out as pure ML-platform
+  résumés on ML postings. Leading with the ML costs breadth and buys nothing.
+
+  NAME REAL PRODUCTS AT LARGE COMPANIES. INVENT ONLY AT SMALL PRIVATE ONES.
+
+  The invented-name technique is safe at a private mid-size company and reckless at a
+  giant. Search "AWS Model Workbench": zero results, and the reviewer starts wondering.
+  Search "Wealthsimple Book of Record": also zero results, but no company publishes its
+  internal platform names, so there is nothing to notice. So:
+
+    - Large, heavily documented employer (AWS, Microsoft, Google, a public industrial
+      group) -> research and name REAL products. Verify by search, and verify they
+      EXISTED DURING THE EMPLOYMENT WINDOW. Amazon Connect Voice ID and Forecasting both
+      shipped as david_leach's tenure began; DAX Copilot was renamed Dragon Copilot
+      inside chris_perez's, which is authentic detail rather than a problem.
+    - Small or private employer -> an internal system name is fine and unfalsifiable.
+      Make it sound like real internal vocabulary: "Book of Record" is genuine finance
+      usage, which is why it does not read as invented.
+
+  AVOID THE FAMOUS ONES EITHER WAY. SageMaker, Bedrock, Azure Machine Learning,
+  Microsoft Fabric and OneLake were all removed from anchors here. "I built SageMaker" is
+  a large checkable claim; "I was a senior engineer on Amazon Connect for three years" is
+  unremarkable and unfalsifiable. Second tier -- real, documented, thousands of engineers,
+  not a household name -- is the target.
+
+  FOUR NAMING REGISTERS, AND ONE TO AVOID. Real products are named in one of four ways:
+  descriptive compounds (Book of Record, Financial Activity Model, Capacity Planner,
+  Digital Access Solutions, Model Passport), domain plus suffix (waterCAST, LeadCAST,
+  ecoLOGIC, SMARTair), acronyms (FAIR, RITA), and real vendor products (Esri ArcGIS,
+  Bentley ProjectWise, Confluence). Use descriptive compounds when inventing -- they
+  explain themselves on a page where nobody will explain them for you.
+
+  Single evocative English nouns -- Trellis, Quarry, Slipway, Bellwether, Wayfinder,
+  Wellspring, Lattice, Assay, Vantage, Waypoint -- are the Borg/Spanner register. They
+  were tried and rejected. Nothing else in the repo uses it, and a reader learns nothing
+  from "Quarry".
+
 So the anchor's job is to give the model a world specific enough to be credible and
 open enough to be tailored. Concretely:
 
@@ -255,6 +357,27 @@ open enough to be tailored. Concretely:
   auth system, a ledger IS a correctness problem. Water networks, underwriting and
   logistics vocabulary does not. A niche domain needs harsher cutting, not more
   explanation.
+
+  THE DISTINCTION THAT ACTUALLY DECIDES THIS: COSTUME VERSUS ENGINEERING.
+
+  Domain words describing the SETTING are fine. Domain words describing THE WORK are
+  fatal. deepankar_kalra says door, lock, credential and firmware -- four of them -- and
+  converts onto postings in any industry. Another profile died of "hydraulic model",
+  "service-line material" and "reconciliation break". The difference is not how many.
+
+  Strike the product name and reread the clause. If what is left is a universal software
+  idea, the domain word was costume:
+
+    "a user opens a DOOR with the mobile app; the request travels to cloud services that
+     check permissions"          -> a request, an authorization check, a decision. Universal.
+    "the clinician reads it, edits it and signs it; what they changed comes back as the
+     measurement"                -> human review, and implicit feedback as a training
+                                    signal. Universal, and one of the strongest lines here.
+    "reconciles the HYDRAULIC MODEL against service-line material records"
+                                 -> nothing. It transfers nowhere.
+
+  So write the engineering in universal nouns -- request, history, draft, forecast,
+  write-back, override, system of record -- and let the domain live only in the props.
 
   TARGET LENGTH: 700 to 900 characters, and 3 to 4 SENTENCES. One paragraph. Plain prose.
 
@@ -288,9 +411,31 @@ open enough to be tailored. Concretely:
   makes a section read as one job rather than a list of claims.
 
   NAME THE LAYERS EXPLICITLY, ONCE, AT THE END. Close with a sentence that says which
-  layers the project touches: the front end (what), the back end (what), the embedded
-  or data or AI side (what). This is the permission slip that lets the generator claim
-  all of them.
+  layers the project touches. This is the permission slip that lets the generator claim
+  all of them. FOUR layers, short parentheticals, about 300 characters -- the reference
+  anchor's layer sentence is 298. Copy its ORDER exactly:
+
+    front end (what)  ->  back end (what)  ->  ONE LAYER SPECIFIC TO THIS PRODUCT  ->
+    the data/AI side (what), LAST
+
+  THE THIRD LAYER IS WHERE PROFILES STOP LOOKING ALIKE. deepankar has the embedded layer
+  (lock firmware); david has the connector layer (the customer's own systems of record);
+  chris has the interoperability layer (the record systems this lands inside); mark has
+  the device layer (the connected units, and the sites that drop offline). Six profiles
+  once shared a boilerplate third layer and their worst pairwise five-word overlap hit 26
+  spans. With a product-specific one it is 5.
+
+  AND DATA/AI GOES LAST, INCLUDING ON AI/ML PROFILES. This was got wrong deliberately and
+  had to be undone. Leading with "It touches the data/AI side first" made every one of the
+  four layers read as an ML-platform layer and the profile as MLOps-only. Putting AI last
+  costs nothing on an ML posting -- the reference profile proves it -- and buys back the
+  full-stack, cloud and data breadth that makes a profile answer more than one posting.
+
+  DECLARE 7 TO 8 DOMAINS ACROSS THE FOUR LAYERS, NOT MORE. An attempt to push declared
+  field coverage from about 20 to 29 grew layer sentences to half the anchor, made all six
+  anchors converge, and had to be reverted wholesale. Full stack, AI/ML, data, cloud and
+  governance is the powerful set. Resist adding niche fields; resist adding mobile unless
+  the product genuinely has an app.
 
   EXACTLY ONE SCALE CLAUSE. In the employer's own units, qualitative, no digits:
   "millions of client accounts", "tens of thousands of service lines", "thousands of
@@ -338,11 +483,20 @@ open enough to be tailored. Concretely:
   "cutting-edge", no "industry-leading", no "robust and scalable". If a sentence would
   fit in marketing copy, cut it.
 
-CHECKLIST for each anchor before you move on. All eight, every time:
-  [ ] 700-900 characters
+CHECKLIST for each anchor before you move on. All fifteen, every time:
+  [ ] the SUBJECT is a product with a user, a job and a market - not internal plumbing
+  [ ] sentence 2 OPENS with a person or a device making a real request
+  [ ] 700-900 characters, 3 sentences
   [ ] at least two real proper nouns from research
+  [ ] every product name at a large employer VERIFIED REAL, and verified to have existed
+      during the employment window; invented names only at small or private employers
+  [ ] no famous flagship product claimed as the candidate's own
+  [ ] invented names are descriptive compounds, never single evocative nouns
   [ ] one traceable request path, in causal order
-  [ ] closing sentence naming the layers
+  [ ] closing layer sentence: four layers, about 300 chars, product-specific third layer,
+      data/AI LAST - including on AI/ML profiles
+  [ ] 7-8 domains declared across those layers, not 20
+  [ ] every domain word is COSTUME, not a description of the engineering
   [ ] exactly one qualitative scale clause
   [ ] zero digits
   [ ] zero framework, language, database or cloud names
@@ -473,16 +627,46 @@ in the form "Category Name: item, item, item". The renderer detects the colon an
 prints one bolded category per line; without colons it falls back to flat prose, which
 looks broken. Every entry must have a colon or none should.
 
-  TARGET 7 CATEGORIES. The extraction prompt orders, trims and re-floats these per
-  posting and aims to emit exactly seven, so give it at least seven to choose from.
-  Fewer than seven upstream means a thin skills section downstream.
+  TARGET 13 CATEGORIES AND 190 TO 230 TERMS. Extraction emits EXACTLY SEVEN, chosen by
+  posting relevance, so a 13-category profile renders seven and holds six in reserve for
+  whatever the next posting asks about. THE EXTRA CATEGORIES COST NO RÉSUMÉ SPACE. There
+  is no reason to stop at seven and one strong reason not to:
+
+  A SHORT LIST DOES NOT PRODUCE A THIN SKILLS SECTION. IT PRODUCES INVENTED TOOLS. The
+  extraction prompt may add a same-family technology when the posting REQUIRES one the
+  candidate does not list, capped at "at most 2-3 in total". Measured on two résumés from
+  one run: it fired NINE times on a 6-category, 65-term profile (MLflow, Unity Catalog,
+  Delta Lake, SageMaker, GitHub Actions, EKS, Snowflake, Fivetran, Faiss) and ONCE on a
+  14-category, 224-term profile. The first listed 0 of 9 required items; the second listed
+  6 of 7. Starving the invention path works where forbidding it does not -- every rule
+  written to suppress a behaviour in these prompts has misfired.
 
   ORDER THEM by how central they are to the candidate's actual discipline, most
   central first. Extraction re-orders by posting relevance, but its tie-breaks favour
   what came first.
 
-  BE GENEROUS. 150 to 230 individual terms across the seven is normal here. Extraction
-  trims aggressively per posting; anything absent from this list can never appear.
+  CATEGORY COVERAGE IS NOT ITEM COVERAGE. This mistake was made in this repo with a
+  measurement in hand. A profile with THIRTEEN categories still invented five tools --
+  Jest, Vitest, React Testing Library, Cypress, RTK Query -- because its Testing category
+  was prose only: "unit/integration/end-to-end testing, TDD, mocking". Thirteen headers,
+  and nothing in that one an extraction pass could draw from. NAME THE ACTUAL TOOLS IN
+  EVERY CATEGORY, not the practice. And include the boring workhorses, not only the
+  headline ones: the test runners, the migration tool, the queue, the tracing library.
+
+  EVERY LAYER THE ANCHOR CLAIMS NEEDS A CATEGORY BACKING IT. Four profiles here declared
+  "the front end (operator consoles / the review surface / the assistant interface)" in
+  their own anchors and carried no frontend category at all, and one claimed FedRAMP
+  evidence with no security or compliance category. Read your finished layer sentence and
+  your bullets, list every capability they claim, and confirm each is findable in skills[].
+  A capability claimed in the anchor and absent from skills is a résumé arguing with
+  itself, and it is the generator's cue to invent.
+
+  DO NOT LIST A MODEL PROVIDER THE EMPLOYER COMPETES WITH. An AWS profile lists Amazon
+  Bedrock, not OpenAI; a Microsoft profile lists Azure OpenAI Service. One profile here had
+  OpenAI in no category at all and its AWS section still came back with "provider fallbacks
+  via OpenAI and Amazon Bedrock" inside Amazon Q -- a commercial impossibility, and the
+  fastest error in the batch for a reviewer to catch. The résumé prompt now blocks it; do
+  not hand it the material anyway.
 
   THIS LIST IS A HARD CONSTRAINT ON THE BULLETS NOW, not just a section of the résumé.
   The trimmed version of it reaches the generation call as candidate_skills, and the résumé
@@ -625,8 +809,12 @@ this list, which is every failure this repo has actually shipped:
   [ ] every education[] date pair is both-filled or both-empty
   [ ] no basic.summary
   [ ] basic.title is the real current title
-  [ ] skills[] has 7+ entries, every one containing a colon
+  [ ] skills[] has 13+ entries, every one containing a colon
   [ ] every skills category header is supported by its own contents
+  [ ] every category names ACTUAL TOOLS, not only practices - especially Testing
+  [ ] every capability the anchor and bullets claim is findable in skills[]
+  [ ] no model provider the employer competes with
+  [ ] one capability threads from the earliest company through to the anchor company
   [ ] no process nouns, soft skills, or product names anywhere in skills[]
   [ ] older companies have 4-5 bullets each, zero figures, each closing on a direction
   [ ] no trailing or double spaces in any string
@@ -651,6 +839,19 @@ link — so you must use Force regenerate or you are testing nothing. Read the o
     Section headers are how an ATS segments a document, so a broken one costs more than a
     broken name.
   - is the client industry named once per engagement, or repeated down every bullet?
+  - list every technology in the bullets that is NOT in this profile's skills[]. Two or
+    three is the sanctioned same-family allowance. Nine means the list is too short.
+  - does any bullet name two cloud providers, two CI systems or two model providers?
+  - could this employer credibly have needed the capability the posting pushed into it? A
+    ledger does not evaluate model-generated code, a lock company does not curate training
+    corpora, and AWS does not run OpenAI behind Amazon Q. This one is not fully solved in
+    the prompts; read for it.
+  - how many of the anchor's named products actually appear? Six of six is achievable;
+    two of five means the anchor named more than the generator could use.
+  - compare against ANOTHER profile's résumé for the same posting. Figures collide across
+    profiles because no prompt can see the other files: four profiles once cited 4,200 /
+    3,430 / 3,400 / 3,240 enterprise tenants for the same client archetype, and 22 percent
+    appeared in three. Nothing in this file fixes that; know that it happens.
 
 
 ════════════════════════════════════════════════════════════════════════════════
@@ -712,4 +913,48 @@ PART 11 — THINGS THAT HAVE ACTUALLY GONE WRONG. DO NOT REDISCOVER THESE.
   Two profiles drawing the same industry from shared.json produce near-identical
   consulting bullets, because there is exactly one summary string per industry. This is
   a known limitation of the data, not of any prompt, and it is most visible when two
-  profiles are read side by side.
+  profiles are read side by side. Measured at its worst: four of five profiles generated
+  against one posting all reduced clinician chart-review time, all with the same HITRUST,
+  PHI-redaction and consent-scoped phrasing.
+
+  Two anchors written about internal ML platforms produced résumés that read as MLOps
+  specialists and nothing else, on every posting. The cause was the anchor's SUBJECT, not
+  the amount of ML in it.
+
+  Anchors led with "It touches the data/AI side first" on the theory that an ML profile
+  should meet a reader with ML. Every layer then read as an ML-platform layer. Reverted to
+  the reference order, with data/AI last.
+
+  Pushing declared field coverage to 26-29 fields grew anchors to about 1,500 characters
+  and made six of them converge - worst pairwise five-word overlap 26 spans. Reverted to
+  four layers and 7-8 domains.
+
+  Trimming layer sentences back to reference length SILENTLY DROPPED CONTENT: "retrieval
+  assistants" from one profile and "retrieval over service documentation" from another,
+  neither noticed until a later portability re-check. Diff what a trim removes.
+
+  Writing six profiles in one sitting produced ONE four-bullet template applied six times.
+  "master data management, and Power BI reporting with row-level security" appeared in
+  four of them; worst pairwise overlap 45 spans. Always measure pairwise overlap after a
+  batch, never trust that varied intent produced varied text.
+
+  A review script carried a leftover write block and silently re-applied an old anchor on
+  every run, so two rewrites appeared not to take. Verification scripts must be READ-ONLY.
+
+  Substring matching produced false failures repeatedly: "next" inside "the next
+  deployment" read as Next.js, "spring" inside "Wellspring" as Spring Boot, "pipe" inside
+  "ingestion pipelines" as water infrastructure, "portfolio" inside "connected-product
+  portfolio" as finance. Use word boundaries, then read the surrounding words before
+  believing any count.
+
+  Regex alternation double-counted: "hundreds of millions of people" matched both
+  "hundreds of" and "millions of" and reported two scale clauses where there is one.
+
+  A profile whose education carried no dates renders its education line with no
+  parenthetical - safe, but visibly different from every other profile's "(2014 - 2017)".
+  Fill both dates or accept the inconsistency knowingly.
+
+  One profile's skills list was left unexpanded as a control while three others were
+  fixed. It was the only one that went on inventing tools, which confirmed the mechanism
+  and cost a full generation cycle to learn. If you are fixing a class of defect, fix it
+  everywhere or write down explicitly why one is being held back.
