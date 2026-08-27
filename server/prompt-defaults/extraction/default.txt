@@ -191,6 +191,8 @@ using your domain_scores:
   Fill the slots strictly by score: every score-3 category first, then score-2 in order, then score-1 only
   if slots remain. Count the categories you are returning before you finish; stopping at 5 or 6 while a
   scored category sits unused wastes a slot the candidate paid for.
+  NEVER RETURN THE SAME CATEGORY NAME TWICE. If two lines would carry the same label, merge their items
+  into one line and return one fewer — six real categories beat seven with a repeat.
   TIE-BREAK. When two categories share a score and only one slot is left, the one that answers a stated
   QUALIFICATION in the reframed_jd wins, every time. A JD requiring "exposure to large language model
   tooling" makes the Generative AI category beat an equally-scored category the JD never asks about.
