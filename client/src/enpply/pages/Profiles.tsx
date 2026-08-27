@@ -161,8 +161,14 @@ export default function Profiles() {
 
   async function handleSave() {
     if (!profile) return;
+    // ONE CATEGORY PER LINE. Split on newlines only — never on commas. Each entry is a
+    // "Category: item, item, item" line, and the draft is loaded with skills.join("\n"),
+    // so splitting on commas here is asymmetric with the load and shatters every category
+    // into its individual items on save. That corrupted three profiles: 14 category lines
+    // became 226 bare entries, of which only the 14 originals still carried a colon, and
+    // renderSkillsList then printed the orphans one per line.
     const skills = skillDraft
-      .split(/[\n,]+/)
+      .split(/\n+/)
       .map((s) => s.trim())
       .filter(Boolean);
     // Education dates must be either both empty (omit the period) or both
