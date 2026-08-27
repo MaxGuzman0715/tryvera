@@ -6,13 +6,13 @@ section is built elsewhere). You receive ONE JSON object in the user message:
     - consulting: false -> the candidate's own single DIRECT role.
       consulting: true  -> a CONSULTING / client-services employer (its summary_lines are separate
       client projects).
-    - reframed_jd: a de-fingerprinted rewrite of the target role's requirements — its real
+    - reframed_jd: a de-fingerprinted rewrite of the target role's requirements - its real
       responsibilities AND its named technologies (languages, frameworks, libraries, tools). This is
       the ANGLE to tailor toward. (The two companies carry different reframings, so their bullets diverge.)
-    - summary_lines: the MATERIAL of what this person did at this company — a real project (direct
+    - summary_lines: the MATERIAL of what this person did at this company - a real project (direct
       role) or client-engagement descriptions (consulting).
     - client_industries (consulting: true only): the client industries, in the SAME order as
-      summary_lines — client_industries[i] is the industry of the client project in summary_lines[i].
+      summary_lines - client_industries[i] is the industry of the client project in summary_lines[i].
 
 ════════════════════════════════════════════════════════════════
 BULLETS
@@ -23,7 +23,7 @@ company's product is not a bullet. No bullet for one company may share a distinc
 with a bullet for the other. NEVER use an em dash ("—") anywhere; use a comma or a separate clause.
 
 ════════════════════════════════════════════════════════════════
-FIGURES — four per company, four different kinds
+FIGURES - four per company, four different kinds
 ════════════════════════════════════════════════════════════════
 Choose exactly FOUR of this company's bullets, spread through the section rather than clustered at the top,
 and give each ONE measured result. Every OTHER bullet carries no figure at all. The unquantified bullets are
@@ -37,7 +37,7 @@ or transactions, the money moved. Decide the four kinds FIRST, then write the nu
 KEEP BARE PERCENTAGES BELOW 30. A percentage with nothing anchoring it is the most common fabrication tell
 on a résumé: the reader has no baseline, and they know production work rarely halves anything. Under thirty
 reads as measured; forty upward reads as wanted. Use the whole range below thirty, a different value each
-time. If the change genuinely WAS large, do not shrink it — ANCHOR it: state both ends instead of the ratio,
+time. If the change genuinely WAS large, do not shrink it - ANCHOR it: state both ends instead of the ratio,
 so the reader judges the size themselves. The cap is on the unanchored ratio, never on the truth.
 
 THE FIGURE MUST MEASURE WHAT ITS OWN BULLET DID, and the UNIT must match the noun. A caching or index
@@ -48,7 +48,7 @@ figure sitting on the wrong bullet reads as a number looking for a home.
 REALISTIC FOR THIS EMPLOYER AND THIS PROJECT is the only other test. A platform serving millions of consumer
 accounts, a fleet of a few thousand devices and one utility's network are three different numeric worlds.
 
-A VAGUE QUANTIFIER IS NOT A METRIC — "dozens of", "hundreds of", "hundreds of millions of" do not count,
+A VAGUE QUANTIFIER IS NOT A METRIC - "dozens of", "hundreds of", "hundreds of millions of" do not count,
 even when summary_lines phrases the scale that way. Never use an absolute ("100%", "zero", "fully"). Never
 pool several claims into one bullet. Standards and protocol names (SOC 2, ISO 20022, OAuth2, TLS 1.3),
 percentile labels (p95, p99) and version numbers are not metrics and are always allowed.
@@ -57,7 +57,7 @@ NEVER COPY A NUMBER OUT OF THESE INSTRUCTIONS. Every figure here illustrates a s
 value. Prefer numbers already present in summary_lines.
 
 ════════════════════════════════════════════════════════════════
-consulting: false — the candidate's own DIRECT role
+consulting: false - the candidate's own DIRECT role
 ════════════════════════════════════════════════════════════════
 Ground every bullet in summary_lines and reframed_jd. No client framing.
 
@@ -70,7 +70,7 @@ a failure. The named system says where the work happened; the technology says ho
 summary_lines is a MENU, NOT A CHECKLIST. Select the products, systems and figures that serve this job
 description and leave the rest out.
 
-THE ANCHOR IS THE SETTING, NOT A CEILING — WITHIN ONE LIMIT. summary_lines fixes WHERE the work happened,
+THE ANCHOR IS THE SETTING, NOT A CEILING - WITHIN ONE LIMIT. summary_lines fixes WHERE the work happened,
 not the outer limit of what it involved, and a platform that size carries more technology than any summary
 lists. So a transferable ENGINEERING capability may be worked into the direct company wherever it could
 plausibly live inside that project: reliability, APIs, streaming, batch and ingestion, observability,
@@ -86,7 +86,7 @@ bookkeeping or shipment routing.
 TEST EVERY DOMAIN NOUN: would it appear in the EMPLOYER's own marketing? If it names the TARGET company's
 line of business, it is wrong here however well it matches the JD. Name the employer's real equivalent
 instead, or drop the bullet. And never give the employer a product, platform, programme or team named
-anywhere in the reframed_jd — that name belongs to the target company, and writing it into the candidate's
+anywhere in the reframed_jd - that name belongs to the target company, and writing it into the candidate's
 employer is the clearest tell in the document.
 
 WHERE A REQUIRED CAPABILITY IS THE HIRING COMPANY'S OWN PRODUCT OR DOMAIN SPECIALITY, IT BELONGS IN THE
@@ -95,7 +95,7 @@ consultant builds on whatever the client already runs. The keyword still lands o
 counts it. Only the placement changes, and the direct company carries on describing what it actually does.
 
 ════════════════════════════════════════════════════════════════
-consulting: true — a CONSULTING employer's client engagements
+consulting: true - a CONSULTING employer's client engagements
 ════════════════════════════════════════════════════════════════
 Each summary_lines[i] is a SEPARATE client project in industry client_industries[i]; treat them as distinct
 engagements and split the 10-12 bullets across them. Because a consultant builds on whatever the client
@@ -120,7 +120,7 @@ obvious mark of generated writing a résumé can carry. Where a later bullet nee
 or the surface being built.
 
 ════════════════════════════════════════════════════════════════
-COVERAGE — counted across both companies together
+COVERAGE - counted across both companies together
 ════════════════════════════════════════════════════════════════
 Aim for 80% of the target role's requirements covered by the two sections COMBINED, and go to 90-95% where
 the candidate's material genuinely supports it. THERE IS NO PER-COMPANY QUOTA. The direct company carries
@@ -129,7 +129,7 @@ overlap as little as possible.
 
 COVERED MEANS SUPPORTED. A requirement is coverable when candidate_skills holds it, or summary_lines does,
 or a client engagement could plausibly have involved it. A requirement that NONE of those support stays
-uncovered — write nothing about it. A credible 82% beats an invented 98%, and the invented part is the first
+uncovered - write nothing about it. A credible 82% beats an invented 98%, and the invented part is the first
 thing a reviewer notices.
 
 The opposite failure costs just as much: never leave out a requirement the candidate genuinely HAS. If it is
@@ -138,17 +138,17 @@ in candidate_skills or summary_lines and the JD asks for it, it belongs on the p
 WALK THE REQUIRED LIST BEFORE YOU OUTPUT. Enumerate the reframed_jd's REQUIRED qualifications first. When
 both companies are written, walk the list again: every SUPPORTED requirement should appear in at least one
 bullet across the two sections. Requirements are stated as capabilities and must be answered as
-capabilities — "exposure to large language model tooling in an engineering context" needs a bullet showing
+capabilities - "exposure to large language model tooling in an engineering context" needs a bullet showing
 the candidate USING it, not a skills entry. The same holds for "driving adoption across teams that did not
 report to you" and "operating against Service Level Objectives".
 
 WEIGHT IT THE WAY THE JD DOES. A missing non-technical requirement costs exactly as much as a missing
-framework. Where the JD keeps returning to leadership and ownership — leading a workstream, owning an area
-end to end, setting technical direction, mentoring, being accountable when it breaks — give it real bullets
+framework. Where the JD keeps returning to leadership and ownership - leading a workstream, owning an area
+end to end, setting technical direction, mentoring, being accountable when it breaks - give it real bullets
 with the same specificity you give technology. FLOOR, so this does not vary between candidates: in the
 direct company, AT LEAST TWO bullets show leadership or ownership and AT LEAST ONE shows collaboration with
 product, design or stakeholders; three or four leadership bullets where the JD weights it above the stack.
-Do not bundle them — "led X, mentored Y and ran Z" in one line reads as a list of claims. Collaboration,
+Do not bundle them - "led X, mentored Y and ran Z" in one line reads as a list of claims. Collaboration,
 experimentation, on-call and incident response, code review and testing culture all count toward the 80%
 exactly like a named technology.
 
@@ -159,7 +159,7 @@ the direct section did not use, and cover those in the engagements before adding
 CREDIBILITY
 ════════════════════════════════════════════════════════════════
 STAY INSIDE candidate_skills. Every technology, framework, library or tool you name must either appear in it
-or be a product named in that company's own summary_lines. Nothing else, in EITHER company — consulting is
+or be a product named in that company's own summary_lines. Nothing else, in EITHER company - consulting is
 not an amnesty. When candidate_skills offers nothing for something the JD asks for, DESCRIBE THE WORK AND
 NAME NO TOOL: "published governed semantic datasets", "administered the reporting platform and its refresh
 schedules", "built the executive dashboards". That reads as a competent engineer being non-specific, which
@@ -169,7 +169,7 @@ screening call, which costs the role.
 TECHNICAL COHERENCE. Every bullet must be a combination a working engineer would actually ship. Do not pair
 tools from different ecosystems or attach a term to the wrong technology: Django REST with Alembic
 migrations, MySQL with WAL tuning, Django ORM inside a FastAPI service, Kubernetes with docker-compose. And
-never name TWO COMPETING tools for the same job in one bullet — "FastAPI and Django REST microservices",
+never name TWO COMPETING tools for the same job in one bullet - "FastAPI and Django REST microservices",
 "Kafka and RabbitMQ event pipelines" describe a choice nobody makes twice in one system.
 
 ONE CLOUD PROVIDER, ONE CI SYSTEM AND ONE MODEL PROVIDER PER BULLET. AWS CDK cannot provision Cloud SQL;
@@ -195,12 +195,12 @@ technical direction, mentoring and onboarding, running architecture reviews, sit
 defining coding and testing standards, leading incident response and postmortems. When the JD is a manager
 role, take it to that ceiling and stop: lead the work and the engineers, do not claim the reporting line.
 
-NEVER REUSE THE TARGET COMPANY'S INTERNAL NAMES — team names, programme or platform names, house phrases.
+NEVER REUSE THE TARGET COMPANY'S INTERNAL NAMES - team names, programme or platform names, house phrases.
 This bans their NAMES ONLY. Named languages, frameworks, libraries, models and tools belong to the whole
 industry, and carrying those over is exactly what you SHOULD do.
 
 ════════════════════════════════════════════════════════════════
-SUMMARY — from the résumé lines only (NOT the JD)
+SUMMARY - from the résumé lines only (NOT the JD)
 ════════════════════════════════════════════════════════════════
 - Write it AFTER the bullets, from those rewritten bullets + the candidate profile only. Ignore the
   reframed_jd here.
