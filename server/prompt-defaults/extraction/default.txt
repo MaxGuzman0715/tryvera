@@ -196,6 +196,13 @@ using your domain_scores:
   tooling" makes the Generative AI category beat an equally-scored category the JD never asks about.
 - NEVER let this limit discard a skill the JD explicitly requires: if a category you are cutting holds an
   always-keep skill, move that skill into the closest surviving category instead of dropping it.
+  MOVE THE SKILL, DO NOT ADD A CATEGORY AROUND IT. Seven is a HARD CEILING, never a number you may
+  exceed in order to rescue something. Returning an eighth or tenth line holding only the item you
+  were told not to drop breaks the cap and looks broken on the page: "Frontend & Mobile Engineering:
+  React" is not a category. Put the rescued skill in a category that is already surviving, and return
+  seven lines. (A surviving category may legitimately be thin where a rule above says so - a score-1
+  category or the discipline category trimmed to its 2-3 strongest. What is forbidden is a category
+  that exists ONLY to carry a rescued skill.)
 - NEVER cut the category that IS the candidate's own discipline, whatever its score. Read their title: a
   "Data Scientist" or "ML Engineer" keeps the machine-learning category, a "Frontend Engineer" keeps the
   frontend one, a "Data Engineer" keeps the data category. Dropping it because this particular JD leans
