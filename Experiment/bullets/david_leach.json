@@ -3,14 +3,15 @@
   "basic": {
     "fullName": "David Leach",
     "title": "Senior AI/ML & Data Engineer",
-    "email": "david.leach77@outlook.com",
+    "email": "M.D.Leach@outlook.com",
+    "phone": "+1 (210) 417-9529",
     "location": "San Antonio, TX",
     "linkedin": "https://www.linkedin.com/in/david-leach-40ab8690/"
   },
   "experience": [
     {
       "company": "Accenture",
-      "location": "Remote",
+      "location": "Austin, Texas, United States",
       "title": "Senior AI/ML & Data Engineer",
       "startDate": "Jul 2025",
       "endDate": "Present",

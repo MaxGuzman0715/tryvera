@@ -2,8 +2,9 @@
   "id": "chris_perez",
   "basic": {
     "fullName": "Chris Perez",
-    "title": "Senior Machine Learning & Data Engineer",
-    "email": "chisopter.perez33@outlook.com",
+    "title": "Senior AI/ML & Data Engineer",
+    "email": "ch.daniel.perez@outlook.com",
+    "phone": "+1 (407) 614-7525",
     "location": "Winter Garden, FL",
     "linkedin": "https://www.linkedin.com/in/chris-perez-671327b0/"
   },
@@ -11,7 +12,7 @@
     {
       "company": "Avanade",
       "location": "Remote",
-      "title": "Senior Machine Learning & Data Engineer",
+      "title": "Senior AI/ML & Data Engineering Consultant",
       "startDate": "Mar 2026",
       "endDate": "Present",
       "bullets": [],
@@ -50,7 +51,7 @@
     {
       "company": "CACI International",
       "location": "Eatontown, NJ",
-      "title": "Machine Learning Engineer",
+      "title": "Software Engineer, Machine Learning & Data Scientist",
       "startDate": "Nov 2010",
       "endDate": "Feb 2013",
       "bullets": [
