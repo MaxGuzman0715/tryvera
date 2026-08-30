@@ -30,8 +30,8 @@ const FALLBACK_REGISTRY: ThemeRegistry = {
     {
       id: "standard",
       label: "Tryvera - Standard — Tryvera header band, navy accents",
-      resume: "resume.html",
-      coverLetter: "cv.html",
+      resume: "resume-standard.html",
+      coverLetter: "cv-standard.html",
     },
     {
       id: "classic",
@@ -104,6 +104,43 @@ function validateRegistry(data: unknown): ThemeRegistry | null {
   return { themes: out };
 }
 
+/**
+ * A theme whose HTML shell is missing on disk is WORSE than a theme that does not exist:
+ * `loadTemplate` throws ENOENT, `writePdfFromTemplateOrFallback` catches it, and the run
+ * silently produces an UNTHEMED PDFKit PDF. The user sees a plain document at random and
+ * nothing in the API says why.
+ *
+ * This shipped: `classic` was listed in registry.json but resume-classic.html/cv-classic.html
+ * had never existed, so every run on that theme rendered plain.
+ *
+ * So entries are checked against disk and dropped if either shell is absent. A dropped id
+ * then falls through `normalizeResumeTheme` to the default, which is a REAL theme.
+ */
+function dropEntriesMissingTemplates(reg: ThemeRegistry, dir: string): ThemeRegistry {
+  const kept: ThemeRegistryEntry[] = [];
+  for (const t of reg.themes) {
+    const missing = (["resume", "coverLetter"] as const).filter(
+      (k) => !existsSync(path.join(dir, t[k]))
+    );
+    if (missing.length === 0) {
+      kept.push(t);
+      continue;
+    }
+    console.error(
+      `[enpply] theme "${t.id}" DISABLED — missing template file(s): ` +
+        missing.map((k) => `${k}=${t[k]}`).join(", ") +
+        `. Add the file(s) under server/templates/ or remove the entry from registry.json. ` +
+        `Requests for "${t.id}" will render with the default theme instead.`
+    );
+  }
+  // Never return an empty list: a registry with no usable theme is worse than the built-in one.
+  if (kept.length === 0) {
+    console.error("[enpply] no theme in registry.json has usable templates — using built-in theme list");
+    return FALLBACK_REGISTRY;
+  }
+  return { themes: kept };
+}
+
 let cached: ThemeRegistry | null = null;
 
 function loadRegistry(): ThemeRegistry {
@@ -121,7 +158,7 @@ function loadRegistry(): ThemeRegistry {
       console.warn("[enpply] templates/registry.json invalid — using built-in theme list");
       cached = FALLBACK_REGISTRY;
     } else {
-      cached = parsed;
+      cached = dropEntriesMissingTemplates(parsed, path.dirname(p));
     }
   } catch (e) {
     console.warn("[enpply] templates/registry.json could not be loaded — using built-in theme list:", e);

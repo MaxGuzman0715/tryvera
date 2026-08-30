@@ -10,9 +10,11 @@
         headings, hanging-indent bullets.
 
         Print/ATS constraints this theme is built to (measured, not guessed):
-        - letter-spacing stays at or below 0.10em. At 0.14em and above the PDF text
-          layer breaks a heading into "S U M M A R Y", and an ATS segments a résumé
-          by its section headings, so a broken heading costs more than a broken name.
+        - letter-spacing stays at or below 0.08em. MEASURED with pdfjs against this
+          template: 0.09em and 0.10em split "EXPERIENCE" into "E XPERIENCE", and
+          0.12em/0.14em space out every heading ("E X P E R I E N C E"). 0.08em and
+          below extract cleanly. The threshold is font-dependent, so re-measure the
+          text layer after changing the heading font.
         - text-transform: uppercase is used ONLY on h2 section labels. It rewrites the
           extracted text, which is harmless for "SUMMARY" but must never touch body
           copy, role headings or the contact line.
@@ -113,7 +115,7 @@
         padding: 0 0.26in;
         font-size: 9pt;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--accent);
         font-family: inherit;

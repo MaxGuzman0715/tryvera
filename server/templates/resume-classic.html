@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume</title>
+    <style>
+      /*
+        Classic serif — minimal print-style résumé. No colour fields, no bands: the
+        structure is carried by type and hairline rules only, the way a typeset CV is.
+
+        TEXT-LAYER RULES (these change what an ATS extracts, not just what it draws):
+          - letter-spacing stays at or below 0.08em. MEASURED with pdfjs: at 0.09em+ a
+            sans heading yields "E XPERIENCE", and 0.12em+ spaces every character out.
+            0.08em extracts cleanly. Re-measure if the heading font changes.
+          - text-transform: uppercase rewrites the EXTRACTED text, so it is confined
+            to h2 section headings where an all-caps parse is harmless.
+      */
+      :root {
+        --ink: #14161a;
+        --muted: #4a5056;
+        --rule: #b9bfc6;
+        --hairline: #d8dde2;
+        --hint: #8b9298;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 10.5pt;
+        line-height: 1.44;
+        color: var(--ink);
+        background: #fff;
+        -webkit-font-smoothing: antialiased;
+      }
+      .sheet {
+        width: 100%;
+        margin: 0;
+        /* Top mostly comes from the page.pdf margin (see templatePdf.ts). */
+        padding: 0.12in 0.3in 0.35in;
+      }
+
+      /* ── header ─────────────────────────────────────────────────────────── */
+      body.doc.theme-classic .content h1 {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 23pt;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        text-align: center;
+        margin: 0;
+        color: var(--ink);
+      }
+      body.doc.theme-classic .content h1 + p,
+      body.doc.theme-classic .content p.resume-headline {
+        text-align: center;
+        margin: 0.2rem 0 0;
+        font-size: 10.75pt;
+        font-style: italic;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+      }
+      body.doc.theme-classic .content p.contact-line {
+        text-align: center;
+        margin: 0.26rem 0 0;
+        font-size: 9pt;
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-style: normal;
+        color: var(--muted);
+        letter-spacing: 0.01em;
+      }
+      /* The double rule under the header is the one classic flourish. */
+      body.doc.theme-classic .content p.contact-line::after {
+        content: "";
+        display: block;
+        margin: 0.42rem auto 0;
+        width: 100%;
+        height: 0;
+        border-top: 1.6pt solid var(--ink);
+        border-bottom: 0.5pt solid var(--ink);
+        padding-bottom: 1.6pt;
+      }
+
+      /* ── section headings ───────────────────────────────────────────────── */
+      body.doc.theme-classic .content h2 {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 10pt;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink);
+        margin: 0.78rem 0 0.34rem;
+        padding-bottom: 0.16rem;
+        border-bottom: 0.75pt solid var(--rule);
+      }
+      body.doc.theme-classic .content h2:first-of-type {
+        margin-top: 0.6rem;
+      }
+
+      /* ── roles ──────────────────────────────────────────────────────────── */
+      body.doc.theme-classic .content h3 {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 10.75pt;
+        font-weight: 700;
+        margin: 0.46rem 0 0.12rem;
+        color: var(--ink);
+      }
+      body.doc.theme-classic .content p {
+        margin: 0.2rem 0;
+      }
+      body.doc.theme-classic .content p.bullet {
+        padding-left: 0.68em;
+        text-indent: -0.68em;
+        margin: 0.14rem 0;
+      }
+      body.doc.theme-classic .content p.spacer {
+        margin: 0.1rem 0;
+        height: 0.26rem;
+      }
+
+      /* ── keep-together (education block) ────────────────────────────────── */
+      body.doc.theme-classic .keep-together {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* ── timeline rows (### Dates | Role) ───────────────────────────────── */
+      body.doc.theme-classic .resume-role-row {
+        display: grid;
+        grid-template-columns: 1.24in 1fr;
+        gap: 0 0.18in;
+        margin: 0.46rem 0 0;
+        break-inside: avoid;
+      }
+      body.doc.theme-classic .resume-role-row p.resume-role-dates {
+        margin: 0.12rem 0 0;
+        padding: 0;
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-size: 8.75pt;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+      }
+      body.doc.theme-classic .resume-role-main {
+        min-width: 0;
+        border-left: 0.75pt solid var(--hairline);
+        padding-left: 0.16in;
+      }
+      body.doc.theme-classic .resume-role-main h3 {
+        margin-top: 0;
+      }
+      body.doc.theme-classic .resume-role-main p,
+      body.doc.theme-classic .resume-role-main h3 {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      body.doc.theme-classic .resume-role-main p.bullet {
+        padding-left: 0.68em;
+        text-indent: -0.68em;
+      }
+
+      /* ── grid fences (:::grid-2 / :::grid-3) ────────────────────────────── */
+      body.doc.theme-classic .resume-grid-col {
+        min-width: 0;
+      }
+      body.doc.theme-classic .resume-grid-col p {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      body.doc.theme-classic .resume-grid-col p.bullet {
+        padding-left: 0.68em;
+        text-indent: -0.68em;
+      }
+
+      /* ── language bars (:::lang-bars) ───────────────────────────────────── */
+      body.doc.theme-classic .resume-lang-row {
+        margin: 0.24rem 0;
+        break-inside: avoid;
+      }
+      body.doc.theme-classic .resume-lang-name {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      body.doc.theme-classic .resume-lang-meter {
+        margin-top: 0.13rem;
+        height: 4px;
+        background: #e7eaee;
+        border: 0.5pt solid var(--hairline);
+        overflow: hidden;
+      }
+      body.doc.theme-classic .resume-lang-fill {
+        display: block;
+        height: 100%;
+        background: var(--ink);
+      }
+
+      /* ── layout debug hints (ENPPLY_RESUME_TEMPLATE_HINTS=1) ────────────── */
+      body.doc.theme-classic .content p.template-hint {
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.25pt;
+        font-style: italic;
+        color: var(--hint);
+        margin: 0.04rem 0 0.26rem;
+      }
+    </style>
+  </head>
+  <body class="doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>

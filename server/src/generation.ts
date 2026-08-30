@@ -726,6 +726,18 @@ function useChromiumTemplatePdf(): boolean {
   return true;
 }
 
+/**
+ * Which renderer actually produced the file.
+ *
+ * "pdfkit-fallback" means the themed HTML render FAILED and the reader is holding an
+ * UNSTYLED document that still looks finished. That has to reach the caller: reporting
+ * it as a clean success is what made the plain-résumé bug look random for so long.
+ */
+export type PdfEngineUsed = "chromium" | "pdfkit" | "pdfkit-fallback";
+
+/** Transient Chromium failures (cold launch, timeout, VPS contention) usually pass on a retry. */
+const CHROMIUM_ATTEMPTS = 2;
+
 async function writePdfFromTemplateOrFallback(
   kind: "resume" | "coverLetter",
   markdown: string,
@@ -733,7 +745,7 @@ async function writePdfFromTemplateOrFallback(
   outPath: string,
   verbose: VerboseRunLogger | null,
   docTitle?: string
-): Promise<void> {
+): Promise<PdfEngineUsed> {
   if (verbose) {
     await verbose.writeSection(
       `PDF ${kind} — input`,
@@ -753,7 +765,7 @@ async function writePdfFromTemplateOrFallback(
       const st = await fs.stat(outPath);
       await verbose.writeSection(`PDF ${kind} — wrote (PDFKit, cover-letter forced)`, `bytes=${st.size}\npath=${outPath}`);
     }
-    return;
+    return "pdfkit";
   }
 
   if (!useChromiumTemplatePdf()) {
@@ -767,34 +779,63 @@ async function writePdfFromTemplateOrFallback(
       const st = await fs.stat(outPath);
       await verbose.writeSection(`PDF ${kind} — wrote (PDFKit)`, `bytes=${st.size}\npath=${outPath}`);
     }
-    return;
+    return "pdfkit";
   }
 
   console.log(`[enpply] Building ${kind} PDF (HTML template + Chromium, ENPPLY_PDF_ENGINE=chromium)…`);
-  try {
-    const buf = await renderTemplatedPdf(kind, markdown, theme, docTitle);
-    await fs.writeFile(outPath, buf);
-    console.log(`[enpply] Wrote ${kind} PDF (Chromium) →`, outPath);
-    if (verbose) {
-      const st = await fs.stat(outPath);
-      await verbose.writeSection(`PDF ${kind} — wrote (Chromium HTML template)`, `bytes=${st.size}\npath=${outPath}`);
-    }
-  } catch (err) {
-    console.warn(`[enpply] ${kind} HTML template PDF failed; using PDFKit fallback.`, err);
-    if (verbose) {
-      await verbose.writeSection(
-        `PDF ${kind} — Chromium failed (PDFKit fallback)`,
-        err instanceof Error ? err.stack ?? err.message : String(err)
+  const failures: string[] = [];
+  for (let attempt = 1; attempt <= CHROMIUM_ATTEMPTS; attempt++) {
+    try {
+      const buf = await renderTemplatedPdf(kind, markdown, theme, docTitle);
+      await fs.writeFile(outPath, buf);
+      console.log(`[enpply] Wrote ${kind} PDF (Chromium, attempt ${attempt}/${CHROMIUM_ATTEMPTS}) →`, outPath);
+      if (verbose) {
+        const st = await fs.stat(outPath);
+        await verbose.writeSection(
+          `PDF ${kind} — wrote (Chromium HTML template)`,
+          `bytes=${st.size}` +
+            `\npath=${outPath}` +
+            `\nattempt=${attempt}/${CHROMIUM_ATTEMPTS}` +
+            (failures.length ? `\n\n--- earlier attempt(s) failed ---\n${failures.join("\n\n")}` : "")
+        );
+      }
+      return "chromium";
+    } catch (err) {
+      const detail = err instanceof Error ? err.stack ?? err.message : String(err);
+      failures.push(`attempt ${attempt}: ${detail}`);
+      console.warn(
+        `[enpply] ${kind} Chromium PDF attempt ${attempt}/${CHROMIUM_ATTEMPTS} failed` +
+          (attempt < CHROMIUM_ATTEMPTS ? " — retrying…" : " — no attempts left."),
+        err
       );
     }
-    const buf = await markdownToPdfBuffer(markdown);
-    await fs.writeFile(outPath, buf);
-    console.log(`[enpply] Wrote ${kind} PDF (PDFKit fallback) →`, outPath);
-    if (verbose) {
-      const st = await fs.stat(outPath);
-      await verbose.writeSection(`PDF ${kind} — wrote (PDFKit fallback)`, `bytes=${st.size}\npath=${outPath}`);
-    }
   }
+
+  // Every themed attempt failed. Still produce a document — a plain résumé beats none —
+  // but say so loudly and tell the caller, because an UNSTYLED file that looks finished
+  // is exactly what made this bug look random.
+  console.error(
+    `[enpply] ${kind} THEME NOT APPLIED — all ${CHROMIUM_ATTEMPTS} Chromium attempts failed; ` +
+      `writing an UNSTYLED PDFKit PDF for theme="${theme}". Check Chromium availability and ` +
+      `the timeouts in templatePdf.ts (PDF_TOTAL_MS/STEP_MS).`
+  );
+  if (verbose) {
+    await verbose.writeSection(
+      `PDF ${kind} — Chromium failed on ALL attempts (UNSTYLED PDFKit fallback)`,
+      failures.join("\n\n")
+    );
+  }
+  const buf = await markdownToPdfBuffer(markdown);
+  await fs.writeFile(outPath, buf);
+  console.log(`[enpply] Wrote ${kind} PDF (UNSTYLED PDFKit fallback) →`, outPath);
+  if (verbose) {
+    const st = await fs.stat(outPath);
+    await verbose.writeSection(
+      `PDF ${kind} — wrote (UNSTYLED PDFKit fallback)`,
+      `bytes=${st.size}` + `\npath=${outPath}`
+    );
+  }
+  return "pdfkit-fallback";
 }
 
 function artifactLineOk(wanted: boolean, st: ArtifactStatus): boolean {
@@ -1314,7 +1355,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
       // final résumé: numeric ranges become hyphens, clause-joining em dashes become
       // commas. En dashes (–) are left alone — the renderer uses them for date ranges.
       resumeMd = resumeMd.replace(/(\d)\s*—\s*(\d)/g, "$1-$2").replace(/\s*—\s*/g, ", ");
-      await writePdfFromTemplateOrFallback(
+      const resumeEngine = await writePdfFromTemplateOrFallback(
         "resume",
         resumeMd,
         theme,
@@ -1323,6 +1364,14 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         `${profile.basic.fullName.trim() || profile.id} — Resume`,
       );
       artifact_status.resume_pdf = "completed";
+      // The file exists, so the artifact is "completed" — but if the themed render failed
+      // the reader gets an unstyled document. Surface that instead of calling it a clean win.
+      if (resumeEngine === "pdfkit-fallback") {
+        artifact_errors.resume_pdf =
+          `Theme "${theme}" was NOT applied: the HTML/Chromium renderer failed on every attempt, ` +
+          `so this PDF is the plain unstyled fallback. Re-run to try again; if it keeps happening, ` +
+          `check the server log for "THEME NOT APPLIED".`;
+      }
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       artifact_errors.resume_pdf = msg;

@@ -11,7 +11,7 @@
         measure, looser leading, paragraphs instead of bullet density.
 
         Same print/ATS constraints as the résumé: letter-spacing never above
-        0.10em (0.14em and up breaks the PDF text layer), and text-transform:
+        0.08em (MEASURED: 0.09em+ breaks the PDF text layer), and text-transform:
         uppercase only on h2 section labels, never on body copy.
       */
       :root {
@@ -89,7 +89,7 @@
         padding: 0 0.28in;
         font-size: 9pt;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--accent);
         font-family: inherit;
