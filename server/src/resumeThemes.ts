@@ -139,12 +139,32 @@ export function getDefaultThemeId(): string {
   return loadRegistry().themes[0]!.id;
 }
 
-/** Unknown or empty theme ids map to the default (first entry in the registry). */
+/** Ids already warned about, so one bad request does not spam the log on every call. */
+const warnedUnknownThemes = new Set<string>();
+
+/**
+ * Unknown or empty theme ids map to the default (first entry in the registry).
+ *
+ * An EMPTY id means the caller did not choose, which is fine and silent. A NON-EMPTY id
+ * that is not in the registry means the caller asked for something real and got a
+ * different document back, so it is logged: that failure mode is invisible otherwise, and
+ * it shipped once already. The client offered a "standard" theme the registry did not
+ * have, so every request carrying it silently rendered as the default instead.
+ */
 export function normalizeResumeTheme(raw: string | undefined): string {
   const t = (raw ?? "").trim().toLowerCase();
   const ids = new Set(loadRegistry().themes.map((x) => x.id));
   if (t && ids.has(t)) return t;
-  return getDefaultThemeId();
+  const fallback = getDefaultThemeId();
+  if (t && !warnedUnknownThemes.has(t)) {
+    warnedUnknownThemes.add(t);
+    console.warn(
+      `[enpply] unknown résumé theme "${t}" — falling back to "${fallback}". ` +
+        `Known: ${[...ids].join(", ")}. Check server/templates/registry.json against ` +
+        `FALLBACK_THEME_OPTIONS in client/src/enpply/themes.ts.`
+    );
+  }
+  return fallback;
 }
 
 export function resumeTemplateFile(kind: "resume" | "coverLetter", theme: string): string {

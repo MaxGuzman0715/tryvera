@@ -14,6 +14,12 @@
       "coverLetter": "cv-rohit.html"
     },
     {
+      "id": "standard",
+      "label": "Tryvera - Standard — branded header band, navy accents",
+      "resume": "resume-standard.html",
+      "coverLetter": "cv-standard.html"
+    },
+    {
       "id": "classic",
       "label": "Serif - Classic serif — minimal, all-caps sections (print-style)",
       "resume": "resume-classic.html",

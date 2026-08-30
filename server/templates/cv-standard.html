@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cover Letter</title>
+    <style>
+      /*
+        Tryvera Standard — cover letter companion to resume-standard.html. Same
+        palette, same header panel and accent rail, but letter-shaped: wider
+        measure, looser leading, paragraphs instead of bullet density.
+
+        Same print/ATS constraints as the résumé: letter-spacing never above
+        0.10em (0.14em and up breaks the PDF text layer), and text-transform:
+        uppercase only on h2 section labels, never on body copy.
+      */
+      :root {
+        --ink: #16202e;
+        --body: #2c3440;
+        --muted: #5c6672;
+        --accent: #0f766e;
+        --panel: #f0f7f6;
+        --hairline: #e2e7ec;
+        --paper: #ffffff;
+        --meter-track: #e6ecec;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      @page {
+        margin: 0;
+      }
+      body.doc.cv-doc.theme-standard {
+        margin: 0;
+        font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.62;
+        color: var(--body);
+        background: var(--paper);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      body.doc.cv-doc.theme-standard .sheet {
+        max-width: 7.1in;
+        margin: 0 auto;
+        padding: 0.34in 0 0.45in;
+      }
+
+      /* ── header ─────────────────────────────────────────────────────────── */
+      body.doc.cv-doc.theme-standard .content h1 {
+        margin: 0;
+        padding: 0.2in 0.28in 0;
+        background: var(--panel);
+        font-size: 22pt;
+        font-weight: 750;
+        line-height: 1.1;
+        letter-spacing: -0.005em;
+        color: var(--ink);
+        font-family: inherit;
+        text-transform: none;
+      }
+      body.doc.cv-doc.theme-standard .content p.resume-headline {
+        margin: 0;
+        padding: 0.26rem 0.28in 0;
+        background: var(--panel);
+        font-size: 11pt;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        color: var(--accent);
+        text-transform: none;
+      }
+      body.doc.cv-doc.theme-standard .content p.contact-line {
+        margin: 0;
+        padding: 0.32rem 0.28in 0.2in;
+        background: var(--panel);
+        border-bottom: 2.5pt solid var(--accent);
+        font-size: 9pt;
+        line-height: 1.5;
+        color: var(--muted);
+        text-transform: none;
+      }
+
+      /* ── section headings ───────────────────────────────────────────────── */
+      body.doc.cv-doc.theme-standard .content h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.42rem;
+        margin: 1rem 0 0.45rem;
+        padding: 0 0.28in;
+        font-size: 9pt;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-family: inherit;
+        break-after: avoid;
+      }
+      body.doc.cv-doc.theme-standard .content h2::before {
+        content: "";
+        flex: 0 0 auto;
+        width: 3.5pt;
+        height: 11pt;
+        background: var(--accent);
+        border-radius: 1pt;
+      }
+      body.doc.cv-doc.theme-standard .content h2::after {
+        content: "";
+        flex: 1 1 auto;
+        height: 1pt;
+        background: var(--hairline);
+      }
+
+      body.doc.cv-doc.theme-standard .content h3 {
+        margin: 0.7rem 0 0.1rem;
+        padding: 0 0.28in;
+        font-size: 10.5pt;
+        font-weight: 700;
+        letter-spacing: 0;
+        color: var(--ink);
+        font-family: inherit;
+        text-transform: none;
+        break-after: avoid;
+      }
+
+      /* ── letter body ────────────────────────────────────────────────────── */
+      body.doc.cv-doc.theme-standard .content p {
+        margin: 0.55rem 0;
+        padding: 0 0.28in;
+      }
+      body.doc.cv-doc.theme-standard .content p.bullet {
+        margin: 0.2rem 0;
+        padding-left: calc(0.28in + 0.68em);
+        padding-right: 0.28in;
+        text-indent: -0.68em;
+        line-height: 1.5;
+      }
+      body.doc.cv-doc.theme-standard .content p.spacer {
+        margin: 0;
+        padding: 0;
+        height: 0.3rem;
+      }
+      body.doc.cv-doc.theme-standard .content strong,
+      body.doc.cv-doc.theme-standard .content b {
+        font-weight: 700;
+        color: var(--ink);
+      }
+      body.doc.cv-doc.theme-standard .content a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ── shared fragment structures, styled so nothing can break ────────── */
+      body.doc.cv-doc.theme-standard .keep-together {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      body.doc.cv-doc.theme-standard .resume-role-row {
+        display: grid;
+        grid-template-columns: 1.28in 1fr;
+        gap: 0 0.2in;
+        padding: 0 0.28in;
+        margin: 0.5rem 0 0;
+        break-inside: avoid;
+      }
+      body.doc.cv-doc.theme-standard .resume-role-row p.resume-role-dates {
+        margin: 0.1rem 0 0;
+        padding: 0;
+        font-size: 8.75pt;
+        font-weight: 600;
+        color: var(--accent);
+      }
+      body.doc.cv-doc.theme-standard .resume-role-main {
+        min-width: 0;
+        border-left: 1pt solid var(--hairline);
+        padding-left: 0.16in;
+      }
+      body.doc.cv-doc.theme-standard .resume-role-main h3,
+      body.doc.cv-doc.theme-standard .resume-role-main p,
+      body.doc.cv-doc.theme-standard .resume-role-main p.bullet {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      body.doc.cv-doc.theme-standard .resume-role-main p.bullet {
+        padding-left: 0.68em;
+        text-indent: -0.68em;
+      }
+      body.doc.cv-doc.theme-standard .resume-grid-col {
+        min-width: 0;
+      }
+      body.doc.cv-doc.theme-standard .resume-grid-col p,
+      body.doc.cv-doc.theme-standard .resume-grid-col p.bullet {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      body.doc.cv-doc.theme-standard .resume-grid-col p.bullet {
+        padding-left: 0.68em;
+        text-indent: -0.68em;
+      }
+      body.doc.cv-doc.theme-standard .resume-lang-bars {
+        padding: 0 0.28in;
+      }
+      body.doc.cv-doc.theme-standard .resume-lang-row {
+        margin: 0.26rem 0;
+        break-inside: avoid;
+      }
+      body.doc.cv-doc.theme-standard .resume-lang-name {
+        font-size: 9.25pt;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      body.doc.cv-doc.theme-standard .resume-lang-meter {
+        margin-top: 0.14rem;
+        height: 5px;
+        background: var(--meter-track);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      body.doc.cv-doc.theme-standard .resume-lang-fill {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), #14b8a6);
+        border-radius: 3px;
+      }
+      body.doc.cv-doc.theme-standard .template-hint {
+        margin: 0.05rem 0 0.2rem;
+        padding: 0 0.28in;
+        font-size: 7.5pt;
+        color: #9aa4ae;
+      }
+    </style>
+  </head>
+  <body class="doc cv-doc theme-{{THEME_CLASS}}">
+    <div class="sheet">
+      <main class="content">{{BODY}}</main>
+    </div>
+  </body>
+</html>
