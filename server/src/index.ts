@@ -737,6 +737,12 @@ const rerunBody = z
     job_description: z.string().max(200_000).optional(),
     /** Extra context / apply-form text. Appended to the prompts; not persisted. */
     apply_form: z.string().max(50_000).nullable().optional(),
+    /**
+     * PDF theme for this rerun. Omitted = keep whatever the slot was created with.
+     * Without this the theme was frozen at creation, so the picker silently did
+     * nothing on every rerun and the layout looked like it changed at random.
+     */
+    theme: z.string().optional(),
   })
   .refine(
     (b) => b.gen_resume === true || b.gen_cover_letter === true || b.gen_answers === true || b.gen_fit_answer === true,
@@ -788,7 +794,9 @@ app.post<{ id: string }>("/api/applications/:id/rerun", requireAuth, async (req,
     const applyFormForRerun = body.apply_form && body.apply_form.trim().length > 0 ? body.apply_form : null;
 
     const settings = await readSettings();
-    const theme = prior?.theme || entry.theme || settings.default_theme;
+    // An explicit choice on THIS rerun wins; otherwise keep the slot's stored theme.
+    const theme =
+      (body.theme && body.theme.trim()) || prior?.theme || entry.theme || settings.default_theme;
     // Reuse the prior output folder only when we have a prior result; otherwise
     // a fresh generation computes a new folder under the output root.
     const outputFolderRel = prior ? entry.output_folder : "";
@@ -1517,6 +1525,12 @@ const qaCreateBody = z.object({
   /** Extract + answer the JD/apply-form questions in this lightweight pass. */
   gen_answers: z.boolean().optional(),
   gen_fit_answer: z.boolean().optional(),
+  /**
+   * PDF theme to store on the slot. This path renders no résumé, but a later /rerun
+   * does and reads the theme stored here - so omitting it meant the Q&A route always
+   * produced the default theme however the picker was set.
+   */
+  theme: z.string().optional(),
 });
 
 /**
@@ -1546,7 +1560,9 @@ app.post("/api/applications/qa-create", requireAuth, async (req, res) => {
     );
     const settings = await readSettings();
     const theme =
-      settings.default_theme_by_profile[body.resume_profile] ?? settings.default_theme;
+      (body.theme && body.theme.trim()) ||
+      settings.default_theme_by_profile[body.resume_profile] ||
+      settings.default_theme;
     const outRoot = path.resolve(projectRoot(), settings.default_output_path);
     await fs.mkdir(outRoot, { recursive: true });
 

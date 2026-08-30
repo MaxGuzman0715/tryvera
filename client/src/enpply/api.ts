@@ -171,6 +171,8 @@ export const api = {
       job_description?: string;
       /** Extra context / apply-form text; empty = don't pass any. */
       apply_form?: string | null;
+      /** PDF theme for this rerun; omitted = keep the theme the slot was created with. */
+      theme?: string;
     },
   ) =>
     req<{
