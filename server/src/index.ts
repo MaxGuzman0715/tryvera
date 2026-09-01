@@ -14,7 +14,12 @@ import {
   writeProfile,
   deleteProfile,
 } from "./profileStore.js";
-import { profileBodySchema, type ResultJson } from "./types.js";
+import {
+  profileBodySchema,
+  type ArtifactKey,
+  type ArtifactStatus,
+  type ResultJson,
+} from "./types.js";
 import { normalizeJobRefForGenerate, isHttpUrl } from "./jobRef.js";
 import {
   appendApplication,
@@ -39,7 +44,8 @@ import {
 import { DEFAULT_PROMPTS, type PromptKey } from "./defaultPrompts.js";
 import { getThemeSummaries } from "./resumeThemes.js";
 import { buildResumePreviewHtml } from "./resumePreview.js";
-import { newAppId, runGeneration } from "./generation.js";
+import { extractResumeFigures, newAppId, ownedArtifactName, runGeneration } from "./generation.js";
+import { buildZip, type ZipEntry } from "./zip.js";
 import { resolveStepModel } from "./llmTiers.js";
 import { runBulletsExperiment } from "./bulletsExperiment.js";
 import { listBulletStoreProfiles, getProfileBulletsView } from "./bulletsTailoring.js";
@@ -673,6 +679,55 @@ app.get<{ id: string; name: string }>(
     }
   },
 );
+
+/**
+ * Download a run's whole output folder as one ZIP.
+ *
+ * For a BATCH this is the point of the feature: the folder holds every profile's résumé
+ * for one job description, so one click gets the lot. For a single run it is simply that
+ * run's files. Must be registered before /api/applications/:id so the route is not shadowed.
+ */
+app.get<{ id: string }>("/api/applications/:id/folder.zip", requireAuth, async (req, res) => {
+  try {
+    const entry = await getApplication(req.params.id);
+    if (!entry?.output_folder) return res.status(404).json({ error: "Application not found" });
+    if (!canAccessApplication(req.user!, entry)) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+    const root = toAbsoluteFromStoredPath(entry.output_folder);
+    let names: string[];
+    try {
+      const dirents = await fs.readdir(root, { withFileTypes: true });
+      // Flat folder only: generation writes no subdirectories, and skipping them keeps
+      // this from silently producing a half-archive if that ever changes.
+      names = dirents.filter((d) => d.isFile()).map((d) => d.name).sort();
+    } catch {
+      return res.status(404).json({ error: "Output folder not found" });
+    }
+    if (names.length === 0) return res.status(404).json({ error: "Output folder is empty" });
+
+    const entries: ZipEntry[] = [];
+    for (const name of names) {
+      const filePath = path.resolve(root, name);
+      // Defensive: never follow anything that resolves outside the run folder.
+      if (path.relative(root, filePath).startsWith("..")) continue;
+      const [data, stat] = await Promise.all([fs.readFile(filePath), fs.stat(filePath)]);
+      entries.push({ name, data, date: stat.mtime });
+    }
+
+    // Name the download after the folder (e.g. 083251_Acme_Senior_Engineer.zip) so several
+    // batches in the Downloads folder stay tellable apart.
+    const base = path.basename(entry.output_folder) || "application";
+    const safe = base.replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 100) || "application";
+    const zip = buildZip(entries);
+    res.setHeader("Content-Type", "application/zip");
+    res.setHeader("Content-Disposition", `attachment; filename="${safe}.zip"`);
+    res.setHeader("Content-Length", String(zip.length));
+    res.end(zip);
+  } catch (e) {
+    res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+  }
+});
 
 app.get<{ id: string }>("/api/applications/:id", requireAuth, async (req, res) => {
   try {
@@ -1838,6 +1893,284 @@ app.post("/api/applications/generate", requireAuth, async (req, res) => {
       } finally {
         cancelledRuns.delete(appId);
       }
+    })();
+  } catch (e) {
+    if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
+    res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+  }
+});
+
+/**
+ * Prior-artifact status for a profile joining an existing BATCH folder.
+ *
+ * Everything is "skipped", not "failed": nothing was generated for THIS profile in that
+ * folder yet. runGeneration treats a reuseFolder run as a rerun and accepts
+ * completed-or-skipped, so "failed" here would sink an otherwise good batch run whenever
+ * an artifact was not requested.
+ */
+function emptyBatchArtifactStatus(): Record<ArtifactKey, ArtifactStatus> {
+  return {
+    resume_pdf: "skipped",
+    cover_letter_pdf: "skipped",
+    answers_json: "skipped",
+    answers_md: "skipped",
+    metadata_json: "skipped",
+    job_description_txt: "skipped",
+  };
+}
+
+/**
+ * Batch generate: ONE job description, several profiles, one output folder.
+ *
+ * Why sequential and not parallel:
+ *   - each profile can then be told what the previous ones already used, which is the
+ *     whole point (three independent requests cannot avoid looking alike);
+ *   - three concurrent Chromium launches is exactly how the PDF render timeout fires.
+ *
+ * Each profile still gets its own application row, so Logs, rerun, the Result page and
+ * the extension keep working unchanged. The first profile creates the folder (named
+ * "_batch" instead of a profile id); the rest reuse it.
+ */
+const generateBatchBody = z.object({
+  profiles: z
+    .array(
+      z.object({
+        resume_profile: z.string().min(1),
+        /** Per-profile theme. Falls back to that profile default, then the global default. */
+        theme: z.string().optional(),
+      })
+    )
+    .min(1)
+    .max(6),
+  job_link: z.string().default(""),
+  recruiter_name: z.string().nullable().optional(),
+  job_description: z.string().min(1),
+  apply_form: z.string().nullable().optional(),
+  gen_resume: z.boolean().optional(),
+  gen_cover_letter: z.boolean().optional(),
+  gen_answers: z.boolean().optional(),
+  gen_fit_answer: z.boolean().optional(),
+  ignore_duplicate_check: z.boolean().optional(),
+  suffix_on_duplicate: z.boolean().optional(),
+});
+
+app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
+  try {
+    const body = generateBatchBody.parse(req.body);
+
+    // Reject duplicate profile ids: two runs of the same profile in one folder would
+    // fight over the same filenames, and it is never what the user meant.
+    const ids = body.profiles.map((p) => p.resume_profile);
+    const dupId = ids.find((id, i) => ids.indexOf(id) !== i);
+    if (dupId) {
+      return res.status(400).json({ error: `Profile "${dupId}" is selected more than once.` });
+    }
+    for (const id of ids) {
+      if (!canAccessProfile(req.user!, id)) {
+        return res.status(403).json({ error: `You do not have access to profile "${id}".` });
+      }
+    }
+
+    const { job_link: jobLinkNorm, recruiter_name: recruiterNorm } = normalizeJobRefForGenerate(
+      body.job_link,
+      body.recruiter_name ?? ""
+    );
+    const settings = await readSettings();
+    const outRoot = path.resolve(projectRoot(), settings.default_output_path);
+    await fs.mkdir(outRoot, { recursive: true });
+
+    // Resolve every profile BEFORE creating any row, so a bad id fails the whole
+    // request cleanly instead of leaving half a batch queued.
+    const planned: {
+      appId: string;
+      runUuid: string;
+      profile: NonNullable<Awaited<ReturnType<typeof readProfile>>>;
+      profileId: string;
+      theme: string;
+    }[] = [];
+    for (const entry of body.profiles) {
+      const profile = await readProfile(entry.resume_profile);
+      if (!profile) return res.status(400).json({ error: `Profile not found: ${entry.resume_profile}` });
+      planned.push({
+        appId: newAppId(),
+        runUuid: await nextRunUuid(entry.resume_profile),
+        profile,
+        profileId: entry.resume_profile,
+        theme:
+          (entry.theme && entry.theme.trim()) ||
+          settings.default_theme_by_profile[entry.resume_profile] ||
+          settings.default_theme,
+      });
+    }
+
+    const batchId = newAppId();
+    console.log(
+      `[enpply] HTTP POST /api/applications/generate-batch batch=${batchId} profiles=${ids.join(",")} user=${req.user!.id} jobDescChars=${body.job_description.length}`
+    );
+
+    const createdAt = nowJstIso();
+    for (const p of planned) {
+      await appendApplication({
+        id: p.appId,
+        run_uuid: p.runUuid,
+        created_at: createdAt,
+        company_name: "Generating…",
+        role_name: "…",
+        resume_profile: p.profileId,
+        theme: p.theme,
+        job_link: jobLinkNorm,
+        recruiter_name: recruiterNorm,
+        status: "generating",
+        status_step: "queued",
+        tracking_status: "pending",
+        note: "",
+        output_folder: "",
+        result_file: "",
+        user_id: req.user!.id,
+        user_email: req.user!.email,
+      });
+    }
+
+    res.json({
+      batch_id: batchId,
+      status: "generating",
+      applications: planned.map((p) => ({
+        id: p.appId,
+        run_uuid: p.runUuid,
+        resume_profile: p.profileId,
+        theme: p.theme,
+        status: "generating",
+      })),
+    });
+
+    void (async () => {
+      // Set by the first profile that gets far enough to name a folder; every later
+      // profile reuses it so the whole batch lands together.
+      let sharedFolderAbs = "";
+      let sharedFolderRel = "";
+      // Figures already spent by earlier profiles. This is the whole reason the batch runs
+      // sequentially: each candidate is told what the previous ones used, so three résumés
+      // for one job stop sharing the same numbers.
+      const usedFigures: string[] = [];
+
+      for (const p of planned) {
+        const verboseLog = await createVerboseLogger(p.appId);
+        if (verboseLog) {
+          await verboseLog.writeSection(
+            "HTTP POST /api/applications/generate-batch — body (parsed)",
+            JSON.stringify({ batch_id: batchId, profile: p.profileId, theme: p.theme, ...body }, null, 2)
+          );
+        }
+        try {
+          cancelledRuns.delete(p.appId);
+          const result = await runGeneration({
+            profile: p.profile,
+            job_link: jobLinkNorm,
+            recruiter_name: recruiterNorm,
+            job_description: body.job_description,
+            apply_form: body.apply_form ?? null,
+            theme: p.theme,
+            appId: p.appId,
+            outputRootAbs: outRoot,
+            llmLight: settings.llm_light,
+            llmHeavy: settings.llm_heavy,
+            llmExtraction: settings.llm_extraction,
+            llmGeneration: settings.llm_generation,
+            llmTiers: req.user!.preferences?.llm_tiers,
+            gen_resume: body.gen_resume,
+            gen_cover_letter: body.gen_cover_letter,
+            gen_answers: body.gen_answers,
+            gen_fit_answer: body.gen_fit_answer,
+            ignore_duplicate_check: body.ignore_duplicate_check,
+            suffix_on_duplicate: body.suffix_on_duplicate,
+            run_uuid: p.runUuid,
+            // One folder for the batch, and per-profile names for the files that
+            // would otherwise collide inside it.
+            sharedFolder: true,
+            folderProfileSegment: "_batch",
+            ...(usedFigures.length
+              ? (console.log(
+                  `[enpply] batch=${batchId} ${p.profileId} will avoid ${usedFigures.length} figure(s) used earlier.`
+                ),
+                { avoidFigures: [...usedFigures] })
+              : {}),
+            ...(sharedFolderAbs
+              ? {
+                  reuseFolder: {
+                    outputFolderAbs: sharedFolderAbs,
+                    outputFolderRel: sharedFolderRel,
+                    priorArtifactStatus: emptyBatchArtifactStatus(),
+                    priorArtifacts: {} as Record<ArtifactKey, string>,
+                    priorAnswers: [],
+                  },
+                }
+              : {}),
+            onStage: async (stage, info) => {
+              if (cancelledRuns.has(p.appId)) throw new Error("Run cancelled by user.");
+              await updateApplication(p.appId, {
+                status: "generating",
+                status_step: stage,
+                ...(info?.company_name ? { company_name: info.company_name } : {}),
+                ...(info?.role_name ? { role_name: info.role_name } : {}),
+              });
+            },
+            shouldCancel: () => cancelledRuns.has(p.appId),
+            verbose: verboseLog,
+          });
+
+          if (typeof result.resume_markdown === "string" && result.resume_markdown) {
+            const before = usedFigures.length;
+            for (const f of extractResumeFigures(result.resume_markdown)) {
+              if (!usedFigures.includes(f)) usedFigures.push(f);
+            }
+            console.log(
+              `[enpply] batch=${batchId} ${p.profileId} contributed ${usedFigures.length - before} new figure(s); ` +
+                `${usedFigures.length} now reserved for later profiles.`
+            );
+          }
+
+          if (!sharedFolderAbs && result.output_folder) {
+            sharedFolderRel = result.output_folder;
+            sharedFolderAbs = toAbsoluteFromStoredPath(result.output_folder);
+            console.log(`[enpply] batch=${batchId} folder fixed by ${p.profileId} -> ${sharedFolderRel}`);
+          }
+
+          const resultPathRel = path
+            .join(result.output_folder, ownedArtifactName(p.profileId, "result.json", true))
+            .split(path.sep)
+            .join("/");
+          await updateApplication(p.appId, {
+            company_name: result.company_name,
+            role_name: result.role_name,
+            status: result.status,
+            run_uuid: p.runUuid,
+            status_step: result.status === "completed" ? "completed" : "failed",
+            output_folder: result.output_folder,
+            result_file: resultPathRel,
+            generation_error: result.status === "failed" ? (result.error ?? "Generation failed") : "",
+          });
+          console.log(
+            `[enpply] batch=${batchId} ${p.profileId} finished status=${result.status} (${planned.indexOf(p) + 1}/${planned.length})`
+          );
+        } catch (err) {
+          // One profile failing must NOT abandon the rest of the batch.
+          const msg = err instanceof Error ? err.message : String(err);
+          console.warn(`[enpply] batch=${batchId} ${p.profileId} threw`, err);
+          const dupOf = (err as { duplicateOf?: string })?.duplicateOf;
+          const isDup = typeof dupOf === "string" && dupOf.length > 0;
+          await updateApplication(p.appId, {
+            status: "failed",
+            status_step: /cancelled/i.test(msg) ? "cancelled" : "failed",
+            company_name: isDup ? "Duplicate" : "Error",
+            role_name: msg.slice(0, 120),
+            generation_error: msg,
+            ...(isDup ? { duplicate_of: dupOf } : {}),
+          });
+        } finally {
+          cancelledRuns.delete(p.appId);
+        }
+      }
+      console.log(`[enpply] batch=${batchId} done (${planned.length} profiles)`);
     })();
   } catch (e) {
     if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });

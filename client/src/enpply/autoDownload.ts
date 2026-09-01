@@ -309,6 +309,11 @@ export type AutoDownloadInput = {
   outputFolder: string;
   artifacts: Record<string, string>;
   artifactStatus: Record<string, string>;
+  /**
+   * Profile id, used only to find this run's result.json. In a batch several profiles
+   * share one folder, so the file is "<profile>_result.json" rather than "result.json".
+   */
+  resumeProfile?: string;
 };
 
 /**
@@ -393,16 +398,28 @@ export async function autoDownloadArtifacts(input: AutoDownloadInput): Promise<A
     };
     pushIfCompleted("resume_pdf");
     pushIfCompleted("cover_letter_pdf");
-    // result.json isn't in the artifacts map but is always emitted by the
-    // server at the end of every run, and the artifact endpoint serves any
-    // .json basename in the output folder.
-    targets.push("result.json");
 
     const written: string[] = [];
     for (const filename of targets) {
       const blob = await fetchArtifact(input.appId, filename);
       await writeBlob(dir, filename, blob);
       written.push(filename);
+    }
+
+    // result.json is not in the artifacts map. It is a convenience copy, and its name is
+    // NOT fixed: a batch run shares one folder between profiles, so each owns
+    // "<profile>_result.json" instead. Fetch it best-effort and never let it fail the
+    // download — the PDFs above are the point, and they are already on disk by here.
+    for (const candidate of ["result.json", `${input.resumeProfile ?? ""}_result.json`]) {
+      if (!candidate || candidate.startsWith("_")) continue;
+      try {
+        const blob = await fetchArtifact(input.appId, candidate);
+        await writeBlob(dir, candidate, blob);
+        written.push(candidate);
+        break;
+      } catch {
+        /* try the next name; absence is not an error */
+      }
     }
 
     const displayPath = buildDisplayPath(stored.absolutePath, stored.label, segments);

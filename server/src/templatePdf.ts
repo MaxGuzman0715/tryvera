@@ -133,7 +133,62 @@ function setDocTitle(html: string, docTitle: string | undefined): string {
   return html;
 }
 
+/**
+ * Serialises Chromium renders across the whole process.
+ *
+ * Every PDF launches its OWN browser. Firing several generations within a few seconds
+ * therefore starts several full Chromium processes at once, they fight for RAM and CPU,
+ * the launch blows past PDF_TOTAL_MS, and the run silently falls back to an unstyled PDF.
+ *
+ * That is not hypothetical: of 1,880 production runs, the 6 unstyled ones arrived in
+ * clusters seconds apart - three of them inside the SAME SECOND - across three different
+ * themes. Retrying does not help, because the second attempt meets the same contention.
+ *
+ * So renders queue: the app still accepts any number of concurrent generations, and only
+ * the browser step is one-at-a-time. Everything before it (LLM calls, extraction) stays
+ * parallel. Concurrency is configurable via ENPPLY_PDF_CONCURRENCY for a bigger box, but
+ * 1 is the safe default that removes the failure entirely.
+ */
+function pdfConcurrency(): number {
+  const raw = Number((process.env.ENPPLY_PDF_CONCURRENCY ?? "").trim());
+  if (!Number.isFinite(raw) || raw < 1) return 1;
+  return Math.min(Math.floor(raw), 8);
+}
+
+let activeRenders = 0;
+const renderWaiters: (() => void)[] = [];
+
+async function acquireRenderSlot(): Promise<() => void> {
+  const limit = pdfConcurrency();
+  if (activeRenders >= limit) {
+    const queuedAt = Date.now();
+    const position = renderWaiters.length + 1;
+    console.log(`[enpply] PDF: ${activeRenders} render(s) in flight (limit ${limit}) — queued at position ${position}.`);
+    await new Promise<void>((resolve) => renderWaiters.push(resolve));
+    console.log(`[enpply] PDF: slot acquired after ${Date.now() - queuedAt}ms in queue.`);
+  }
+  activeRenders++;
+  let released = false;
+  return () => {
+    // Guard against a double release leaking slots and stalling every later render.
+    if (released) return;
+    released = true;
+    activeRenders--;
+    const next = renderWaiters.shift();
+    if (next) next();
+  };
+}
+
 export async function renderHtmlToPdf(html: string, theme?: string, docTitle?: string): Promise<Buffer> {
+  const release = await acquireRenderSlot();
+  try {
+    return await renderHtmlToPdfUnqueued(html, theme, docTitle);
+  } finally {
+    release();
+  }
+}
+
+async function renderHtmlToPdfUnqueued(html: string, theme?: string, docTitle?: string): Promise<Buffer> {
   console.log(
     `[enpply] PDF: starting Chromium pipeline — platform=${process.platform} node=${process.version} pid=${process.pid} (cap ${PDF_TOTAL_MS}ms)`
   );

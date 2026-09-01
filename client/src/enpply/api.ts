@@ -233,6 +233,44 @@ export const api = {
       /** Present when server was started with ENPPLY_VERBOSE=1 — full step trace on disk. */
       verbose_log_file?: string;
     }>("/api/applications/generate", { method: "POST", body: JSON.stringify(body) }),
+  /**
+   * One job description, several profiles, one output folder.
+   *
+   * The server runs them SEQUENTIALLY and returns as soon as the rows exist, so this
+   * resolves long before the last résumé is built - track progress per application id.
+   */
+  generateBatch: (body: {
+    profiles: { resume_profile: string; theme?: string }[];
+    job_link: string;
+    recruiter_name?: string | null;
+    job_description: string;
+    apply_form: string | null;
+    gen_resume?: boolean;
+    gen_cover_letter?: boolean;
+    gen_answers?: boolean;
+    gen_fit_answer?: boolean;
+    ignore_duplicate_check?: boolean;
+  }) =>
+    req<{
+      batch_id: string;
+      status: string;
+      applications: {
+        id: string;
+        run_uuid?: string;
+        resume_profile: string;
+        theme: string;
+        status: string;
+      }[];
+    }>("/api/applications/generate-batch", { method: "POST", body: JSON.stringify(body) }),
+
+  /**
+   * URL of a run's whole output folder as one ZIP.
+   *
+   * For a batch every profile shares one folder, so this is "download all of them".
+   * Returned as a URL rather than a fetch so the browser handles the save dialog itself
+   * (a blob round-trip would buffer the whole archive in the page for no benefit).
+   */
+  folderZipUrl: (id: string) => `/api/applications/${encodeURIComponent(id)}/folder.zip`,
 
   // ------------------------------------------------------------------
   // Auth + user management

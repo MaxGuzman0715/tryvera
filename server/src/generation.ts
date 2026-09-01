@@ -334,6 +334,64 @@ async function chatText(
   throw lastErr;
 }
 
+/**
+ * Filename of a run-owned file inside the output folder.
+ *
+ * A batch run puts several profiles in ONE folder, so files otherwise written under a
+ * fixed name (metadata/answers/llm_input/result) must be per-profile or they overwrite
+ * each other. Single runs keep the exact historical names.
+ *
+ * Exported so callers needing the path (such as the log result_file) derive it from the
+ * same rule instead of hard-coding "result.json".
+ */
+/**
+ * Numeric claims in a finished résumé, used to stop the next candidate in a batch from
+ * repeating them.
+ *
+ * Deliberately loose: this list is a hint handed to the model, not a gate, so a few extra
+ * tokens cost nothing while a miss lets two résumés share "86,000 writes per day". Years
+ * are dropped because "2025" is a date, not a claim.
+ */
+export function extractResumeFigures(markdown: string): string[] {
+  const out = new Set<string>();
+  const re =
+    /\b\d[\d,.]*\s*(?:%|ms\b|s\b|sec\b|seconds\b|min\b|minutes\b|h\b|hrs?\b|hours\b|days\b|weeks\b|months\b|k\b|m\b|million\b|billion\b|x\b)?/gi;
+  for (const m of markdown.matchAll(re)) {
+    const raw = m[0].trim().replace(/\s+/g, " ");
+    const num = Number(raw.replace(/[^\d.]/g, ""));
+    // A bare 1900-2100 is a year; a bare single digit is noise (bullet numbering, "1 of 3").
+    const bare = /^[\d,.]+$/.test(raw);
+    if (bare && ((num >= 1900 && num <= 2100) || num < 10)) continue;
+    out.add(raw);
+    if (out.size >= 40) break; // keep the appended prompt small
+  }
+  return [...out];
+}
+
+/**
+ * Résumé system prompt plus the batch variation block, when this run is part of a batch.
+ * Exported so the append can be tested directly: the résumé LLM step is skipped whenever
+ * extraction falls back, so an end-to-end run cannot always observe the composed prompt.
+ */
+export async function withBatchVariation(basePrompt: string, avoidFigures: string[] | undefined): Promise<string> {
+  if (!avoidFigures?.length) return basePrompt;
+  let block: string;
+  try {
+    block = await fs.readFile(path.join(projectRoot(), "server", "prompt-defaults", "batch-variation.txt"), "utf8");
+  } catch {
+    // Missing file must not fail the run - it only costs variation, not correctness.
+    console.warn("[enpply] batch-variation.txt missing — generating without the variation prompt.");
+    return basePrompt;
+  }
+  return `${basePrompt.trimEnd()}\n\n${block.replace("{{FIGURES}}", avoidFigures.join(", "))}`;
+}
+
+export function ownedArtifactName(profileId: string, name: string, sharedFolder: boolean): string {
+  if (!sharedFolder) return name;
+  const base = slugPart(profileId).toLowerCase() || "profile";
+  return `${base}_${name}`;
+}
+
 export function slugPart(s: string): string {
   return s
     .replace(/[^\w\s-]/g, "")
@@ -901,6 +959,24 @@ export async function runGeneration(params: {
    * previous "completed"/"skipped" status instead of being marked "skipped"
    * again). Used by POST /api/applications/:id/rerun.
    */
+  /**
+   * Replaces the profile id in the output folder path. Batch runs pass a constant
+   * (e.g. "_batch") so several profiles answering ONE job description land in one
+   * folder instead of one folder per profile.
+   */
+  /**
+   * Figures already used by earlier profiles in the same batch. When present, the batch
+   * variation prompt is appended to the résumé system prompt so this candidate does not
+   * repeat them. Empty or absent = ordinary single run, prompt untouched.
+   */
+  avoidFigures?: string[];
+  folderProfileSegment?: string;
+  /**
+   * True when this run shares its output folder with other profiles. Six files are
+   * written under fixed names (metadata/answers/llm_input/result); in a shared folder
+   * they would overwrite each other, so they get the profile prefix the PDFs already use.
+   */
+  sharedFolder?: boolean;
   reuseFolder?: {
     outputFolderAbs: string;
     outputFolderRel: string;
@@ -1236,7 +1312,12 @@ export async function runGeneration(params: {
     ? params.reuseFolder.outputFolderAbs
     : path.join(
         outputRootAbs,
-        makeOutputFolderName(profile.id, extraction.company_name, extraction.role_name, recruiter_name)
+        makeOutputFolderName(
+          params.folderProfileSegment ?? profile.id,
+          extraction.company_name,
+          extraction.role_name,
+          recruiter_name
+        )
       );
   const outputFolderRel = params.reuseFolder
     ? params.reuseFolder.outputFolderRel
@@ -1248,6 +1329,17 @@ export async function runGeneration(params: {
   const profilePdfBase = slugPart(profile.id).toLowerCase() || "profile";
   const resumePdfFilename = `${profilePdfBase}.pdf`;
   const coverLetterPdfFilename = `${profilePdfBase}_cover_letter.pdf`;
+  /**
+   * Per-profile name for a file that would otherwise be written under a fixed name.
+   * Only batch (shared-folder) runs are renamed, so single runs keep the exact
+   * filenames the client, the extension and every existing run already expect.
+   */
+  const owned = (name: string) => ownedArtifactName(profile.id, name, params.sharedFolder === true);
+  const metadataJsonFilename = owned("metadata.json");
+  const answersJsonFilename = owned("answers.json");
+  const answersMdFilename = owned("answers.md");
+  const llmInputJsonFilename = owned("llm_input.json");
+  const resultJsonFilename = owned("result.json");
 
   const meta = {
     role_summary: extraction.role_summary,
@@ -1257,7 +1349,7 @@ export async function runGeneration(params: {
   };
 
   await fs.mkdir(outputFolderAbs, { recursive: true });
-  await fs.writeFile(path.join(outputFolderAbs, "metadata.json"), JSON.stringify(meta, null, 2), "utf8");
+  await fs.writeFile(path.join(outputFolderAbs, metadataJsonFilename), JSON.stringify(meta, null, 2), "utf8");
   await fs.writeFile(path.join(outputFolderAbs, "job_description.txt"), job_description, "utf8");
   if (verbose) {
     await verbose.writeSection("metadata.json — written", JSON.stringify(meta, null, 2));
@@ -1310,7 +1402,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         industries: extraction.industries,
         sharedProjects,
         skills: extraction.skills,
-        resumePrompt: prompts.resume,
+        resumePrompt: await withBatchVariation(prompts.resume, params.avoidFigures),
         resumeLlm: resolveStepModel("resume", tierSettings, llmTiers),
         verbose,
         onLlmFallback: () => {
@@ -1467,14 +1559,14 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         await verbose.writeSection("answers — extracted payload before write", JSON.stringify(extractedAnswers, null, 2));
       }
       await fs.writeFile(
-        path.join(outputFolderAbs, "answers.json"),
+        path.join(outputFolderAbs, answersJsonFilename),
         JSON.stringify({ answers: extractedAnswers }, null, 2),
         "utf8",
       );
       const mdOut = extractedAnswers.length
         ? extractedAnswers.map((a) => `## ${a.question}\n\n${a.answer}\n`).join("\n")
         : "# Answers\n\n_No application/interview questions were found in the job description or apply form._\n";
-      await fs.writeFile(path.join(outputFolderAbs, "answers.md"), mdOut, "utf8");
+      await fs.writeFile(path.join(outputFolderAbs, answersMdFilename), mdOut, "utf8");
       if (verbose) {
         await verbose.writeSection("answers.md — written", mdOut);
       }
@@ -1512,9 +1604,9 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
   const artifacts: Record<ArtifactKey, string> = {
     resume_pdf: resumePdfFilename,
     cover_letter_pdf: coverLetterPdfFilename,
-    answers_json: "answers.json",
-    answers_md: "answers.md",
-    metadata_json: "metadata.json",
+    answers_json: answersJsonFilename,
+    answers_md: answersMdFilename,
+    metadata_json: metadataJsonFilename,
     job_description_txt: "job_description.txt",
   };
 
@@ -1599,12 +1691,12 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         : { model: extractionLlm, system_prompt: extractionPrompt, user: jdBlock },
       generation: genLlmInput,
     };
-    await fs.writeFile(path.join(outputFolderAbs, "llm_input.json"), JSON.stringify(llmInputPayload, null, 2), "utf8");
+    await fs.writeFile(path.join(outputFolderAbs, llmInputJsonFilename), JSON.stringify(llmInputPayload, null, 2), "utf8");
   } catch (e) {
     console.warn("[enpply] could not write llm_input.json:", e instanceof Error ? e.message : String(e));
   }
 
-  await fs.writeFile(path.join(outputFolderAbs, "result.json"), JSON.stringify(result, null, 2), "utf8");
+  await fs.writeFile(path.join(outputFolderAbs, resultJsonFilename), JSON.stringify(result, null, 2), "utf8");
   if (verbose) {
     await verbose.writeSection("runGeneration — result.json (full)", JSON.stringify(result, null, 2));
     await verbose.writeSection(

@@ -736,6 +736,88 @@ label.checkbox-row input[type="checkbox"] {
 label.checkbox-row span {
   line-height: 1.45;
 }
+/**
+ * Batch picker on the Apply page: one row per profile, checkbox on the left and that
+ * profile own PDF theme on the right. Matches .apply-gen-options so the two fieldsets
+ * in the same column read as a pair.
+ */
+.apply-batch-profiles {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem 0.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.apply-batch-profiles legend {
+  padding: 0 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.apply-batch-row {
+  display: grid;
+  /* Profile name column is fixed so the theme selects line up down the list. */
+  grid-template-columns: minmax(9rem, 40%) 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* The label already carries the row rhythm; drop its own bottom margin inside the grid. */
+.apply-batch-row label.checkbox-row {
+  margin-bottom: 0;
+}
+
+.apply-batch-row select {
+  min-width: 0;
+}
+
+.apply-batch-row select:disabled {
+  opacity: 0.55;
+}
+
+/** Live per-profile progress for a queued batch, shown above the Apply form. */
+.batch-progress {
+  margin-bottom: 1rem;
+}
+
+.batch-progress-list {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+}
+
+.batch-progress-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.batch-progress-list li:last-child {
+  border-bottom: none;
+}
+
+.batch-status {
+  margin-left: auto;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.batch-status-completed {
+  color: #2e7d32;
+}
+
+.batch-status-failed {
+  color: #c62828;
+}
+
+.batch-status-generating,
+.batch-status-queued {
+  color: var(--muted, #8b9298);
+}
 
 /** Shared field look: pages + any `.card` form (Profiles, Apply, Config). */
 .form-control,
