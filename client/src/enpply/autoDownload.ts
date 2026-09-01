@@ -309,11 +309,6 @@ export type AutoDownloadInput = {
   outputFolder: string;
   artifacts: Record<string, string>;
   artifactStatus: Record<string, string>;
-  /**
-   * Profile id, used only to find this run's result.json. In a batch several profiles
-   * share one folder, so the file is "<profile>_result.json" rather than "result.json".
-   */
-  resumeProfile?: string;
 };
 
 /**
@@ -396,30 +391,19 @@ export async function autoDownloadArtifacts(input: AutoDownloadInput): Promise<A
       const status = input.artifactStatus[key];
       if (filename && status === "completed") targets.push(filename);
     };
+    // Only what a person actually uses: the documents, plus the job description so the
+    // folder says which job it belongs to once it is detached from the app. result.json is
+    // an internal run record and is deliberately NOT saved — it is machine state, and in a
+    // batch folder it multiplies by the number of profiles.
     pushIfCompleted("resume_pdf");
     pushIfCompleted("cover_letter_pdf");
+    pushIfCompleted("job_description_txt");
 
     const written: string[] = [];
     for (const filename of targets) {
       const blob = await fetchArtifact(input.appId, filename);
       await writeBlob(dir, filename, blob);
       written.push(filename);
-    }
-
-    // result.json is not in the artifacts map. It is a convenience copy, and its name is
-    // NOT fixed: a batch run shares one folder between profiles, so each owns
-    // "<profile>_result.json" instead. Fetch it best-effort and never let it fail the
-    // download — the PDFs above are the point, and they are already on disk by here.
-    for (const candidate of ["result.json", `${input.resumeProfile ?? ""}_result.json`]) {
-      if (!candidate || candidate.startsWith("_")) continue;
-      try {
-        const blob = await fetchArtifact(input.appId, candidate);
-        await writeBlob(dir, candidate, blob);
-        written.push(candidate);
-        break;
-      } catch {
-        /* try the next name; absence is not an error */
-      }
     }
 
     const displayPath = buildDisplayPath(stored.absolutePath, stored.label, segments);

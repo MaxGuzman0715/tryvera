@@ -298,7 +298,6 @@ export default function GenerationToasts() {
           outputFolder: full.output_folder,
           artifacts: full.artifacts ?? {},
           artifactStatus: full.artifact_status ?? {},
-          resumeProfile: typeof full.resume_profile === "string" ? full.resume_profile : undefined,
         });
         if (result.status === "ok" && result.files.length > 0) {
           patchCompletionToast(appId, { autoDownload: { status: "ok", displayPath: result.displayPath } });
