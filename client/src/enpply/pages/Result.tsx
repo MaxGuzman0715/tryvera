@@ -488,6 +488,19 @@ export default function Result() {
           Open PDFs and other files in the browser (served from this app). Files also exist on disk under the output
           folder above.
         </p>
+        {/*
+          The Apply page only offers this for the run you just started, so without it here
+          an earlier batch becomes undownloadable the moment you queue the next one. For a
+          batch the folder is shared, so this one link fetches every profile's résumé.
+        */}
+        <div className="actions" style={{ marginTop: 0, marginBottom: "0.75rem" }}>
+          <a className="btn small" href={api.folderZipUrl(appId)}>
+            Download this folder as ZIP
+          </a>
+          <span className="hint" style={{ marginLeft: "0.5rem" }}>
+            Résumés, cover letters and the job description. Prompts and internal records are not included.
+          </span>
+        </div>
         <table>
           <thead>
             <tr>
