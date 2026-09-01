@@ -704,6 +704,24 @@ app.get<{ id: string }>("/api/applications/:id/folder.zip", requireAuth, async (
     } catch {
       return res.status(404).json({ error: "Output folder not found" });
     }
+
+    /**
+     * Only what is meant to leave the building.
+     *
+     * This archive gets forwarded to other people, and the run folder also holds
+     * llm_input.json — which contains the FULL résumé and extraction system prompts.
+     * Shipping that hands over the prompt engineering this product is built on. metadata
+     * and result.json are internal run records nobody outside needs either.
+     *
+     * So the default is the documents plus the job description. `?all=1` returns the
+     * whole folder for the owner's own debugging.
+     */
+    if (req.query.all !== "1") {
+      names = names.filter((n) => n.toLowerCase().endsWith(".pdf") || n === "job_description.txt");
+      if (names.length === 0) {
+        return res.status(404).json({ error: "No documents in this run yet" });
+      }
+    }
     if (names.length === 0) return res.status(404).json({ error: "Output folder is empty" });
 
     const entries: ZipEntry[] = [];
