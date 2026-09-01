@@ -777,6 +777,14 @@ label.checkbox-row span {
   opacity: 0.55;
 }
 
+/** A required field left empty — marks the input itself, not just the message below it. */
+.form-control.input-invalid,
+input.input-invalid,
+textarea.input-invalid {
+  border-color: #c62828;
+  outline-color: #c62828;
+}
+
 /** Collapse control: the profile list is long, so it stays shut once a choice exists. */
 .apply-batch-toggle {
   margin-bottom: 0.5rem;

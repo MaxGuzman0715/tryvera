@@ -304,7 +304,16 @@ export default function Apply() {
    * would disable Generate on a value the user can no longer set. `loading` is included
    * so a slow queue cannot be submitted twice — in batch mode that queued six runs, not three.
    */
-  const submitDisabled = loading || (batchMode ? batchPicks.length === 0 : !resumeProfile);
+  /**
+   * A run has to be traceable back to its posting. Forgetting the URL produced archives
+   * and channel messages with nothing identifying the job, which is the whole point of
+   * sending them. The page already offers a recruiter name for postings with no URL, so
+   * either satisfies this — requiring the link outright would break that path.
+   */
+  const jobRefMissing = jobLink.trim().length === 0 && recruiterName.trim().length === 0;
+
+  const submitDisabled =
+    loading || jobRefMissing || (batchMode ? batchPicks.length === 0 : !resumeProfile);
 
   function toggleBatchProfile(id: string) {
     setBatchPicks((prev) => {
@@ -606,13 +615,21 @@ export default function Apply() {
           <input
             id="apply-job-link"
             type="url"
-            className="form-control"
+            className={`form-control${jobRefMissing ? " input-invalid" : ""}`}
             value={jobLink}
             onChange={(e) => setJobLink(e.target.value)}
             placeholder="https://…"
             autoComplete="url"
             inputMode="url"
+            aria-invalid={jobRefMissing}
+            aria-describedby={jobRefMissing ? "apply-job-ref-error" : undefined}
           />
+          {jobRefMissing && (
+            <p className="error" id="apply-job-ref-error" style={{ marginTop: "0.35rem" }}>
+              Paste the job posting URL — without it the résumés cannot be traced back to the
+              job. If there is no posting, put a recruiter or contact name below instead.
+            </p>
+          )}
 
           <label htmlFor="apply-recruiter">Recruiter / contact name (optional)</label>
           <input

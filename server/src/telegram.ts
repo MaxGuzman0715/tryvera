@@ -36,17 +36,39 @@ export type TelegramJob = {
   profiles: string[];
 };
 
-/** The message that travels with the archive. Plain text — no parse_mode, so nothing in a
- *  job title can break the formatting or be interpreted as markup. */
+/**
+ * Escape for Telegram's HTML parse mode.
+ *
+ * Everything interpolated goes through this, including the URL: real postings carry query
+ * strings full of `&` (…&jr_id=…&token=…), and an unescaped one makes Telegram reject the
+ * whole message. Telegram decodes the entities, so the link a reader clicks is the original.
+ */
+function esc(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/**
+ * The message that travels with the archive.
+ *
+ * Telegram has no arbitrary text colour, so recognisability comes from emoji plus bold —
+ * the channel is scanned at a glance, and the company name is what people look for.
+ */
 export function buildCaption(job: TelegramJob): string {
-  const lines = [`${job.companyName} — ${job.roleName}`];
+  const lines = [`📄 <b>${esc(job.companyName)}</b>`, `💼 ${esc(job.roleName)}`];
   const link = job.jobLink.trim();
   const rec = job.recruiterName.trim();
-  if (link) lines.push(link);
-  else if (rec) lines.push(`Recruiter: ${rec}`);
-  if (job.profiles.length) lines.push(job.profiles.join(" · "));
+  if (link) lines.push(`🔗 ${esc(link)}`);
+  // Keep the word: an emoji plus a bare name does not say who the person is.
+  else if (rec) lines.push(`🙋 Recruiter: ${esc(rec)}`);
+  if (job.profiles.length) lines.push(`👥 ${esc(job.profiles.join(" · "))}`);
   const caption = lines.join("\n");
-  return caption.length > CAPTION_LIMIT ? caption.slice(0, CAPTION_LIMIT - 1) + "…" : caption;
+  // Truncating could cut a tag in half and make Telegram reject the message, so drop whole
+  // lines from the end instead until it fits.
+  if (caption.length <= CAPTION_LIMIT) return caption;
+  const kept = [...lines];
+  while (kept.length > 1 && kept.join("\n").length > CAPTION_LIMIT) kept.pop();
+  const out = kept.join("\n");
+  return out.length <= CAPTION_LIMIT ? out : `📄 <b>${esc(job.companyName.slice(0, 200))}</b>`;
 }
 
 export type TelegramResult = { ok: true; messageId?: number } | { ok: false; error: string };
@@ -64,6 +86,8 @@ export async function sendDocument(
   const form = new FormData();
   form.append("chat_id", cfg.chatId);
   form.append("caption", caption);
+  // buildCaption emits HTML and escapes everything it interpolates.
+  form.append("parse_mode", "HTML");
   form.append(
     "document",
     new Blob([new Uint8Array(data)], { type: "application/zip" }),
