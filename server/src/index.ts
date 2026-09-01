@@ -45,7 +45,47 @@ import { DEFAULT_PROMPTS, type PromptKey } from "./defaultPrompts.js";
 import { getThemeSummaries } from "./resumeThemes.js";
 import { buildResumePreviewHtml } from "./resumePreview.js";
 import { extractResumeFigures, newAppId, ownedArtifactName, runGeneration } from "./generation.js";
-import { buildZip, type ZipEntry } from "./zip.js";
+import { buildFolderZip } from "./zip.js";
+import { buildCaption, isTelegramConfigured, sendDocument } from "./telegram.js";
+
+/**
+ * Filename for a run's archive, taken from its output folder so several batches sitting in
+ * a Downloads folder (or a Telegram channel) stay tellable apart.
+ */
+function zipBaseName(outputFolder: string): string {
+  const base = path.basename(outputFolder) || "application";
+  return base.replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 100) || "application";
+}
+
+/**
+ * Post a finished run's documents to Telegram. Best-effort by design: the PDFs are already
+ * on disk, so a failed send is logged and nothing else changes.
+ */
+async function postRunToTelegram(
+  outputFolderRel: string,
+  job: { companyName: string; roleName: string; jobLink: string; recruiterName: string; profiles: string[] }
+): Promise<void> {
+  if (!isTelegramConfigured()) {
+    console.warn("[enpply] telegram: requested but TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID are not set — skipping.");
+    return;
+  }
+  try {
+    const { zip, names } = await buildFolderZip(toAbsoluteFromStoredPath(outputFolderRel));
+    if (names.length === 0) {
+      console.warn("[enpply] telegram: nothing shareable in the run folder — skipping.");
+      return;
+    }
+    const filename = `${zipBaseName(outputFolderRel)}.zip`;
+    const r = await sendDocument(filename, zip, buildCaption(job));
+    if (r.ok) {
+      console.log(`[enpply] telegram: sent ${filename} (${names.length} file(s), ${Math.round(zip.length / 1024)}KB).`);
+    } else {
+      console.warn(`[enpply] telegram: send FAILED — ${r.error}`);
+    }
+  } catch (e) {
+    console.warn("[enpply] telegram: send threw —", e instanceof Error ? e.message : String(e));
+  }
+}
 import { resolveStepModel } from "./llmTiers.js";
 import { runBulletsExperiment } from "./bulletsExperiment.js";
 import { listBulletStoreProfiles, getProfileBulletsView } from "./bulletsTailoring.js";
@@ -139,6 +179,8 @@ const generateBody = z.object({
    */
   company_name: z.string().optional(),
   role_name: z.string().optional(),
+  /** Post the finished documents to the configured Telegram channel. Opt-in per run. */
+  send_to_telegram: z.boolean().optional(),
 });
 
 function normalizeJobLinkForDup(raw: string): string {
@@ -246,6 +288,15 @@ app.get("/api/config/settings", requireAuth, async (_req, res) => {
 });
 
 /** Résumé + cover letter PDF themes (HTML shells under `server/templates/`; see `registry.json`). */
+/**
+ * Whether the server can post to Telegram at all. The UI uses this to disable the
+ * "send" checkbox and say why, instead of letting a run silently go nowhere.
+ * Reports only configured/not — never the token.
+ */
+app.get("/api/config/telegram", requireAuth, (_req, res) => {
+  res.json({ configured: isTelegramConfigured() });
+});
+
 app.get("/api/config/themes", requireAuth, (_req, res) => {
   try {
     res.json({ themes: getThemeSummaries() });
@@ -695,49 +746,20 @@ app.get<{ id: string }>("/api/applications/:id/folder.zip", requireAuth, async (
       return res.status(404).json({ error: "Application not found" });
     }
     const root = toAbsoluteFromStoredPath(entry.output_folder);
+    // `?all=1` returns the whole folder for the owner's own debugging. The default is the
+    // shareable set only — see buildFolderZip; the folder also holds the system prompts.
+    let zip: Buffer;
     let names: string[];
     try {
-      const dirents = await fs.readdir(root, { withFileTypes: true });
-      // Flat folder only: generation writes no subdirectories, and skipping them keeps
-      // this from silently producing a half-archive if that ever changes.
-      names = dirents.filter((d) => d.isFile()).map((d) => d.name).sort();
+      ({ zip, names } = await buildFolderZip(root, { all: req.query.all === "1" }));
     } catch {
       return res.status(404).json({ error: "Output folder not found" });
     }
-
-    /**
-     * Only what is meant to leave the building.
-     *
-     * This archive gets forwarded to other people, and the run folder also holds
-     * llm_input.json — which contains the FULL résumé and extraction system prompts.
-     * Shipping that hands over the prompt engineering this product is built on. metadata
-     * and result.json are internal run records nobody outside needs either.
-     *
-     * So the default is the documents plus the job description. `?all=1` returns the
-     * whole folder for the owner's own debugging.
-     */
-    if (req.query.all !== "1") {
-      names = names.filter((n) => n.toLowerCase().endsWith(".pdf") || n === "job_description.txt");
-      if (names.length === 0) {
-        return res.status(404).json({ error: "No documents in this run yet" });
-      }
-    }
-    if (names.length === 0) return res.status(404).json({ error: "Output folder is empty" });
-
-    const entries: ZipEntry[] = [];
-    for (const name of names) {
-      const filePath = path.resolve(root, name);
-      // Defensive: never follow anything that resolves outside the run folder.
-      if (path.relative(root, filePath).startsWith("..")) continue;
-      const [data, stat] = await Promise.all([fs.readFile(filePath), fs.stat(filePath)]);
-      entries.push({ name, data, date: stat.mtime });
-    }
+    if (names.length === 0) return res.status(404).json({ error: "No documents in this run yet" });
 
     // Name the download after the folder (e.g. 083251_Acme_Senior_Engineer.zip) so several
     // batches in the Downloads folder stay tellable apart.
-    const base = path.basename(entry.output_folder) || "application";
-    const safe = base.replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 100) || "application";
-    const zip = buildZip(entries);
+    const safe = zipBaseName(entry.output_folder);
     res.setHeader("Content-Type", "application/zip");
     res.setHeader("Content-Disposition", `attachment; filename="${safe}.zip"`);
     res.setHeader("Content-Length", String(zip.length));
@@ -1893,6 +1915,16 @@ app.post("/api/applications/generate", requireAuth, async (req, res) => {
           result_file: resultPathRel,
           generation_error: result.status === "failed" ? (result.error ?? "Generation failed") : "",
         });
+
+        if (body.send_to_telegram && result.status === "completed" && result.output_folder) {
+          await postRunToTelegram(result.output_folder, {
+            companyName: result.company_name,
+            roleName: result.role_name,
+            jobLink: jobLinkNorm,
+            recruiterName: recruiterNorm,
+            profiles: [body.resume_profile],
+          });
+        }
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         console.warn(`[enpply] HTTP generate runGeneration threw appId=${appId}`, err);
@@ -1970,6 +2002,8 @@ const generateBatchBody = z.object({
   gen_fit_answer: z.boolean().optional(),
   ignore_duplicate_check: z.boolean().optional(),
   suffix_on_duplicate: z.boolean().optional(),
+  /** Post the finished documents to the configured Telegram channel. Opt-in per run. */
+  send_to_telegram: z.boolean().optional(),
 });
 
 app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
@@ -2189,6 +2223,24 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
         }
       }
       console.log(`[enpply] batch=${batchId} done (${planned.length} profiles)`);
+
+      // One post for the whole batch, after every profile has written into the shared
+      // folder — so the archive holds all of them, not just whoever finished first.
+      if (body.send_to_telegram && sharedFolderRel) {
+        const finished = await Promise.all(planned.map((p) => getApplication(p.appId)));
+        const okRows = finished.filter((r) => r?.status === "completed");
+        if (okRows.length === 0) {
+          console.warn(`[enpply] batch=${batchId} telegram: no profile completed — not sending.`);
+        } else {
+          await postRunToTelegram(sharedFolderRel, {
+            companyName: okRows[0]?.company_name ?? "Unknown",
+            roleName: okRows[0]?.role_name ?? "Unknown",
+            jobLink: jobLinkNorm,
+            recruiterName: recruiterNorm,
+            profiles: okRows.map((r) => r!.resume_profile),
+          });
+        }
+      }
     })();
   } catch (e) {
     if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });

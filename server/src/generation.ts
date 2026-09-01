@@ -1348,9 +1348,38 @@ export async function runGeneration(params: {
     warnings: extraction.warnings,
   };
 
+  // Company/role for the JD header. The reuseFolder values win on a rerun so the header
+  // matches the folder it lives in, exactly as result.json resolves them further down.
+  const resolvedCompanyNameForHeader =
+    params.reuseFolder?.priorCompanyName?.trim() || extraction.company_name || "Unknown";
+  const resolvedRoleNameForHeader =
+    params.reuseFolder?.priorRoleName?.trim() || extraction.role_name || "Unknown";
+
   await fs.mkdir(outputFolderAbs, { recursive: true });
   await fs.writeFile(path.join(outputFolderAbs, metadataJsonFilename), JSON.stringify(meta, null, 2), "utf8");
-  await fs.writeFile(path.join(outputFolderAbs, "job_description.txt"), job_description, "utf8");
+  /**
+   * The JD file carries a short header naming the job and where it came from.
+   *
+   * These files get forwarded - the archive is downloaded, detached from whatever message
+   * carried it, and read later. Without this the recipient has the text of a posting with
+   * no way to tell which job it is or find the original. The file is write-only for the
+   * app (rerun reads the JD from result.json), so nothing depends on its exact bytes.
+   */
+  const jdHeader = [
+    `Job:       ${resolvedRoleNameForHeader}`,
+    `Company:   ${resolvedCompanyNameForHeader}`,
+    job_link.trim()
+      ? `Link:      ${job_link.trim()}`
+      : recruiter_name.trim()
+        ? `Recruiter: ${recruiter_name.trim()}`
+        : `Link:      (none given)`,
+    `Generated: ${nowJstIso()} JST`,
+    "",
+    "-".repeat(72),
+    "",
+    "",
+  ].join("\n");
+  await fs.writeFile(path.join(outputFolderAbs, "job_description.txt"), jdHeader + job_description, "utf8");
   if (verbose) {
     await verbose.writeSection("metadata.json — written", JSON.stringify(meta, null, 2));
     await verbose.writeSection("job_description.txt — written", job_description);

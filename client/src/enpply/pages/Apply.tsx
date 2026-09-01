@@ -16,6 +16,8 @@ const APPLY_THEME_KEY = "enpply:apply:lastTheme";
 const APPLY_BATCH_KEY = "enpply:apply:batchProfiles";
 /** Whether batch mode is on. Stored separately so turning it off does not erase the picks. */
 const APPLY_BATCH_MODE_KEY = "enpply:apply:batchMode";
+/** Whether finished runs are posted to Telegram. */
+const APPLY_TELEGRAM_KEY = "enpply:apply:sendToTelegram";
 
 type BatchPick = { id: string; theme: string };
 
@@ -34,6 +36,14 @@ function readStoredBatchPicks(): BatchPick[] {
       .slice(0, 6);
   } catch {
     return [];
+  }
+}
+
+function readStoredSendToTelegram(): boolean {
+  try {
+    return localStorage.getItem(APPLY_TELEGRAM_KEY) === "1";
+  } catch {
+    return false;
   }
 }
 
@@ -131,6 +141,36 @@ export default function Apply() {
   const [genAnswers, setGenAnswers] = useState(() => readStoredGenerationOptions().gen_answers);
   const [genFitAnswer, setGenFitAnswer] = useState(() => readStoredGenerationOptions().gen_fit_answer);
   const [ignoreDuplicateCheck, setIgnoreDuplicateCheck] = useState(false);
+  /**
+   * Opt-in per run: test runs and stray pastes should not land in a channel other people
+   * read. Remembered like the other generate options.
+   */
+  const [sendToTelegram, setSendToTelegram] = useState(() => readStoredSendToTelegram());
+  /** Whether the SERVER has a bot token + chat id. Without it the checkbox is disabled. */
+  const [telegramReady, setTelegramReady] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    api
+      .getTelegramStatus()
+      .then((s) => {
+        if (alive) setTelegramReady(s.configured);
+      })
+      .catch(() => {
+        if (alive) setTelegramReady(false);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(APPLY_TELEGRAM_KEY, sendToTelegram ? "1" : "0");
+    } catch {
+      /* storage disabled - the choice just will not persist */
+    }
+  }, [sendToTelegram]);
 
   useEffect(() => {
     try {
@@ -316,6 +356,7 @@ export default function Apply() {
           gen_answers: genAnswers,
           gen_fit_answer: genFitAnswer,
           ignore_duplicate_check: ignoreDuplicateCheck,
+          send_to_telegram: telegramReady === true && sendToTelegram,
         });
         setDoneBatch(batch.applications.map((a) => ({ id: a.id, resume_profile: a.resume_profile })));
         setDoneId(null);
@@ -346,6 +387,7 @@ export default function Apply() {
         gen_answers: genAnswers,
         gen_fit_answer: genFitAnswer,
         ignore_duplicate_check: ignoreDuplicateCheck,
+        send_to_telegram: telegramReady === true && sendToTelegram,
       });
       setDoneId(res.id);
       upsertGenerationToast({ id: `genapp-${res.id}`, runId: res.run_uuid, message: "Queued", level: "info" });
@@ -673,6 +715,36 @@ export default function Apply() {
                 onChange={(e) => setIgnoreDuplicateCheck(e.target.checked)}
               />
               <span>Ignore duplicate check</span>
+            </label>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={telegramReady === true && sendToTelegram}
+                disabled={telegramReady !== true}
+                onChange={(e) => setSendToTelegram(e.target.checked)}
+              />
+              <span>
+                Send to Telegram
+                {telegramReady === false && (
+                  <>
+                    {" "}
+                    <span className="hint">
+                      — not configured. Set <span className="mono">TELEGRAM_BOT_TOKEN</span> and{" "}
+                      <span className="mono">TELEGRAM_CHAT_ID</span> in <span className="mono">.env</span>,
+                      then restart the server.
+                    </span>
+                  </>
+                )}
+                {telegramReady === true && (
+                  <>
+                    {" "}
+                    <span className="hint">
+                      — posts the résumés and job description as one ZIP when the run finishes.
+                      Prompts and internal records are never included.
+                    </span>
+                  </>
+                )}
+              </span>
             </label>
           </fieldset>
 

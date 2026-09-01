@@ -218,6 +218,8 @@ export const api = {
     gen_answers?: boolean;
     gen_fit_answer?: boolean;
     ignore_duplicate_check?: boolean;
+    /** Post the finished documents to the configured Telegram channel. */
+    send_to_telegram?: boolean;
   }) =>
     req<{
       id: string;
@@ -250,6 +252,8 @@ export const api = {
     gen_answers?: boolean;
     gen_fit_answer?: boolean;
     ignore_duplicate_check?: boolean;
+    /** Post the finished documents to the configured Telegram channel. */
+    send_to_telegram?: boolean;
   }) =>
     req<{
       batch_id: string;
@@ -271,6 +275,9 @@ export const api = {
    * (a blob round-trip would buffer the whole archive in the page for no benefit).
    */
   folderZipUrl: (id: string) => `/api/applications/${encodeURIComponent(id)}/folder.zip`,
+
+  /** Whether the server has a Telegram bot token and channel id configured. */
+  getTelegramStatus: () => req<{ configured: boolean }>("/api/config/telegram"),
 
   // ------------------------------------------------------------------
   // Auth + user management

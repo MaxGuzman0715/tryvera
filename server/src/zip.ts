@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import { deflateRawSync } from "node:zlib";
 
 /**
@@ -110,4 +112,41 @@ export function buildZip(entries: ZipEntry[]): Buffer {
   end.writeUInt16LE(0, 20); // comment length
 
   return Buffer.concat([...locals, centralBuf, end]);
+}
+
+/**
+ * A run folder packed for sending.
+ *
+ * `shareable` (the default) is what leaves the building: the generated documents plus the
+ * job description. The folder also holds llm_input.json, which carries the FULL resume and
+ * extraction system prompts - shipping that hands over the prompt engineering the product
+ * is built on - plus metadata/result run records nobody outside needs.
+ *
+ * One function so the download endpoint and the Telegram sender can never disagree about
+ * what is safe to share.
+ */
+export function isShareableArtifact(name: string): boolean {
+  return name.toLowerCase().endsWith(".pdf") || name === "job_description.txt";
+}
+
+export async function buildFolderZip(
+  root: string,
+  opts: { all?: boolean } = {}
+): Promise<{ zip: Buffer; names: string[] }> {
+  const dirents = await fs.readdir(root, { withFileTypes: true });
+  // Flat folder only: generation writes no subdirectories, and skipping them keeps this
+  // from silently producing a half-archive if that ever changes.
+  let names = dirents.filter((d) => d.isFile()).map((d) => d.name).sort();
+  if (!opts.all) names = names.filter(isShareableArtifact);
+  if (names.length === 0) return { zip: buildZip([]), names: [] };
+
+  const entries: ZipEntry[] = [];
+  for (const name of names) {
+    const filePath = path.resolve(root, name);
+    // Defensive: never follow anything resolving outside the run folder.
+    if (path.relative(root, filePath).startsWith("..")) continue;
+    const [data, stat] = await Promise.all([fs.readFile(filePath), fs.stat(filePath)]);
+    entries.push({ name, data, date: stat.mtime });
+  }
+  return { zip: buildZip(entries), names };
 }
