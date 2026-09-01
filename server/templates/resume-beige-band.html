@@ -74,7 +74,14 @@
         color: var(--heading);
         font-family: inherit;
         border: none;
-        position: relative;
+        /*
+          NO `position: relative` here. A positioned element is painted after all
+          normal-flow content, so every heading was emitted at the END of the PDF text
+          stream: an ATS read the bullets first and then a detached block reading
+          "Summary Experience Skills Education". Measured with pdfjs, the headings landed
+          at offsets 691-717 while the summary paragraph they label was at 139.
+          The ::after rule below is a normal-flow block and needs no positioning.
+        */
       }
       body.doc.theme-beige-band .content h2::after {
         content: "";

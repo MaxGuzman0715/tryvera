@@ -71,7 +71,12 @@
         padding-bottom: 0.2rem;
         font-size: 9.5pt;
         font-weight: 800;
-        letter-spacing: 0.12em;
+        /*
+          0.08em, not 0.12em. MEASURED with pdfjs: at 0.12em Chromium writes each heading
+          into the PDF text layer as spaced characters ("S U M M A R Y"), so an ATS
+          matches none of the section headings. 0.08em extracts cleanly.
+        */
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--ink);
         border-bottom: 1px solid var(--rule);

@@ -69,7 +69,9 @@
         border-top: 1px solid var(--rule);
         font-size: 9.75pt;
         font-weight: 700;
-        letter-spacing: 0.12em;
+        /* 0.08em, not more: MEASURED with pdfjs, higher values write headings into the
+           PDF text layer as spaced characters so an ATS matches no section heading. */
+letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--navy);
         font-family: inherit;
