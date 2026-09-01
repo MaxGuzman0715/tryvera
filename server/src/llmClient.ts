@@ -40,8 +40,18 @@ function isReasoningModel(model: string): boolean {
  * thinking. Measured on this account: 430K reasoning tokens against 141K of actual
  * completion in one day, so 67% of the bill bought text nobody ever sees.
  *
- * Extraction and résumé writing are structured transforms, not puzzles, so the default
- * here is deliberately low. Override with ENPPLY_REASONING_EFFORT to compare quality.
+ * The default is MEDIUM - the model's own default, and what every good résumé this project
+ * has produced was written with. Turning it down looked like free money and is not.
+ *
+ * Measured, same prompts and profiles, only the thinking changed:
+ *   thinking on   distinct figures, real company detail, nothing invented
+ *   thinking off  no figures at all, both companies given IDENTICAL bullets, ten
+ *                 fabricated technologies, and the JD's role title leaking raw into
+ *                 every bullet as "senior ai engineer"
+ *
+ * The résumé prompt holds many constraints at once - coverage, figure kinds and counts,
+ * never invent, keep companies distinct - and the hidden reasoning is where they are
+ * juggled. Lower it to save money only after comparing output on a real posting.
  *
  * The shape differs by provider: OpenRouter takes a `reasoning` object, OpenAI direct
  * takes `reasoning_effort`, and OpenAI has no "none" level so that maps to "minimal".
@@ -52,7 +62,7 @@ export function reasoningParam(
 ): { reasoning?: { effort: ReasoningEffort } } | { reasoning_effort?: string } {
   if (!isReasoningModel(model)) return {};
   const raw = (process.env.ENPPLY_REASONING_EFFORT ?? "").trim().toLowerCase();
-  const effort = (REASONING_EFFORTS as string[]).includes(raw) ? (raw as ReasoningEffort) : "minimal";
+  const effort = (REASONING_EFFORTS as string[]).includes(raw) ? (raw as ReasoningEffort) : "medium";
   if (provider === "openrouter") return { reasoning: { effort } };
   if (provider === "openai") return { reasoning_effort: effort === "none" ? "minimal" : effort };
   return {};
