@@ -312,8 +312,18 @@ export default function Apply() {
    */
   const jobRefMissing = jobLink.trim().length === 0 && recruiterName.trim().length === 0;
 
+  /**
+   * The recruiter name becomes part of the output folder name, so a stray paste lands on
+   * disk forever. A copied file path once produced a folder called
+   * "CProjectsTryveraoutput09_02_batch003835_Airbnb_U_030412_…" — the separators stripped
+   * and the rest truncated at 48 characters.
+   */
+  const recruiterLooksWrong =
+    recruiterName.trim().length > 0 &&
+    (/[\\/]/.test(recruiterName) || /^[A-Za-z]:/.test(recruiterName.trim()) || recruiterName.trim().length > 60);
+
   const submitDisabled =
-    loading || jobRefMissing || (batchMode ? batchPicks.length === 0 : !resumeProfile);
+    loading || jobRefMissing || recruiterLooksWrong || (batchMode ? batchPicks.length === 0 : !resumeProfile);
 
   function toggleBatchProfile(id: string) {
     setBatchPicks((prev) => {
@@ -635,12 +645,20 @@ export default function Apply() {
           <input
             id="apply-recruiter"
             type="text"
-            className="form-control"
+            className={`form-control${recruiterLooksWrong ? " input-invalid" : ""}`}
             value={recruiterName}
             onChange={(e) => setRecruiterName(e.target.value)}
             placeholder="When there is no job URL"
             autoComplete="off"
+            aria-invalid={recruiterLooksWrong}
+            aria-describedby={recruiterLooksWrong ? "apply-recruiter-error" : undefined}
           />
+          {recruiterLooksWrong && (
+            <p className="error" id="apply-recruiter-error" style={{ marginTop: "0.35rem" }}>
+              That looks like a file path or URL, not a person. This name becomes part of the
+              output folder name — put the job URL in the field above instead.
+            </p>
+          )}
 
           {!batchMode && (
             <>

@@ -414,7 +414,14 @@ export function makeOutputFolderName(
   const monDay = jstMonthDayUnderscore(d);
   const profileSeg = slugPart(resumeProfileId).toLowerCase() || "profile";
   const ts = jstHmsCompact(d);
-  const rec = recruiterName?.trim() ? slugPart(recruiterName.trim()) : "";
+  // The recruiter is a NAME, and it leads the folder name. A pasted path or URL once
+  // produced "CProjectsTryveraoutput09_02_batch003835_Airbnb_U_030412_…", burying the
+  // company and role that actually identify the job. Anything shaped like a path or URL is
+  // dropped rather than mangled into the name, and a real name is capped well below
+  // slugPart's 48 so it cannot crowd out the rest.
+  const recRaw = recruiterName?.trim() ?? "";
+  const recIsName = recRaw.length > 0 && recRaw.length <= 60 && !/[\\/]/.test(recRaw) && !/^[A-Za-z]:/.test(recRaw);
+  const rec = recIsName ? slugPart(recRaw).slice(0, 24) : "";
   const jobSeg = rec
     ? `${rec}_${ts}_${slugPart(company)}_${slugPart(role)}`
     : `${ts}_${slugPart(company)}_${slugPart(role)}`;
