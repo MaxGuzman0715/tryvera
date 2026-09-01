@@ -73,6 +73,71 @@ export function buildCaption(job: TelegramJob): string {
 
 export type TelegramResult = { ok: true; messageId?: number } | { ok: false; error: string };
 
+export type OutgoingFile = { filename: string; data: Buffer; mime: string };
+
+/** Telegram caps a media group at 10 items. */
+const MEDIA_GROUP_MAX = 10;
+
+/**
+ * Post several files as ONE grouped message, with the caption on the first item.
+ *
+ * Preferred over a ZIP: the recipient gets the résumés as plain PDFs they can open or
+ * forward directly. Fifty batches a day would otherwise mean fifty unzips.
+ *
+ * Falls back to sendDocument when there is a single file, since a one-item media group is
+ * rejected by the API.
+ */
+export async function sendFiles(
+  files: OutgoingFile[],
+  caption: string,
+  timeoutMs = 120_000
+): Promise<TelegramResult> {
+  const cfg = telegramConfig();
+  if (!cfg) return { ok: false, error: "Telegram is not configured (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID)." };
+  if (files.length === 0) return { ok: false, error: "nothing to send" };
+  if (files.length === 1) return sendDocument(files[0]!.filename, files[0]!.data, caption, timeoutMs);
+  if (files.length > MEDIA_GROUP_MAX) {
+    return { ok: false, error: `too many files for one message (${files.length} > ${MEDIA_GROUP_MAX})` };
+  }
+
+  const form = new FormData();
+  form.append("chat_id", cfg.chatId);
+  // Each item references its upload by an `attach://` name.
+  const media = files.map((f, i) => ({
+    type: "document" as const,
+    media: `attach://f${i}`,
+    ...(i === 0 ? { caption, parse_mode: "HTML" as const } : {}),
+  }));
+  form.append("media", JSON.stringify(media));
+  files.forEach((f, i) => {
+    form.append(`f${i}`, new Blob([new Uint8Array(f.data)], { type: f.mime }), f.filename);
+  });
+
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), timeoutMs);
+  try {
+    const res = await fetch(`${API}/bot${cfg.token}/sendMediaGroup`, {
+      method: "POST",
+      body: form,
+      signal: ac.signal,
+    });
+    const body = (await res.json().catch(() => ({}))) as {
+      ok?: boolean;
+      description?: string;
+      result?: { message_id?: number }[];
+    };
+    if (!res.ok || !body.ok) {
+      return { ok: false, error: `HTTP ${res.status}: ${body.description ?? "unknown error"}` };
+    }
+    return { ok: true, messageId: body.result?.[0]?.message_id };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return { ok: false, error: /abort/i.test(msg) ? `timed out after ${timeoutMs}ms` : msg };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /** Upload one archive with its caption. Resolves with an error rather than throwing. */
 export async function sendDocument(
   filename: string,

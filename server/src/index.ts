@@ -45,8 +45,14 @@ import { DEFAULT_PROMPTS, type PromptKey } from "./defaultPrompts.js";
 import { getThemeSummaries } from "./resumeThemes.js";
 import { buildResumePreviewHtml } from "./resumePreview.js";
 import { extractResumeFigures, newAppId, ownedArtifactName, runGeneration } from "./generation.js";
-import { buildFolderZip } from "./zip.js";
-import { buildCaption, isTelegramConfigured, sendDocument } from "./telegram.js";
+import { buildFolderZip, isShareableArtifact } from "./zip.js";
+import {
+  buildCaption,
+  isTelegramConfigured,
+  sendDocument,
+  sendFiles,
+  type TelegramResult,
+} from "./telegram.js";
 
 /**
  * Filename for a run's archive, taken from its output folder so several batches sitting in
@@ -70,18 +76,40 @@ async function postRunToTelegram(
     return;
   }
   try {
-    const { zip, names } = await buildFolderZip(toAbsoluteFromStoredPath(outputFolderRel));
+    const root = toAbsoluteFromStoredPath(outputFolderRel);
+    const names = (await fs.readdir(root, { withFileTypes: true }))
+      .filter((d) => d.isFile() && isShareableArtifact(d.name))
+      .map((d) => d.name)
+      .sort();
     if (names.length === 0) {
       console.warn("[enpply] telegram: nothing shareable in the run folder — skipping.");
       return;
     }
-    const filename = `${zipBaseName(outputFolderRel)}.zip`;
-    const r = await sendDocument(filename, zip, buildCaption(job));
-    if (r.ok) {
-      console.log(`[enpply] telegram: sent ${filename} (${names.length} file(s), ${Math.round(zip.length / 1024)}KB).`);
+
+    // Loose files, not a ZIP: the recipient opens or forwards the PDFs directly. At the
+    // volume this runs at, a ZIP per batch would mean unzipping dozens of times a day.
+    // Telegram caps a group at 10, so anything larger falls back to a single archive.
+    const caption = buildCaption(job);
+    let r: TelegramResult;
+    let what: string;
+    if (names.length <= 10) {
+      const files = await Promise.all(
+        names.map(async (name) => ({
+          filename: name,
+          data: await fs.readFile(path.join(root, name)),
+          mime: name.toLowerCase().endsWith(".pdf") ? "application/pdf" : "text/plain",
+        }))
+      );
+      r = await sendFiles(files, caption);
+      what = `${names.length} file(s)`;
     } else {
-      console.warn(`[enpply] telegram: send FAILED — ${r.error}`);
+      const { zip } = await buildFolderZip(root);
+      r = await sendDocument(`${zipBaseName(outputFolderRel)}.zip`, zip, caption);
+      what = `${names.length} files as one ZIP (over the 10-file group limit)`;
     }
+
+    if (r.ok) console.log(`[enpply] telegram: sent ${what}.`);
+    else console.warn(`[enpply] telegram: send FAILED — ${r.error}`);
   } catch (e) {
     console.warn("[enpply] telegram: send threw —", e instanceof Error ? e.message : String(e));
   }

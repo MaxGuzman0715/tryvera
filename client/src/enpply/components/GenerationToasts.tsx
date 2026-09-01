@@ -7,7 +7,7 @@ import {
   type GenerationToast,
 } from "../generationToasts";
 import { api } from "../api";
-import { autoDownloadArtifacts } from "../autoDownload";
+import { autoDownloadArtifacts, getAutoDownloadRecord } from "../autoDownload";
 import { useAuth } from "../auth/AuthContext";
 import CopyButton from "./CopyButton";
 
@@ -16,9 +16,25 @@ import CopyButton from "./CopyButton";
 // per page load regardless of how many times the effect re-runs.
 const autoDownloadedApps = new Set<string>();
 const autoDownloadInFlight = new Set<string>();
+/**
+ * The "don't retroactively download history" seed runs ONCE per page load.
+ *
+ * It used to live inside the effect, so every remount re-ran it and marked whatever was
+ * complete at that moment as already handled — including a run that had just finished and
+ * never been downloaded. Module scope matches `autoDownloadedApps` above, which is the
+ * set it writes into.
+ */
+let autoDownloadSeeded = false;
 // Rejected-duplicate marker rows we've already cleaned up (deleted), so the
 // 1.5s poll doesn't try to delete them repeatedly.
 const handledDuplicates = new Set<string>();
+
+/**
+ * How far back to still catch up a completed run that was never downloaded. Long enough to
+ * cover a batch you walked away from, short enough that opening the app tomorrow does not
+ * re-download yesterday.
+ */
+const AUTO_DL_CATCHUP_MS = 2 * 60 * 60 * 1000;
 
 const COLLAPSED_STORAGE_KEY = "enpply.genToast.collapsed";
 const GROUPS_STORAGE_KEY = "enpply.genToast.groups";
@@ -159,7 +175,6 @@ export default function GenerationToasts() {
     // auto-download hook can upsert the same toast with an added field
     // instead of overwriting the company/role/message state.
     const lastCompletionToast = new Map<string, GenerationToast>();
-    let seeded = false;
     const tick = async () => {
       try {
         // If nobody is logged in, skip polling entirely — it would 401
@@ -171,11 +186,19 @@ export default function GenerationToasts() {
         // "already handled" so we don't retroactively try to auto-download
         // historical runs. Only apps that transition to completed during
         // this session will fire a download.
-        if (!seeded) {
+        if (!autoDownloadSeeded) {
           for (const a of applications) {
-            if (a.status === "completed") autoDownloadedApps.add(a.id);
+            // Skip only what has ALREADY been downloaded, or what is old enough that the
+            // user is clearly not waiting on it. A run that finished minutes ago with no
+            // record is one we missed — typically because the tab was reloaded while it
+            // was still generating — and it should still land on disk.
+            if (a.status !== "completed") continue;
+            const already = getAutoDownloadRecord(a.id) !== null;
+            const createdMs = Date.parse(a.created_at);
+            const recent = Number.isFinite(createdMs) && Date.now() - createdMs < AUTO_DL_CATCHUP_MS;
+            if (already || !recent) autoDownloadedApps.add(a.id);
           }
-          seeded = true;
+          autoDownloadSeeded = true;
         }
         for (const a of applications.slice(0, 30)) {
           if (!a.run_uuid) continue;
