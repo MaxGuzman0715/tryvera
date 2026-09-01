@@ -777,6 +777,34 @@ label.checkbox-row span {
   opacity: 0.55;
 }
 
+/** Collapse control: the profile list is long, so it stays shut once a choice exists. */
+.apply-batch-toggle {
+  margin-bottom: 0.5rem;
+}
+
+/** Collapsed summary: which profiles are picked, and each one's theme, at a glance. */
+.apply-batch-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0 0 0.25rem;
+}
+
+.apply-batch-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.apply-batch-chip-theme {
+  opacity: 0.7;
+  font-size: 0.75rem;
+}
+
 /** Live per-profile progress for a queued batch, shown above the Apply form. */
 .batch-progress {
   margin-bottom: 1rem;

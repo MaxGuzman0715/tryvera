@@ -120,6 +120,11 @@ export default function Apply() {
   const [doneBatch, setDoneBatch] = useState<{ id: string; resume_profile: string }[] | null>(null);
   /** Live status per queued batch profile, so the ZIP is only offered once all are done. */
   const [batchStatus, setBatchStatus] = useState<Record<string, string>>({});
+  /**
+   * The profile list is long. Once a selection exists it only gets in the way, so it
+   * starts collapsed and the summary line carries the chosen profiles.
+   */
+  const [batchListOpen, setBatchListOpen] = useState(() => readStoredBatchPicks().length === 0);
   const [fallbackNotice, setFallbackNotice] = useState<string | null>(null);
   const [genResume, setGenResume] = useState(() => readStoredGenerationOptions().gen_resume);
   const [genCoverLetter, setGenCoverLetter] = useState(() => readStoredGenerationOptions().gen_cover_letter);
@@ -480,6 +485,36 @@ export default function Apply() {
           {batchMode && (
             <fieldset className="apply-batch-profiles">
               <legend>Profiles and themes ({batchPicks.length} selected, max 6)</legend>
+
+              <button
+                type="button"
+                className="btn small apply-batch-toggle"
+                onClick={() => setBatchListOpen((v) => !v)}
+                aria-expanded={batchListOpen}
+                aria-controls="apply-batch-list"
+              >
+                {batchListOpen ? "▾ Hide profiles" : "▸ Choose profiles"}
+              </button>
+
+              {!batchListOpen && (
+                <p className="hint apply-batch-summary">
+                  {batchPicks.length === 0 ? (
+                    <>No profiles selected yet — open the list to choose.</>
+                  ) : (
+                    batchPicks.map((pick) => (
+                      <span key={pick.id} className="apply-batch-chip">
+                        <span className="mono">{pick.id}</span>
+                        <span className="apply-batch-chip-theme">
+                          {themeOptions.find((o) => o.id === pick.theme)?.label.split(" — ")[0] ?? pick.theme}
+                        </span>
+                      </span>
+                    ))
+                  )}
+                </p>
+              )}
+
+              {batchListOpen && (
+                <div id="apply-batch-list">
               <p className="hint" style={{ marginTop: 0 }}>
                 All selected profiles answer the same job description and land in ONE output
                 folder, each résumé named after its profile. They are generated one after
@@ -515,6 +550,8 @@ export default function Apply() {
                   </div>
                 );
               })}
+                </div>
+              )}
             </fieldset>
           )}
 
