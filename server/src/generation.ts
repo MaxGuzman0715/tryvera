@@ -36,7 +36,13 @@ import {
   logLlmKeyPresence,
   parseJsonLoose,
 } from "./llmLog.js";
-import { getLlmClientForConfig, getLlmModelForConfig, type LlmRuntimeConfig } from "./llmClient.js";
+import type { ChatCompletionCreateParamsNonStreaming } from "openai/resources/chat/completions";
+import {
+  getLlmClientForConfig,
+  getLlmModelForConfig,
+  reasoningParam,
+  type LlmRuntimeConfig,
+} from "./llmClient.js";
 import { normalizeResumeTheme } from "./resumeThemes.js";
 import type { VerboseRunLogger } from "./verboseLog.js";
 import { getExtractionAnswerPrompt } from "./extractionAnswerPrompt.js";
@@ -228,7 +234,15 @@ async function chatJson<T>(
   let lastErr: unknown;
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const base = { model, messages, ...temperatureParam(model, 0.2) };
+      // Cast: `reasoning` is an OpenRouter extension the OpenAI SDK types do not know,
+      // and the SDK narrows `reasoning_effort` to its own union. Both are passed through
+      // to the wire untouched.
+      const base = {
+        model,
+        messages,
+        ...temperatureParam(model, 0.2),
+        ...reasoningParam(model, llm.provider),
+      } as ChatCompletionCreateParamsNonStreaming;
       const res = await client.chat.completions.create(
         useJsonMode ? { ...base, response_format: { type: "json_object" } } : base
       );
@@ -307,7 +321,8 @@ async function chatText(
         model,
         messages,
         ...temperatureParam(model, 0.35),
-      });
+        ...reasoningParam(model, llm.provider),
+      } as ChatCompletionCreateParamsNonStreaming);
       const text = res.choices[0]?.message?.content;
       if (!text) throw new Error("Empty model response");
       logLlmSuccess(step, "text", t0, text, res.choices[0]?.finish_reason ?? null, res.usage ?? undefined);

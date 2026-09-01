@@ -22,6 +22,42 @@ export function defaultModelForProvider(provider: LlmProvider): string {
   return DEFAULT_MODEL_BY_PROVIDER[provider];
 }
 
+/** How much of a reasoning model's budget goes to hidden thinking, cheapest first. */
+export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high";
+const REASONING_EFFORTS: ReasoningEffort[] = ["none", "minimal", "low", "medium", "high"];
+
+/** Reasoning models only. Sending the parameter to anything else is at best ignored. */
+function isReasoningModel(model: string): boolean {
+  const m = model.toLowerCase();
+  return /(^|\/)gpt-5/.test(m) || /(^|\/)o[1-9](-|$)/.test(m);
+}
+
+/**
+ * Reasoning-effort parameter for the request body.
+ *
+ * Reasoning tokens are billed as OUTPUT — $2.00/M on gpt-5-mini, eight times the input
+ * rate — and left unset the model defaults to medium, which spends about half its budget
+ * thinking. Measured on this account: 430K reasoning tokens against 141K of actual
+ * completion in one day, so 67% of the bill bought text nobody ever sees.
+ *
+ * Extraction and résumé writing are structured transforms, not puzzles, so the default
+ * here is deliberately low. Override with ENPPLY_REASONING_EFFORT to compare quality.
+ *
+ * The shape differs by provider: OpenRouter takes a `reasoning` object, OpenAI direct
+ * takes `reasoning_effort`, and OpenAI has no "none" level so that maps to "minimal".
+ */
+export function reasoningParam(
+  model: string,
+  provider: LlmProvider
+): { reasoning?: { effort: ReasoningEffort } } | { reasoning_effort?: string } {
+  if (!isReasoningModel(model)) return {};
+  const raw = (process.env.ENPPLY_REASONING_EFFORT ?? "").trim().toLowerCase();
+  const effort = (REASONING_EFFORTS as string[]).includes(raw) ? (raw as ReasoningEffort) : "minimal";
+  if (provider === "openrouter") return { reasoning: { effort } };
+  if (provider === "openai") return { reasoning_effort: effort === "none" ? "minimal" : effort };
+  return {};
+}
+
 export function getLlmModelForConfig(config: LlmRuntimeConfig): string {
   const m = config.model.trim();
   if (m) return m;
