@@ -44,7 +44,13 @@ import {
 import { DEFAULT_PROMPTS, type PromptKey } from "./defaultPrompts.js";
 import { getThemeSummaries } from "./resumeThemes.js";
 import { buildResumePreviewHtml } from "./resumePreview.js";
-import { extractResumeFigures, newAppId, ownedArtifactName, runGeneration } from "./generation.js";
+import {
+  extractResumeFigures,
+  extractResumeFrames,
+  newAppId,
+  ownedArtifactName,
+  runGeneration,
+} from "./generation.js";
 import { buildFolderZip, isShareableArtifact } from "./zip.js";
 import {
   buildCaption,
@@ -2129,9 +2135,10 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
       let sharedFolderAbs = "";
       let sharedFolderRel = "";
       // Figures already spent by earlier profiles. This is the whole reason the batch runs
-      // sequentially: each candidate is told what the previous ones used, so three résumés
-      // for one job stop sharing the same numbers.
+      // sequentially: each candidate is told which figures AND which phrasings the previous
+      // ones used, so three résumés for one job stop reading as one template.
       const usedFigures: string[] = [];
+      const usedFrames: string[] = [];
 
       for (const p of planned) {
         const verboseLog = await createVerboseLogger(p.appId);
@@ -2174,6 +2181,7 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
                 ),
                 { avoidFigures: [...usedFigures] })
               : {}),
+            ...(usedFrames.length ? { avoidFrames: [...usedFrames] } : {}),
             ...(sharedFolderAbs
               ? {
                   reuseFolder: {
@@ -2202,6 +2210,9 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
             const before = usedFigures.length;
             for (const f of extractResumeFigures(result.resume_markdown)) {
               if (!usedFigures.includes(f)) usedFigures.push(f);
+            }
+            for (const f of extractResumeFrames(result.resume_markdown)) {
+              if (!usedFrames.includes(f)) usedFrames.push(f);
             }
             console.log(
               `[enpply] batch=${batchId} ${p.profileId} contributed ${usedFigures.length - before} new figure(s); ` +

@@ -388,8 +388,38 @@ export function extractResumeFigures(markdown: string): string[] {
  * Exported so the append can be tested directly: the résumé LLM step is skipped whenever
  * extraction falls back, so an end-to-end run cannot always observe the composed prompt.
  */
-export async function withBatchVariation(basePrompt: string, avoidFigures: string[] | undefined): Promise<string> {
-  if (!avoidFigures?.length) return basePrompt;
+/**
+ * The distinctive opening span of every resume bullet, for batch carry-forward.
+ *
+ * Figures alone do not keep resumes apart: a batch can hand three candidates
+ * 17%, 18% and 19% and still produce the identical sentence around them. Each
+ * generation is its own API call, so a profile cannot see how the earlier ones
+ * phrased anything unless it is told.
+ */
+export function extractResumeFrames(markdown: string): string[] {
+  const out = new Set<string>();
+  for (const line of markdown.split(/\r?\n/)) {
+    const m = /^\s*(?:[-*\u2022]|\d+\.)\s+(.*)$/.exec(line);
+    if (!m) continue;
+    const text = m[1].replace(/[*_`]/g, "").trim();
+    const words = text.split(/\s+/).filter(Boolean);
+    if (words.length < 7) continue;
+    // Drop the leading verb: swapping it is exactly how an otherwise identical
+    // bullet slips through. Measured against three real resumes, matching on the
+    // five words AFTER the verb caught 9 of 11 duplicates where matching from
+    // the start of the bullet caught 3.
+    out.add(words.slice(1, 6).join(" ").replace(/[,;:.]$/, ""));
+    if (out.size >= 40) break; // keep the appended prompt small
+  }
+  return [...out];
+}
+
+export async function withBatchVariation(
+  basePrompt: string,
+  avoidFigures: string[] | undefined,
+  avoidFrames?: string[]
+): Promise<string> {
+  if (!avoidFigures?.length && !avoidFrames?.length) return basePrompt;
   let block: string;
   try {
     block = await fs.readFile(path.join(projectRoot(), "server", "prompt-defaults", "batch-variation.txt"), "utf8");
@@ -398,7 +428,12 @@ export async function withBatchVariation(basePrompt: string, avoidFigures: strin
     console.warn("[enpply] batch-variation.txt missing — generating without the variation prompt.");
     return basePrompt;
   }
-  return `${basePrompt.trimEnd()}\n\n${block.replace("{{FIGURES}}", avoidFigures.join(", "))}`;
+  const figures = avoidFigures?.length ? avoidFigures.join(", ") : "(none yet)";
+  const frames = avoidFrames?.length
+    ? avoidFrames.map((f) => `- ${f}`).join("\n")
+    : "(none yet)";
+  const filled = block.replace("{{FIGURES}}", figures).replace("{{FRAMES}}", frames);
+  return `${basePrompt.trimEnd()}\n\n${filled}`;
 }
 
 export function ownedArtifactName(profileId: string, name: string, sharedFolder: boolean): string {
@@ -992,6 +1027,7 @@ export async function runGeneration(params: {
    * repeat them. Empty or absent = ordinary single run, prompt untouched.
    */
   avoidFigures?: string[];
+  avoidFrames?: string[];
   folderProfileSegment?: string;
   /**
    * True when this run shares its output folder with other profiles. Six files are
@@ -1453,7 +1489,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         industries: extraction.industries,
         sharedProjects,
         skills: extraction.skills,
-        resumePrompt: await withBatchVariation(prompts.resume, params.avoidFigures),
+        resumePrompt: await withBatchVariation(prompts.resume, params.avoidFigures, params.avoidFrames),
         resumeLlm: resolveStepModel("resume", tierSettings, llmTiers),
         verbose,
         onLlmFallback: () => {

@@ -1,15 +1,26 @@
-BATCH VARIATION — this résumé is one of several written from DIFFERENT candidates for the SAME job.
+BATCH VARIATION - this résumé is one of several written from DIFFERENT candidates for the SAME job.
 
 Everything above still applies. Cover the same requirements, keep the same client industries, and
-stay inside what this candidate's own material supports. Change only the surface:
+stay inside what this candidate's own material supports. Change only the surface - but change it in
+EVERY company, not just the consulting one. A recruiter reads these side by side; the older, more
+distinctive roles are exactly where identical phrasing is noticed.
 
-- Do not reuse any figure listed below. Use different numbers of the same kind, still plausible for
-  the work described, and still obeying the figure rules above.
-- Lead bullets with different verbs, and order the bullets differently.
-- Do not echo the other résumé's sentence shapes.
+- Do not reuse any figure below, AND do not reuse its KIND. If another candidate measured a
+  percentage, measure something else: a before/after duration, a throughput, a cost, a count of
+  teams, tenants or checks. Different digits in the same unit still reads as one template: three
+  near-identical percentages sitting in the same slot is the failure this rule exists to stop.
+- Do not reuse any phrasing listed below, whatever verb you put in front of it. Swapping the
+  opening verb while keeping the rest of the sentence is not variation.
+- Give each company a different NUMBER of bullets than the other candidates did, ordered differently.
+- Where a company has several projects or engagements, tell them in a different ORDER.
+- Do not close a section the way the other candidates closed theirs, and do not open the summary
+  with their wording.
 
 Never invent a tool, product, employer or domain in order to look different. Vary the telling, not
 the facts.
 
-FIGURES ALREADY USED BY ANOTHER CANDIDATE — do not reuse:
+FIGURES ALREADY USED BY ANOTHER CANDIDATE - do not reuse, and avoid their kind:
 {{FIGURES}}
+
+PHRASINGS ALREADY USED BY ANOTHER CANDIDATE - do not echo, with any verb:
+{{FRAMES}}
