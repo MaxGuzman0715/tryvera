@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
+import { useAuth } from "../auth/AuthContext";
 import ThemePreview from "../components/ThemePreview";
 import KeyboardTextarea from "../components/KeyboardTextarea";
 import { FALLBACK_THEME_OPTIONS, normalizeThemeId } from "../themes";
@@ -135,6 +136,7 @@ function initialThemeFromStorage(): string {
 }
 
 export default function Apply() {
+  const { user } = useAuth();
   const [profiles, setProfiles] = useState<{ id: string }[]>([]);
   const [resumeProfile, setResumeProfile] = useState("");
   const [jobLink, setJobLink] = useState("");
@@ -255,18 +257,19 @@ export default function Apply() {
       .then(([s, th]) => {
         const ids = th.themes.map((x) => x.id);
         setThemeOptions(th.themes);
+        // Precedence: this user's saved default, then whatever they last picked in
+        // this browser, then the app-wide default. The user default has to win, or
+        // "Default resume theme" in Settings silently does nothing once localStorage
+        // holds a theme — which it does after the first generation.
+        const userDefault = user?.preferences?.default_resume_theme ?? "";
         const stored = readStoredThemeId();
-        if (stored) {
-          setTheme(normalizeThemeId(stored, ids));
-        } else {
-          setTheme(normalizeThemeId(s.default_theme, ids));
-        }
+        setTheme(normalizeThemeId(userDefault || stored || s.default_theme, ids));
         setThemeStorageReady(true);
       })
       .catch(() => {
         setThemeStorageReady(true);
       });
-  }, []);
+  }, [user?.preferences?.default_resume_theme]);
 
   // Persist the batch selection so the next job description starts from the same set.
   // The picks are stored even when batch mode is off, so toggling the mode off and on
