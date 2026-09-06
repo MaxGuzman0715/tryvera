@@ -17,3 +17,6 @@ extension v*.zip
 # stays local (mirrors how data/ is handled). Only the rohit_kumar demo profile
 # is tracked, as the worked example for the bullets-based tailoring system.
 extension.zip
+
+# Local .env backups (contain API keys)
+.env.bak*

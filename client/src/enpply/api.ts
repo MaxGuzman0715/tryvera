@@ -219,6 +219,8 @@ export const api = {
     gen_fit_answer?: boolean;
     ignore_duplicate_check?: boolean;
     /** Post the finished documents to the configured Telegram channel. */
+    /** Per-run reasoning effort. Omitted falls back to the server default. */
+    reasoning_effort?: "none" | "minimal" | "low" | "medium" | "high";
     send_to_telegram?: boolean;
   }) =>
     req<{
@@ -253,6 +255,8 @@ export const api = {
     gen_fit_answer?: boolean;
     ignore_duplicate_check?: boolean;
     /** Post the finished documents to the configured Telegram channel. */
+    /** Per-run reasoning effort. Omitted falls back to the server default. */
+    reasoning_effort?: "none" | "minimal" | "low" | "medium" | "high";
     send_to_telegram?: boolean;
   }) =>
     req<{

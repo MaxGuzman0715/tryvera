@@ -77,13 +77,34 @@ function readStoredThemeId(): string | null {
   }
 }
 
+/**
+ * Reasoning effort offered in the UI. Measured on one profile against one JD
+ * (extraction + generation, gpt-5-mini): low $0.0092, medium $0.0256 per résumé.
+ * Medium scored 8 points higher overall, the gap concentrated in metric quality
+ * and domain vocabulary, so it earns its cost on finance / regulated postings.
+ */
+const EFFORT_OPTIONS = [
+  { id: "low", label: "Standard", note: "≈$0.009 per résumé" },
+  { id: "medium", label: "High", note: "≈$0.026 per résumé — better figures and domain terms" },
+  { id: "high", label: "Maximum", note: "slowest, costs most" },
+] as const;
+type EffortId = (typeof EFFORT_OPTIONS)[number]["id"];
+const EFFORT_COST: Record<EffortId, number | null> = { low: 0.0092, medium: 0.0256, high: null };
+
 function readStoredGenerationOptions(): {
   gen_resume: boolean;
   gen_cover_letter: boolean;
   gen_answers: boolean;
   gen_fit_answer: boolean;
+  reasoning_effort: EffortId;
 } {
-  const defaults = { gen_resume: true, gen_cover_letter: true, gen_answers: true, gen_fit_answer: false };
+  const defaults = {
+    gen_resume: true,
+    gen_cover_letter: true,
+    gen_answers: true,
+    gen_fit_answer: false,
+    reasoning_effort: "low" as EffortId,
+  };
   try {
     const raw = localStorage.getItem(APPLY_GEN_STORAGE_KEY);
     if (!raw) return defaults;
@@ -99,6 +120,9 @@ function readStoredGenerationOptions(): {
       gen_cover_letter: cover,
       gen_answers: typeof p.gen_answers === "boolean" ? p.gen_answers : defaults.gen_answers,
       gen_fit_answer: typeof p.gen_fit_answer === "boolean" ? p.gen_fit_answer : defaults.gen_fit_answer,
+      reasoning_effort: EFFORT_OPTIONS.some((o) => o.id === p.reasoning_effort)
+        ? (p.reasoning_effort as EffortId)
+        : defaults.reasoning_effort,
     };
   } catch {
     return defaults;
@@ -137,6 +161,9 @@ export default function Apply() {
   const [batchListOpen, setBatchListOpen] = useState(() => readStoredBatchPicks().length === 0);
   const [fallbackNotice, setFallbackNotice] = useState<string | null>(null);
   const [genResume, setGenResume] = useState(() => readStoredGenerationOptions().gen_resume);
+  const [reasoningEffort, setReasoningEffort] = useState<EffortId>(
+    () => readStoredGenerationOptions().reasoning_effort
+  );
   const [genCoverLetter, setGenCoverLetter] = useState(() => readStoredGenerationOptions().gen_cover_letter);
   const [genAnswers, setGenAnswers] = useState(() => readStoredGenerationOptions().gen_answers);
   const [genFitAnswer, setGenFitAnswer] = useState(() => readStoredGenerationOptions().gen_fit_answer);
@@ -181,12 +208,13 @@ export default function Apply() {
           gen_cover_letter: genCoverLetter,
           gen_answers: genAnswers,
           gen_fit_answer: genFitAnswer,
+          reasoning_effort: reasoningEffort,
         })
       );
     } catch {
       /* ignore */
     }
-  }, [genResume, genCoverLetter, genAnswers, genFitAnswer]);
+  }, [genResume, genCoverLetter, genAnswers, genFitAnswer, reasoningEffort]);
 
   useEffect(() => {
     if (!resumeProfile) return;
@@ -374,6 +402,7 @@ export default function Apply() {
           gen_cover_letter: genCoverLetter,
           gen_answers: genAnswers,
           gen_fit_answer: genFitAnswer,
+          reasoning_effort: reasoningEffort,
           ignore_duplicate_check: ignoreDuplicateCheck,
           send_to_telegram: telegramReady === true && sendToTelegram,
         });
@@ -405,6 +434,7 @@ export default function Apply() {
         gen_cover_letter: genCoverLetter,
         gen_answers: genAnswers,
         gen_fit_answer: genFitAnswer,
+        reasoning_effort: reasoningEffort,
         ignore_duplicate_check: ignoreDuplicateCheck,
         send_to_telegram: telegramReady === true && sendToTelegram,
       });
@@ -727,6 +757,35 @@ export default function Apply() {
               <input type="checkbox" checked={genResume} onChange={(e) => setGenResume(e.target.checked)} />
               <span>Generate résumé (PDF)</span>
             </label>
+            <div style={{ margin: "10px 0 14px" }}>
+              <label htmlFor="apply-effort" style={{ display: "block", marginBottom: 4 }}>
+                Writing quality
+              </label>
+              <select
+                id="apply-effort"
+                className="form-control"
+                value={reasoningEffort}
+                onChange={(e) => setReasoningEffort(e.target.value as EffortId)}
+              >
+                {EFFORT_OPTIONS.map((o) => (
+                  <option key={o.id} value={o.id}>
+                    {o.label} — {o.note}
+                  </option>
+                ))}
+              </select>
+              <p className="hint" style={{ marginTop: 4 }}>
+                {(() => {
+                  const per = EFFORT_COST[reasoningEffort];
+                  const n = batchMode ? batchPicks.length : 1;
+                  const scope = n > 1 ? `${n} résumés` : "this run";
+                  if (per === null) return `Highest reasoning budget. Cost for ${scope} not measured yet.`;
+                  return `About $${(per * Math.max(n, 1)).toFixed(3)} for ${scope}. ` +
+                    (reasoningEffort === "low"
+                      ? "Good for volume. Drops some domain vocabulary on finance and regulated roles."
+                      : "Worth it where the domain terms are what gets screened.");
+                })()}
+              </p>
+            </div>
             <label className="checkbox-row">
               <input
                 type="checkbox"

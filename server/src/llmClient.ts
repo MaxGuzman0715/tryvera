@@ -9,6 +9,12 @@ const GEMINI_DEFAULT_BASE = "https://generativelanguage.googleapis.com/v1beta/op
 export type LlmRuntimeConfig = {
   provider: LlmProvider;
   model: string;
+  /**
+   * Per-run reasoning effort. Unset falls back to ENPPLY_REASONING_EFFORT, then
+   * "medium". Set per generation so a finance posting can pay for medium while
+   * bulk applications run at low.
+   */
+  reasoningEffort?: ReasoningEffort;
 };
 
 const DEFAULT_MODEL_BY_PROVIDER: Record<LlmProvider, string> = {
@@ -58,14 +64,23 @@ function isReasoningModel(model: string): boolean {
  */
 export function reasoningParam(
   model: string,
-  provider: LlmProvider
+  provider: LlmProvider,
+  override?: ReasoningEffort
 ): { reasoning?: { effort: ReasoningEffort } } | { reasoning_effort?: string } {
   if (!isReasoningModel(model)) return {};
   const raw = (process.env.ENPPLY_REASONING_EFFORT ?? "").trim().toLowerCase();
-  const effort = (REASONING_EFFORTS as string[]).includes(raw) ? (raw as ReasoningEffort) : "medium";
+  const fromEnv = (REASONING_EFFORTS as string[]).includes(raw) ? (raw as ReasoningEffort) : "medium";
+  const effort = override ?? fromEnv;
   if (provider === "openrouter") return { reasoning: { effort } };
   if (provider === "openai") return { reasoning_effort: effort === "none" ? "minimal" : effort };
   return {};
+}
+
+/** Validate an untrusted effort value from a request body. Unknown -> undefined (fall back). */
+export function parseReasoningEffort(v: unknown): ReasoningEffort | undefined {
+  if (typeof v !== "string") return undefined;
+  const s = v.trim().toLowerCase();
+  return (REASONING_EFFORTS as string[]).includes(s) ? (s as ReasoningEffort) : undefined;
 }
 
 export function getLlmModelForConfig(config: LlmRuntimeConfig): string {

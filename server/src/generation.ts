@@ -42,6 +42,7 @@ import {
   getLlmModelForConfig,
   reasoningParam,
   type LlmRuntimeConfig,
+  type ReasoningEffort,
 } from "./llmClient.js";
 import { normalizeResumeTheme } from "./resumeThemes.js";
 import type { VerboseRunLogger } from "./verboseLog.js";
@@ -241,7 +242,7 @@ async function chatJson<T>(
         model,
         messages,
         ...temperatureParam(model, 0.2),
-        ...reasoningParam(model, llm.provider),
+        ...reasoningParam(model, llm.provider, llm.reasoningEffort),
       } as ChatCompletionCreateParamsNonStreaming;
       const res = await client.chat.completions.create(
         useJsonMode ? { ...base, response_format: { type: "json_object" } } : base
@@ -321,7 +322,7 @@ async function chatText(
         model,
         messages,
         ...temperatureParam(model, 0.35),
-        ...reasoningParam(model, llm.provider),
+        ...reasoningParam(model, llm.provider, llm.reasoningEffort),
       } as ChatCompletionCreateParamsNonStreaming);
       const text = res.choices[0]?.message?.content;
       if (!text) throw new Error("Empty model response");
@@ -1028,6 +1029,8 @@ export async function runGeneration(params: {
    */
   avoidFigures?: string[];
   avoidFrames?: string[];
+  /** Per-run reasoning effort; unset falls back to ENPPLY_REASONING_EFFORT. */
+  reasoningEffort?: ReasoningEffort;
   folderProfileSegment?: string;
   /**
    * True when this run shares its output folder with other profiles. Six files are
@@ -1051,6 +1054,10 @@ export async function runGeneration(params: {
   const { profile, job_link, job_description, apply_form, appId, outputRootAbs } = params;
   // The two-tier model config + this user's function→tier choices. Every LLM
   // step resolves through resolveStepModel(step, tierSettings, llmTiers).
+  // Attach the per-run effort to every model this run resolves, so the two
+  // chat helpers pick it up without threading an extra argument everywhere.
+  const withEffort = (c: LlmModelConfig): LlmRuntimeConfig =>
+    params.reasoningEffort ? { ...c, reasoningEffort: params.reasoningEffort } : c;
   const tierSettings = {
     llm_light: params.llmLight,
     llm_heavy: params.llmHeavy,
@@ -1148,7 +1155,7 @@ export async function runGeneration(params: {
   // + answers don't need the heavy extraction. An explicit `extractionStepKey`
   // (e.g. the Q&A-slot path) still wins. Both fall back to the global default.
   const extractionStepKey = params.extractionStepKey ?? (wantResume ? "extraction" : "extractionLite");
-  const extractionLlm = resolveStepModel(extractionStepKey, tierSettings, llmTiers);
+  const extractionLlm = withEffort(resolveStepModel(extractionStepKey, tierSettings, llmTiers));
   if (params.extractionOverride) {
     // Manual company/role (log-only): skip the LLM entirely. Build a minimal
     // extraction so the folder name, duplicate check, log entry, and result.json
@@ -1490,7 +1497,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         sharedProjects,
         skills: extraction.skills,
         resumePrompt: await withBatchVariation(prompts.resume, params.avoidFigures, params.avoidFrames),
-        resumeLlm: resolveStepModel("resume", tierSettings, llmTiers),
+        resumeLlm: withEffort(resolveStepModel("resume", tierSettings, llmTiers)),
         verbose,
         onLlmFallback: () => {
           llmFallbackUsed = true;
@@ -1580,7 +1587,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
     ensureNotCancelled();
     await emitStage("generating_cover_letter");
     // Cover letter uses the user's coverLetter-function tier (default light).
-    const coverLetterLlm = resolveStepModel("coverLetter", tierSettings, llmTiers);
+    const coverLetterLlm = withEffort(resolveStepModel("coverLetter", tierSettings, llmTiers));
     try {
       let letterMd: string;
       try {

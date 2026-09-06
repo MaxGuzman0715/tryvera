@@ -42,6 +42,7 @@ import {
   getActiveName,
 } from "./promptStore.js";
 import { DEFAULT_PROMPTS, type PromptKey } from "./defaultPrompts.js";
+import { parseReasoningEffort } from "./llmClient.js";
 import { getThemeSummaries } from "./resumeThemes.js";
 import { buildResumePreviewHtml } from "./resumePreview.js";
 import {
@@ -191,6 +192,12 @@ registerUserRoutes(app);
 const cancelledRuns = new Set<string>();
 
 const generateBody = z.object({
+    /**
+     * Optional per-run reasoning effort for this generation. Omitted falls back
+     * to ENPPLY_REASONING_EFFORT, then "medium". Only reasoning models (gpt-5 /
+     * o-series) act on it; anything else ignores it.
+     */
+    reasoning_effort: z.enum(["none", "minimal", "low", "medium", "high"]).optional(),
   resume_profile: z.string().min(1),
   job_link: z.string().default(""),
   /** Plain-text recruiter when there is no job URL (optional). */
@@ -859,6 +866,12 @@ const rerunBody = z
     gen_answers: z.boolean().optional(),
     gen_fit_answer: z.boolean().optional(),
     /**
+     * Optional per-run reasoning effort for this generation. Omitted falls back
+     * to ENPPLY_REASONING_EFFORT, then "medium". Only reasoning models (gpt-5 /
+     * o-series) act on it; anything else ignores it.
+     */
+    reasoning_effort: z.enum(["none", "minimal", "low", "medium", "high"]).optional(),
+    /**
      * Replacement job description for this rerun. Empty/omitted = reuse the
      * one stored in result.json. When provided, it overwrites the stored JD
      * (so subsequent reruns start from the new text too).
@@ -986,6 +999,10 @@ app.post<{ id: string }>("/api/applications/:id/rerun", requireAuth, async (req,
           llmExtraction: settings.llm_extraction,
           llmGeneration: settings.llm_generation,
           llmTiers: req.user!.preferences?.llm_tiers,
+          // Optional per-run override; unset falls back to ENPPLY_REASONING_EFFORT.
+          ...(parseReasoningEffort(body.reasoning_effort)
+            ? { reasoningEffort: parseReasoningEffort(body.reasoning_effort)! }
+            : {}),
           gen_resume: body.gen_resume === true,
           gen_cover_letter: body.gen_cover_letter === true,
           gen_answers: body.gen_answers === true,
@@ -1915,6 +1932,10 @@ app.post("/api/applications/generate", requireAuth, async (req, res) => {
           llmExtraction: settings.llm_extraction,
           llmGeneration: settings.llm_generation,
           llmTiers: req.user!.preferences?.llm_tiers,
+          // Optional per-run override; unset falls back to ENPPLY_REASONING_EFFORT.
+          ...(parseReasoningEffort(body.reasoning_effort)
+            ? { reasoningEffort: parseReasoningEffort(body.reasoning_effort)! }
+            : {}),
           gen_resume: body.gen_resume,
           gen_cover_letter: body.gen_cover_letter ?? body.gen_cv,
           gen_answers: body.gen_answers,
