@@ -2,7 +2,6 @@ import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../api";
-import { useAuth } from "../auth/AuthContext";
 import ThemePreview from "../components/ThemePreview";
 import KeyboardTextarea from "../components/KeyboardTextarea";
 import { FALLBACK_THEME_OPTIONS, normalizeThemeId } from "../themes";
@@ -136,8 +135,10 @@ function initialThemeFromStorage(): string {
 }
 
 export default function Apply() {
-  const { user } = useAuth();
   const [profiles, setProfiles] = useState<{ id: string }[]>([]);
+  /** Config > Profile themes. Each profile renders in its own theme so three résumés
+   *  for one job do not arrive looking like one template. */
+  const [themeByProfile, setThemeByProfile] = useState<Record<string, string>>({});
   const [resumeProfile, setResumeProfile] = useState("");
   const [jobLink, setJobLink] = useState("");
   const [recruiterName, setRecruiterName] = useState("");
@@ -257,19 +258,27 @@ export default function Apply() {
       .then(([s, th]) => {
         const ids = th.themes.map((x) => x.id);
         setThemeOptions(th.themes);
-        // Precedence: this user's saved default, then whatever they last picked in
-        // this browser, then the app-wide default. The user default has to win, or
-        // "Default resume theme" in Settings silently does nothing once localStorage
-        // holds a theme — which it does after the first generation.
-        const userDefault = user?.preferences?.default_resume_theme ?? "";
+        setThemeByProfile(s.default_theme_by_profile ?? {});
+        // Starting value only. The effect below replaces it with the selected
+        // profile's own theme as soon as a profile is known.
         const stored = readStoredThemeId();
-        setTheme(normalizeThemeId(userDefault || stored || s.default_theme, ids));
+        setTheme(normalizeThemeId(stored || s.default_theme, ids));
         setThemeStorageReady(true);
       })
       .catch(() => {
         setThemeStorageReady(true);
       });
-  }, [user?.preferences?.default_resume_theme]);
+  }, []);
+
+  // The profile's configured theme wins. The server resolves body.theme FIRST and only
+  // falls back to default_theme_by_profile, so a page that sends one blanket theme makes
+  // the Config grid dead: every profile renders identically. Following the profile here
+  // keeps the grid meaningful while still letting the select override for a single run.
+  useEffect(() => {
+    if (!themeStorageReady || !resumeProfile) return;
+    const mapped = themeByProfile[resumeProfile];
+    if (mapped) setTheme(normalizeThemeId(mapped, themeOptions.map((o) => o.id)));
+  }, [resumeProfile, themeByProfile, themeStorageReady, themeOptions]);
 
   // Persist the batch selection so the next job description starts from the same set.
   // The picks are stored even when batch mode is off, so toggling the mode off and on
@@ -361,9 +370,9 @@ export default function Apply() {
       const hit = prev.find((p) => p.id === id);
       if (hit) return prev.filter((p) => p.id !== id);
       if (prev.length >= 6) return prev;
-      // Seed a newly ticked profile with the theme currently shown in the single-profile
-      // picker, so the common case (same layout for everyone) needs no extra clicks.
-      return [...prev, { id, theme: defaultBatchTheme }];
+      // Seed a newly ticked profile with its OWN configured theme, so a batch keeps the
+      // per-profile variety the Config grid exists to provide.
+      return [...prev, { id, theme: themeByProfile[id] || defaultBatchTheme }];
     });
   }
 
@@ -630,7 +639,7 @@ export default function Apply() {
                     </label>
                     <select
                       className="form-control"
-                      value={pick ? pick.theme : defaultBatchTheme}
+                      value={pick ? pick.theme : themeByProfile[p.id] || defaultBatchTheme}
                       disabled={!picked}
                       onChange={(e) => setBatchTheme(p.id, e.target.value)}
                       aria-label={`PDF theme for ${p.id}`}
