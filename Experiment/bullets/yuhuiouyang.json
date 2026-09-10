@@ -149,7 +149,11 @@
     "gRPC",
     "Datadog",
     "Grafana",
-    "OpenTelemetry"
+    "OpenTelemetry",
+    "Claude Code",
+    "Cursor",
+    "GitHub Copilot",
+    "AI-assisted development"
   ],
   "education": [
     {

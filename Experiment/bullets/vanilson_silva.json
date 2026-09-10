@@ -119,7 +119,11 @@
     "Hugging Face",
     "LangChain",
     "TensorFlow.js",
-    "ONNX"
+    "ONNX",
+    "Claude Code",
+    "Cursor",
+    "GitHub Copilot",
+    "AI-assisted development"
   ],
   "education": [
     {

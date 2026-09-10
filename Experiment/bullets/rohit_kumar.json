@@ -75,7 +75,8 @@
     "Architecture & Design: System design, microservices vs. monoliths, event-driven architecture, design patterns, domain-driven design, caching strategies, API design, scalability/high availability",
     "Version Control & Collaboration: Git, code review, trunk-based development, semantic versioning",
     "Testing: Unit, integration, end-to-end, TDD, mocking, load/performance testing, contract testing",
-    "Fundamentals: Data structures & algorithms, time/space complexity, networking (HTTP, TCP/IP, DNS), operating systems, concurrency/parallelism, distributed systems basics (CAP theorem, consensus)"
+    "Fundamentals: Data structures & algorithms, time/space complexity, networking (HTTP, TCP/IP, DNS), operating systems, concurrency/parallelism, distributed systems basics (CAP theorem, consensus)",
+    "AI-Assisted Development: Claude Code, Cursor, GitHub Copilot, AI-assisted development"
   ],
   "education": [
     {

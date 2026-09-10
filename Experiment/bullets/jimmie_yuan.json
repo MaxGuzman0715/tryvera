@@ -137,7 +137,11 @@
     "PostgreSQL",
     "Redis",
     "Kafka",
-    "CI/CD Automation"
+    "CI/CD Automation",
+    "Claude Code",
+    "Cursor",
+    "GitHub Copilot",
+    "AI-assisted development"
   ],
   "education": [
     {

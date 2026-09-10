@@ -153,7 +153,11 @@
     "Hadoop / Hive",
     "Tesseract OCR",
     "Tableau",
-    "MLOps & Production Observability (Datadog, OpenTelemetry, Grafana, ELK)"
+    "MLOps & Production Observability (Datadog, OpenTelemetry, Grafana, ELK)",
+    "Claude Code",
+    "Cursor",
+    "GitHub Copilot",
+    "AI-assisted development"
   ],
   "education": [
     {
