@@ -1,3 +1,68 @@
+# 0. MUST-FOLLOW CONTROL LAYER — ABSOLUTE REQUIREMENT
+
+This section exists because prior generations sometimes satisfied surface checks while violating the actual generation contract.
+
+Treat the complete set of supplied résumé prompts, candidate profiles, JD-extraction rules, batch-variation rules, hard overrides, and rendering rules as the ONLY source of truth.
+
+Before generating ANY résumé:
+
+* Read all supplied résumé-generation prompts fully.
+* Build an internal compliance checklist from the full prompts before writing content.
+* Do NOT simplify, summarize, reinterpret, compress, approximate, or replace prompt logic with your own batch logic.
+* Do NOT use shared generic bullet families, fill-in-the-blank sentence skeletons, reusable summary families, fixed metric templates, or generic consulting stories across jobs/candidates.
+* Do NOT optimize for speed, batch size, token efficiency, convenience, or page fit at the expense of prompt compliance.
+* If a rule is unclear, re-read the relevant prompt. Do not improvise.
+* If two rules conflict, obey the explicit hard override or the stricter rule.
+* If a résumé cannot be made compliant, do not ship it.
+
+For MULTI-CANDIDATE batches targeting the SAME JD:
+
+* Generate candidates sequentially, not as cloned variants.
+* Candidate 1 is generated independently from that candidate’s profile + the JD.
+* Before Candidate 2, record Candidate 1’s figures, metric kinds, bullet counts, consulting engagement order, sentence frames, openings, closings, and summary opening.
+* Candidate 2 must deliberately avoid those fingerprints while remaining grounded in Candidate 2’s own profile.
+* Before Candidate 3, compare against Candidates 1 and 2 and avoid both.
+* Consulting logic must be materially different across Chris, David, and Mark — not merely different client industries or different numbers.
+* Direct-company logic must also be materially different across candidates where the underlying candidate facts permit.
+* Compare the full 3-candidate set side-by-side before rendering.
+
+For SKILLS:
+
+* Apply the exact JD-relevance scoring/trimming logic from the base prompt every time.
+* Exactly 7 categories does NOT mean copying 7 entire inventory buckets.
+* Exactly 7 categories also does NOT mean shrinking categories to only a few generic terms.
+* Use the intended category-density rules from the base prompt and keep the printed section JD-specific, technically credible, and rich enough to represent the candidate.
+* Never add unsupported JD keywords merely for ATS.
+
+For METRICS:
+
+* Follow the base prompt’s exact metric-count rules.
+* Do not reuse the same metric KIND in the same slot across candidates for the same JD when batch-variation rules prohibit it.
+* Do not generate a fixed family such as “percentage + latency + volume + time” for every candidate/job.
+* Metric choice must arise from the actual bullet story and candidate/company context.
+
+For SUMMARIES:
+
+* Generate only after experience is final.
+* Do not use reusable summary templates where only role keywords change.
+* The opening, structure, emphasis, and wording must be specific to that final résumé.
+
+For JD.txt:
+
+* Use the exact URL supplied for that role.
+* Use the full JD supplied/retrieved for that exact role.
+* Never substitute a summary, reconstruction, shortened form, inferred posting, or another role’s text when the full JD exists.
+
+FINAL COMPLIANCE GATE:
+
+After generation, perform a line-by-line audit against ALL prompt documents, not merely page count, bullet count, and skill-category count.
+
+Do not say “strictly followed” unless the final files actually passed that full audit.
+
+Prompt compliance has priority over speed.
+
+---
+
 RESUME GENERATION — HARD OVERRIDE RULES
 
 1. DO NOT CHANGE THE EXISTING GENERATION CONTRACT
@@ -30,6 +95,36 @@ For BOTH most recent companies:
 * Consulting-company bullets must use credible client engagements rather than pretending the consulting employer has one permanent flagship product.
 * Direct company: minimum 2 ownership/leadership bullets + 1 collaboration bullet.
 * Preserve older-company bullets unless the base prompt explicitly allows otherwise.
+
+3A. CLIENT INDUSTRY ASSIGNMENT — do this BEFORE section 4
+
+The three candidates must not share a single client industry. Assign them first, in
+one pass, before drafting:
+
+1. Rank every industry in the shared engagement pool by relevance to THIS job
+   description, most relevant first.
+2. Deal disjoint pairs by INTERLEAVING the ranking:
+   * Candidate 1 -> ranks 1 and 4
+   * Candidate 2 -> ranks 2 and 5
+   * Candidate 3 -> ranks 3 and 6
+3. No industry may appear on more than one candidate. If you catch a repeat while
+   drafting, stop and re-deal rather than rewording around it.
+
+Interleave; do not assign in blocks. Blocks ({1,2} / {3,4} / {5,6}) hand the weakest
+pair to one candidate and make them look like the filler application. Interleaving
+gives every candidate one strong industry and one mid-ranked one.
+
+A lower-ranked industry is not a weaker candidate. The industry sets the domain
+flavour only — the technology comes from the job description, so all three describe
+the same stack for different kinds of client.
+
+If the JD is itself domain-specific (a hospital that wants healthcare, a bank that
+wants fintech), give rank 1 to the candidate you most want placed, then interleave
+the remainder as above.
+
+When two candidates would otherwise open on the same kind of engagement, the order
+is the lever: lead on the engagement the other candidate buried, and frame it around
+a different part of the work.
 
 4. CONSULTING ANTI-FINGERPRINTING
 
@@ -129,6 +224,7 @@ Do not recycle a generic summary sentence across jobs. The summary must reflect 
 
 Before rendering a 3-candidate US set, compare Chris, David, and Mark together:
 
+* no client industry appears on more than one candidate (see 3A)
 * different consulting stories
 * different sentence structures
 * different metric shapes
@@ -217,6 +313,7 @@ For every résumé:
 [ ] category labels are bold
 [ ] Skills contain named tools, not process-noun padding
 [ ] metrics satisfy prompt and do not repeat
+[ ] no client industry shared between any two candidates in the set
 [ ] candidate set does not look templated
 [ ] no suspicious shared metrics across candidates
 [ ] no copied bullet skeletons across candidates

@@ -1,0 +1,17 @@
+{
+  "items": [
+    {
+      "id": "b2a8d429-7316-4aa7-a351-d2f6ca3a56f3",
+      "text": "Salary / compensation expectation: if the job description posts a range X–Y, answer the value 80% of the way from X to Y (i.e. X + 0.8*(Y-X)); when a range is requested, give the 40%-to-120% span (X+0.4*(Y-X) to X+1.2*(Y-X)). Round every figure to the nearest $5,000. If no range is posted, use $150,000 for a single value, or $140,000–$200,000 for a range.",
+      "enabled": true,
+      "updated_at": "2026-09-09T11:44:18+09:00"
+    },
+    {
+      "id": "5b6e49cb-62a9-4338-8120-5610772f012e",
+      "text": "For acknowledgement / consent fields phrased as \"I accept that …\", \"I agree …\", \"I certify …\", or \"I consent …\" that expect a positive answer to proceed, answer yes / true / the affirmative option — unless the statement is something a candidate should plausibly decline.",
+      "enabled": true,
+      "updated_at": "2026-09-09T11:44:18+09:00"
+    }
+  ],
+  "seeded": true
+}

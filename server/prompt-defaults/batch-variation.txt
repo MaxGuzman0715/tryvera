@@ -12,7 +12,11 @@ distinctive roles are exactly where identical phrasing is noticed.
 - Do not reuse any phrasing listed below, whatever verb you put in front of it. Swapping the
   opening verb while keeping the rest of the sentence is not variation.
 - Give each company a different NUMBER of bullets than the other candidates did, ordered differently.
-- Where a company has several projects or engagements, tell them in a different ORDER.
+- Where a company has several projects or engagements, tell them in a different ORDER, and open the
+  section with a different one than the other candidates led on. When two candidates are handed the
+  same client industries there is no way to change WHICH engagements they describe, so the order and
+  the angle are the only levers: lead on the engagement the others buried, and frame it around a
+  different part of the work.
 - Do not close a section the way the other candidates closed theirs, and do not open the summary
   with their wording.
 
