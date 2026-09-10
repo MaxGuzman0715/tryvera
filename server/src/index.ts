@@ -2160,6 +2160,10 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
       // ones used, so three résumés for one job stop reading as one template.
       const usedFigures: string[] = [];
       const usedFrames: string[] = [];
+      // Client industries spent by earlier profiles. Unlike figures and frames — which are
+      // discouraged in the résumé prompt — these are withheld from the extractor's options
+      // list, so the shared engagement pool cannot hand two candidates the same client.
+      const usedIndustries: string[] = [];
 
       for (const p of planned) {
         const verboseLog = await createVerboseLogger(p.appId);
@@ -2203,6 +2207,7 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
                 { avoidFigures: [...usedFigures] })
               : {}),
             ...(usedFrames.length ? { avoidFrames: [...usedFrames] } : {}),
+            ...(usedIndustries.length ? { avoidIndustries: [...usedIndustries] } : {}),
             ...(sharedFolderAbs
               ? {
                   reuseFolder: {
@@ -2226,6 +2231,19 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
             shouldCancel: () => cancelledRuns.has(p.appId),
             verbose: verboseLog,
           });
+
+          // Reserve this candidate's client industries before the résumé check below: the
+          // consulting section is chosen during extraction, so it is spent even on a run
+          // that produced no résumé markdown.
+          for (const ind of result.client_industries ?? []) {
+            if (ind && !usedIndustries.includes(ind)) usedIndustries.push(ind);
+          }
+          if (result.client_industries?.length) {
+            console.log(
+              `[enpply] batch=${batchId} ${p.profileId} took [${result.client_industries.join(", ")}]; ` +
+                `${usedIndustries.length} industry(ies) now reserved.`
+            );
+          }
 
           if (typeof result.resume_markdown === "string" && result.resume_markdown) {
             const before = usedFigures.length;

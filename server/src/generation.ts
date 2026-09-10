@@ -1029,6 +1029,13 @@ export async function runGeneration(params: {
    */
   avoidFigures?: string[];
   avoidFrames?: string[];
+  /**
+   * Client industries already taken by earlier profiles in the same batch. These are
+   * withheld from the extractor's options list rather than merely discouraged: the model
+   * cannot pick what it never sees, so three candidates answering one job get three
+   * different pairs of client engagements. Ignored when it would leave fewer than 2 left.
+   */
+  avoidIndustries?: string[];
   /** Per-run reasoning effort; unset falls back to ENPPLY_REASONING_EFFORT. */
   reasoningEffort?: ReasoningEffort;
   folderProfileSegment?: string;
@@ -1133,8 +1140,26 @@ export async function runGeneration(params: {
   // the 2 most relevant; code then pulls those entries' project summaries.
   const sharedProjects = await loadSharedProjects();
   const industryNames = sharedProjects.map((p) => String(p.industry ?? "").trim()).filter(Boolean);
-  const industriesBlock = industryNames.length
-    ? `\n\nClient-industry options (pick the 2 most relevant to this role, by exact name):\n${industryNames.join("\n")}`
+  // Batch runs pass the industries earlier candidates already took. Withhold them from the
+  // options list entirely — that is stronger than any "avoid these" instruction, because the
+  // extractor cannot select a name it was never offered. If exclusion would leave fewer than
+  // 2 (small pool, long batch), offer the whole pool: a repeated industry beats no engagement.
+  const avoidedIndustries = new Set(
+    (params.avoidIndustries ?? []).map((s) => String(s ?? "").trim().toLowerCase()).filter(Boolean)
+  );
+  const remainingIndustries = avoidedIndustries.size
+    ? industryNames.filter((n) => !avoidedIndustries.has(n.toLowerCase()))
+    : industryNames;
+  const selectableIndustries = remainingIndustries.length >= 2 ? remainingIndustries : industryNames;
+  if (avoidedIndustries.size) {
+    console.log(
+      `[enpply] ${profile.id}: ${avoidedIndustries.size} industry(ies) taken by earlier profiles; ` +
+        `offering ${selectableIndustries.length} of ${industryNames.length}` +
+        (selectableIndustries === industryNames ? " (pool too small to exclude)" : "")
+    );
+  }
+  const industriesBlock = selectableIndustries.length
+    ? `\n\nClient-industry options (pick the 2 most relevant to this role, by exact name):\n${selectableIndustries.join("\n")}`
     : "";
   /** Full JD + link + apply form + skill domains + industry options — used only for the extraction step. */
   const jdBlock =
@@ -1205,12 +1230,19 @@ export async function runGeneration(params: {
     // Keep only industries that exactly match a shared-pool name (case-insensitive),
     // de-duped, capped at 2. Guarantees every selected industry resolves to a summary.
     {
-      const byLower = new Map(industryNames.map((n) => [n.toLowerCase(), n]));
+      const byLower = new Map(selectableIndustries.map((n) => [n.toLowerCase(), n]));
       const picked: string[] = [];
       for (const raw of Array.isArray(extraction.industries) ? extraction.industries : []) {
         const match = byLower.get(String(raw ?? "").trim().toLowerCase());
         if (match && !picked.includes(match)) picked.push(match);
         if (picked.length === 2) break;
+      }
+      // The model can return fewer than 2, or names outside the offered set (it does this on
+      // the placeholder-extraction fallback path). Backfill in pool order so the consulting
+      // section never renders with a missing engagement.
+      for (const n of selectableIndustries) {
+        if (picked.length === 2) break;
+        if (!picked.includes(n)) picked.push(n);
       }
       extraction.industries = picked;
     }
@@ -1751,6 +1783,8 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
     theme,
     job_description,
     ...(resumeMd.trim() ? { resume_markdown: resumeMd } : {}),
+    // Batch runs read this back to tell the next candidate which industries are spent.
+    ...(extraction.industries.length ? { client_industries: [...extraction.industries] } : {}),
     // Persist the application-form text (extension page text / dashboard "Apply
     // form" field). Preserve the prior value on a rerun that doesn't pass one.
     ...(() => {

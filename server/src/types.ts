@@ -217,6 +217,12 @@ export type ResultJson = {
   /** The final generated résumé as Markdown — the exact tailored output (fed to the match score). */
   resume_markdown?: string;
   /**
+   * The 2 client industries extraction picked for the consulting section. Persisted so a
+   * batch can hand the next candidate the industries already taken — three résumés for one
+   * job should describe three different pairs of client engagements, not the same two.
+   */
+  client_industries?: string[];
+  /**
    * Full text of the application/apply-form page this run is tied to — separate
    * from the JD. Captured by the extension's Q&A (the page the questions are
    * extracted from) or pasted into the dashboard's "Apply form" field. Used as
