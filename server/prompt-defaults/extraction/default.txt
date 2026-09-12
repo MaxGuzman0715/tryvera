@@ -169,6 +169,15 @@ using your domain_scores:
       holds an always-keep skill by the definition above. A category scoring 1 that answers a stated
       qualification is NOT optional: a JD requirement with no matching skill line is a screening failure,
       and it costs far more than one low-relevance category costs in space.
+- NAMED TOOLS FIRST, CONCEPTS LAST, AND CONCEPTS ARE WHAT YOU CUT. Inside every category, a thing with a
+  NAME - React, PostgreSQL, Kafka, Terraform, pytest, Grafana, pgvector - outranks a practice or a pattern
+  - "asynchronous processing", "structured logging", "capacity planning", "schema evolution", "high
+  availability and disaster recovery", "cost and capacity optimization", "agent orchestration". Order each
+  category named tools first, and when the category is over its budget cut the practices, never the names.
+  Screening matches product names; a category that spends its length on process nouns answers nothing and
+  reads as padding. Keep at most 2-3 practices per category, and only after every named tool that earns a
+  place is already there. A category the candidate wrote as mostly practices is not a reason to print it
+  that way - print its named tools and let the practices go.
 - Float the always-keep skills toward the FRONT of their category, spread naturally (not all bunched
   at the very start).
 - WHICH SKILLS MAY APPEAR. Two sources.
@@ -195,8 +204,18 @@ using your domain_scores:
   THIS role. Prioritize languages explicitly required by the JD, then the candidate's strongest
   complementary languages. Frameworks, APIs, databases, and other technologies in the same category
   do NOT count toward this 6-7 programming-language limit.
-- CATEGORY COUNT: return EXACTLY 7 categories, or all of them when the candidate has fewer than 7. Never
-  more than 7 and never fewer when 7 are available -- 7 is a target to fill, not a ceiling to stay under.
+- CATEGORY COUNT: return 7 categories, or all of them when the candidate has fewer than 7. 7 is a target to
+  fill, not a ceiling to stay under, and never return fewer when 7 are available.
+  GO TO 8 OR 9 RATHER THAN DROP A CATEGORY THAT HOLDS A JD-NAMED TECHNOLOGY. Coverage outranks the count.
+  When the candidate has a category carrying a language, framework, datastore, test runner or tool the JD
+  names, that category KEEPS ITS SLOT even if its score is low, and the list runs to 8 or 9 to fit it.
+  A JD asking for React/TypeScript front-ends, Node.js and Python, PostgreSQL and pytest needs the
+  candidate's own frontend line, languages line, database line and testing line - dropping any of them to
+  hold a count of 7 deletes a requirement the candidate genuinely meets, which is the most expensive thing
+  this step can do.
+  NEVER INVENT A CATEGORY TO CREATE ROOM. The extra slots may only be filled by categories that already
+  exist in the candidate's own skills, under their exact existing names. A label the candidate never wrote,
+  or a line assembled to hold leftover JD keywords, reads as padding and is worse than the omission.
   Fill the slots strictly by score: every score-3 category first, then score-2 in order, then score-1 only
   if slots remain. Count the categories you are returning before you finish; stopping at 5 or 6 while a
   scored category sits unused wastes a slot the candidate paid for.

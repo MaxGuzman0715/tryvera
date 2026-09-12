@@ -621,6 +621,10 @@ function reconcileSkillsWithBullets(
       // Skip prose entries ("data and prediction drift monitoring") - they are practices, not the
       // named tools a reader checks a bullet against.
       if (item.length < 3 || item.length > 30 || item.split(/\s+/).length > 3) continue;
+      // A multi-word phrase in all lower case is a practice, not a product: "semantic search",
+      // "capacity planning", "structured logging". Single lower-case words stay, because plenty of
+      // real tools are spelled that way - pgvector, dbt, pytest, k6, gRPC.
+      if (item.includes(" ") && item === item.toLowerCase()) continue;
       if (!catalogue.has(item.toLowerCase())) catalogue.set(item.toLowerCase(), { item, category });
     }
   }
