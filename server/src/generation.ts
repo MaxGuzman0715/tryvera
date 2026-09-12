@@ -576,52 +576,14 @@ function renderSkillsList(skills: string[]): string {
 }
 
 /**
- * Words that survive the capitalised-token filter but are not technologies. Bullet-initial verbs
- * and JD section headings are the two families that actually collide in practice.
+ * Group thousands in bare integers of 5+ digits: "320000 customer actions" -> "320,000 customer
+ * actions". The model formats most figures correctly and then drops the separator on a handful per
+ * résumé, which reads as carelessness next to the "3,200" in the next bullet. 5 digits is the floor
+ * on purpose — it leaves 4-digit years alone, so "2025" never becomes "2,025". Anything already
+ * carrying a comma or a decimal point is left untouched.
  */
-const NOT_A_TECHNOLOGY = new Set(
-  `The This That These Those When Where With For And But Not All Any Each Both Required Preferred
-   Responsibilities Qualification Qualifications Experience Education Skills Summary Benefits About
-   Built Implemented Developed Designed Created Delivered Owned Led Integrated Instrumented Reduced
-   Cut Raised Scaled Authored Published Produced Collaborated Managed Engineered Tuned Rebuilt
-   Constructed Coached Wrote Added Partnered Established Migrated Packaged Composed Held Deployed
-   Automated Reviewed Supported Shortened Expanded Transferred Sustained Handled Improved Lowered
-   Mentored Defined Placed Prototyped Tightened Consolidated Diagnosed Optimized Enforced Shaped
-   Senior Junior Staff Principal Lead Engineer Manager Remote Hybrid Present Team Teams Company
-   Design Build Develop Deliver Maintain Participate Contribute Ensure Work Working Strong Proven
-   API APIs RESTful SDK SDKs IDE Agile Scrum Sprint Cloud Platform Service Services System Systems`
-    .split(/\s+/)
-    .filter(Boolean),
-);
-
-/**
- * Capitalised, technology-shaped tokens in a blob of text, as whole names rather than fragments.
- * Two-word names are emitted intact ("Active Directory") and their parts suppressed, because a bare
- * "Directory" in a skills block is noise while the full name is a real skill.
- */
-function capitalisedTokens(text: string): Set<string> {
-  const word = /\b[A-Z][A-Za-z0-9+#._-]{2,}\b/g;
-  const hits: { t: string; at: number; end: number }[] = [];
-  for (const m of text.matchAll(word)) {
-    const t = m[0].replace(/[._-]+$/, "");
-    if (t.length >= 3) hits.push({ t, at: m.index ?? 0, end: (m.index ?? 0) + m[0].length });
-  }
-  const out = new Set<string>();
-  const consumed = new Set<number>();
-  for (let i = 0; i < hits.length - 1; i++) {
-    // Adjacent only when nothing but a single space separates them — "Active Directory", not a
-    // sentence boundary that happens to put two capitalised words near each other.
-    if (text.slice(hits[i].end, hits[i + 1].at) !== " ") continue;
-    const pair = `${hits[i].t} ${hits[i + 1].t}`;
-    if (NOT_A_TECHNOLOGY.has(hits[i].t) || NOT_A_TECHNOLOGY.has(hits[i + 1].t)) continue;
-    out.add(pair);
-    consumed.add(i);
-    consumed.add(i + 1);
-  }
-  hits.forEach((h, i) => {
-    if (!consumed.has(i) && !NOT_A_TECHNOLOGY.has(h.t)) out.add(h.t);
-  });
-  return out;
+function groupThousands(text: string): string {
+  return text.replace(/(?<![\d,.])\d{5,}(?![\d,.])/g, (n) => n.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 }
 
 /**
@@ -643,72 +605,66 @@ function reconcileSkillsWithBullets(
   const jdText = (extraction.variations ?? []).map((v) => v?.reframed_jd ?? "").join("\n");
   if (!jdText.trim() || !bulletText.trim() || !skills.length) return { skills, added: [] };
 
-  const inJd = capitalisedTokens(jdText);
-  const inBullets = capitalisedTokens(bulletText);
   const listed = skills.join(" | ").toLowerCase();
-  /**
-   * Already covered, in three forms that a plain substring test misses:
-   *   exact        - "Kafka" when the list says Kafka
-   *   plural       - "APIs" when the list says "API versioning"
-   *   longer form  - "RESTful" when the list says REST
-   * Without these the block collects near-duplicates that read as padding.
-   */
-  // Whole words, not substrings. "REST" is a listed skill so it covers RESTful, while "open" is only
-  // ever a fragment of OpenSearch - matching on substrings lets that fragment swallow OpenAPI.
-  const listedWords = new Set(
-    skills.join(" ").toLowerCase().split(/[^a-z0-9+#.]+/).filter(Boolean)
-  );
-  const alreadyCovered = (t: string): boolean => {
-    const low = t.toLowerCase();
-    if (low.includes(" ")) return listed.includes(low); // multi-word names have no single token
-    if (listedWords.has(low)) return true;
-    if (low.endsWith("s") && listedWords.has(low.slice(0, -1))) return true;
-    for (let cut = low.length - 1; cut >= 4; cut--) {
-      if (listedWords.has(low.slice(0, cut))) return true;
+  // CLOSED VOCABULARY. Eligible terms come only from the candidate's own profile skills - curated,
+  // comma-separated, real skill names with a known category. Guessing at "technology-shaped" tokens
+  // in prose instead pulls in job titles (CTO), plurals of abstractions (UIs), adjectival fragments
+  // (CI-driven) and pairs of adjacent tools glued together, and it has nowhere sensible to file any
+  // of them. A term the JD names but the profile lacks is extraction's job, not this repair's.
+  const catalogue = new Map<string, { item: string; category: string }>();
+  for (const line of profile.skills) {
+    const idx = line.indexOf(":");
+    if (idx <= 0) continue;
+    const category = line.slice(0, idx).trim();
+    for (const raw of line.slice(idx + 1).split(",")) {
+      const item = raw.replace(/[()]/g, "").trim();
+      // Skip prose entries ("data and prediction drift monitoring") - they are practices, not the
+      // named tools a reader checks a bullet against.
+      if (item.length < 3 || item.length > 30 || item.split(/\s+/).length > 3) continue;
+      if (!catalogue.has(item.toLowerCase())) catalogue.set(item.toLowerCase(), { item, category });
     }
-    return false;
-  };
-  // "OpenAPI-style" is a claim about OpenAPI; test and record the tool, not the adjective.
-  const baseName = (t: string): string => {
-    const head = t.split("-")[0];
-    return head.length >= 3 && /^[A-Z]/.test(head) ? head : t;
-  };
-  const missing = [...new Set([...inBullets].map(baseName))].filter(
-    (t) => (inJd.has(t) || [...inJd].some((j) => baseName(j) === t)) && !alreadyCovered(t)
-  );
-  if (!missing.length) return { skills, added: [] };
+  }
 
-  // Where does this candidate's own profile file that technology? Using their real category names
-  // keeps the skills block looking like theirs rather than a bucket of leftovers.
-  const categoryOf = (term: string): string | null => {
-    for (const line of profile.skills) {
-      const idx = line.indexOf(":");
-      if (idx <= 0) continue;
-      if (line.slice(idx + 1).toLowerCase().includes(term.toLowerCase())) return line.slice(0, idx).trim();
-    }
-    return null;
-  };
+  const bulletLow = bulletText.toLowerCase();
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const missing: { item: string; category: string }[] = [];
+  for (const { item, category } of catalogue.values()) {
+    const low = item.toLowerCase();
+    if (listed.includes(low)) continue;
+    if (!new RegExp(`(^|[^a-z0-9])${esc(low)}([^a-z0-9]|$)`).test(bulletLow)) continue;
+    missing.push({ item, category });
+  }
+  if (!missing.length) return { skills, added: [] };
 
   const next = [...skills];
   const added: string[] = [];
   // Cap the repair: a long tail means something upstream is wrong, and silently pasting twenty
   // terms into the skills block would be worse than the mismatch it fixes.
-  for (const term of missing.slice(0, 8)) {
-    const cat = categoryOf(term);
-    const target = cat
-      ? next.findIndex((l) => l.toLowerCase().startsWith(cat.toLowerCase() + ":"))
-      : -1;
+  const byCategory = new Map<string, string[]>();
+  for (const { item, category } of missing.slice(0, 8)) {
+    byCategory.set(category, [...(byCategory.get(category) ?? []), item]);
+    added.push(item);
+  }
+  for (const [category, items] of byCategory) {
+    const target = next.findIndex((l) => l.toLowerCase().startsWith(category.toLowerCase() + ":"));
     if (target >= 0) {
-      next[target] = `${next[target].replace(/[,\s]+$/, "")}, ${term}`;
-    } else if (cat) {
-      // The category that holds it never made the printed list (the 7-category cap dropped it).
-      // Re-add it under the candidate's own label, carrying just this term.
-      next.push(`${cat}: ${term}`);
-    } else {
-      // Not in the profile at all: append to the last line rather than invent a category.
-      next[next.length - 1] = `${next[next.length - 1].replace(/[,\s]+$/, "")}, ${term}`;
+      next[target] = `${next[target].replace(/[,\s]+$/, "")}, ${items.join(", ")}`;
+      continue;
     }
-    added.push(term);
+    // The category that holds these never made the printed list (the 7-category cap dropped it).
+    // Re-add it under the candidate's own label — padded with its strongest siblings from the
+    // profile, because a lone "Architecture & Distributed Systems: caching" beside nine-item lines
+    // reads as an afterthought rather than a category.
+    const source = profile.skills.find((l) =>
+      l.toLowerCase().startsWith(category.toLowerCase() + ":")
+    );
+    const siblings = (source ?? "")
+      .slice((source ?? "").indexOf(":") + 1)
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => s && !items.some((i) => i.toLowerCase() === s.toLowerCase()))
+      .slice(0, Math.max(0, 6 - items.length));
+    next.push(`${category}: ${[...items, ...siblings].join(", ")}`);
   }
   return { skills: next, added };
 }
@@ -729,7 +685,7 @@ function renderResumeFromStructured(
     const title = pickTitle(exp.title, u?.title, extraction.role_name);
     const bullets = (u?.bullets ?? []).map((b) => b.trim()).filter(Boolean);
     const finalBullets = bullets.length ? bullets : fallbackBulletsFromProfile(exp);
-    const lines = finalBullets.map((b) => `- ${b}`).join("\n") || "- ";
+    const lines = finalBullets.map((b) => `- ${groupThousands(b)}`).join("\n") || "- ";
     const locationLine = exp.location?.trim() ? `\n${exp.location.trim()}` : "";
     return `### ${exp.company} | ${title} (${exp.startDate} – ${exp.endDate})${locationLine}\n${lines}`;
   });
