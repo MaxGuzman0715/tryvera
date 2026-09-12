@@ -83,6 +83,12 @@ accounting workflows. A retail investing platform can gain streaming recomputati
 it does not gain a package identity catalogue. A water utility can gain retrieval; it does not gain
 bookkeeping or shipment routing.
 
+WHEN reframed_jd AND summary_lines DISAGREE ABOUT DOMAIN, summary_lines WINS. reframed_jd is the angle, not
+a licence to relabel the work: it decides which parts of the real project to foreground and which words to
+describe them with, never what the project WAS. A fuel-inventory product does not become a speech product
+because the JD wants speech. The JD's own domain already has a home - the consulting engagements, where an
+unnamed client can be in any industry - so cover it there and leave this company describing what it did.
+
 TEST EVERY DOMAIN NOUN: would it appear in the EMPLOYER's own marketing? If it names the TARGET company's
 line of business, it is wrong here however well it matches the JD. Name the employer's real equivalent
 instead, or drop the bullet. And never give the employer a product, platform, programme or team named
