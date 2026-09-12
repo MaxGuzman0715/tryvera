@@ -575,6 +575,131 @@ function renderSkillsList(skills: string[]): string {
     .join("\n");
 }
 
+/**
+ * Words that survive the capitalised-token filter but are not technologies. Bullet-initial verbs
+ * and JD section headings are the two families that actually collide in practice.
+ */
+const NOT_A_TECHNOLOGY = new Set(
+  `The This That These Those When Where With For And But Not All Any Each Both Required Preferred
+   Responsibilities Qualification Qualifications Experience Education Skills Summary Benefits About
+   Built Implemented Developed Designed Created Delivered Owned Led Integrated Instrumented Reduced
+   Cut Raised Scaled Authored Published Produced Collaborated Managed Engineered Tuned Rebuilt
+   Constructed Coached Wrote Added Partnered Established Migrated Packaged Composed Held Deployed
+   Automated Reviewed Supported Shortened Expanded Transferred Sustained Handled Improved Lowered
+   Mentored Defined Placed Prototyped Tightened Consolidated Diagnosed Optimized Enforced Shaped
+   Senior Junior Staff Principal Lead Engineer Manager Remote Hybrid Present Team Teams Company
+   Design Build Develop Deliver Maintain Participate Contribute Ensure Work Working Strong Proven
+   API APIs RESTful SDK SDKs IDE Agile Scrum Sprint Cloud Platform Service Services System Systems`
+    .split(/\s+/)
+    .filter(Boolean),
+);
+
+/**
+ * Capitalised, technology-shaped tokens in a blob of text, as whole names rather than fragments.
+ * Two-word names are emitted intact ("Active Directory") and their parts suppressed, because a bare
+ * "Directory" in a skills block is noise while the full name is a real skill.
+ */
+function capitalisedTokens(text: string): Set<string> {
+  const word = /\b[A-Z][A-Za-z0-9+#._-]{2,}\b/g;
+  const hits: { t: string; at: number; end: number }[] = [];
+  for (const m of text.matchAll(word)) {
+    const t = m[0].replace(/[._-]+$/, "");
+    if (t.length >= 3) hits.push({ t, at: m.index ?? 0, end: (m.index ?? 0) + m[0].length });
+  }
+  const out = new Set<string>();
+  const consumed = new Set<number>();
+  for (let i = 0; i < hits.length - 1; i++) {
+    // Adjacent only when nothing but a single space separates them — "Active Directory", not a
+    // sentence boundary that happens to put two capitalised words near each other.
+    if (text.slice(hits[i].end, hits[i + 1].at) !== " ") continue;
+    const pair = `${hits[i].t} ${hits[i + 1].t}`;
+    if (NOT_A_TECHNOLOGY.has(hits[i].t) || NOT_A_TECHNOLOGY.has(hits[i + 1].t)) continue;
+    out.add(pair);
+    consumed.add(i);
+    consumed.add(i + 1);
+  }
+  hits.forEach((h, i) => {
+    if (!consumed.has(i) && !NOT_A_TECHNOLOGY.has(h.t)) out.add(h.t);
+  });
+  return out;
+}
+
+/**
+ * A technology named in a bullet but absent from the printed Skills block reads as padding: the
+ * résumé claims something its own skills list does not back, and keyword screening reads the skills
+ * block first. The generator is TOLD to stay inside candidate_skills and mostly does, but it is a
+ * soft instruction and leaks a handful of terms per batch. This closes the gap after the model is
+ * done, so the invariant holds structurally instead of by instruction.
+ *
+ * Only technologies the JD itself named are eligible. That gate is what keeps employer names,
+ * product names and ordinary capitalised prose out of the skills block.
+ */
+function reconcileSkillsWithBullets(
+  skills: string[],
+  bulletText: string,
+  profile: Profile,
+  extraction: ExtractionResult,
+): { skills: string[]; added: string[] } {
+  const jdText = (extraction.variations ?? []).map((v) => v?.reframed_jd ?? "").join("\n");
+  if (!jdText.trim() || !bulletText.trim() || !skills.length) return { skills, added: [] };
+
+  const inJd = capitalisedTokens(jdText);
+  const inBullets = capitalisedTokens(bulletText);
+  const listed = skills.join(" | ").toLowerCase();
+  /**
+   * Already covered, in three forms that a plain substring test misses:
+   *   exact        - "Kafka" when the list says Kafka
+   *   plural       - "APIs" when the list says "API versioning"
+   *   longer form  - "RESTful" when the list says REST
+   * Without these the block collects near-duplicates that read as padding.
+   */
+  const alreadyCovered = (t: string): boolean => {
+    const low = t.toLowerCase();
+    if (listed.includes(low)) return true;
+    if (low.endsWith("s") && listed.includes(low.slice(0, -1))) return true;
+    for (let cut = low.length - 1; cut >= 4; cut--) {
+      if (listed.includes(low.slice(0, cut))) return true;
+    }
+    return false;
+  };
+  const missing = [...inBullets].filter((t) => inJd.has(t) && !alreadyCovered(t));
+  if (!missing.length) return { skills, added: [] };
+
+  // Where does this candidate's own profile file that technology? Using their real category names
+  // keeps the skills block looking like theirs rather than a bucket of leftovers.
+  const categoryOf = (term: string): string | null => {
+    for (const line of profile.skills) {
+      const idx = line.indexOf(":");
+      if (idx <= 0) continue;
+      if (line.slice(idx + 1).toLowerCase().includes(term.toLowerCase())) return line.slice(0, idx).trim();
+    }
+    return null;
+  };
+
+  const next = [...skills];
+  const added: string[] = [];
+  // Cap the repair: a long tail means something upstream is wrong, and silently pasting twenty
+  // terms into the skills block would be worse than the mismatch it fixes.
+  for (const term of missing.slice(0, 8)) {
+    const cat = categoryOf(term);
+    const target = cat
+      ? next.findIndex((l) => l.toLowerCase().startsWith(cat.toLowerCase() + ":"))
+      : -1;
+    if (target >= 0) {
+      next[target] = `${next[target].replace(/[,\s]+$/, "")}, ${term}`;
+    } else if (cat) {
+      // The category that holds it never made the printed list (the 7-category cap dropped it).
+      // Re-add it under the candidate's own label, carrying just this term.
+      next.push(`${cat}: ${term}`);
+    } else {
+      // Not in the profile at all: append to the last line rather than invent a category.
+      next[next.length - 1] = `${next[next.length - 1].replace(/[,\s]+$/, "")}, ${term}`;
+    }
+    added.push(term);
+  }
+  return { skills: next, added };
+}
+
 function renderResumeFromStructured(
   profile: Profile,
   extraction: ExtractionResult,
@@ -604,7 +729,18 @@ function renderResumeFromStructured(
 
   const header = `# ${profile.basic.fullName}\n${resumeNameBlockLines(profile)}`;
   const summarySection = `## Summary\n${doc.summary?.trim() || profile.basic.summary || ""}`;
-  const skillsSection = `## Skills\n${renderSkillsList(skills.length ? skills : profile.skills)}`;
+  // Every technology the bullets name must also appear in the Skills block — see
+  // reconcileSkillsWithBullets. Run it over the list that will actually be printed.
+  const printedSkills = skills.length ? skills : profile.skills;
+  const bulletText = expBlocks.join("\n");
+  const reconciled = reconcileSkillsWithBullets(printedSkills, bulletText, profile, extraction);
+  if (reconciled.added.length) {
+    console.log(
+      `[enpply] ${profile.id}: ${reconciled.added.length} technology(ies) named in bullets were ` +
+        `missing from the skills block, added: ${reconciled.added.join(", ")}`
+    );
+  }
+  const skillsSection = `## Skills\n${renderSkillsList(reconciled.skills)}`;
   const experienceSection = `## Experience\n${expBlocks.join("\n\n")}`;
   const educationSection = `## Education\n${eduBlocks.join("\n")}`;
 
