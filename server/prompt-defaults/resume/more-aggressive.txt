@@ -100,9 +100,12 @@ consulting: true - a CONSULTING employer's client engagements
 Each summary_lines[i] is a SEPARATE client project in industry client_industries[i]; treat them as distinct
 engagements and split the 10-12 bullets across them. Because a consultant builds on whatever the client
 runs, this section is the natural home for the JD's named technologies and for anything belonging to the
-target's own domain: for each engagement, IMPLEMENT the reframed_jd's responsibilities using its named
-languages, frameworks, libraries and tools, framed as work delivered for that client. The industry summary
-sets the domain; the reframed_jd sets the tech.
+target's own domain: for each engagement, IMPLEMENT the reframed_jd's responsibilities and ACTIVELY NAME its
+concrete languages, frameworks, libraries and tools (e.g. a Go + gRPC backend, or a React + Redux + React
+Query + custom-hooks front end), framed as work delivered for that client. The industry summary sets the
+domain; the reframed_jd sets the tech, and you MUST surface that tech. Name each tool the JD asks for by its
+own name rather than describing the capability around it - "containerized services" does not surface Docker.
+candidate_skills still bounds what may be named; this decides how much of it actually reaches the page.
 
 Spread this company's FOUR quantified bullets evenly across its engagements, TWO in each. The engagement
 summaries describe scale qualitatively and carry no figures on purpose, so write the numbers yourself, sized
@@ -136,7 +139,7 @@ The opposite failure costs just as much: never leave out a requirement the candi
 in candidate_skills or summary_lines and the JD asks for it, it belongs on the page.
 
 WALK THE REQUIRED LIST BEFORE YOU OUTPUT. Enumerate the reframed_jd's REQUIRED qualifications first. When
-both companies are written, walk the list again: every SUPPORTED requirement should appear in at least one
+both companies are written, walk the list again: every SUPPORTED requirement MUST appear in at least one
 bullet across the two sections. Requirements are stated as capabilities and must be answered as
 capabilities - "exposure to large language model tooling in an engineering context" needs a bullet showing
 the candidate USING it, not a skills entry. The same holds for "driving adoption across teams that did not

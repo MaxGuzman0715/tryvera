@@ -61,6 +61,14 @@ BASE FILTERS — apply ALL of these to BOTH variations:
 6. PRESERVE required-vs-preferred structure (the generator must know what is essential vs optional) —
    but express it in your own words.
 
+7. KEEP EVERY MAINSTREAM TOOL NAME — CHECK THIS BEFORE YOU RETURN. List every concrete technology the
+   JD names anywhere, then confirm each one appears VERBATIM in at least one of the two reframed_jd
+   variations. Splitting them across A and B is fine; dropping one is not. The only exceptions are the
+   2-3 genuinely obscure tools that go to rare_nice_to_haves. This check exists because the résumé
+   writer downstream NEVER SEES THE JD — these two variations are its only view of it, so a tool absent
+   from both can never reach the résumé, and screening matches the literal name. Paraphrasing a tool
+   into its capability ("a container runtime", "an event bus") drops it: write Docker, write Kafka.
+
 Do not invent requirements the JD doesn't imply. Do not name the employer or product in either
 reframed_jd. Only reframe capabilities the candidate could plausibly hold.
 
@@ -163,21 +171,22 @@ using your domain_scores:
       and it costs far more than one low-relevance category costs in space.
 - Float the always-keep skills toward the FRONT of their category, spread naturally (not all bunched
   at the very start).
-- WHICH SKILLS MAY APPEAR. Two sources, and nothing else.
+- WHICH SKILLS MAY APPEAR. Two sources.
   (a) Skills the candidate ALREADY lists in their categorized skills. This is the normal case.
-  (b) SAME-FAMILY ADJACENT skills, for REQUIRED items only. When the reframed_jd names a technology in
-      its Required / must-have section and the candidate does not list that exact one BUT does list
-      others from the same family, add it to the category that already holds its siblings and treat it
-      as ALWAYS-KEEP from that point on, so the score trim and the category cap cannot drop it again.
-      Same family means interchangeable tools for one job, where someone who shipped one could credibly
-      claim the other in an interview: React / Angular / Svelte -> Vue, Java / Kotlin -> C#,
-      Postgres <-> MySQL, Terraform -> Pulumi, Datadog / Grafana -> New Relic, RabbitMQ -> Kafka,
-      Hibernate / SQLAlchemy -> Entity Framework. At most 2-3 in total.
-  Anything else is invention and must not appear. Same family does NOT mean a neighbouring discipline:
-  a backend engineer who lists no frontend framework at all does not get Vue, someone who has never run
-  a cloud does not get AWS, and nobody gets a domain they have never worked in. Never do this for a
-  Preferred / nice-to-have item. With no same-family evidence, LEAVE THE REQUIREMENT UNCOVERED: a gap is
-  recoverable, a claim that collapses in a technical screen is not.
+  (b) EVERY TECHNOLOGY THE JD NAMES. When the reframed_jd names a specific technology - Required or
+      Preferred - and the candidate does not list that exact one, ADD IT to the category that holds its
+      closest siblings and treat it as ALWAYS-KEEP from that point on, so neither the score trim nor the
+      category cap can drop it. The stored profile is an incomplete record of a long career, not a
+      complete one, and a named requirement missing from the skills block is a screening failure that
+      happens before any human can ask about it. There is NO CAP on how many are added this way: JD-named
+      technologies take priority over the category's own item counts, and a category may exceed its usual
+      size to hold them.
+      Put each one where a working engineer would expect to find it - a queue beside the other queues, a
+      test runner beside the other test runners, a datastore beside the other datastores - never in a
+      category it does not belong to, and never invent a category to hold it.
+  The one limit is DISCIPLINE COHERENCE. Do not hand someone an entire field they have never practised:
+  a backend engineer with no frontend line at all does not become a React developer, and nobody gets a
+  domain they have never worked in. Inside a discipline the candidate already works in, add freely.
   Keep each category's exact name and its "Category: a, b, c" shape (do NOT bold).
 - Return `skills` as an array of these category-line strings, in the new order. If the candidate's
   skills are empty or not categorized, return a flat, de-duped list ordered by relevance.
@@ -217,13 +226,14 @@ using your domain_scores:
   scikit-learn, XGBoost) and model-platform tooling (MLflow, model serving, experiment tracking) if the
   candidate lists them. Keeping only the generative-AI line for an ML title is the failure this rule exists
   to prevent.
-- FINAL CHECK, and do this last, after every rule above has been applied. Write out the named technologies
-  in the reframed_jd's Required / must-have section. Walk that list and confirm each one either appears
-  somewhere in the categories you are about to return, or has no same-family evidence in the candidate's
-  skills. If one is missing and the evidence exists, put it back before returning. A required technology
-  the candidate could credibly claim, absent from the skills section, is the most expensive omission this
-  whole step can make: the skills block is what keyword screening reads first, and a reader who sees a
-  technology in the bullets but not in the skills list reads the bullet as padding.
+- FINAL CHECK, and do this last, after every rule above has been applied. Write out EVERY named technology
+  in either reframed_jd variation - Required and Preferred alike - and walk that list. Each one MUST appear
+  somewhere in the categories you are about to return. No exceptions for item counts, category caps, or
+  weak evidence: if it is missing, put it back before returning, in the category holding its closest
+  siblings. This is the single most expensive omission this whole step can make. The skills block is what
+  keyword screening reads first, and the résumé writer downstream may only name what this list contains -
+  so a technology dropped here is dropped from the bullets too, and a technology that does reach a bullet
+  without being listed here reads as padding.
 
 ════════════════════════════════════════════════════════════════
 RARE NICE-TO-HAVES  (shared, single list)
