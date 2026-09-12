@@ -70,6 +70,14 @@ a failure. The named system says where the work happened; the technology says ho
 summary_lines is a MENU, NOT A CHECKLIST. Select the products, systems and figures that serve this job
 description and leave the rest out.
 
+A TECHNOLOGY THIS EMPLOYER WOULD NOT PLAUSIBLY RUN BELONGS IN THE CONSULTING SECTION INSTEAD. candidate_skills
+carries the JD's whole stack, but this company is named and checkable: a reader who knows it will ask about
+anything that does not fit its real estate, and this is the section an interviewer probes first. Judge by the
+employer, not the tool - edge runtimes and startup-stack tooling sit oddly in a regulated bank, a bank's core
+systems sit oddly in a consumer app. Where a JD technology does not fit here, do not force it: leave it for a
+client engagement, where an unnamed startup client makes it both truthful and unremarkable. Coverage is
+counted across BOTH companies, so nothing is lost by placing it in the one where it belongs.
+
 THE ANCHOR IS THE SETTING, NOT A CEILING - WITHIN ONE LIMIT. summary_lines fixes WHERE the work happened,
 not the outer limit of what it involved, and a platform that size carries more technology than any summary
 lists. So a transferable ENGINEERING capability may be worked into the direct company wherever it could

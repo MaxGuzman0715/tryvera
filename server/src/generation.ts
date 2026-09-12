@@ -653,16 +653,29 @@ function reconcileSkillsWithBullets(
    *   longer form  - "RESTful" when the list says REST
    * Without these the block collects near-duplicates that read as padding.
    */
+  // Whole words, not substrings. "REST" is a listed skill so it covers RESTful, while "open" is only
+  // ever a fragment of OpenSearch - matching on substrings lets that fragment swallow OpenAPI.
+  const listedWords = new Set(
+    skills.join(" ").toLowerCase().split(/[^a-z0-9+#.]+/).filter(Boolean)
+  );
   const alreadyCovered = (t: string): boolean => {
     const low = t.toLowerCase();
-    if (listed.includes(low)) return true;
-    if (low.endsWith("s") && listed.includes(low.slice(0, -1))) return true;
+    if (low.includes(" ")) return listed.includes(low); // multi-word names have no single token
+    if (listedWords.has(low)) return true;
+    if (low.endsWith("s") && listedWords.has(low.slice(0, -1))) return true;
     for (let cut = low.length - 1; cut >= 4; cut--) {
-      if (listed.includes(low.slice(0, cut))) return true;
+      if (listedWords.has(low.slice(0, cut))) return true;
     }
     return false;
   };
-  const missing = [...inBullets].filter((t) => inJd.has(t) && !alreadyCovered(t));
+  // "OpenAPI-style" is a claim about OpenAPI; test and record the tool, not the adjective.
+  const baseName = (t: string): string => {
+    const head = t.split("-")[0];
+    return head.length >= 3 && /^[A-Z]/.test(head) ? head : t;
+  };
+  const missing = [...new Set([...inBullets].map(baseName))].filter(
+    (t) => (inJd.has(t) || [...inJd].some((j) => baseName(j) === t)) && !alreadyCovered(t)
+  );
   if (!missing.length) return { skills, added: [] };
 
   // Where does this candidate's own profile file that technology? Using their real category names
