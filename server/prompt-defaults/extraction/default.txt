@@ -62,8 +62,10 @@ BASE FILTERS — apply ALL of these to BOTH variations:
    but express it in your own words.
 
 7. KEEP EVERY MAINSTREAM TOOL NAME — CHECK THIS BEFORE YOU RETURN. List every concrete technology the
-   JD names anywhere, then confirm each one appears VERBATIM in at least one of the two reframed_jd
-   variations. Splitting them across A and B is fine; dropping one is not. The only exceptions are the
+   JD names anywhere, then confirm each one appears VERBATIM in VARIATION B. Variation B drives the
+   consulting company, which is where every JD technology must be able to land: the anchor company is held
+   to its own real domain downstream, so a tool placed only in variation A can be rejected there and then
+   reaches the résumé nowhere. Variation A may repeat any of them; B must carry all of them. The only exceptions are the
    2-3 genuinely obscure tools that go to rare_nice_to_haves. This check exists because the résumé
    writer downstream NEVER SEES THE JD — these two variations are its only view of it, so a tool absent
    from both can never reach the résumé, and screening matches the literal name. Paraphrasing a tool
