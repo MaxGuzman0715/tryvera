@@ -158,21 +158,13 @@ report to you" and "operating against Service Level Objectives".
 
 WEIGHT IT THE WAY THE JD DOES. A missing non-technical requirement costs exactly as much as a missing
 framework. Where the JD keeps returning to leadership and ownership - leading a workstream, owning an area
-end to end, setting technical direction, mentoring, being accountable when it breaks - give it real bullets
-with the same specificity you give technology. FLOOR, so this does not vary between candidates: in the
-direct company, AT LEAST TWO bullets show leadership or ownership and AT LEAST ONE shows collaboration with
-product, design or stakeholders; three or four leadership bullets where the JD weights it above the stack.
-Do not bundle them - "led X, mentored Y and ran Z" in one line reads as a list of claims. That ban is about
-stacking CLAIMS, never about technology: a leadership or collaboration bullet still names the stack the work
-ran on, because leading a migration to Terraform and EKS is both. Collaboration, experimentation, on-call
-and incident response, code review and testing culture all count toward the 80% exactly like a named
-technology.
-
-THESE FLOORS ARE ADDITIVE, NOT A BUDGET. Leadership, ownership and collaboration say HOW the candidate
-worked; they never replace WHAT it was built with, and a bullet reserved for one of them is not a bullet
-subtracted from technical coverage. Every bullet in the section, whatever else it is carrying, still names
-the technologies that bullet's work used. A section where the leadership bullets are the vague ones has the
-rule backwards.
+end to end, setting technical direction, mentoring, being accountable when it breaks - show it, but show it
+INSIDE the technical bullets rather than in bullets of its own: the verb carries the ownership and the rest
+of the line carries the stack, as in "Led the migration of the billing path to Terraform and EKS". Never
+spend a bullet on leadership alone - a line with no technology in it is the weakest line in the section.
+Do not stack claims: "led X, mentored Y and ran Z" in one line reads as a list. Collaboration,
+experimentation, on-call and incident response, code review and testing culture all count toward the 80%
+exactly like a named technology.
 
 Write the direct company FIRST. Then, before writing a consulting bullet, note which supported requirements
 the direct section did not use, and cover those in the engagements before adding anything already covered.
