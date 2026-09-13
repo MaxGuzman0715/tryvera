@@ -30,6 +30,11 @@ and give each ONE measured result. Every OTHER bullet carries no figure at all. 
 not the weaker ones; they are the reason the four that carry a number get believed, because no real engineer
 measured every single thing they did. A before/after pair is ONE result stated twice, not two.
 
+A FIGURE IS ADDED TO A BULLET, IT DOES NOT REPLACE ITS CONTENT. A measured bullet still names the
+technology the work was built with, exactly like every other bullet. "Cut rollout time from 40 minutes to
+12" is half a bullet; "Cut rollout time from 40 minutes to 12 by moving deploys to Terraform and EKS with
+GitHub Actions gating" is the whole one. Never spend a bullet on the number alone.
+
 FOUR DIFFERENT KINDS. At most TWO percentages, at most TWO durations or latencies, and AT LEAST ONE
 magnitude rather than a change: the volume carried, the throughput, the count of records, accounts, tenants
 or transactions, the money moved. Decide the four kinds FIRST, then write the numbers.
@@ -157,9 +162,17 @@ end to end, setting technical direction, mentoring, being accountable when it br
 with the same specificity you give technology. FLOOR, so this does not vary between candidates: in the
 direct company, AT LEAST TWO bullets show leadership or ownership and AT LEAST ONE shows collaboration with
 product, design or stakeholders; three or four leadership bullets where the JD weights it above the stack.
-Do not bundle them - "led X, mentored Y and ran Z" in one line reads as a list of claims. Collaboration,
-experimentation, on-call and incident response, code review and testing culture all count toward the 80%
-exactly like a named technology.
+Do not bundle them - "led X, mentored Y and ran Z" in one line reads as a list of claims. That ban is about
+stacking CLAIMS, never about technology: a leadership or collaboration bullet still names the stack the work
+ran on, because leading a migration to Terraform and EKS is both. Collaboration, experimentation, on-call
+and incident response, code review and testing culture all count toward the 80% exactly like a named
+technology.
+
+THESE FLOORS ARE ADDITIVE, NOT A BUDGET. Leadership, ownership and collaboration say HOW the candidate
+worked; they never replace WHAT it was built with, and a bullet reserved for one of them is not a bullet
+subtracted from technical coverage. Every bullet in the section, whatever else it is carrying, still names
+the technologies that bullet's work used. A section where the leadership bullets are the vague ones has the
+rule backwards.
 
 Write the direct company FIRST. Then, before writing a consulting bullet, note which supported requirements
 the direct section did not use, and cover those in the engagements before adding anything already covered.
