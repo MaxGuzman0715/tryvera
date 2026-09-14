@@ -4,25 +4,25 @@ Everything above still applies. Cover the same requirements. Change only the sur
 EVERY company, not just the consulting one. A recruiter reads these side by side; the older, more
 distinctive roles are exactly where identical phrasing is noticed.
 
-- Do not reuse any figure below, AND do not reuse its KIND. If another candidate measured a
-  percentage, measure something else: a before/after duration, a throughput, a cost, a count of
-  teams, tenants or checks. Different digits in the same unit still reads as one template: three
-  near-identical percentages sitting in the same slot is the failure this rule exists to stop.
+- Do not reuse any figure below, and do not put the same KIND of figure on the same kind of work.
+  If another candidate measured a percentage on a deployment bullet, measure yours with a duration, a
+  throughput, a cost or a count. Different digits in the same unit still reads as one template: three
+  near-identical percentages sitting in the same slot is the failure this rule exists to stop. Your
+  four figures keep their four different kinds.
 - Do not reuse any phrasing listed below, whatever verb you put in front of it. Swapping the
   opening verb while keeping the rest of the sentence is not variation.
 - Give each company a different NUMBER of bullets than the other candidates did, ordered differently.
 - Where a company has several projects or engagements, tell them in a different ORDER, and open the
-  section with a different one than the other candidates led on. When two candidates are handed the
-  same client industries there is no way to change WHICH engagements they describe, so the order and
-  the angle are the only levers: lead on the engagement the others buried, and frame it around a
-  different part of the work.
+  section with a different one than the other candidates led on. When two candidates share a client
+  industry there is no way to change WHICH engagement they describe, so the angle is the lever: frame
+  it around a different part of the work.
 - Do not close a section the way the other candidates closed theirs, and do not open the summary
   with their wording.
 
 Never invent a product, employer or business domain in order to look different. Vary the telling, not
 the facts.
 
-FIGURES ALREADY USED BY ANOTHER CANDIDATE - do not reuse, and avoid their kind:
+FIGURES ALREADY USED BY ANOTHER CANDIDATE - do not reuse, and avoid their kind on the same work:
 {{FIGURES}}
 
 PHRASINGS ALREADY USED BY ANOTHER CANDIDATE - do not echo, with any verb:

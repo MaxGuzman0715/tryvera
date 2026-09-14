@@ -123,7 +123,7 @@ add it to the bullet whose work would really use it, or write the bullet where i
 CREDIBILITY
 ════════════════════════════════════════════════════════════════
 TECHNICAL COHERENCE. Every bullet must be a combination a working engineer would actually ship. Do not pair
-tools from different ecosystems or attach a term to the wrong technology: Django REST with Alembic
+tools that do not work with each other or attach a term to the wrong technology: Django REST with Alembic
 migrations, MySQL with WAL tuning, Django ORM inside a FastAPI service, Kubernetes with docker-compose. And
 never name TWO COMPETING tools doing the SAME single job in one bullet - "a FastAPI and Django REST service",
 "one event pipeline on Kafka and RabbitMQ" describe a choice nobody makes twice for one component.
@@ -166,7 +166,7 @@ SUMMARY - from the résumé lines only (NOT the JD)
 - Never write the candidate's NAME and never use a third-person pronoun ("he", "she", "they"). Write the
   summary as verb phrases about the role: "Senior Software Engineer who delivers ...", "Builds ...",
   "Leads ...".
-- 2-4 sentences, senior, THIRD PERSON with no first-person pronouns (no "I"/"my"), at the level of
+- 2-4 sentences, senior, with no first-person pronouns either (no "I"/"my"), at the level of
   disciplines and outcomes (no specific stacks/tools). No years-of-experience count, no company count.
   No clichés. Avoid the em dash.
 

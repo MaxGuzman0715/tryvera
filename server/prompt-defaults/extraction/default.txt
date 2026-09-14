@@ -166,13 +166,13 @@ using your domain_scores:
   the requirement ASKS FOR, never on string equality:
     score 3 -> keep about 7-9 of the category's strongest role-relevant items (plus always-keep).
     score 2 -> keep about 4-5 of the category's most role-relevant items (plus always-keep).
-  SIZE LIMITS NEVER REMOVE A JD SKILL. Every count and cap in this section limits only the OTHER items. A
-  skill the JD names, or a category holding one, stays even when that puts the category or the list over
-  its limit; trim the candidate's non-JD items instead.
     score 1 -> normally OMIT the category. Include it, trimmed to its 2-3 strongest items, whenever it
       holds an always-keep skill by the definition above. A category scoring 1 that answers a stated
       qualification is NOT optional: a JD requirement with no matching skill line is a screening failure,
       and it costs far more than one low-relevance category costs in space.
+  SIZE LIMITS NEVER REMOVE A JD SKILL. Every count and cap in this section limits only the OTHER items. A
+  skill the JD names, or a category holding one, stays even when that puts the category or the list over
+  its limit; trim the candidate's non-JD items instead.
 - NAMED TOOLS FIRST, CONCEPTS LAST, AND CONCEPTS ARE WHAT YOU CUT. Inside every category, a thing with a
   NAME - React, PostgreSQL, Kafka, Terraform, pytest, Grafana, pgvector - outranks a practice or a pattern
   - "asynchronous processing", "structured logging", "capacity planning", "schema evolution", "high
