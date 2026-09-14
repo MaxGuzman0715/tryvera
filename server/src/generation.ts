@@ -26,7 +26,7 @@ import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlac
 import { renderTemplatedPdf } from "./templatePdf.js";
 import { stripMarkdownFence, normalizeDashes } from "./markdownToHtml.js";
 import { projectRoot } from "./paths.js";
-import { LOWERCASE_TOOLS, loadJdToolVocabulary, restoreDroppedJdTools } from "./jdTools.js";
+import { isNamedTool, loadJdToolVocabulary, restoreDroppedJdTools, splitTopLevel, trimSkills } from "./jdTools.js";
 import { jstHmsCompact, jstMonthDayUnderscore, nowJstIso } from "./timeJst.js";
 import {
   compactLlmErrorForLog,
@@ -644,30 +644,35 @@ function reconcileSkillsWithBullets(
   // in prose instead pulls in job titles (CTO), plurals of abstractions (UIs), adjectival fragments
   // (CI-driven) and pairs of adjacent tools glued together, and it has nowhere sensible to file any
   // of them. A term the JD names but the profile lacks is extraction's job, not this repair's.
-  const catalogue = new Map<string, { item: string; category: string }>();
+  // `parent` is the vendor group an item sits in ("IAM" inside "AWS (EC2, IAM)"), so it is printed as
+  // "AWS IAM" or filed back inside that group, never as a bare "IAM" or "Batch".
+  const catalogue = new Map<string, { item: string; category: string; parent?: string }>();
+  const addToCatalogue = (item: string, category: string, parent?: string) => {
+    // Practices ("semantic search", "end-to-end", "metrics") are not the named tools a reader checks a
+    // bullet against; isNamedTool is the same test the JD-tool vocabulary uses.
+    if (item.length < 3 || !isNamedTool(item)) return;
+    if (!catalogue.has(item.toLowerCase())) catalogue.set(item.toLowerCase(), { item, category, parent });
+  };
   for (const line of profile.skills) {
     const idx = line.indexOf(":");
     if (idx <= 0) continue;
     const category = line.slice(0, idx).trim();
-    for (const raw of line.slice(idx + 1).split(",")) {
-      const item = raw.replace(/[()]/g, "").trim();
-      // Skip prose entries ("data and prediction drift monitoring") - they are practices, not the
-      // named tools a reader checks a bullet against.
-      if (item.length < 3 || item.length > 30 || item.split(/\s+/).length > 3) continue;
-      // A multi-word phrase in all lower case is a practice, not a product: "semantic search",
-      // "capacity planning", "structured logging". Single lower-case words stay, because plenty of
-      // real tools are spelled that way - pgvector, dbt, pytest, k6, gRPC.
-      if (item.includes(" ") && item === item.toLowerCase()) continue;
-      // Same test as the JD-tool vocabulary: "metrics" and "postmortems" are practices, not tools.
-      if (!/[A-Z0-9.+#/-]/.test(item) && !LOWERCASE_TOOLS.has(item.toLowerCase())) continue;
-      if (!catalogue.has(item.toLowerCase())) catalogue.set(item.toLowerCase(), { item, category });
+    for (const raw of splitTopLevel(line.slice(idx + 1))) {
+      const group = raw.match(/^([^()]+?)\s*\(([^)]*)\)?\s*$/);
+      if (!group) {
+        addToCatalogue(raw.trim(), category);
+        continue;
+      }
+      const head = group[1].trim();
+      addToCatalogue(head, category);
+      for (const inner of group[2].split(/[,;]/)) addToCatalogue(inner.trim(), category, head);
     }
   }
 
   const bulletLow = bulletText.toLowerCase();
   const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const missing: { item: string; category: string }[] = [];
-  for (const { item, category } of catalogue.values()) {
+  const missing: { item: string; category: string; parent?: string }[] = [];
+  for (const { item, category, parent } of catalogue.values()) {
     const low = item.toLowerCase();
     // "Model Registry" is already there when the block says "model registries".
     const forms = [low, `${low}s`, low.replace(/y$/, "ies"), low.replace(/s$/, "")];
@@ -676,7 +681,7 @@ function reconcileSkillsWithBullets(
     const unbranded = low.replace(/^(aws|amazon|azure|google cloud|google|gcp)\s+/, "");
     if (unbranded !== low && new RegExp(`(^|[^a-z0-9])${esc(unbranded)}([^a-z0-9]|$)`).test(listed)) continue;
     if (!new RegExp(`(^|[^a-z0-9])${esc(low)}([^a-z0-9]|$)`).test(bulletLow)) continue;
-    missing.push({ item, category });
+    missing.push({ item, category, parent });
   }
   if (!missing.length) return { skills, added: [] };
 
@@ -685,9 +690,22 @@ function reconcileSkillsWithBullets(
   // Cap the repair: a long tail means something upstream is wrong, and silently pasting twenty
   // terms into the skills block would be worse than the mismatch it fixes.
   const byCategory = new Map<string, string[]>();
-  for (const { item, category } of missing.slice(0, 8)) {
-    byCategory.set(category, [...(byCategory.get(category) ?? []), item]);
-    added.push(item);
+  for (const { item, category, parent } of missing.slice(0, 8)) {
+    // A vendor's service goes inside that vendor's group when the printed block has one ("AWS (S3, IAM)").
+    const groupIdx = parent
+      ? next.findIndex((l) => new RegExp(`(^|[:,]\\s*)${esc(parent)}\\s*\\(`, "i").test(l))
+      : -1;
+    if (parent && groupIdx >= 0) {
+      next[groupIdx] = next[groupIdx].replace(
+        new RegExp(`(${esc(parent)}\\s*\\([^)]*)\\)`, "i"),
+        (_m, open) => `${open}, ${item})`
+      );
+      added.push(`${parent} ${item}`);
+      continue;
+    }
+    const label = parent && !item.toLowerCase().startsWith(parent.toLowerCase()) ? `${parent} ${item}` : item;
+    byCategory.set(category, [...(byCategory.get(category) ?? []), label]);
+    added.push(label);
   }
   for (const [category, items] of byCategory) {
     const target = next.findIndex((l) => l.toLowerCase().startsWith(category.toLowerCase() + ":"));
@@ -753,7 +771,12 @@ function renderResumeFromStructured(
         `missing from the skills block, added: ${reconciled.added.join(", ")}`
     );
   }
-  const skillsSection = `## Skills\n${renderSkillsList(reconciled.skills)}`;
+  // Readable size, never at the cost of a JD technology or a tool the bullets name.
+  const trimmed = trimSkills(reconciled.skills, extraction.jd_tools ?? [], bulletText, 8, 9);
+  if (trimmed.removed.length) {
+    console.log(`[enpply] ${profile.id}: trimmed ${trimmed.removed.length} skills item(s) to keep the block readable`);
+  }
+  const skillsSection = `## Skills\n${renderSkillsList(trimmed.skills)}`;
   const experienceSection = `## Experience\n${expBlocks.join("\n\n")}`;
   const educationSection = `## Education\n${eduBlocks.join("\n")}`;
 
@@ -1464,6 +1487,7 @@ export async function runGeneration(params: {
       });
       extraction.skills = skills;
       jdToolList = tools;
+      extraction.jd_tools = tools;
       if (restored.length) {
         console.log(`[enpply] ${profile.id}: restored JD tools extraction dropped: ${restored.join(", ")}`);
       }

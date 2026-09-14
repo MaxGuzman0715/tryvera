@@ -128,6 +128,8 @@ export type ExtractionResult = {
   domain_scores: DomainScore[];
   /** The role-tailored résumé skills list (categorized strings) built in extraction — ordered/trimmed by domain_scores, JD keywords floated. */
   skills: string[];
+  /** Every known technology the raw JD names, detected in code. Never trimmed out of the skills block. */
+  jd_tools?: string[];
   questions: string[];
   answers: AnswerItem[];
   warnings: string[];

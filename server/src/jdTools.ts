@@ -79,11 +79,20 @@ export function isLanguageCategory(line: string): boolean {
   return items.filter((i) => PROGRAMMING_LANGUAGES.has(i)).length / items.length >= 0.5;
 }
 
+/** Disciplines and practices that profiles write in title case or with hyphens but are not tools. */
+const NOT_TOOLS = new Set([
+  "machine learning", "deep learning", "data science", "artificial intelligence", "computer vision",
+  "natural language processing", "reinforcement learning", "generative ai", "data engineering",
+  "end-to-end", "fine-tuning", "real-time", "multi-tenant", "multi-tenancy", "event-driven", "open-source",
+  "cross-functional", "high-availability", "low-latency", "large-scale", "on-device", "on-call", "a/b testing",
+]);
+
 export function isNamedTool(item: string): boolean {
   if (item.length < 2 || item.length > 30 || item.split(/\s+/).length > 3) return false;
-  // A named tool carries a capital, a digit or a symbol (PyTorch, S3, Next.js); lower-case words are
-  // practices ("caching", "sharding") unless they are known lower-case products.
-  const named = /[A-Z0-9.+#/-]/.test(item) || LOWERCASE_TOOLS.has(item.toLowerCase());
+  if (NOT_TOOLS.has(item.toLowerCase())) return false;
+  // A named tool carries a capital, a digit or a symbol (PyTorch, S3, Next.js, CI/CD); lower-case words
+  // are practices ("caching", "fine-tuning") unless they are known lower-case products.
+  const named = /[A-Z0-9.+#/]/.test(item) || LOWERCASE_TOOLS.has(item.toLowerCase());
   return named && !(item.includes(" ") && item === item.toLowerCase());
 }
 
@@ -304,4 +313,63 @@ export function restoreDroppedJdTools(params: {
     }
   }
   return { restored, skills, tools: tools.map((t) => t.item) };
+}
+
+/**
+ * Keeps the printed skills block to a readable size WITHOUT ever removing a JD technology.
+ * Limits apply only to everything else:
+ *   - at most `maxCategories` lines; a line holding a JD tool is always kept, even past the limit;
+ *   - at most `maxItems` items per line; JD tools always stay, then tools the bullets name, then other
+ *     named tools, and concept phrases ("model evaluation and calibration") are the first to go.
+ * Lines arrive ordered most-relevant-first (extraction orders them by domain score), so later lines and
+ * later items are the ones cut.
+ */
+export function trimSkills(
+  skills: string[],
+  jdTools: string[],
+  bulletText: string,
+  maxCategories = 8,
+  maxItems = 8
+): { skills: string[]; removed: string[] } {
+  const removed: string[] = [];
+  const isJd = (item: string) => jdTools.some((t) => skillsListTool([`x: ${item}`], t));
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const inBullets = (item: string) => {
+    const head = item.replace(/\s*\(.*$/, "").trim();
+    return head.length > 1 && new RegExp(`(^|[^A-Za-z0-9])${esc(head)}([^A-Za-z0-9]|$)`, "i").test(bulletText);
+  };
+  const isConcept = (item: string) => !isNamedTool(item.replace(/\s*\(.*$/, "").trim());
+
+  const lines = skills
+    .map((line) => {
+      const idx = line.indexOf(":");
+      if (idx <= 0) return { line, name: "", items: [] as string[], jd: false };
+      const items = splitTopLevel(line.slice(idx + 1));
+      return { line, name: line.slice(0, idx).trim(), items, jd: items.some(isJd) };
+    });
+
+  // Categories: the first maxCategories, plus any later one that carries a JD tool.
+  let kept = 0;
+  const keptLines = lines.filter((l) => {
+    if (!l.name) return true;
+    if (kept < maxCategories || l.jd) {
+      kept++;
+      return true;
+    }
+    removed.push(`[${l.name}]`);
+    return false;
+  });
+
+  const out = keptLines.map((l) => {
+    if (!l.name || l.items.length <= maxItems) return l.line;
+    const rank = (item: string) => (isJd(item) ? 0 : inBullets(item) ? 1 : isConcept(item) ? 3 : 2);
+    const order = l.items.map((item, i) => ({ item, i, r: rank(item) })).sort((a, b) => a.r - b.r || a.i - b.i);
+    const protectedCount = order.filter((x) => x.r === 0).length;
+    const limit = Math.max(maxItems, protectedCount);
+    const keep = new Set(order.slice(0, limit).map((x) => x.i));
+    for (const x of order.slice(limit)) removed.push(x.item);
+    // Print in the original order so the most relevant items still lead.
+    return `${l.name}: ${l.items.filter((_, i) => keep.has(i)).join(", ")}`;
+  });
+  return { skills: out, removed };
 }
