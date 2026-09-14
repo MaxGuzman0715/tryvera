@@ -26,6 +26,7 @@ import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlac
 import { renderTemplatedPdf } from "./templatePdf.js";
 import { stripMarkdownFence, normalizeDashes } from "./markdownToHtml.js";
 import { projectRoot } from "./paths.js";
+import { LOWERCASE_TOOLS, loadJdToolVocabulary, restoreDroppedJdTools } from "./jdTools.js";
 import { jstHmsCompact, jstMonthDayUnderscore, nowJstIso } from "./timeJst.js";
 import {
   compactLlmErrorForLog,
@@ -583,8 +584,40 @@ function renderSkillsList(skills: string[]): string {
  * carrying a comma or a decimal point is left untouched.
  */
 function groupThousands(text: string): string {
-  return text.replace(/(?<![\d,.])\d{5,}(?![\d,.])/g, (n) => n.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  // Standard and document numbers are identifiers, not quantities: ISO 27001, IEC 62443, RFC 7519.
+  return text.replace(
+    /(?<![\d,.])(?<!\b(?:ISO|IEC|RFC|NIST|SP|EN|IEEE|ISO\/IEC)[\s-]?)\d{5,}(?![\d,.])/g,
+    (n) => n.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  );
 }
+
+/**
+ * A random pair from the batch pool, in random order. Pairs an earlier profile already took are
+ * skipped until every pair has been used; among the rest, the pair sharing least with the most
+ * recent one wins, so neighbouring résumés differ most.
+ */
+function pickIndustryPair(pool: string[], used: string[][]): string[] {
+  const shuffle = <T,>(a: T[]) => [...a].sort(() => Math.random() - 0.5);
+  if (pool.length <= 2) return shuffle(pool);
+  const key = (p: string[]) => [...p].map((s) => s.toLowerCase()).sort().join("|");
+  const all: string[][] = [];
+  for (let i = 0; i < pool.length; i++) for (let j = i + 1; j < pool.length; j++) all.push([pool[i], pool[j]]);
+  const usedKeys = new Set(used.map(key));
+  let candidates = all.filter((p) => !usedKeys.has(key(p)));
+  if (!candidates.length) candidates = all;
+  // Every ordering of every candidate pair, so the lead industry is chosen along with the pair.
+  const leads = new Set(used.map((p) => (p[0] ?? "").toLowerCase()));
+  let ordered = candidates.flatMap((p) => [p, [p[1], p[0]]]);
+  const freshLead = ordered.filter((p) => !leads.has(p[0].toLowerCase()));
+  if (freshLead.length) ordered = freshLead;
+  // Among those, share as little as possible with the most recent profile's pair.
+  const last = used[used.length - 1] ?? [];
+  const overlap = (p: string[]) => p.filter((s) => last.some((l) => l.toLowerCase() === s.toLowerCase())).length;
+  const best = Math.min(...ordered.map(overlap));
+  const finalists = shuffle(ordered.filter((p) => overlap(p) === best));
+  return finalists[0];
+}
+
 
 /**
  * A technology named in a bullet but absent from the printed Skills block reads as padding: the
@@ -625,6 +658,8 @@ function reconcileSkillsWithBullets(
       // "capacity planning", "structured logging". Single lower-case words stay, because plenty of
       // real tools are spelled that way - pgvector, dbt, pytest, k6, gRPC.
       if (item.includes(" ") && item === item.toLowerCase()) continue;
+      // Same test as the JD-tool vocabulary: "metrics" and "postmortems" are practices, not tools.
+      if (!/[A-Z0-9.+#/-]/.test(item) && !LOWERCASE_TOOLS.has(item.toLowerCase())) continue;
       if (!catalogue.has(item.toLowerCase())) catalogue.set(item.toLowerCase(), { item, category });
     }
   }
@@ -634,7 +669,12 @@ function reconcileSkillsWithBullets(
   const missing: { item: string; category: string }[] = [];
   for (const { item, category } of catalogue.values()) {
     const low = item.toLowerCase();
-    if (listed.includes(low)) continue;
+    // "Model Registry" is already there when the block says "model registries".
+    const forms = [low, `${low}s`, low.replace(/y$/, "ies"), low.replace(/s$/, "")];
+    if (forms.some((f) => f && listed.includes(f))) continue;
+    // "AWS S3" is already there when the block lists "AWS (S3, Lambda)".
+    const unbranded = low.replace(/^(aws|amazon|azure|google cloud|google|gcp)\s+/, "");
+    if (unbranded !== low && new RegExp(`(^|[^a-z0-9])${esc(unbranded)}([^a-z0-9]|$)`).test(listed)) continue;
     if (!new RegExp(`(^|[^a-z0-9])${esc(low)}([^a-z0-9]|$)`).test(bulletLow)) continue;
     missing.push({ item, category });
   }
@@ -762,6 +802,8 @@ async function buildResumeDoc(params: {
   sharedProjects: SharedProject[];
   /** The role-tailored, ordered/trimmed skills list — now built in the extraction step. */
   skills: string[];
+  /** Every known technology the raw JD names, detected in code; the writer's coverage checklist. */
+  jdTools?: string[];
   resumePrompt: string;
   resumeLlm: LlmRuntimeConfig;
   verbose: VerboseRunLogger | null;
@@ -854,6 +896,9 @@ async function buildResumeDoc(params: {
     // without it the model named technologies the candidate never listed while the Skills
     // block omitted ones the bullets were built on.
     candidate_skills: skillsOut,
+    // Detected from the raw JD in code, so a tool the extraction rewrite dropped or hedged is still on
+    // the writer's checklist.
+    ...(params.jdTools?.length ? { jd_tools: params.jdTools } : {}),
     // Per-company shape. An explicit `consulting` flag tells the model which is which:
     //   consulting        — true = consulting/client-services employer, false = the candidate's own role.
     //   reframed_jd       — this company's JD angle (variation A for the anchor, B for consulting).
@@ -1145,6 +1190,15 @@ export async function runGeneration(params: {
    * different pairs of client engagements. Ignored when it would leave fewer than 2 left.
    */
   avoidIndustries?: string[];
+  /**
+   * Batch runs only. The batch shares ONE pool of the 3-4 industries most relevant to the job
+   * (ranked by the first profile's extraction), and each profile gets a random pair from it.
+   * `industryPool` absent + `batchIndustries` true = this is the first profile: rank the pool.
+   */
+  batchIndustries?: boolean;
+  industryPool?: string[];
+  /** Pairs earlier profiles in the batch already took, so a pair repeats only once all are used. */
+  usedIndustryPairs?: string[][];
   /** Per-run reasoning effort; unset falls back to ENPPLY_REASONING_EFFORT. */
   reasoningEffort?: ReasoningEffort;
   folderProfileSegment?: string;
@@ -1259,7 +1313,12 @@ export async function runGeneration(params: {
   const remainingIndustries = avoidedIndustries.size
     ? industryNames.filter((n) => !avoidedIndustries.has(n.toLowerCase()))
     : industryNames;
-  const selectableIndustries = remainingIndustries.length >= 2 ? remainingIndustries : industryNames;
+  // A batch pool fixed by an earlier profile replaces the whole option list.
+  const batchPool = (params.industryPool ?? [])
+    .map((n) => industryNames.find((x) => x.toLowerCase() === String(n ?? "").trim().toLowerCase()))
+    .filter((n): n is string => Boolean(n));
+  const selectableIndustries =
+    batchPool.length >= 2 ? batchPool : remainingIndustries.length >= 2 ? remainingIndustries : industryNames;
   if (avoidedIndustries.size) {
     console.log(
       `[enpply] ${profile.id}: ${avoidedIndustries.size} industry(ies) taken by earlier profiles; ` +
@@ -1268,8 +1327,10 @@ export async function runGeneration(params: {
     );
   }
   const industriesBlock = selectableIndustries.length
-    ? `\n\nClient-industry options (pick the 2 most relevant to this role, by exact name):\n${selectableIndustries.join("\n")}`
+    ? `\n\nClient-industry options (rank the most relevant to this role, by exact name):\n${selectableIndustries.join("\n")}`
     : "";
+  let industryRanking: string[] = [];
+  let jdToolList: string[] = [];
   /** Full JD + link + apply form + skill domains + industry options — used only for the extraction step. */
   const jdBlock =
     (wantAnyAnswers
@@ -1340,20 +1401,30 @@ export async function runGeneration(params: {
     // de-duped, capped at 2. Guarantees every selected industry resolves to a summary.
     {
       const byLower = new Map(selectableIndustries.map((n) => [n.toLowerCase(), n]));
-      const picked: string[] = [];
+      const ranked: string[] = [];
       for (const raw of Array.isArray(extraction.industries) ? extraction.industries : []) {
         const match = byLower.get(String(raw ?? "").trim().toLowerCase());
-        if (match && !picked.includes(match)) picked.push(match);
-        if (picked.length === 2) break;
+        if (match && !ranked.includes(match)) ranked.push(match);
+        if (ranked.length === 4) break;
       }
-      // The model can return fewer than 2, or names outside the offered set (it does this on
+      // The model can return fewer than asked, or names outside the offered set (it does this on
       // the placeholder-extraction fallback path). Backfill in pool order so the consulting
       // section never renders with a missing engagement.
+      const want = params.batchIndustries ? Math.min(4, Math.max(3, ranked.length)) : 2;
       for (const n of selectableIndustries) {
-        if (picked.length === 2) break;
-        if (!picked.includes(n)) picked.push(n);
+        if (ranked.length >= want) break;
+        if (!ranked.includes(n)) ranked.push(n);
       }
-      extraction.industries = picked;
+      if (params.batchIndustries) {
+        const pool = batchPool.length >= 2 ? batchPool : ranked.slice(0, 4);
+        industryRanking = pool;
+        extraction.industries = pickIndustryPair(pool, params.usedIndustryPairs ?? []);
+        console.log(
+          `[enpply] ${profile.id}: batch industry pool [${pool.join(", ")}] -> assigned [${extraction.industries.join(", ")}]`
+        );
+      } else {
+        extraction.industries = ranked.slice(0, 2);
+      }
     }
     extraction.rare_nice_to_haves = Array.isArray(extraction.rare_nice_to_haves)
       ? extraction.rare_nice_to_haves.map((s) => String(s).trim()).filter(Boolean)
@@ -1380,7 +1451,23 @@ export async function runGeneration(params: {
     extraction.skills =
       Array.isArray(extraction.skills) && extraction.skills.length
         ? extraction.skills.map((s) => String(s).trim()).filter(Boolean)
-        : profile.skills;
+        : [...profile.skills];
+    {
+      const vocab = await loadJdToolVocabulary(path.join(projectRoot(), "Experiment", "bullets"));
+      const { restored, skills, tools } = restoreDroppedJdTools({
+        jd: job_description,
+        variations: extraction.variations ?? [],
+        skills: extraction.skills,
+        profileSkills: profile.skills,
+        usesConsulting: profile.experience.slice(0, 2).some((e) => e.consulting),
+        vocab,
+      });
+      extraction.skills = skills;
+      jdToolList = tools;
+      if (restored.length) {
+        console.log(`[enpply] ${profile.id}: restored JD tools extraction dropped: ${restored.join(", ")}`);
+      }
+    }
     const seenReq = new Set<string>();
     const unionReqs: string[] = [];
     for (const v of extraction.variations) {
@@ -1637,6 +1724,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
         industries: extraction.industries,
         sharedProjects,
         skills: extraction.skills,
+        jdTools: jdToolList,
         resumePrompt: await withBatchVariation(prompts.resume, params.avoidFigures, params.avoidFrames),
         resumeLlm: withEffort(resolveStepModel("resume", tierSettings, llmTiers)),
         verbose,
@@ -1894,6 +1982,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
     ...(resumeMd.trim() ? { resume_markdown: resumeMd } : {}),
     // Batch runs read this back to tell the next candidate which industries are spent.
     ...(extraction.industries.length ? { client_industries: [...extraction.industries] } : {}),
+    ...(industryRanking.length ? { industry_pool: [...industryRanking] } : {}),
     // Persist the application-form text (extension page text / dashboard "Apply
     // form" field). Preserve the prior value on a rerun that doesn't pass one.
     ...(() => {

@@ -2160,10 +2160,11 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
       // ones used, so three résumés for one job stop reading as one template.
       const usedFigures: string[] = [];
       const usedFrames: string[] = [];
-      // Client industries spent by earlier profiles. Unlike figures and frames — which are
-      // discouraged in the résumé prompt — these are withheld from the extractor's options
-      // list, so the shared engagement pool cannot hand two candidates the same client.
-      const usedIndustries: string[] = [];
+      // Client industries: the first profile's extraction ranks the 3-4 industries most relevant
+      // to this job, and that pool is shared by the whole batch. Every profile gets a random pair
+      // from it; a pair repeats only after all pairs are used.
+      let industryPool: string[] = [];
+      const usedIndustryPairs: string[][] = [];
 
       for (const p of planned) {
         const verboseLog = await createVerboseLogger(p.appId);
@@ -2207,7 +2208,9 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
                 { avoidFigures: [...usedFigures] })
               : {}),
             ...(usedFrames.length ? { avoidFrames: [...usedFrames] } : {}),
-            ...(usedIndustries.length ? { avoidIndustries: [...usedIndustries] } : {}),
+            batchIndustries: true,
+            ...(industryPool.length ? { industryPool: [...industryPool] } : {}),
+            ...(usedIndustryPairs.length ? { usedIndustryPairs: usedIndustryPairs.map((p) => [...p]) } : {}),
             ...(sharedFolderAbs
               ? {
                   reuseFolder: {
@@ -2235,13 +2238,12 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
           // Reserve this candidate's client industries before the résumé check below: the
           // consulting section is chosen during extraction, so it is spent even on a run
           // that produced no résumé markdown.
-          for (const ind of result.client_industries ?? []) {
-            if (ind && !usedIndustries.includes(ind)) usedIndustries.push(ind);
-          }
+          if (!industryPool.length && result.industry_pool?.length) industryPool = [...result.industry_pool];
           if (result.client_industries?.length) {
+            usedIndustryPairs.push([...result.client_industries]);
             console.log(
-              `[enpply] batch=${batchId} ${p.profileId} took [${result.client_industries.join(", ")}]; ` +
-                `${usedIndustries.length} industry(ies) now reserved.`
+              `[enpply] batch=${batchId} ${p.profileId} took [${result.client_industries.join(", ")}] ` +
+                `from pool [${industryPool.join(", ")}].`
             );
           }
 

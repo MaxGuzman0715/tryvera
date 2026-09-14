@@ -222,6 +222,8 @@ export type ResultJson = {
    * job should describe three different pairs of client engagements, not the same two.
    */
   client_industries?: string[];
+  /** Batch runs: the ranked 3-4 industries the whole batch draws its pairs from. */
+  industry_pool?: string[];
   /**
    * Full text of the application/apply-form page this run is tied to — separate
    * from the JD. Captured by the extension's Q&A (the page the questions are
