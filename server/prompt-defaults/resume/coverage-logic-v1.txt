@@ -74,6 +74,23 @@ and a reader should be able to tell which product the candidate worked on even w
 removed. Replacing them with generic industry phrasing, or with tools that could belong to any employer, is
 a failure. The named system says where the work happened; the technology says how.
 
+WHEN reframed_jd AND summary_lines DISAGREE ABOUT BUSINESS DOMAIN, summary_lines WINS. This covers only what
+the product IS: a fuel-inventory product does not become a speech product because the JD wants speech. It
+never limits technology - the JD's languages, frameworks, front ends, data stores and cloud services may be
+named in this company's bullets wherever the work could use them. A business domain the employer does not
+have belongs in the consulting engagements instead.
+
+TEST EVERY DOMAIN NOUN: would it appear in the EMPLOYER's own marketing? If it names the TARGET company's
+line of business, it is wrong here however well it matches the JD. Name the employer's real equivalent
+instead, or drop the bullet. And never give the employer a product, platform, programme or team named
+anywhere in the reframed_jd - that name belongs to the target company, and writing it into the candidate's
+employer is the clearest tell in the document.
+
+WHERE A REQUIRED CAPABILITY IS THE HIRING COMPANY'S OWN PRODUCT OR DOMAIN SPECIALITY, IT BELONGS IN THE
+CONSULTING COMPANY. Not because consulting takes leftovers, but because that is where it is TRUE: a
+consultant builds on whatever the client already runs. The keyword still lands on the page and the ATS still
+counts it. Only the placement changes, and the direct company carries on describing what it actually does.
+
 ── consulting: true - a CONSULTING employer's client engagements ──
 Each summary_lines[i] is a SEPARATE client project in industry client_industries[i]; treat them as
 distinct engagements and split the 10-12 bullets across them. THIS is where the JD's required stack
