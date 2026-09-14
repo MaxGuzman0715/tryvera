@@ -164,7 +164,7 @@ using your domain_scores:
   always-keep even though no tool is named; "an observability platform" makes Datadog, Grafana and
   Prometheus always-keep; "infrastructure-as-code" makes Terraform and Pulumi always-keep. Match on what
   the requirement ASKS FOR, never on string equality:
-    score 3 -> keep about 7-9 of the category's strongest role-relevant items (plus always-keep).
+    score 3 -> keep about 8-10 of the category's strongest role-relevant items (plus always-keep).
     score 2 -> keep about 4-5 of the category's most role-relevant items (plus always-keep).
     score 1 -> normally OMIT the category. Include it, trimmed to its 2-3 strongest items, whenever it
       holds an always-keep skill by the definition above. A category scoring 1 that answers a stated
@@ -205,21 +205,17 @@ using your domain_scores:
   THIS role. Prioritize languages explicitly required by the JD, then the candidate's strongest
   complementary languages. Frameworks, APIs, databases, and other technologies in the same category
   do NOT count toward this 6-7 programming-language limit.
-- CATEGORY COUNT: return 7 categories, or all of them when the candidate has fewer than 7. 7 is a target to
-  fill, not a ceiling to stay under, and never return fewer when 7 are available.
-  GO TO 8 OR 9 RATHER THAN DROP A CATEGORY THAT HOLDS A JD-NAMED TECHNOLOGY. Coverage outranks the count.
-  When the candidate has a category carrying a language, framework, datastore, test runner or tool the JD
-  names, that category KEEPS ITS SLOT even if its score is low, and the list runs to 8 or 9 to fit it.
+- CATEGORY COUNT, in this order:
+  1. Take EVERY category that holds a JD-named skill (after rule (b) has filed the JD's technologies).
+  2. If that is fewer than 7, add the most relevant other categories, by score, until there are 7. The
+     candidate's own discipline category (see below) is the first one added.
+  3. If it is already 7 or more, return only those; add no other category.
   A JD asking for React/TypeScript front-ends, Node.js and Python, PostgreSQL and pytest needs the
-  candidate's own frontend line, languages line, database line and testing line - dropping any of them to
-  hold a count of 7 deletes a requirement the candidate genuinely meets, which is the most expensive thing
-  this step can do.
-  NEVER INVENT A CATEGORY TO CREATE ROOM. The extra slots may only be filled by categories that already
-  exist in the candidate's own skills, under their exact existing names. A label the candidate never wrote,
-  or a line assembled to hold leftover JD keywords, reads as padding and is worse than the omission.
-  Fill the slots strictly by score: every score-3 category first, then score-2 in order, then score-1 only
-  if slots remain. Count the categories you are returning before you finish; stopping at 5 or 6 while a
-  scored category sits unused wastes a slot the candidate paid for.
+  candidate's own frontend line, languages line, database line and testing line - dropping any of them
+  deletes a requirement the candidate genuinely meets, which is the most expensive thing this step can do.
+  NEVER INVENT A CATEGORY TO CREATE ROOM. Only categories that already exist in the candidate's own
+  skills, under their exact existing names, may be returned. A label the candidate never wrote, or a line
+  assembled to hold leftover JD keywords, reads as padding and is worse than the omission.
   NEVER RETURN THE SAME CATEGORY NAME TWICE. If two lines would carry the same label, merge their items
   into one line and return one fewer — six real categories beat seven with a repeat.
   TIE-BREAK. When two categories share a score and only one slot is left, the one that answers a stated
@@ -227,12 +223,13 @@ using your domain_scores:
   tooling" makes the Generative AI category beat an equally-scored category the JD never asks about.
 - NEVER let this limit discard a skill the JD explicitly requires: if a category you are cutting holds an
   always-keep skill, move that skill into the closest surviving category instead of dropping it.
-- NEVER cut the category that IS the candidate's own discipline, whatever its score. Read their title: a
+- The category that IS the candidate's own discipline is the FIRST one added in CATEGORY COUNT step 2,
+  whatever its score (when JD categories already reach 7, it usually holds a JD skill itself). Read their title: a
   "Data Scientist" or "ML Engineer" keeps the machine-learning category, a "Frontend Engineer" keeps the
   frontend one, a "Data Engineer" keeps the data category. Dropping it because this particular JD leans
   elsewhere makes the resume contradict its own header, which is worse than one weak category: a Staff Data
   Scientist whose skills list no PyTorch, TensorFlow, scikit-learn or model serving reads as mislabeled.
-  Trim that category hard if the role does not need it, to its 2-3 strongest entries, but keep it.
+  Trim that category hard if the role does not need it, to its 2-3 strongest entries, but add it.
   A GENERATIVE-AI CATEGORY DOES NOT SUBSTITUTE FOR THE ML STACK. "LLMs, RAG, embeddings, LangChain" is not
   machine learning experience; it is API usage. For any Data Scientist, ML Engineer, MLOps or ML Platform
   title, the surviving discipline category MUST name actual model frameworks (PyTorch, TensorFlow,

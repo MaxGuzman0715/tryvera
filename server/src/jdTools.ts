@@ -318,18 +318,32 @@ export function restoreDroppedJdTools(params: {
 /**
  * Keeps the printed skills block to a readable size WITHOUT ever removing a JD technology.
  * Limits apply only to everything else:
- *   - at most `maxCategories` lines; a line holding a JD tool is always kept, even past the limit;
+ *   - categories holding a JD skill are kept first; if there are fewer than `targetCategories`, the most
+ *     relevant other categories fill up to it, and if there are that many or more, nothing else is added;
  *   - at most `maxItems` items per line; JD tools always stay, then tools the bullets name, then other
  *     named tools, and concept phrases ("model evaluation and calibration") are the first to go.
  * Lines arrive ordered most-relevant-first (extraction orders them by domain score), so later lines and
  * later items are the ones cut.
  */
+/** The skills domain a job title belongs to, so that category is the first one topped up. */
+export function disciplineDomain(title: string): Domain | null {
+  const t = title.toLowerCase();
+  if (/mlops|ml platform/.test(t)) return "mlops";
+  if (/machine learning|\bml\b|\bai\b|data scien|deep learning/.test(t)) return "ml";
+  if (/data engineer|analytics engineer/.test(t)) return "data";
+  if (/front-?end|ui engineer/.test(t)) return "frontend";
+  if (/back-?end/.test(t)) return "backend";
+  if (/devops|platform|infrastructure|site reliability|\bsre\b|cloud/.test(t)) return "cloud";
+  return null;
+}
+
 export function trimSkills(
   skills: string[],
   jdTools: string[],
   bulletText: string,
-  maxCategories = 8,
-  maxItems = 8
+  targetCategories = 7,
+  maxItems = 9,
+  discipline: Domain | null = null
 ): { skills: string[]; removed: string[] } {
   const removed: string[] = [];
   const isJd = (item: string) => jdTools.some((t) => skillsListTool([`x: ${item}`], t));
@@ -348,14 +362,23 @@ export function trimSkills(
       return { line, name: line.slice(0, idx).trim(), items, jd: items.some(isJd) };
     });
 
-  // Categories: the first maxCategories, plus any later one that carries a JD tool.
-  let kept = 0;
-  const keptLines = lines.filter((l) => {
-    if (!l.name) return true;
-    if (kept < maxCategories || l.jd) {
-      kept++;
-      return true;
-    }
+  // Categories: every one that carries a JD skill comes first. Fewer than `targetCategories` of those?
+  // Top up with the most relevant other categories until the total reaches the target. That many or
+  // more already? No other category is added. Printed order stays most-relevant-first.
+  const jdCount = lines.filter((l) => l.name && l.jd).length;
+  const topUp = Math.max(0, targetCategories - jdCount);
+  // The candidate's own discipline category is the first top-up, then the most relevant others.
+  const candidates = lines
+    .map((l, i) => ({ l, i }))
+    .filter(({ l }) => l.name && !l.jd)
+    .sort((a, b) => {
+      const da = discipline && categoryDomain(a.l.name) === discipline ? 0 : 1;
+      const db = discipline && categoryDomain(b.l.name) === discipline ? 0 : 1;
+      return da - db || a.i - b.i;
+    });
+  const toppedUp = new Set(candidates.slice(0, topUp).map((c) => c.i));
+  const keptLines = lines.filter((l, i) => {
+    if (!l.name || l.jd || toppedUp.has(i)) return true;
     removed.push(`[${l.name}]`);
     return false;
   });

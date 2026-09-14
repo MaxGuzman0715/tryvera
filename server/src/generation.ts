@@ -26,7 +26,7 @@ import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlac
 import { renderTemplatedPdf } from "./templatePdf.js";
 import { stripMarkdownFence, normalizeDashes } from "./markdownToHtml.js";
 import { projectRoot } from "./paths.js";
-import { isNamedTool, loadJdToolVocabulary, restoreDroppedJdTools, splitTopLevel, trimSkills } from "./jdTools.js";
+import { disciplineDomain, isNamedTool, loadJdToolVocabulary, restoreDroppedJdTools, splitTopLevel, trimSkills } from "./jdTools.js";
 import { jstHmsCompact, jstMonthDayUnderscore, nowJstIso } from "./timeJst.js";
 import {
   compactLlmErrorForLog,
@@ -772,7 +772,7 @@ function renderResumeFromStructured(
     );
   }
   // Readable size, never at the cost of a JD technology or a tool the bullets name.
-  const trimmed = trimSkills(reconciled.skills, extraction.jd_tools ?? [], bulletText, 8, 9);
+  const trimmed = trimSkills(reconciled.skills, extraction.jd_tools ?? [], bulletText, 7, 10, disciplineDomain(profile.basic.title ?? ""));
   if (trimmed.removed.length) {
     console.log(`[enpply] ${profile.id}: trimmed ${trimmed.removed.length} skills item(s) to keep the block readable`);
   }
