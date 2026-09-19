@@ -1,0 +1,62 @@
+{
+  "id": "michelle_ezeanyim",
+  "basic": {
+    "fullName": "Michelle Ezeanyim",
+    "title": "Clinical Data Analyst",
+    "email": "chinonyelumezeanyim@gmail.com",
+    "location": "Cypress, TX, United States",
+    "linkedin": "https://www.linkedin.com/in/ezeanyim-michelle-3185b5401"
+  },
+  "experience": [
+    {
+      "company": "KODEX",
+      "title": "Data Analyst (Part-time, Remote)",
+      "startDate": "Jan 2025",
+      "endDate": "Present",
+      "location": "Remote",
+      "bullets": [
+        "Analyze client datasets for health facilities, schools and small businesses across South East Nigeria, taking raw records from collection through cleaning, analysis and a finished report the client can act on.",
+        "Clean and validate messy operational data in Excel and SQL, resolving duplicates, inconsistent spellings and missing fields, and documenting every correction so results can be traced back to the source record.",
+        "Build Power BI dashboards that track attendance, enrolment, service volume and program outcomes, replacing manual spreadsheet summaries clients previously assembled by hand each month.",
+        "Categorize and label free-text records such as patient complaints, service feedback and survey responses against written definitions, turning unstructured text into counts a manager can compare over time.",
+        "Review health-facility records with a clinician's eye, catching values that are technically valid but clinically implausible and flagging them for correction before they reach a report.",
+        "Write the data definitions, quality checks and reporting guides behind each project, so the same metric is counted the same way across clients and reporting periods.",
+        "Support KODEX's data analysis training cohorts, reviewing trainees' Excel and SQL work, explaining errors and running practice sessions on cleaning and visualizing real datasets.",
+        "Present findings to non-technical stakeholders in plain language, recommending the specific operational change each result points to rather than delivering charts alone."
+      ]
+    },
+    {
+      "company": "HCA Houston Healthcare North Cypress",
+      "title": "Patient Care Technician",
+      "startDate": "Mar 2026",
+      "endDate": "Present",
+      "location": "Cypress, TX",
+      "bullets": [
+        "Provide direct care to adult inpatients under the direction of registered nurses, assisting with mobility, repositioning, hygiene, feeding and other activities of daily living.",
+        "Measure and record vital signs, intake and output, weights and blood glucose readings, keeping electronic health record documentation accurate and complete for the care team.",
+        "Recognize and promptly escalate changes in a patient's condition, pain or behaviour to the assigned nurse, applying nursing training to judge what needs attention now.",
+        "Follow infection-control, fall-prevention and patient-safety protocols and take part in unit safety rounds, handling protected health information in line with HIPAA.",
+        "Communicate clearly and patiently with patients and families, explaining care steps and relaying their concerns to the nursing team."
+      ]
+    }
+  ],
+  "skills": [
+    "Data Analysis & Reporting: Microsoft Excel (pivot tables, XLOOKUP, conditional formatting, charts), data cleaning and validation, descriptive statistics, trend and KPI analysis, ad-hoc and recurring reporting, data documentation",
+    "SQL & Databases: SQL (joins, aggregations, subqueries, filtering), MySQL, PostgreSQL basics, querying and preparing data for reporting",
+    "Data Visualization & BI: Power BI (dashboards, Power Query, DAX basics), Google Sheets, Looker Studio basics, presenting findings to non-technical stakeholders",
+    "Programming: Python basics (pandas, NumPy, Matplotlib), Jupyter Notebook",
+    "Data Quality & Annotation: labeling and categorizing free-text records, writing and applying labeling definitions, consistency and accuracy review, error detection, attention to detail",
+    "Clinical & Healthcare Knowledge: nursing training, patient care, vital signs and clinical observation, medical terminology, EHR documentation and charting, recognizing clinical deterioration, infection control and patient safety, HIPAA and PHI confidentiality",
+    "Communication & Service: customer relationship management (CRM), personal assistance, patient and family communication, stakeholder communication, training and peer support, teamwork with clinical staff"
+  ],
+  "education": [
+    {
+      "school": "College of Nursing Sciences, Adazi-Nnukwu",
+      "degree": "National Diploma",
+      "field": "Nursing",
+      "startDate": "2021",
+      "endDate": "2024"
+    }
+  ],
+  "note": "Aligned to Michelle's LinkedIn profile (KODEX Data Analyst; HCA Houston Healthcare North Cypress Patient Care Technician, Mar 2026 - Present; nursing diploma Dec 2024) with basic info from Info.txt. KODEX start date (Jan 2025), its part-time remote status and the 2021 diploma start year are inferred, not stated on LinkedIn - confirm with her. Federal Science and Technical College, Awka is a secondary school and is left off. The software-engineering mock-interview profile is michelle_ezeanyim_swe.json."
+}
