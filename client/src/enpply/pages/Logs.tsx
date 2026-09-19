@@ -18,6 +18,7 @@ import { getAutoDownloadRecord } from "../autoDownload";
 import { useAuth } from "../auth/AuthContext";
 import CopyButton from "../components/CopyButton";
 import { downloadApplicationsCsv, filterForCsv } from "../resultsCsv";
+import { findFoldersByLinks, NOT_FOUND } from "../folderLookup";
 import { IconList } from "../../ui/icons";
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -72,6 +73,8 @@ export default function Logs() {
   const [sorting, setSorting] = useState<SortingState>([{ id: "created_at", desc: true }]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => readStoredColumnVisibility());
   const [csvOpen, setCsvOpen] = useState(false);
+  const [linksOpen, setLinksOpen] = useState(false);
+  const [linksInput, setLinksInput] = useState("");
   const [csvProfile, setCsvProfile] = useState("");
   const [csvFrom, setCsvFrom] = useState("");
   const [csvTo, setCsvTo] = useState("");
@@ -592,6 +595,9 @@ export default function Logs() {
         <button type="button" className="btn small" onClick={() => setCsvOpen((v) => !v)}>
           {csvOpen ? "Close export" : "Export CSV"}
         </button>
+        <button type="button" className="btn small" onClick={() => setLinksOpen((v) => !v)}>
+          {linksOpen ? "Close folder finder" : "Find folders by links"}
+        </button>
         {csvOpen && (
           <>
             <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
@@ -635,6 +641,7 @@ export default function Logs() {
           </>
         )}
       </div>
+      {linksOpen && <FolderFinder rows={rows} input={linksInput} onInput={setLinksInput} />}
       {isAdmin && (
         <div
           className="actions"
@@ -857,5 +864,84 @@ export default function Logs() {
         </button>
       </div>
     </>
+  );
+}
+
+/**
+ * Paste a sheet column of job links; get back the matching output-folder names in the same order,
+ * one per line (blank rows stay blank), to paste straight into the column beside the links.
+ */
+function FolderFinder({
+  rows,
+  input,
+  onInput,
+}: {
+  rows: ApplicationLogEntry[];
+  input: string;
+  onInput: (value: string) => void;
+}) {
+  const result = useMemo(() => findFoldersByLinks(input, rows), [input, rows]);
+  const flagged = result.lines
+    .map((l, i) => ({ ...l, row: i + 1 }))
+    .filter((l) => l.link && (l.folder === NOT_FOUND || l.olderCount > 0 || l.repeated));
+  return (
+    <div className="card" style={{ marginTop: "0.4rem", marginBottom: "0.8rem", padding: "0.8rem" }}>
+      <p className="sub" style={{ marginTop: 0 }}>
+        Paste the links column from your sheet (blank rows are fine). Each line on the right is the folder for the link
+        on the same line; paste it into the column next to the links and search it in the output folder.
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(18rem, 1fr))", gap: "0.6rem" }}>
+        <label className="mono" style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+          Job links
+          <textarea
+            value={input}
+            onChange={(e) => onInput(e.target.value)}
+            rows={14}
+            spellCheck={false}
+            placeholder="https://job-boards.greenhouse.io/..."
+            style={{ width: "100%", fontFamily: "inherit", whiteSpace: "pre", overflowX: "auto" }}
+          />
+        </label>
+        <label className="mono" style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+          Folders (same order)
+          <textarea
+            readOnly
+            value={result.text}
+            rows={14}
+            spellCheck={false}
+            style={{ width: "100%", fontFamily: "inherit", whiteSpace: "pre", overflowX: "auto" }}
+          />
+        </label>
+      </div>
+      <div className="actions" style={{ marginTop: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
+        <CopyButton text={result.text} label="Copy folders" className="btn small primary" disabled={!result.text.trim()} />
+        <span className="sub mono" style={{ fontSize: "0.78rem" }}>
+          {result.matched} matched · {result.notFound} not found · {result.repeated} repeated link
+          {result.repeated === 1 ? "" : "s"}
+        </span>
+        {input && (
+          <button type="button" className="btn small" onClick={() => onInput("")}>
+            Clear
+          </button>
+        )}
+      </div>
+      {flagged.length > 0 && (
+        <ul className="sub" style={{ margin: "0.5rem 0 0", paddingLeft: "1.1rem", fontSize: "0.78rem" }}>
+          {flagged.map((l) => (
+            <li key={l.row}>
+              Row {l.row}:{" "}
+              {l.folder === NOT_FOUND
+                ? "no generated folder for this link"
+                : [
+                    l.repeated ? "same posting as an earlier row" : "",
+                    l.olderCount > 0 ? `generated ${l.olderCount + 1} times, newest folder shown` : "",
+                  ]
+                    .filter(Boolean)
+                    .join("; ")}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
