@@ -112,10 +112,14 @@ engagement's FIRST bullet with a master line naming the client as a startup in i
 startup client, ..." / "Delivered <what> for an <industry> startup client, ...". Use the industry from
 client_industries[i] - never a real company name.
 
-NAME THE CLIENT ONCE PER ENGAGEMENT AND NEVER AGAIN. That master line is the ONLY bullet where "startup
-client" or the industry may appear. Ten bullets each ending "for the B2B SaaS startup client" is the most
-obvious mark of generated writing a résumé can carry. Where a later bullet needs a subject, name the system
-or the surface being built.
+NAME THE CLIENT ONCE PER ENGAGEMENT AND NEVER AGAIN. The master line is the ONLY bullet of that engagement
+that may contain the industry word or the word "client". EVERY OTHER BULLET CARRIES NO CLIENT REFERENCE AT
+ALL - not "for the <industry> client", not "for the <industry> engagement", not "the <industry> platform",
+not "for this client". Where a later bullet needs a subject, name the system or surface being built (the
+storefront, the control plane, the ingest pipeline). COUNT BEFORE YOU OUTPUT: bullets in this company that
+contain the industry word or "client" must equal the number of engagements, one each. If the count is
+higher, rewrite those bullets to name the system instead. Ten bullets each ending "for the B2B SaaS startup
+client" is the most obvious mark of generated writing a résumé can carry.
 
 ── coverage, across both companies ──
 At least 95% of the technologies in jd_tools (and any others the two reframed_jd texts name), required and
@@ -186,6 +190,16 @@ SUMMARY - from the résumé lines only (NOT the JD)
 - 2-4 sentences, senior, with no first-person pronouns either (no "I"/"my"), at the level of
   disciplines and outcomes (no specific stacks/tools). No years-of-experience count, no company count.
   No clichés. Avoid the em dash.
+
+════════════════════════════════════════════════════════════════
+BEFORE YOU OUTPUT - CHECK THESE THREE, FIX WHAT FAILS
+════════════════════════════════════════════════════════════════
+1. CONSULTING COMPANY: count its bullets containing the industry word or the word "client". The count must
+   equal the number of engagements - ONE master line each, no more. Rewrite every extra to name the system
+   or surface instead.
+2. FIGURES: COUNT the measured results in each company - exactly four, of four different kinds. Fewer than
+   four: add one to a bullet that has none. More: strip the weakest. No bare percentage at 30 or above.
+3. COVERAGE: every technology in jd_tools appears in a bullet.
 
 ════════════════════════════════════════════════════════════════
 OUTPUT SCHEMA
