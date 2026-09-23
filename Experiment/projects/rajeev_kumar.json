@@ -1,0 +1,59 @@
+{
+  "id": "rajeev_kumar",
+  "note": "Per-profile career-project list. Shopify is the anchor and is tailored live from description + FILE 1 bullets. Thoughtworks is the consulting employer and stores no project. Felix and Microsoft render verbatim from bullets below. Thread: the transaction a customer completes online - retail point of sale and payments, an online care order through pharmacy fulfilment, and a merchant's checkout.",
+  "projects": [
+    {
+      "company": "Shopify",
+      "role": "Senior Software Engineer",
+      "dateRange": "Jan 2023 - Present",
+      "flagshipProject": "Shopify Checkout and Checkout Extensibility",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "description": "Shopify Checkout is the transaction surface where a merchant turns a buyer's cart into an order, while Checkout Extensibility lets merchants and app developers influence that journey without taking ownership of checkout itself. A buyer enters checkout, app logic and merchant rules shape the purchase, payment completes the transaction, and the resulting buyer, cart and order activity becomes commerce history used for downstream processing, merchant operations and intelligent decisions across millions of stores. The system spans the front end (buyer checkout and merchant configuration), the back end (transaction, payment and order paths), the data layer (commerce events, order history, processing and analytics), and the AI/ML side (fraud and risk signals, personalization, experimentation and merchant-facing intelligence).",
+      "bullets": []
+    },
+    {
+      "company": "Thoughtworks",
+      "role": "Senior Software Engineer",
+      "dateRange": "May 2021 - Dec 2022",
+      "consulting": true,
+      "flagshipProject": null,
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation the code reads shared.json, selects the engagement whose industry matches the posting's extracted client industry plus one complementary engagement, and hands those to this company. Do not add a fixed flagship project or bullets.",
+      "bullets": []
+    },
+    {
+      "company": "Felix",
+      "role": "Founding Software Engineer",
+      "dateRange": "Mar 2019 - May 2021",
+      "flagshipProject": "Online care platform - intake, clinician review, prescriptions and pharmacy delivery",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "description": "Felix is a Toronto direct-to-consumer telehealth company, founded in January 2019 and launched that June, that lets a patient complete an online assessment for an everyday health need, have a licensed clinician review it, and receive the prescribed treatment by discreet delivery, with refills continuing on a subscription. The engineering joins a consumer intake experience, clinician review tooling, pharmacy fulfilment, recurring payments and the handling of personal health information into one path from a question to a delivered package. DOCUMENTATION ONLY - companies at index 2 and later never reach the LLM; only bullets render.",
+      "bullets": [
+        "Built the first version of Felix's online care platform as a founding engineer, taking a patient from intake questionnaire through clinician review to a prescription order ahead of the public launch.",
+        "Developed the clinician review tooling that let licensed physicians assess each intake, approve or decline treatment and message the patient, replacing the email and phone follow-up the first cases ran on.",
+        "Integrated prescription orders with pharmacy fulfilment and discreet home delivery, so an approved treatment moved from the clinician's decision to a shipped package without anyone re-entering the order.",
+        "Implemented recurring treatment subscriptions and payments, handling refills, plan changes and failed charges so returning patients kept their medication without restarting the intake.",
+        "Hardened how the platform handled personal health information as the service grew across provinces, adding access controls and audit trails around every clinician and pharmacy action."
+      ]
+    },
+    {
+      "company": "Microsoft",
+      "role": "Software Engineer",
+      "dateRange": "Jun 2017 - Mar 2019",
+      "flagshipProject": "Dynamics 365 for Retail - store operations, point of sale and payments",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "description": "Engineering work on Dynamics 365 for Retail, the retail and commerce application that runs a retailer's stores and online channel from one headquarters: point-of-sale transactions, returns, pricing and inventory synchronisation between stores and head office, and payment processing. DOCUMENTATION ONLY - companies at index 2 and later never reach the LLM; only bullets render.",
+      "bullets": [
+        "Built store-operations features in Dynamics 365 for Retail, including point-of-sale flows that let retailers ring up sales, returns and exchanges the same way in stores and online.",
+        "Developed commerce data synchronisation between store point of sale and headquarters, so price, product and inventory changes reached every store without waiting on an overnight batch.",
+        "Implemented payment connector support for in-store and online payments, handling authorisations, voids and refunds so a failed card transaction never left an order half-completed.",
+        "Diagnosed performance and reliability defects in the retail server under peak trading load, reducing the checkout slowdowns store associates saw during the busiest periods.",
+        "Wrote unit and integration tests and joined the team's servicing rotation, tracing customer-reported retail issues to root cause and shipping the fixes in regular product updates."
+      ]
+    }
+  ]
+}

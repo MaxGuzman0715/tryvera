@@ -1,0 +1,56 @@
+{
+  "id": "michelle_ezeanyim_swe",
+  "basic": {
+    "fullName": "Michelle Ezeanyim",
+    "title": "Software Engineer",
+    "email": "chinonyelumezeanyim@gmail.com",
+    "location": "Cypress, TX, United States",
+    "linkedin": "https://www.linkedin.com/in/ezeanyim-michelle-3185b5401"
+  },
+  "experience": [
+    {
+      "company": "Decisio Health",
+      "location": "Houston, TX",
+      "title": "Software Engineer",
+      "startDate": "Sep 2025",
+      "endDate": "Present",
+      "bullets": [
+        "Build backend and data services in Decisio's virtual care monitoring platform, which brings vitals from bedside monitors together with orders, labs and notes from the hospital record so a remote clinical team can watch many patients at once and see who is deteriorating.",
+        "Develop Java and Spring Boot ingestion services for HL7 v2 feeds and bedside device streams, normalizing vitals, labs and administration events into one patient timeline the rest of the platform reads from.",
+        "Extend the FHIR integration used to pull orders, results and encounter data from hospital EHR systems, mapping each site's local codes onto the platform's internal vocabulary during onboarding.",
+        "Build the Python pipelines that turn stored patient timelines into the training and evaluation sets behind the deterioration scores, using documented clinical events as labels.",
+        "Engineer the features those scores read, covering rolling vitals trends, lab trajectories and time since last observation, and evaluate each candidate against held-out admissions before it ships.",
+        "Tune the alerting thresholds and suppression rules that decide when a score reaches a nurse, weighing missed deterioration against the alarm fatigue that makes a unit stop trusting the system.",
+        "Serve scores behind internal REST APIs that the monitoring surfaces and notification services call, with the patient context a clinician needs to judge the alert attached to the response.",
+        "Model the vitals, encounter and alert tables in PostgreSQL and tune the time-window queries the monitoring views depend on as more beds come onto the platform.",
+        "Build the scheduled jobs that reprocess device data, backfill features and rebuild reporting tables, with retries and idempotent writes so a rerun cannot raise a duplicate alert.",
+        "Package the services with Docker and ship them through the team's GitHub Actions pipeline onto AWS, handling PHI under the platform's HIPAA controls with encryption, scoped IAM roles and access logging.",
+        "Instrument ingestion, scoring and alerting with structured logs, metrics and Grafana dashboards, watching feed gaps and alert volume per unit after each release.",
+        "Write the unit, integration and contract tests for the HL7 and FHIR mappings and the scoring path, building fixture sets from de-identified admissions so a change shows its effect before it reaches a hospital.",
+        "Maintain the React and TypeScript monitoring screens where nurses see the patient list and the reason a patient was flagged."
+      ],
+      "paragraphs": []
+    }
+  ],
+  "skills": [
+    "Languages: Python, Java, SQL, TypeScript, JavaScript, Bash",
+    "Backend & APIs: Spring Boot, FastAPI, Node.js, REST, JSON, request validation, authentication and authorization, scheduled and background jobs, idempotent processing, retries and error handling, streaming ingestion",
+    "Healthcare Data & Interoperability: HL7 v2, FHIR, EHR integration, bedside device and vitals feeds, clinical terminology and code mapping, patient timelines, PHI handling and de-identification, HIPAA controls, audit logging",
+    "Data Engineering: pandas, NumPy, ETL and batch pipelines, time-series processing, Apache Airflow basics, PySpark basics, data validation and reconciliation, backfills, Parquet",
+    "Machine Learning: scikit-learn, feature engineering, classification and risk scoring, train/test splits and cross-validation, precision and recall evaluation, threshold tuning, model serving behind APIs, prediction monitoring and drift checks, PyTorch basics",
+    "Databases: PostgreSQL, MySQL, MongoDB, Redis, schema design, time-window and range queries, joins and indexing, query optimization, Flyway migrations",
+    "Cloud & DevOps: AWS (EC2, S3, Lambda, RDS, IAM, KMS), Docker, Kubernetes basics, GitHub Actions, CI/CD pipelines, Linux, Grafana, structured logging and metrics",
+    "Testing & Practice: pytest, JUnit, Postman, unit/integration/contract testing, fixture and test-data generation, code review, Git branching workflows, Agile and Scrum, data structures and algorithms",
+    "Frontend (working knowledge): React, TypeScript, clinical monitoring and admin screens"
+  ],
+  "education": [
+    {
+      "school": "Nnamdi Azikiwe University, Awka",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2020",
+      "endDate": "2025"
+    }
+  ],
+  "note": "MOCK-INTERVIEW PRACTICE PROFILE ONLY - not for real applications. Basic identity fields (name, email, location, LinkedIn) are the real ones per instruction; the work history, education and skills are invented for interview practice, scaled to a 22-year-old with about one year of experience. Software engineering role in the healthcare domain, which connects to her real clinical background (vitals, deterioration, EHR charting). Backend / data / AI-ML weighted; frontend kept to one working-knowledge line. One employer and one university only, per instruction. Michelle's real profile is michelle_ezeanyim.json (Patient Care Technician). No consulting employer, so no shared.json engagements are pulled; experience[0] is the anchor and is tailored live at generation."
+}

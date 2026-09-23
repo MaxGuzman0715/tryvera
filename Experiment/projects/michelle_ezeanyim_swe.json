@@ -1,0 +1,22 @@
+{
+  "id": "michelle_ezeanyim_swe",
+  "note": "MOCK-INTERVIEW PRACTICE PROFILE ONLY, scaled to a 22-year-old with about one year of experience. One company, one flagship project, tailored live at generation (isRecentTwo:true, bulletsProvided:false). No consulting company at this level, so no shared.json engagements are pulled.",
+  "projects": [
+    {
+      "company": "Decisio Health",
+      "role": "Software Engineer",
+      "dateRange": "Sep 2025 - Present",
+      "flagshipProject": "Virtual care monitoring - device and record ingestion, patient timelines, deterioration scoring, alerting and the monitoring surfaces",
+      "spans": [
+        "backend",
+        "ai_data",
+        "infrastructure",
+        "frontend"
+      ],
+      "description": "Decisio Health is a Houston company whose software watches patients for the clinical teams who cannot stand at every bedside. Vitals stream continuously off bedside monitors; orders, labs, medications and notes sit in the hospital's record system; and on their own neither tells anyone that a patient three rooms away is sliding. The platform pulls both into one timeline per patient, scores who is deteriorating, and puts that in front of a remote team watching many beds at once. The engineering is mostly backend and data: ingesting device streams and HL7 feeds that never stop and never arrive clean; mapping each hospital's local codes onto one internal vocabulary during onboarding; turning stored timelines into training and evaluation data with documented clinical events as labels; the features a risk score reads and the thresholds that decide when it reaches a nurse, where the cost of being wrong runs both ways, a missed deterioration on one side and alarm fatigue on the other; serving those scores with enough context for a clinician to judge them; the time-window queries and storage underneath as more beds come on; and the containers, pipelines, dashboards and PHI controls that keep it running inside a hospital. There is a front end, the screen where a nurse sees the patient list and why someone was flagged, but it is a small part of the work. A young engineer on this team builds inside that path, service by service, rather than owning the whole of it.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
+    }
+  ]
+}

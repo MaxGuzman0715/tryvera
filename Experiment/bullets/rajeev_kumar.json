@@ -1,0 +1,89 @@
+{
+  "id": "rajeev_kumar",
+  "basic": {
+    "fullName": "Rajeev Kumar",
+    "title": "Senior Software Engineer",
+    "email": "rajeev.qadev@gmail.com",
+    "phone": "+1 (647) 233-6850",
+    "location": "Mississauga, Ontario, Canada",
+    "linkedin": "https://www.linkedin.com/in/rajeev-kumar-22365a398/"
+  },
+  "experience": [
+    {
+      "company": "Shopify",
+      "title": "Senior Software Engineer",
+      "startDate": "Jan 2023",
+      "endDate": "Present",
+      "location": "Remote",
+      "bullets": [
+        "Build across Shopify Checkout and Checkout Extensibility, including Shopify Functions, Checkout UI extensions and Shop Pay, connecting the buyer transaction with the commerce data and intelligence used across the purchase lifecycle.",
+        "Engineer Shopify Functions within the checkout execution path, turning cart and buyer context into controlled discount, delivery and payment decisions while Shopify retains ownership of the underlying transaction.",
+        "Develop the commerce-event path around Checkout, carrying buyer, cart and order activity into downstream processing so transaction history can support operational workflows, analytics and intelligent decisions.",
+        "Build the intelligence path around Checkout, turning buyer, cart and order history into signals for fraud and risk decisions, personalization, experimentation and merchant-facing insights.",
+        "Develop Checkout UI extensions and merchant configuration surfaces that bring app-driven and intelligent experiences back into checkout through controlled interfaces without exposing Shopify-owned transaction logic."
+      ]
+    },
+    {
+      "company": "Thoughtworks",
+      "title": "Senior Software Engineer",
+      "startDate": "May 2021",
+      "endDate": "Dec 2022",
+      "location": "Toronto, Ontario, Canada",
+      "bullets": [],
+      "consulting": true
+    },
+    {
+      "company": "Felix",
+      "title": "Founding Software Engineer",
+      "startDate": "Mar 2019",
+      "endDate": "May 2021",
+      "location": "Toronto, Ontario, Canada",
+      "bullets": [
+        "Built the first version of Felix's online care platform as a founding engineer, taking a patient from intake questionnaire through clinician review to a prescription order ahead of the public launch.",
+        "Developed the clinician review tooling that let licensed physicians assess each intake, approve or decline treatment and message the patient, replacing the email and phone follow-up the first cases ran on.",
+        "Integrated prescription orders with pharmacy fulfilment and discreet home delivery, so an approved treatment moved from the clinician's decision to a shipped package without anyone re-entering the order.",
+        "Implemented recurring treatment subscriptions and payments, handling refills, plan changes and failed charges so returning patients kept their medication without restarting the intake.",
+        "Hardened how the platform handled personal health information as the service grew across provinces, adding access controls and audit trails around every clinician and pharmacy action."
+      ]
+    },
+    {
+      "company": "Microsoft",
+      "title": "Software Engineer",
+      "startDate": "Jun 2017",
+      "endDate": "Mar 2019",
+      "location": "Vancouver, British Columbia, Canada",
+      "bullets": [
+        "Built store-operations features in Dynamics 365 for Retail, including point-of-sale flows that let retailers ring up sales, returns and exchanges the same way in stores and online.",
+        "Developed commerce data synchronisation between store point of sale and headquarters, so price, product and inventory changes reached every store without waiting on an overnight batch.",
+        "Implemented payment connector support for in-store and online payments, handling authorisations, voids and refunds so a failed card transaction never left an order half-completed.",
+        "Diagnosed performance and reliability defects in the retail server under peak trading load, reducing the checkout slowdowns store associates saw during the busiest periods.",
+        "Wrote unit and integration tests and joined the team's servicing rotation, tracing customer-reported retail issues to root cause and shipping the fixes in regular product updates."
+      ]
+    }
+  ],
+  "skills": [
+    "Languages & Backend: Ruby, Ruby on Rails, Java, Kotlin, Go, Rust, C#, .NET, ASP.NET Core, TypeScript, JavaScript, Node.js, Python, SQL, Spring Boot, Express, GraphQL, REST, gRPC, WebAssembly, Sidekiq",
+    "Frontend & Mobile Engineering: React, React Native, Redux, React Query, Next.js, Remix, HTML5, CSS3, Tailwind CSS, Webpack, Vite, Storybook, Swift, SwiftUI, Jetpack Compose, Android SDK",
+    "Databases, Search & Retrieval: MySQL, PostgreSQL, SQL Server, Oracle, IBM Db2, Redis, Memcached, Elasticsearch, OpenSearch, MongoDB, DynamoDB, Vitess, ActiveRecord, Hibernate, Entity Framework, Flyway, Liquibase, Prisma",
+    "Cloud & Platform: Google Cloud (GKE, Cloud Run, Pub/Sub, Cloud SQL, Cloud Storage, BigQuery), AWS (EC2, S3, Lambda, RDS, SQS, SNS, ECS), Azure (App Service, AKS, Service Bus, Functions), Docker, Kubernetes, Helm, Terraform, Red Hat OpenShift, Argo CD",
+    "Architecture & Distributed Systems: CQRS, event sourcing, saga pattern, transactional outbox, circuit breakers, idempotency keys, rate limiting, Protocol Buffers, Apache Avro, OpenAPI, AsyncAPI, JSON Schema",
+    "Data Engineering & Streaming: Apache Kafka, Kafka Streams, Kafka Connect, Debezium, Apache Flink, Apache Spark, Apache Beam, Google Cloud Dataflow, Apache Airflow, dbt, Snowflake, Parquet",
+    "Commerce & Payments: Stripe API, Adyen, Braintree, PCI DSS, EMV, 3-D Secure, tokenization, ISO 8583, ISO 20022, payment webhooks, subscription billing, Avalara",
+    "Observability & Reliability: Datadog, Prometheus, Grafana, OpenTelemetry, Jaeger, Splunk, ELK Stack, PagerDuty, Sentry, Bugsnag, New Relic, Honeycomb, StatsD",
+    "Security & Identity: OAuth 2.0, OpenID Connect, JWT, SAML, SSO, SCIM, RBAC, TLS, mTLS, HashiCorp Vault, Google Cloud KMS, AWS KMS, Snyk, SonarQube, OWASP ZAP, Semgrep",
+    "Testing & Engineering Practices: Minitest, RSpec, JUnit, Mockito, xUnit, NUnit, Jest, Vitest, React Testing Library, Playwright, Cypress, Selenium, Postman, Pact, Testcontainers, k6, JMeter, Capybara",
+    "CI/CD & Developer Tooling: GitHub Actions, Buildkite, Jenkins, Azure DevOps, GitLab CI, Git, GitHub, Bazel, Gradle, Maven, npm, Yarn, pnpm, Docker Compose, Dependabot",
+    "AI & Machine Learning: pandas, NumPy, scikit-learn, XGBoost, LightGBM, PyTorch, TensorFlow, Jupyter, MLflow, Vertex AI, Feast, Prophet, SHAP",
+    "Generative & Agentic AI: OpenAI API, Anthropic API, Google Gemini API, LangChain, LlamaIndex, LangGraph, Hugging Face Transformers, pgvector, Pinecone, embeddings and vector search, retrieval-augmented generation, Ragas, DeepEval"
+  ],
+  "education": [
+    {
+      "school": "University of Mumbai",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2014",
+      "endDate": "2017"
+    }
+  ],
+  "note": "Built from the candidate's basic-info sheet and the career history supplied by Rohit. Education: University of Mumbai, Bachelor of Science in Computer Science, 2014-2017. Microsoft Jun 2017 - Mar 2019 (first year in India, then transferred to Canada; shown as Vancouver, the Microsoft Canada Excellence Centre where its Canadian product engineering is based). Felix (LinkedIn: linkedin.com/company/felixhealthca, Toronto, felixforyou.ca) from Mar 2019 to May 2021 (founded Jan 2019, launched Jun 2019). Thoughtworks is the consulting employer (experience[1], consulting:true, no bullets - engagements come from shared.json). Shopify Jan 2023 - Present, fully remote."
+}

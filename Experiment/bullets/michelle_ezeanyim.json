@@ -41,22 +41,29 @@
     }
   ],
   "skills": [
-    "Data Analysis & Reporting: Microsoft Excel (pivot tables, XLOOKUP, conditional formatting, charts), data cleaning and validation, descriptive statistics, trend and KPI analysis, ad-hoc and recurring reporting, data documentation",
-    "SQL & Databases: SQL (joins, aggregations, subqueries, filtering), MySQL, PostgreSQL basics, querying and preparing data for reporting",
-    "Data Visualization & BI: Power BI (dashboards, Power Query, DAX basics), Google Sheets, Looker Studio basics, presenting findings to non-technical stakeholders",
-    "Programming: Python basics (pandas, NumPy, Matplotlib), Jupyter Notebook",
-    "Data Quality & Annotation: labeling and categorizing free-text records, writing and applying labeling definitions, consistency and accuracy review, error detection, attention to detail",
-    "Clinical & Healthcare Knowledge: nursing training, patient care, vital signs and clinical observation, medical terminology, EHR documentation and charting, recognizing clinical deterioration, infection control and patient safety, HIPAA and PHI confidentiality",
-    "Communication & Service: customer relationship management (CRM), personal assistance, patient and family communication, stakeholder communication, training and peer support, teamwork with clinical staff"
+    "Languages & Tools: Python, SQL, JavaScript, Bash, Git, GitHub, Linux, Docker, Jupyter, VS Code, virtualenv, Markdown",
+    "Testing & Verification: pytest, pytest fixtures, golden files, Postman, unittest, held-out test sets, edge-case enumeration, deterministic reruns",
+    "Data Engineering & Validation: pandas, NumPy, CSV, JSON, fixed-width records, Parquet, ETL pipelines, schema design, validation rules, reconciliation",
+    "Health Data Standards: HL7 v2, FHIR, ICD-10, CPT, EHR charting, HIPAA, PHI de-identification, terminology mapping",
+    "Clinical Knowledge: vital signs, blood glucose monitoring, intake and output, medical terminology, clinical deterioration, infection control, patient safety, deductible and out-of-pocket accumulators, coinsurance and visit limits",
+    "Databases & Reporting: PostgreSQL, MySQL, SQLite, Power BI, Power Query, DAX, Microsoft Excel, Google Sheets, joins and aggregations, indexing",
+    "Data Quality & Annotation: labeling schemas, annotation guidelines, inter-reviewer agreement, precision and recall, consistency review, error detection"
   ],
   "education": [
+    {
+      "school": "Nnamdi Azikiwe University, Awka",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2020",
+      "endDate": "2024"
+    },
     {
       "school": "College of Nursing Sciences, Adazi-Nnukwu",
       "degree": "National Diploma",
       "field": "Nursing",
-      "startDate": "2021",
-      "endDate": "2024"
+      "startDate": "",
+      "endDate": ""
     }
   ],
-  "note": "Aligned to Michelle's LinkedIn profile (KODEX Data Analyst; HCA Houston Healthcare North Cypress Patient Care Technician, Mar 2026 - Present; nursing diploma Dec 2024) with basic info from Info.txt. KODEX start date (Jan 2025), its part-time remote status and the 2021 diploma start year are inferred, not stated on LinkedIn - confirm with her. Federal Science and Technical College, Awka is a secondary school and is left off. The software-engineering mock-interview profile is michelle_ezeanyim_swe.json."
+  "note": "Aligned to Michelle's LinkedIn (KODEX Data Analyst; HCA Houston Healthcare North Cypress Patient Care Technician, Mar 2026 - Present; nursing diploma Dec 2024) with basic info from Info.txt, and shaped for AI-training / task-authoring platforms that vet contributors on domain authority plus engineering rigour. Education is B.Sc Computer Science (UNIZIK Awka, 2020-2024) plus a one-year nursing diploma finishing Dec 2024; LinkedIn shows only the December 2024 date for nursing and does not yet list UNIZIK - she must add it there or the two will not match. KODEX start date (Jan 2025) and its part-time remote status are inferred. Federal Science and Technical College, Awka is a secondary school and is left off."
 }
