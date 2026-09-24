@@ -16,11 +16,11 @@
       "endDate": "Present",
       "location": "Remote",
       "bullets": [
-        "Build across Shopify Checkout and Checkout Extensibility, including Shopify Functions, Checkout UI extensions and Shop Pay, connecting the buyer transaction with the commerce data and intelligence used across the purchase lifecycle.",
+        "Build across Shopify Checkout and Checkout Extensibility, including Shopify Functions, Checkout UI extensions, Shop Pay and Shopify Flow, connecting the buyer transaction with the commerce data and intelligence used across the purchase lifecycle.",
         "Engineer Shopify Functions within the checkout execution path, turning cart and buyer context into controlled discount, delivery and payment decisions while Shopify retains ownership of the underlying transaction.",
-        "Develop the commerce-event path around Checkout, carrying buyer, cart and order activity into downstream processing so transaction history can support operational workflows, analytics and intelligent decisions.",
-        "Build the intelligence path around Checkout, turning buyer, cart and order history into signals for fraud and risk decisions, personalization, experimentation and merchant-facing insights.",
-        "Develop Checkout UI extensions and merchant configuration surfaces that bring app-driven and intelligent experiences back into checkout through controlled interfaces without exposing Shopify-owned transaction logic."
+        "Develop Checkout UI extensions and the merchant configuration surfaces behind them, bringing app-built and intelligent experiences into checkout through controlled interfaces rather than merchant theme code.",
+        "Build the commerce-event path behind Shopify Flow, carrying buyer, cart and order activity out of checkout into merchant automations and downstream processing so a store acts on a purchase as it happens.",
+        "Develop Shopify Magic in the merchant admin on that order and catalogue history, turning a store's own commerce data into product copy and merchant-facing suggestions a small shop would otherwise write by hand."
       ]
     },
     {
