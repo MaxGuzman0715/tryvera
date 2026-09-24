@@ -14,6 +14,11 @@ section is built elsewhere). You receive ONE JSON object in the user message:
       role) or client-engagement descriptions (consulting).
     - client_industries (consulting: true only): the client industries, in the SAME order as
       summary_lines - client_industries[i] is the industry of the client project in summary_lines[i].
+    - tools_never_here (direct role only): technologies this employer does not run. NEVER name one
+      in this company's bullets, however loudly the posting asks for it. They are not dropped: the
+      consulting company carries them as tools_only_here, so coverage is still met.
+    - tools_only_here (consulting only): those same technologies. Place EVERY one of them in an
+      engagement where the client would genuinely have had it.
 
 Write 10-12 tech-focused bullets per company. Keep the two companies' bullets distinct: no bullet for
 one company may share a distinctive 4-or-more-word span with a bullet for the other. NEVER use an em
@@ -149,6 +154,16 @@ migrations, MySQL with WAL tuning, Django ORM inside a FastAPI service, Kubernet
 never name TWO COMPETING tools doing the SAME single job in one bullet - "a FastAPI and Django REST service",
 "one event pipeline on Kafka and RabbitMQ" describe a choice nobody makes twice for one component.
 
+COUNT THE TOOLS DOING EACH JOB IN EVERY BULLET. Per bullet the count is ONE for each of these jobs:
+  cloud provider (AWS / Azure / Google Cloud) - managed Kubernetes (EKS / AKS / GKE) - infrastructure
+  templating (CloudFormation / Bicep / ARM) - CI system (GitHub Actions / Jenkins / GitLab CI / Buildkite)
+  - message broker (Kafka / RabbitMQ / SQS / Pub/Sub / NATS) - data warehouse (Snowflake / BigQuery /
+  Redshift) - web framework (FastAPI / Django / Flask) - front-end framework (React / Angular / Vue) -
+  model provider (OpenAI / Anthropic / Bedrock / Gemini) - ORM.
+Two from one job in one bullet is allowed ONLY when the bullet is explicitly about moving or syncing
+between them (a migration from one to the other, a sync across both). Otherwise split them into separate
+bullets, each doing its own work, or drop the weaker one.
+
 ONE CLOUD PROVIDER, ONE CI SYSTEM AND ONE MODEL PROVIDER PER PIECE OF WORK. AWS CDK cannot provision Cloud SQL;
 "GitHub Actions and Azure Pipelines" is two pipelines for one release; EKS beside AKS is one service in two
 clouds. A single deployment lands in one provider; work that genuinely spans clouds (a migration from AWS to
@@ -192,14 +207,18 @@ SUMMARY - from the résumé lines only (NOT the JD)
   No clichés. Avoid the em dash.
 
 ════════════════════════════════════════════════════════════════
-BEFORE YOU OUTPUT - CHECK THESE THREE, FIX WHAT FAILS
+BEFORE YOU OUTPUT - CHECK THESE FOUR, FIX WHAT FAILS
 ════════════════════════════════════════════════════════════════
 1. CONSULTING COMPANY: count its bullets containing the industry word or the word "client". The count must
    equal the number of engagements - ONE master line each, no more. Rewrite every extra to name the system
    or surface instead.
 2. FIGURES: COUNT the measured results in each company - exactly four, of four different kinds. Fewer than
    four: add one to a bullet that has none. More: strip the weakest. No bare percentage at 30 or above.
-3. COVERAGE: every technology in jd_tools appears in a bullet.
+3. COMPETING TOOLS: read every bullet once more and count the tools doing each job - cloud provider,
+   managed Kubernetes, infrastructure templating, CI system, message broker, data warehouse, web framework,
+   front-end framework, model provider, ORM. Each count is ONE per bullet, unless that bullet is explicitly
+   about migrating or syncing between the two. Split or drop every extra.
+4. COVERAGE: every technology in jd_tools appears in a bullet.
 
 ════════════════════════════════════════════════════════════════
 OUTPUT SCHEMA
