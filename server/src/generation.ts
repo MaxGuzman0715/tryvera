@@ -26,6 +26,7 @@ import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlac
 import { renderTemplatedPdf } from "./templatePdf.js";
 import { stripMarkdownFence, normalizeDashes } from "./markdownToHtml.js";
 import { projectRoot } from "./paths.js";
+import { describeConflicts, findToolConflicts } from "./anchorGuard.js";
 import { disciplineDomain, isNamedTool, loadJdToolVocabulary, restoreDroppedJdTools, splitTopLevel, trimSkills } from "./jdTools.js";
 import { jstHmsCompact, jstMonthDayUnderscore, nowJstIso } from "./timeJst.js";
 import {
@@ -89,6 +90,12 @@ type ProfileProject = {
   isRecentTwo?: boolean;
   bulletsProvided?: boolean;
   bullets?: string[];
+  /**
+   * Technologies this employer demonstrably does not run, so a JD naming one must not put it
+   * here. Shopify's checkout is Ruby/Go on Google Cloud, so Azure Data Factory, PHP and Vercel
+   * appearing in its bullets are checkable errors, not tailoring. Empty or absent = no opinion.
+   */
+  stackExclusions?: string[];
 };
 
 const projectsDir = () => path.join(projectRoot(), "Experiment", "projects");
@@ -874,8 +881,18 @@ async function buildResumeDoc(params: {
       consulting,
       groundTruth: fallbackBulletsFromProfile(exp),
       flagship: String(proj?.description ?? proj?.flagshipProject ?? "").trim(),
+      excluded: Array.isArray(proj?.stackExclusions) ? proj!.stackExclusions!.map(String) : [],
     };
   });
+
+  // A JD tool this anchor employer does not run has exactly one correct home: the consulting
+  // engagements, where a consultant builds on whatever the client already has. Deciding that here
+  // rather than leaving it to the writer, because the prose rule alone kept producing Azure inside
+  // a Google Cloud company and PHP inside a Ruby checkout.
+  const anchorExclusions = last2.filter((t) => !t.consulting).flatMap((t) => t.excluded);
+  const misplacedTools = (params.jdTools ?? []).filter((tool) =>
+    anchorExclusions.some((x) => x.trim().toLowerCase() === tool.trim().toLowerCase())
+  );
 
   const last2Plan: ResumeCompanyPlan[] = last2.map((t) =>
     t.consulting ? { company: t.company, role: "consulting", industries } : { company: t.company, role: "anchor" }
@@ -938,6 +955,9 @@ async function buildResumeDoc(params: {
           reframed_jd,
           summary_lines: engagements.map((e) => e.summary),
           client_industries: engagements.map((e) => e.label),
+          // Tools the direct employer does not run. They still have to appear on the page, and
+          // this is the company where they are true.
+          ...(misplacedTools.length ? { tools_only_here: misplacedTools } : {}),
         };
       }
       return {
@@ -945,6 +965,8 @@ async function buildResumeDoc(params: {
         consulting: false,
         reframed_jd,
         summary_lines: [t.flagship, ...t.groundTruth].filter(Boolean),
+        // This employer does not run these, however loudly the posting asks for them.
+        ...(t.excluded.length && misplacedTools.length ? { tools_never_here: misplacedTools } : {}),
       };
     }),
   };
@@ -988,6 +1010,20 @@ async function buildResumeDoc(params: {
       : [];
     return { index: t.idx, bullets: bullets.length ? bullets : t.groundTruth };
   });
+
+  // Coverage puts the posting's technologies into bullets on purpose. What it can also produce
+  // is a combination nobody ships — two clouds, two Python web frameworks, two CI systems — which
+  // the résumé prompt forbids in prose but nothing checks. Report those; the résumé is unchanged.
+  for (const t of last2) {
+    const written = last2Updates.find((u) => u.index === t.idx)?.bullets ?? [];
+    const conflicts = findToolConflicts(written);
+    if (!conflicts.length) continue;
+    const lines = describeConflicts(t.company, conflicts);
+    for (const line of lines) params.warn(line);
+    if (verbose) {
+      await verbose.writeSection(`resume-generation — tool conflicts in ${t.company}`, lines.join("\n"));
+    }
+  }
 
   const summary = (content.summary ?? "").trim() || (profile.basic.summary ?? "");
   // Skills come from the extraction step now (built + tailored there), not the generator.

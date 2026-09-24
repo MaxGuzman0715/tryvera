@@ -31,7 +31,20 @@
       "description": "Microsoft's health business sells one thing above everything else: giving a clinician back the hours they spend typing instead of looking at the person in front of them. A clinician and a patient talk in a room and the visit is captured on the phone in the clinician's pocket (DAX Copilot, now Dragon Copilot); a draft is written in the shape that specialty expects and checked against what the record already holds about that person (Dragon Medical One, PowerScribe); the clinician reads it, edits it and signs it, so nothing is filed that a person did not accept; and what they changed comes back as the measurement of whether the next draft was any better. It touches the front end (the capture app and the review surface in the record system), the back end (drafting and write-back services), the interoperability layer (the record systems this lands inside), and the data/AI side (speech recognition, summarization, grounding against the person's own record and draft evaluation).",
       "isRecentTwo": true,
       "bulletsProvided": false,
-      "bullets": []
+      "bullets": [],
+      "stackExclusions": [
+        "AWS",
+        "Amazon Web Services",
+        "SageMaker",
+        "Amazon Bedrock",
+        "Redshift",
+        "Google Cloud",
+        "GCP",
+        "BigQuery",
+        "Vertex AI",
+        "Tableau",
+        "QuickSight"
+      ]
     },
     {
       "company": "Stryker",

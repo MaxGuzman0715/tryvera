@@ -10,7 +10,25 @@
       "isRecentTwo": true,
       "bulletsProvided": false,
       "description": "Shopify Checkout is the transaction surface where a merchant turns a buyer's cart into an order, while Checkout Extensibility lets merchants and app developers influence that journey without taking ownership of checkout itself. A buyer enters checkout, app logic and merchant rules shape the purchase, payment completes the transaction, and the resulting buyer, cart and order activity becomes commerce history used for downstream processing, merchant operations and intelligent decisions across millions of stores. The system spans the front end (buyer checkout and merchant configuration), the back end (transaction, payment and order paths), the data layer (commerce events, order history, processing and analytics), and the AI/ML side (fraud and risk signals, personalization, experimentation and merchant-facing intelligence).",
-      "bullets": []
+      "bullets": [],
+      "stackExclusions": [
+        "Azure",
+        "Azure Data Factory",
+        "Azure DevOps",
+        "Azure Service Bus",
+        "Event Hubs",
+        "Application Insights",
+        "Bicep",
+        "OneLake",
+        "Synapse",
+        "Power BI",
+        ".NET",
+        "C#",
+        "PHP",
+        "Laravel",
+        "Vercel",
+        "Netlify"
+      ]
     },
     {
       "company": "Thoughtworks",

@@ -31,7 +31,19 @@
       "description": "Amazon Connect is the cloud contact center a company runs its customer support on - it replaces a phone system nobody could change with software anybody can, and because it is software, every conversation the business has becomes something it can measure. Someone calls about an order that went wrong; they are recognized from the conversation itself rather than interrogated (Voice ID) and their history is assembled from the systems the company already runs (Customer Profiles); the call is transcribed while it is still happening and the answer reaches the agent before the customer has finished explaining (Contact Lens, Amazon Q in Connect); and a supervisor plans next week against a forecast rather than a spreadsheet (Forecasting and Capacity Planning). It touches the front end (the agent workspace and supervisor consoles), the back end (the routing and media services behind them), the connector layer (the customer's own systems of record), and the data/AI side (speech recognition, intent and sentiment scoring, agent-assist retrieval and demand forecasting).",
       "isRecentTwo": true,
       "bulletsProvided": false,
-      "bullets": []
+      "bullets": [],
+      "stackExclusions": [
+        "Azure",
+        "Azure OpenAI",
+        "Azure Machine Learning",
+        "Power BI",
+        "Google Cloud",
+        "GCP",
+        "BigQuery",
+        "Vertex AI",
+        "Synapse",
+        "Bicep"
+      ]
     },
     {
       "company": "USAA",
