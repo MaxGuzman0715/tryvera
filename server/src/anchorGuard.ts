@@ -41,6 +41,61 @@ function mentions(haystack: string, term: string): boolean {
   return re.test(haystack);
 }
 
+/**
+ * Picks ONE tool per job for each of the two companies, so a bullet cannot pair two that do the
+ * same thing. Measured need: of 53 conflicts in one batch, 24 came from the posting naming two
+ * (AWS and Azure), 20 from the candidate's own skills holding several (GitHub Actions and
+ * Jenkins), and 9 from one of each. Splitting only the posting's tools would leave most of it.
+ *
+ * The candidate's skills list is NOT reduced by this: it should carry every tool a long career
+ * touched, and every requirement the posting names. Only the BULLETS are constrained.
+ *
+ * The anchor keeps the tool that employer could plausibly run (its stackExclusions decide);
+ * consulting takes a different one, which is true of client work anyway.
+ */
+export function assignToolsPerJob(opts: {
+  /** Technologies the posting names. */
+  jdTools: string[];
+  /** The candidate's stored skills lines — read for candidates only, never trimmed. */
+  profileSkills: string[];
+  /** Technologies the anchor employer does not run. */
+  anchorExclusions: string[];
+}): {
+  anchor: Record<string, string>;
+  consulting: Record<string, string>;
+  anchorNot: Record<string, string[]>;
+  consultingNot: Record<string, string[]>;
+} {
+  const { jdTools, profileSkills, anchorExclusions } = opts;
+  const skillText = profileSkills.join("\n");
+  const banned = new Set(anchorExclusions.map((x) => x.trim().toLowerCase()));
+  const inJd = (t: string) => jdTools.some((x) => x.trim().toLowerCase() === t.trim().toLowerCase());
+
+  const anchor: Record<string, string> = {};
+  const consulting: Record<string, string> = {};
+  const anchorNot: Record<string, string[]> = {};
+  const consultingNot: Record<string, string[]> = {};
+  for (const group of EXCLUSIVE_GROUPS) {
+    // Candidates are tools the posting asked for, or the candidate already lists. Posting first,
+    // so a requirement is never the one dropped.
+    const available = group.tools.filter((t) => inJd(t) || mentions(skillText, t));
+    if (available.length < 2) continue;
+    const ordered = [...available].sort((a, b) => Number(inJd(b)) - Number(inJd(a)));
+    const forAnchor = ordered.find((t) => !banned.has(t.trim().toLowerCase()));
+    if (forAnchor) anchor[group.job] = forAnchor;
+    const forConsulting = ordered.find((t) => t !== forAnchor);
+    if (forConsulting) consulting[group.job] = forConsulting;
+    // A third tool in the same group (a posting naming AWS, Azure AND GCP) has no company left.
+    // Unassigned it is free for either section, which is how "Azure and GCP" reached one bullet.
+    // Name every alternative so each company knows what is not its own.
+    const leftovers = group.tools.filter((t) => t !== forAnchor && t !== forConsulting);
+    if (forAnchor) anchorNot[group.job] = group.tools.filter((t) => t !== forAnchor);
+    if (forConsulting) consultingNot[group.job] = group.tools.filter((t) => t !== forConsulting);
+    void leftovers;
+  }
+  return { anchor, consulting, anchorNot, consultingNot };
+}
+
 /** One conflict: two or more tools from the same job, and where they were found. */
 export type ToolConflict = { job: string; tools: string[]; scope: "bullet" | "company" };
 

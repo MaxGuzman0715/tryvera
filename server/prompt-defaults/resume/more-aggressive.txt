@@ -19,6 +19,12 @@ section is built elsewhere). You receive ONE JSON object in the user message:
       consulting company carries them as tools_only_here, so coverage is still met.
     - tools_only_here (consulting only): those same technologies. Place EVERY one of them in an
       engagement where the client would genuinely have had it.
+    - one_tool_per_job: for each job listed there (cloud provider, CI system, message broker and
+      the rest), THIS company's bullets may name ONLY the tool given. The other company carries the
+      alternative, so the posting is still covered. The skills section is unaffected and still
+      lists every tool the candidate has.
+    - not_this_company: for the same jobs, every alternative tool. NONE of them may appear in this
+      company's bullets, whichever company the posting favours.
 
 Write 10-12 tech-focused bullets per company. Keep the two companies' bullets distinct: no bullet for
 one company may share a distinctive 4-or-more-word span with a bullet for the other. NEVER use an em

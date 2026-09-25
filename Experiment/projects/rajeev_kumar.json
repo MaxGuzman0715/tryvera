@@ -27,7 +27,12 @@
         "PHP",
         "Laravel",
         "Vercel",
-        "Netlify"
+        "Netlify",
+        "Jenkins",
+        "GitLab CI",
+        "CircleCI",
+        "TeamCity",
+        "Travis CI"
       ]
     },
     {

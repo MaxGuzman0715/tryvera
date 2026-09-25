@@ -26,7 +26,7 @@ import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlac
 import { renderTemplatedPdf } from "./templatePdf.js";
 import { stripMarkdownFence, normalizeDashes } from "./markdownToHtml.js";
 import { projectRoot } from "./paths.js";
-import { describeConflicts, findToolConflicts } from "./anchorGuard.js";
+import { assignToolsPerJob, describeConflicts, findToolConflicts } from "./anchorGuard.js";
 import { disciplineDomain, isNamedTool, loadJdToolVocabulary, restoreDroppedJdTools, splitTopLevel, trimSkills } from "./jdTools.js";
 import { jstHmsCompact, jstMonthDayUnderscore, nowJstIso } from "./timeJst.js";
 import {
@@ -894,6 +894,14 @@ async function buildResumeDoc(params: {
     anchorExclusions.some((x) => x.trim().toLowerCase() === tool.trim().toLowerCase())
   );
 
+  // One tool per job, per company, so a bullet cannot pair two that do the same thing. The skills
+  // list keeps everything; only what the bullets may name is narrowed.
+  const toolsPerJob = assignToolsPerJob({
+    jdTools: params.jdTools ?? [],
+    profileSkills: skillsOut.length ? skillsOut : profile.skills,
+    anchorExclusions,
+  });
+
   const last2Plan: ResumeCompanyPlan[] = last2.map((t) =>
     t.consulting ? { company: t.company, role: "consulting", industries } : { company: t.company, role: "anchor" }
   );
@@ -958,6 +966,9 @@ async function buildResumeDoc(params: {
           // Tools the direct employer does not run. They still have to appear on the page, and
           // this is the company where they are true.
           ...(misplacedTools.length ? { tools_only_here: misplacedTools } : {}),
+          ...(Object.keys(toolsPerJob.consulting).length
+            ? { one_tool_per_job: toolsPerJob.consulting, not_this_company: toolsPerJob.consultingNot }
+            : {}),
         };
       }
       return {
@@ -967,6 +978,9 @@ async function buildResumeDoc(params: {
         summary_lines: [t.flagship, ...t.groundTruth].filter(Boolean),
         // This employer does not run these, however loudly the posting asks for them.
         ...(t.excluded.length && misplacedTools.length ? { tools_never_here: misplacedTools } : {}),
+        ...(Object.keys(toolsPerJob.anchor).length
+          ? { one_tool_per_job: toolsPerJob.anchor, not_this_company: toolsPerJob.anchorNot }
+          : {}),
       };
     }),
   };
