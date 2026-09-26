@@ -98,12 +98,11 @@ DIVERGENCE FILTERS — what makes A and B read as two different jobs:
      "clinician chart review inside the patient record"
         A -> "reviewer edits applied to an authoritative record"
         B -> keeps clinician and patient record
-   EVERY TECHNOLOGY NAME STILL APPEARS IN A, SPELLED OUT. Rewriting the domain never removes a
-   language, framework, library, datastore, vendor or protocol: "Scala and Play Framework" stays
-   "Scala and Play Framework", never "a typed functional web framework"; "Akka cluster" stays "Akka
-   cluster", never "a clustered runtime"; "ReactiveMongo" stays itself. Only the nouns naming the
-   hiring company's business are rewritten. Measured: an early version genericised Play Framework
-   into "clustered runtime" and two JD technologies vanished from the résumé entirely. B carries the domain intact, because consulting work is where a client in that
+   THIS REWRITE NEVER GENERICISES A TECHNOLOGY. Every language, framework, library, datastore, vendor
+   or protocol that survived the base filters keeps its name in A: "Scala and Play Framework" stays
+   itself, never "a typed functional web framework"; "Akka cluster" never becomes "a clustered
+   runtime". Only the nouns naming the hiring company's business are rewritten. Measured: an early
+   version genericised Play Framework and two JD technologies vanished from the résumé entirely. B carries the domain intact, because consulting work is where a client in that
    industry is true. A résumé whose anchor employer suddenly sells the hiring company's product is the
    fastest thing an interviewer can disprove, and it has happened: a Canadian investment platform came
    back running casino gameplay because the JD's domain reached variation A.

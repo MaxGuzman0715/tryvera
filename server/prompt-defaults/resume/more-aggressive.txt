@@ -160,20 +160,12 @@ migrations, MySQL with WAL tuning, Django ORM inside a FastAPI service, Kubernet
 never name TWO COMPETING tools doing the SAME single job in one bullet - "a FastAPI and Django REST service",
 "one event pipeline on Kafka and RabbitMQ" describe a choice nobody makes twice for one component.
 
-COUNT THE TOOLS DOING EACH JOB IN EVERY BULLET. Per bullet the count is ONE for each of these jobs:
-  cloud provider (AWS / Azure / Google Cloud) - managed Kubernetes (EKS / AKS / GKE) - infrastructure
-  templating (CloudFormation / Bicep / ARM) - CI system (GitHub Actions / Jenkins / GitLab CI / Buildkite)
-  - message broker (Kafka / RabbitMQ / SQS / Pub/Sub / NATS) - data warehouse (Snowflake / BigQuery /
-  Redshift) - web framework (FastAPI / Django / Flask) - front-end framework (React / Angular / Vue) -
-  model provider (OpenAI / Anthropic / Bedrock / Gemini) - ORM.
-Two from one job in one bullet is allowed ONLY when the bullet is explicitly about moving or syncing
-between them (a migration from one to the other, a sync across both). Otherwise split them into separate
-bullets, each doing its own work, or drop the weaker one.
-
-ONE CLOUD PROVIDER, ONE CI SYSTEM AND ONE MODEL PROVIDER PER PIECE OF WORK. AWS CDK cannot provision Cloud SQL;
-"GitHub Actions and Azure Pipelines" is two pipelines for one release; EKS beside AKS is one service in two
-clouds. A single deployment lands in one provider; work that genuinely spans clouds (a migration from AWS to
-Azure, a sync between them) may name both.
+ONE TOOL PER JOB IN EVERY BULLET: one cloud provider, one managed Kubernetes, one infrastructure
+templating tool, one CI system, one message broker, one data warehouse, one web framework, one front-end
+framework, one model provider, one ORM. AWS CDK cannot provision Cloud SQL; "GitHub Actions and Azure
+Pipelines" is two pipelines for one release; EKS beside AKS is one service in two clouds. Two from one job
+is allowed ONLY when the bullet is explicitly about migrating or syncing between them. Where the input gives
+one_tool_per_job, those choices are already made for you.
 
 A VENDOR'S OWN SECTION NEVER NAMES A DIRECT COMPETITOR'S PRODUCT. Amazon and AWS against Microsoft, Google,
 Salesforce and Oracle; Microsoft against Amazon, Google and Salesforce; Google against Amazon and Microsoft.
@@ -220,10 +212,9 @@ BEFORE YOU OUTPUT - CHECK THESE FOUR, FIX WHAT FAILS
    or surface instead.
 2. FIGURES: COUNT the measured results in each company - exactly four, of four different kinds. Fewer than
    four: add one to a bullet that has none. More: strip the weakest. No bare percentage at 30 or above.
-3. COMPETING TOOLS: read every bullet once more and count the tools doing each job - cloud provider,
-   managed Kubernetes, infrastructure templating, CI system, message broker, data warehouse, web framework,
-   front-end framework, model provider, ORM. Each count is ONE per bullet, unless that bullet is explicitly
-   about migrating or syncing between the two. Split or drop every extra.
+3. COMPETING TOOLS: one tool per job per bullet - cloud, Kubernetes, infra templating, CI, broker,
+   warehouse, web framework, front-end framework, model provider, ORM. Split or drop every extra, unless
+   that bullet is explicitly about migrating between the two.
 4. COVERAGE: every technology in jd_tools appears in a bullet.
 
 ════════════════════════════════════════════════════════════════
