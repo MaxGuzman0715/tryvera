@@ -89,6 +89,25 @@ DIVERGENCE FILTERS — what makes A and B read as two different jobs:
      - greenfield / 0-to-1                   vs   optimization and upkeep of mature systems
    Pick an axis where BOTH poles are strongly represented in the JD, so both variations stay relevant.
 
+   THE HIRING COMPANY'S BUSINESS DOMAIN BELONGS IN B, NEVER IN A. Variation A is read onto an employer
+   in a different line of business, so strip from A every noun naming what the hiring company SELLS or
+   who it serves, and write the same requirement as the universal engineering problem underneath it:
+     "real-time multiplayer casino gameplay and sweepstakes mechanics"
+        A -> "real-time multiplayer session state with server-authoritative updates"
+        B -> keeps casino gameplay and sweepstakes in full
+     "clinician chart review inside the patient record"
+        A -> "reviewer edits applied to an authoritative record"
+        B -> keeps clinician and patient record
+   EVERY TECHNOLOGY NAME STILL APPEARS IN A, SPELLED OUT. Rewriting the domain never removes a
+   language, framework, library, datastore, vendor or protocol: "Scala and Play Framework" stays
+   "Scala and Play Framework", never "a typed functional web framework"; "Akka cluster" stays "Akka
+   cluster", never "a clustered runtime"; "ReactiveMongo" stays itself. Only the nouns naming the
+   hiring company's business are rewritten. Measured: an early version genericised Play Framework
+   into "clustered runtime" and two JD technologies vanished from the résumé entirely. B carries the domain intact, because consulting work is where a client in that
+   industry is true. A résumé whose anchor employer suddenly sells the hiring company's product is the
+   fastest thing an interviewer can disprove, and it has happened: a Canadian investment platform came
+   back running casino gameplay because the JD's domain reached variation A.
+
    MAPPING: variation A drives the candidate's REAL anchor company (one deeply-owned product), so give
    A the pole that reads as focused, core, deeply-owned work. Variation B drives a CONSULTING company
    that presents the work as several industry-matched client engagements, so give B the pole that
