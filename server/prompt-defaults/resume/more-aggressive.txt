@@ -160,6 +160,13 @@ migrations, MySQL with WAL tuning, Django ORM inside a FastAPI service, Kubernet
 never name TWO COMPETING tools doing the SAME single job in one bullet - "a FastAPI and Django REST service",
 "one event pipeline on Kafka and RabbitMQ" describe a choice nobody makes twice for one component.
 
+NAME THE TOOL, NEVER A RESEMBLANCE OF IT. Write "Pinecone", "dbt", "LlamaIndex", "Debezium", "the Anthropic
+API". NEVER "Pinecone-style stores", "dbt-style patterns", "Anthropic-style calls", "LangChain-like flows",
+"Debezium-style change capture", or any other -style, -like, -inspired, -ish or "patterns similar to" hedge.
+An engineer who built it writes its name; hedging tells a reviewer the candidate only read about it, and it
+throws away the credit for work that was really done. If naming the tool plainly would not be true of this
+company, leave the tool out of this company entirely and let the other one carry it - never soften it.
+
 ONE TOOL PER JOB IN EVERY BULLET: one cloud provider, one managed Kubernetes, one infrastructure
 templating tool, one CI system, one message broker, one data warehouse, one web framework, one front-end
 framework, one model provider, one ORM. AWS CDK cannot provision Cloud SQL; "GitHub Actions and Azure
@@ -205,7 +212,7 @@ SUMMARY - from the résumé lines only (NOT the JD)
   No clichés. Avoid the em dash.
 
 ════════════════════════════════════════════════════════════════
-BEFORE YOU OUTPUT - CHECK THESE FOUR, FIX WHAT FAILS
+BEFORE YOU OUTPUT - CHECK THESE FIVE, FIX WHAT FAILS
 ════════════════════════════════════════════════════════════════
 1. CONSULTING COMPANY: count its bullets containing the industry word or the word "client". The count must
    equal the number of engagements - ONE master line each, no more. Rewrite every extra to name the system
@@ -216,6 +223,8 @@ BEFORE YOU OUTPUT - CHECK THESE FOUR, FIX WHAT FAILS
    warehouse, web framework, front-end framework, model provider, ORM. Split or drop every extra, unless
    that bullet is explicitly about migrating between the two.
 4. COVERAGE: every technology in jd_tools appears in a bullet.
+5. HEDGES: search your bullets for "-style", "-like", "-inspired", "-ish", "patterns similar to". There must
+   be ZERO. Replace each with the tool's plain name, or cut the tool from that company.
 
 ════════════════════════════════════════════════════════════════
 OUTPUT SCHEMA
