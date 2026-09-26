@@ -890,8 +890,18 @@ async function buildResumeDoc(params: {
   // rather than leaving it to the writer, because the prose rule alone kept producing Azure inside
   // a Google Cloud company and PHP inside a Ruby checkout.
   const anchorExclusions = last2.filter((t) => !t.consulting).flatMap((t) => t.excluded);
+  // Matched on whole words, not exact strings: an exclusion list writes the product's full name
+  // ("GitLab CI", "Azure Data Factory") while a posting names the family ("GitLab", "Azure"), and
+  // exact equality let those straight into the anchor - Bazel and GitLab pipelines inside a Rails
+  // checkout. One name being the other's leading words is the same technology either way; a shared
+  // prefix inside a word is not ("PHP" must not swallow "PHPUnit").
+  const sameTool = (a: string, b: string): boolean => {
+    const x = a.trim().toLowerCase();
+    const y = b.trim().toLowerCase();
+    return x === y || x.startsWith(`${y} `) || y.startsWith(`${x} `);
+  };
   const misplacedTools = (params.jdTools ?? []).filter((tool) =>
-    anchorExclusions.some((x) => x.trim().toLowerCase() === tool.trim().toLowerCase())
+    anchorExclusions.some((x) => sameTool(x, tool))
   );
 
   // One tool per job, per company, so a bullet cannot pair two that do the same thing. The skills
