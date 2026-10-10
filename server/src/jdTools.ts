@@ -59,7 +59,33 @@ const TOOL_DOMAIN_OVERRIDES: Record<string, Domain> = {
 };
 
 /** Named tools a JD commonly asks for that no stored profile spells out. */
-const EXTRA_JD_TOOLS = ["NoSQL", "Hadoop"];
+const EXTRA_JD_TOOLS = [
+  "NoSQL", "Hadoop",
+  // Protection comes from the vocabulary, which is built only from what profiles happen to spell
+  // out, so a must-have no profile lists verbatim is silently unprotected. Cority asks for
+  // ".NET Core", ".NET Framework", "Dapper" and "Web APIs" by name; none were in the vocabulary,
+  // so whether they survived the skills trim was down to the model.
+  ".NET Core", ".NET Framework", "Dapper", "Web APIs",
+];
+
+/**
+ * JD spellings of a tool the vocabulary stores under a different name.
+ *
+ * Matching is whole-word, so a JD asking for "Node" never matches the stored "Node.js" and the
+ * term goes unprotected — which is how Cority's explicit Node must-have survived one run and
+ * vanished from the next with nothing in the data changing. Keys are what a posting writes, values
+ * the canonical item; the canonical entry is what gets protected, so the printed skills keep the
+ * profile's own spelling rather than gaining a duplicate.
+ */
+const JD_TOOL_ALIASES: Record<string, string> = {
+  node: "Node.js",
+  nodejs: "Node.js",
+  "web api": "Web APIs",
+  postgres: "PostgreSQL",
+  k8s: "Kubernetes",
+  golang: "Go",
+  "github actions": "GitHub Actions",
+};
 
 export type JdTool = { item: string; categories: string[]; siblings: Set<string> };
 
@@ -85,7 +111,17 @@ const NOT_TOOLS = new Set([
   "natural language processing", "reinforcement learning", "generative ai", "data engineering",
   "end-to-end", "fine-tuning", "real-time", "multi-tenant", "multi-tenancy", "event-driven", "open-source",
   "cross-functional", "high-availability", "low-latency", "large-scale", "on-device", "on-call", "a/b testing",
+  // Spoken languages. They are capitalised like products, so without this "English" is read as a tool:
+  // a posting's language selector ("English (United States)") then counts as a JD requirement, and the
+  // coverage rule welds it into a bullet — which is where "English-language compliance reports" came from.
+  "english", "french", "spanish", "german", "hindi", "mandarin", "portuguese", "arabic", "japanese",
+  "korean", "gujarati", "marathi", "igbo", "yoruba", "russian", "italian", "dutch", "bengali", "tamil",
 ]);
+
+/** A category listing spoken languages, not technologies — excluded from the tool vocabulary. */
+export function isSpokenLanguageCategory(name: string): boolean {
+  return /\bspoken\b|\bnatural languages?\b/i.test(name);
+}
 
 export function isNamedTool(item: string): boolean {
   if (item.length < 2 || item.length > 30 || item.split(/\s+/).length > 3) return false;
@@ -105,6 +141,9 @@ export function buildJdToolVocabulary(profileSkillLists: string[][]): Map<string
       const idx = line.indexOf(":");
       if (idx <= 0) continue;
       const category = line.slice(0, idx).trim();
+      // The vocabulary is built from every profile in the folder, so one profile's
+      // "Spoken Languages: English (Professional), …" would otherwise make English a tool for all of them.
+      if (isSpokenLanguageCategory(category)) continue;
       const lineItems = skillLineItems(line);
       for (const raw of line.slice(idx + 1).split(/[,()]/)) {
         const item = raw.trim();
@@ -170,15 +209,41 @@ const nameOf = (l: string) => l.slice(0, Math.max(0, l.indexOf(":"))).trim();
  * True when the skills already list this tool as an item of its own. "React Query" does not list React
  * and "Spark SQL" does not list SQL; "Apache Spark" does list Spark and "AWS (S3, Lambda)" lists AWS.
  */
+/**
+ * Generic nouns a skills line tacks onto a tool name. "MCP servers" already lists MCP, so the
+ * restore must not append a second "MCP" beside it. Kept to an explicit list rather than a prefix
+ * test, because "React Native" must NOT count as listing React.
+ */
+const TOOL_QUALIFIERS = new Set([
+  "server", "servers", "service", "services", "db", "dbs", "database", "databases",
+  "tool", "tools", "framework", "frameworks", "api", "apis", "pipeline", "pipelines",
+]);
+
+/** Every spelling of a listed entry that means the same tool: "Agile / Scrum" lists both. */
+function listedForms(entry: string): string[] {
+  const head = entry.replace(/\s*\(.*$/, "").trim();
+  const forms = new Set<string>([head]);
+  for (const part of head.split(/\s*\/\s*|\s+and\s+/)) {
+    const p = part.trim();
+    if (p) forms.add(p);
+  }
+  for (const f of [...forms]) {
+    const words = f.split(/\s+/);
+    if (words.length > 1 && TOOL_QUALIFIERS.has(words[words.length - 1])) {
+      forms.add(words.slice(0, -1).join(" "));
+    }
+  }
+  return [...forms];
+}
+
 export function skillsListTool(skills: string[], item: string): boolean {
   const low = item.toLowerCase();
   return skills.some((l) =>
     splitTopLevel(l.slice(l.indexOf(":") + 1))
       .map((x) => x.toLowerCase())
       .some((x) => {
-        const head = x.replace(/\s*\(.*$/, "").trim();
         const inner = (x.match(/\(([^)]*)\)?/)?.[1] ?? "").split(/[,/]/).map((y) => y.trim());
-        return head === low || head === `apache ${low}` || inner.includes(low);
+        return listedForms(x).some((f) => f === low || f === `apache ${low}`) || inner.includes(low);
       })
   );
 }
@@ -279,6 +344,15 @@ export function restoreDroppedJdTools(params: {
     if (has(jd, extra) && !named.some((n) => n.item.toLowerCase() === extra.toLowerCase())) {
       named.push({ item: extra, categories: [], siblings: new Set<string>() });
     }
+  }
+  // A JD that writes "Node" means the stored "Node.js". Protect the canonical entry, with the
+  // vocabulary's categories when it has them, so the term is covered under the spelling profiles use.
+  for (const [spelling, canonical] of Object.entries(JD_TOOL_ALIASES)) {
+    if (!has(jd, spelling)) continue;
+    if (named.some((n) => n.item.toLowerCase() === canonical.toLowerCase())) continue;
+    named.push(
+      vocab.get(canonical.toLowerCase()) ?? { item: canonical, categories: [], siblings: new Set<string>() }
+    );
   }
   // Drop a term the JD only uses inside a longer named tool ("Spark" inside "Apache Spark", "AWS" inside
   // "AWS Glue"). It stays when the JD also names it on its own - "SQL" beside "MySQL" is its own term.
