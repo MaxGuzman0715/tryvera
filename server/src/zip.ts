@@ -150,3 +150,46 @@ export async function buildFolderZip(
   }
   return { zip: buildZip(entries), names };
 }
+
+/**
+ * Collect every shareable file under a DAY folder, keeping each file's path relative to
+ * that folder so the archive unpacks as `_batch/<run>/<profile>.pdf` rather than a flat
+ * heap of same-named PDFs.
+ *
+ * A day holds one subfolder per profile plus `_batch/`, and each of those holds one
+ * folder per run — so unlike buildFolderZip this has to recurse. Depth is bounded in
+ * practice (day → profile → run → files) but the walk is generic.
+ */
+async function collectDayEntries(root: string, rel: string, out: ZipEntry[], all: boolean): Promise<void> {
+  const here = rel ? path.join(root, rel) : root;
+  const dirents = await fs.readdir(here, { withFileTypes: true });
+  for (const d of dirents.sort((a, b) => a.name.localeCompare(b.name))) {
+    const childRel = rel ? `${rel}/${d.name}` : d.name;
+    const childAbs = path.resolve(root, childRel);
+    // Never follow anything resolving outside the day folder (symlinks, odd names).
+    if (path.relative(root, childAbs).startsWith("..")) continue;
+    if (d.isDirectory()) {
+      await collectDayEntries(root, childRel, out, all);
+    } else if (d.isFile() && (all || isShareableArtifact(d.name))) {
+      const [data, stat] = await Promise.all([fs.readFile(childAbs), fs.stat(childAbs)]);
+      out.push({ name: childRel, data, date: stat.mtime });
+    }
+  }
+}
+
+/**
+ * Build one ZIP of a whole day's output.
+ *
+ * The VPS generates the batches; copying the folder down over SFTP is slow and fiddly, so
+ * this is the same trick as the per-run download applied one level up: one request, one
+ * archive, everything that day produced. Defaults to the shareable set (PDFs and the job
+ * description) because the run folders also hold the system prompts and the raw LLM input.
+ */
+export async function buildDayZip(
+  root: string,
+  opts: { all?: boolean } = {}
+): Promise<{ zip: Buffer; names: string[] }> {
+  const entries: ZipEntry[] = [];
+  await collectDayEntries(root, "", entries, opts.all === true);
+  return { zip: buildZip(entries), names: entries.map((e) => e.name) };
+}

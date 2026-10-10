@@ -5,7 +5,7 @@ import path from "node:path";
 import { existsSync } from "node:fs";
 import fs from "node:fs/promises";
 import { z } from "zod";
-import { dataDir, ensureDirs, projectRoot } from "./paths.js";
+import { dataDir, ensureDirs, outputRoot, projectRoot } from "./paths.js";
 import { isSafeArtifactBasename } from "./filenameSafe.js";
 import { readSettings, writeSettings } from "./appSettings.js";
 import {
@@ -52,7 +52,7 @@ import {
   ownedArtifactName,
   runGeneration,
 } from "./generation.js";
-import { buildFolderZip, isShareableArtifact } from "./zip.js";
+import { buildDayZip, buildFolderZip, isShareableArtifact } from "./zip.js";
 import {
   buildCaption,
   isTelegramConfigured,
@@ -65,6 +65,9 @@ import {
  * Filename for a run's archive, taken from its output folder so several batches sitting in
  * a Downloads folder (or a Telegram channel) stay tellable apart.
  */
+/** Output day folders are named MM_DD. Anchored so a path separator can never slip in. */
+const DAY_FOLDER = /^\d{2}_\d{2}$/;
+
 function zipBaseName(outputFolder: string): string {
   const base = path.basename(outputFolder) || "application";
   return base.replace(/[^A-Za-z0-9._-]+/g, "_").slice(0, 100) || "application";
@@ -779,6 +782,79 @@ app.get<{ id: string; name: string }>(
  * for one job description, so one click gets the lot. For a single run it is simply that
  * run's files. Must be registered before /api/applications/:id so the route is not shadowed.
  */
+/**
+ * List the days that have output, newest first.
+ *
+ * The generator runs on the VPS, so the operator needs to see what is there before
+ * pulling it down. Counts the shareable artifacts only, which is what a download will
+ * actually contain.
+ */
+app.get("/api/output/days", requireAuth, requireAdmin, async (_req, res) => {
+  try {
+    const root = outputRoot();
+    let days: string[];
+    try {
+      days = (await fs.readdir(root, { withFileTypes: true }))
+        .filter((d) => d.isDirectory() && DAY_FOLDER.test(d.name))
+        .map((d) => d.name)
+        .sort()
+        .reverse();
+    } catch {
+      return res.json({ days: [] });
+    }
+    const out = [];
+    for (const day of days) {
+      let files = 0;
+      let bytes = 0;
+      const walk = async (dir: string): Promise<void> => {
+        for (const d of await fs.readdir(dir, { withFileTypes: true })) {
+          const abs = path.join(dir, d.name);
+          if (d.isDirectory()) await walk(abs);
+          else if (d.isFile() && isShareableArtifact(d.name)) {
+            files++;
+            bytes += (await fs.stat(abs)).size;
+          }
+        }
+      };
+      await walk(path.join(root, day));
+      out.push({ day, files, bytes });
+    }
+    res.json({ days: out });
+  } catch (e) {
+    res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+  }
+});
+
+/**
+ * Download one whole DAY of output as a single ZIP.
+ *
+ * Copying the day's folder off the VPS by hand is the slow part of the workflow this
+ * replaces. `?all=1` includes the non-shareable files (prompts, llm_input) for debugging;
+ * the default is PDFs and job descriptions only.
+ */
+app.get<{ day: string }>("/api/output/:day/day.zip", requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { day } = req.params;
+    // Only ever a literal MM_DD folder name: no separators, no traversal.
+    if (!DAY_FOLDER.test(day)) return res.status(400).json({ error: "Bad day" });
+    const root = path.join(outputRoot(), day);
+    let zip: Buffer;
+    let names: string[];
+    try {
+      ({ zip, names } = await buildDayZip(root, { all: req.query.all === "1" }));
+    } catch {
+      return res.status(404).json({ error: "No output for that day" });
+    }
+    if (names.length === 0) return res.status(404).json({ error: "No documents for that day" });
+    res.setHeader("Content-Type", "application/zip");
+    res.setHeader("Content-Disposition", `attachment; filename="output_${day}.zip"`);
+    res.setHeader("Content-Length", String(zip.length));
+    res.end(zip);
+  } catch (e) {
+    res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+  }
+});
+
 app.get<{ id: string }>("/api/applications/:id/folder.zip", requireAuth, async (req, res) => {
   try {
     const entry = await getApplication(req.params.id);
