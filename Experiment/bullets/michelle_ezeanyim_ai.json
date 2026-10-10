@@ -1,0 +1,56 @@
+{
+  "id": "michelle_ezeanyim_ai",
+  "basic": {
+    "fullName": "Michelle Ezeanyim",
+    "title": "Senior Software Engineer",
+    "location": "Cypress, TX, United States",
+    "email": "chinonyelumezeanyim@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/ezeanyim-michelle-3185b5401"
+  },
+  "experience": [
+    {
+      "company": "Hewlett Packard Enterprise",
+      "title": "Senior Software Engineer",
+      "startDate": "Jan 2023",
+      "endDate": "Present",
+      "location": "Spring, Texas, United States",
+      "bullets": [
+        "Build and review features in HPE Machine Learning Development Environment, the training platform HPE ships to enterprises, working in Python and Go across the services that run and track a customer's training jobs.",
+        "Review code and designs across the HPE Private Cloud AI integration paths, checking correctness, edge cases and whether an implementation actually matches the written contract before it is promoted.",
+        "Build specification-driven verification with pytest, property-based tests, fuzz cases, golden fixtures and differential checks, so a stated behaviour either holds or fails visibly.",
+        "Run generated patches from AI-assisted coding workflows against hidden tests, performance limits, static checks and reference behaviour, and classify the recurring failure modes that come out.",
+        "Write the reference implementations and grading rubrics used to judge model-produced code, then sample completed judgments and calibrate reviewers until the same rule produces the same decision."
+      ]
+    },
+    {
+      "company": "Andela",
+      "title": "Software Engineer",
+      "startDate": "Jul 2020",
+      "endDate": "Dec 2022",
+      "location": "Lagos, Nigeria | Remote",
+      "consulting": true,
+      "bullets": []
+    }
+  ],
+  "skills": [
+    "AI Evaluation & Training: LLM output evaluation and rating, human preference data collection, guideline and rubric adherence, data labeling and annotation, fact-checking and accuracy review, AI model assessment, response ranking, pairwise comparison, inter-annotator agreement, quality assurance sampling, RLHF, red-teaming, prompt durability testing, rubric design, annotation workflow design, dataset engineering, model benchmarking, evaluation harness design",
+    "Multimodal, Geospatial & Scientific Data: QGIS, GIS spatial analysis, terrain analysis, spatial dataset overlays, ParaView, scientific visualization, DICOM, 3D medical dataset reconstruction, FreeCAD, parametric CAD modelling, mechanical assemblies, technical schematics, 3D modelling, image and audio annotation",
+    "Languages: Python, Go, Rust, C, C++, Java, JavaScript, TypeScript, Swift, SQL, Bash",
+    "Frameworks & Runtimes: FastAPI, Flask, Next.js, Node.js, Express, React",
+    "Data & Backend: REST APIs, gRPC, Protocol Buffers, PostgreSQL, Redis, Kafka, Parquet, distributed systems, asynchronous processing, worker queues, ETL tools, database schema design",
+    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, pandas, NumPy, Hugging Face Transformers, OpenAI API, Anthropic API, MLflow, Jupyter",
+    "Testing & Verification: pytest, Hypothesis, property-based testing, fuzz testing, golden files, differential testing, regression testing, deterministic replay, unit and integration testing, test-case design",
+    "Documentation & Review Practices: technical documentation, workflow guides, step-by-step verification protocols, specification writing, style and contribution guides, code review, quality assurance, critical thinking, remote and independent work, deadline management",
+    "Spoken Languages: English (Professional), Igbo (Native)"
+  ],
+  "education": [
+    {
+      "school": "University of Nigeria, Nsukka",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2016",
+      "endDate": "2020"
+    }
+  ],
+  "note": "AI-training / evaluation variant for Handshake AI-style postings, built from the candidate's current résumé (HPE anchor, Andela consulting, University of Nigeria Nsukka). Andela is the consulting employer (consulting:true, no bullets - engagements come from shared.json), mirroring Thoughtworks in rajeev_kumar_ai. Skills are tool-forward with the annotation-EXECUTION terms first, because the rendered category caps at 10 items and the design-flavoured words win otherwise. No soft-skills category. She is US-based, which Handshake AI requires."
+}

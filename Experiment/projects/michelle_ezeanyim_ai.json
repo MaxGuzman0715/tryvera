@@ -1,0 +1,42 @@
+{
+  "id": "michelle_ezeanyim_ai",
+  "note": "Per-profile career-project list. HPE is the anchor; Andela is the consulting employer and stores no bullets.",
+  "projects": [
+    {
+      "company": "Hewlett Packard Enterprise",
+      "role": "Senior Software Engineer",
+      "dateRange": "Jan 2023 - Present",
+      "flagshipProject": "HPE Machine Learning Development Environment and Private Cloud AI",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": [],
+      "description": "HPE Machine Learning Development Environment is the managed training stack HPE ships to enterprises: it runs a customer's training jobs, keeps the state and metadata of each run, and picks work back up from a checkpoint when a run is interrupted. HPE Private Cloud AI packages that training and inference path as an appliance customers run in their own data centres. Much of the engineering around it is a correctness function rather than a systems one: specification-driven test frameworks, property-based and differential checks, golden fixtures, and tooling that runs generated patches from AI-assisted coding workflows against hidden tests, performance limits, static checks and reference behaviour, then classifies the failure modes that recur. Reference implementations and grading rubrics define what a correct answer looks like, completed judgments are sampled for quality, and reviewers are calibrated against each other. Code and design review across the Private Cloud AI integration paths checks edge cases, failure recovery and whether an implementation matches its written contract before promotion.",
+      "stackExclusions": [
+        "AWS",
+        "Amazon Web Services",
+        "Azure",
+        "Google Cloud",
+        "GCP",
+        "SageMaker",
+        "Vertex AI",
+        "BigQuery",
+        "Snowflake",
+        "Databricks",
+        "EKS",
+        "AKS",
+        "GKE",
+        "Lambda"
+      ]
+    },
+    {
+      "company": "Andela",
+      "role": "Software Engineer",
+      "dateRange": "Jul 2020 - Dec 2022",
+      "flagshipProject": "",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": [],
+      "description": "Andela places engineers with client companies; engagements come from the shared industry project pool."
+    }
+  ]
+}

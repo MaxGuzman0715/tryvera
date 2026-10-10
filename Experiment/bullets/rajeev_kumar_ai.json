@@ -1,0 +1,85 @@
+{
+  "id": "rajeev_kumar_ai",
+  "basic": {
+    "fullName": "Rajeev Kumar",
+    "title": "Senior Software Engineer",
+    "email": "rajeev.qadev@gmail.com",
+    "phone": "+1 (647) 233-6850",
+    "location": "Mississauga, Ontario, Canada",
+    "linkedin": "https://www.linkedin.com/in/rajeev-kumar-22365a398/"
+  },
+  "experience": [
+    {
+      "company": "Shopify",
+      "title": "Senior Software Engineer",
+      "startDate": "Jan 2023",
+      "endDate": "Present",
+      "location": "Remote",
+      "bullets": [
+        "Build across Shopify Checkout and Checkout Extensibility, including Shopify Functions, Checkout UI extensions and Shop Pay, and review the code partner developers submit into that execution path.",
+        "Judge submitted extension and Functions code against written correctness, performance and edge-case guidelines, recording a pass or fail decision and the line-level reason behind it.",
+        "Write the reference implementations and acceptance tests that define what a correct extension does, so a reviewer compares a submission against a known-good answer.",
+        "Check generated merchant copy from Shopify Magic against published accuracy and tone criteria before a store sees it, and write the corrected wording when an output falls short.",
+        "Sample completed reviews for quality and reconcile the cases where two reviewers disagreed, revising the guideline wording that let them read the same rule differently."
+      ]
+    },
+    {
+      "company": "Thoughtworks",
+      "title": "Senior Software Engineer",
+      "startDate": "May 2021",
+      "endDate": "Dec 2022",
+      "location": "Toronto, Ontario, Canada",
+      "bullets": [],
+      "consulting": true
+    },
+    {
+      "company": "Felix",
+      "title": "Founding Software Engineer",
+      "startDate": "Mar 2019",
+      "endDate": "May 2021",
+      "location": "Toronto, Ontario, Canada",
+      "bullets": [
+        "Built the first version of Felix's online care platform as a founding engineer, taking a patient from intake questionnaire through clinician review to a prescription order ahead of the public launch.",
+        "Developed the clinician review tooling that let licensed physicians assess each intake against written clinical criteria, approve or decline treatment and message the patient, replacing the email and phone follow-up the first cases ran on.",
+        "Labelled and re-checked intake submissions against the approval criteria during the launch period, working through each queue case by case and flagging the ones the written rules did not yet cover.",
+        "Authored the review guidelines and decision rubrics clinicians applied to each intake, and revised them from disagreement cases so two reviewers reached the same decision on the same patient.",
+        "Hardened how the platform handled personal health information as the service grew across provinces, adding access controls and audit trails around every clinician and pharmacy action."
+      ]
+    },
+    {
+      "company": "Microsoft",
+      "title": "Software Engineer",
+      "startDate": "Jun 2017",
+      "endDate": "Mar 2019",
+      "location": "Vancouver, British Columbia, Canada",
+      "bullets": [
+        "Built store-operations features in Dynamics 365 for Retail, including point-of-sale flows that let retailers ring up sales, returns and exchanges the same way in stores and online.",
+        "Reviewed code across the retail server and point-of-sale components against the team's checklist, checking correctness, performance under load and backward compatibility before changes shipped on the servicing train.",
+        "Triaged and classified incoming customer-reported retail defects against the severity and area definitions, reproducing each one and recording the evidence support engineers needed to confirm the classification.",
+        "Diagnosed performance and reliability defects in the retail server under peak trading load, isolating the root cause from profiling data and reducing the checkout slowdowns store associates saw during the busiest periods.",
+        "Documented troubleshooting procedures and verification steps for retail deployments, so support engineers could reproduce and confirm a fix without escalating back to the product team."
+      ]
+    }
+  ],
+  "skills": [
+    "AI Evaluation & Training: LLM output evaluation and rating, human preference data collection, guideline and rubric adherence, data labeling and annotation, fact-checking and accuracy review, AI model assessment, response ranking, pairwise comparison, inter-annotator agreement, quality assurance sampling, RLHF, red-teaming, prompt durability testing, rubric design, annotation workflow design, dataset engineering, model benchmarking, evaluation harness design",
+    "Multimodal, Geospatial & Scientific Data: QGIS, GIS spatial analysis, terrain analysis, spatial dataset overlays, ParaView, scientific visualization, DICOM, 3D medical dataset reconstruction, FreeCAD, parametric CAD modelling, mechanical assemblies, technical schematics, 3D modelling, image and audio annotation",
+    "Languages: Python, Java, C++, Go, JavaScript, TypeScript, Ruby, Kotlin, SQL, Bash",
+    "Frameworks & Runtimes: FastAPI, Flask, Django, Node.js, Express, Next.js, React, Ruby on Rails",
+    "Data & Backend: REST APIs, gRPC, Protocol Buffers, GraphQL, PostgreSQL, MySQL, MongoDB, Redis, Kafka, Parquet, distributed systems, asynchronous processing, ETL tools, database schema design",
+    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, pandas, NumPy, Hugging Face Transformers, OpenAI API, Anthropic API, Google Gemini API, LangChain, LlamaIndex, MLflow, Jupyter",
+    "Testing & Verification: pytest, JUnit, Jest, Playwright, property-based testing, fuzz testing, golden files, differential testing, unit and integration testing, TDD",
+    "Documentation & Review Practices: technical documentation, workflow guides, step-by-step verification protocols, specification writing, style and contribution guides, code review, quality assurance, critical thinking, remote and independent work, deadline management",
+    "Spoken Languages: English (Professional), Hindi (Native), Marathi (Native)"
+  ],
+  "education": [
+    {
+      "school": "University of Mumbai",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2014",
+      "endDate": "2017"
+    }
+  ],
+  "note": "AI-training / evaluation variant of rajeev_kumar for Handshake AI-style postings. SAME companies, dates, locations and university as the base profile - only skills and bullets differ. Shopify (anchor) and Thoughtworks (consulting, no bullets) are tailored live; Felix and Microsoft render verbatim, so their bullets carry the review, rubric-authoring, debugging and documentation signal these roles screen for. Skills cover every item on the reference résumé plus Java, C++ and Go, which the Handshake software-engineer track names and the reference lacks."
+}
