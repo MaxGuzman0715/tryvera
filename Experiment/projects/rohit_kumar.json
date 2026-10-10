@@ -1,61 +1,103 @@
 {
   "id": "rohit_kumar",
-  "note": "Per-profile career-project list. One REAL flagship project per real company, within that company's date range, each chosen because it spans front-end + back-end + data/AI in a single request path (so the resume can claim all three layers from one coherent project). For the 2 MOST RECENT companies (isRecentTwo:true) we keep company info only — bullets are tailored live at generation. For older companies we ship ready-made bullets, pitched at the seniority appropriate to that point in the career. Descriptions are plain-terms, one paragraph.",
+  "note": "Per-profile career-project list. One REAL flagship project per real (non-consulting) company, within that company's date range, each chosen because it spans application, backend/platform and data concerns and therefore supports a broad Senior Software Engineer corpus. Deloitte is a consulting firm, so it carries no fixed project: at generation, shared.json supplies the JD-matched anonymised client engagements. Anchors describe the project universe, NOT the candidate's personal contribution or a fixed technology stack; implementation specifics are selected per JD from within that universe. Bullets on companies at index 2+ render VERBATIM (the LLM never sees them), so they are written as finished lines.",
   "projects": [
     {
-      "company": "Apple",
-      "role": "Software Engineer",
-      "dateRange": "Apr 2014 - Apr 2018",
-      "flagshipProject": "Apple Music",
-      "spans": ["frontend", "backend", "ai_data"],
-      "description": "Apple Music is the streaming service where you play songs and get recommendations tailored to your taste. When you open the app and hit play, the Music app on your iPhone or Mac sends a request to Apple's servers, which pull the track from the catalog, run your subscription and rights checks, and stream it back to you - while a recommendation engine decides what fills your 'For You' section and personalized playlists. It touches the front end (the Music app you browse and play from), the back end (the servers that store the catalog, verify your subscription, and stream audio to tens of millions of people), and the data side (the models that learn what you like and choose what to recommend).",
-      "isRecentTwo": false,
-      "bulletsProvided": true,
-      "bullets": [
-        "Shipped playback and browse surfaces in the Apple Music iOS/macOS app - the personalized 'For You' feed, curated playlists, and now-playing - tuned for fast time-to-first-play and smooth scrolling across large music libraries.",
-        "Built catalog and streaming backend services that resolved a requested track, ran subscription and rights/entitlement checks, and streamed audio to tens of millions of listeners at low latency.",
-        "Contributed to the 'For You' recommendation path - the feature pipelines over listening history and the ranking that decided which albums, playlists, and stations to surface next.",
-        "Hardened the playback path for launch and peak traffic, cutting time-to-first-play and driving down playback-error rates under load."
+      "company": "ANVIL",
+      "role": "Staff Software Engineer",
+      "dateRange": "Jan 2026 - Present",
+      "flagshipProject": "ANVIL Platform - All-Source Ingestion and Fusion + the Mission Ontology + AI Enrichment + Mission Applications",
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data",
+        "infrastructure",
+        "security_governance"
+      ],
+      "description": "The ANVIL Platform connects intelligence, operations and planning through one shared mission-data environment for Canadian defence and security organizations, so a record collected by one team is the same record another team acts on. An analyst explores a threat network or starts an analytical workflow in a Mission Application; the request reaches the backend services that run the workflow and manage its structured data. All-Source Ingestion and Fusion brings information in from separate sources and resolves it against the Mission Ontology, the configurable model everything is organised around, while AI Enrichment annotates and links the resulting records for intelligence analysis. Mission Applications and the Tactical Edge interfaces expose the result for visualization, collaboration and operational decisions, including in disconnected environments. Data History and Lineage preserves provenance and access records as information evolves. It is deployed inside national defence and security organizations - running on their own infrastructure, classified and on-premise installations, and disconnected deployments at the Tactical Edge, never on public cloud - and used by analyst, intelligence and planning teams rather than by a consumer user base, so load is measured in concurrent analyst sessions, sustained collection and sensor feeds and the volume of records held under the ontology - not in end users or public request rates. It touches the front end (Mission Applications and the Tactical Edge), the back end (workflow and data services), the data/AI side (All-Source Ingestion and Fusion, AI Enrichment and retrieval) and the governance layer (attribute-based access control over Data History and Lineage).",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": [],
+      "notes": "IDENTITY: anvil.ai, the Ottawa defence-intelligence company - NOT anvil.works (Python web apps), useanvil.com (document automation), anvil.co or the robotics firm. PUBLISHED: anvil.ai/solutions documents the ANVIL Platform, all-source ingestion, scalable storage, configurable ontology, AI enrichment, interoperable mission applications, tactical-edge operations, attribute-based access control, data history and lineage; anvil.ai/mission confirms national defence deployment and NATO interoperability. HIRING POSTS evidence the stack: Python, REST, PostgreSQL schema management, distributed data contracts and event-driven architecture (backend); JavaScript/TypeScript, React, Playwright, real-time visualization (frontend). Kafka, Redpanda, WebSockets, SSE, Docker and Kubernetes appear as preferred or familiarity items, not proven production use. LinkedIn lists Elasticsearch as a skill endorsed at ANVIL. INFERRED: the single analyst-to-data-to-AI-to-interface request path above is an architecture-level reading of published capabilities; ANVIL does not publish separately named internal services, so service boundaries, ownership and deployment topology are not verified. Cloud provider and CI vendor are unknown. SYSTEM NAMES (2026-10-08): this anchor carried only one proper name (ANVIL Platform) against the six published ones in the Wealthsimple anchor (Book of Record, Financial Activity Model, Financial Calculation Platform, Machine Learning Platform, AI Inference Platform, LLM Gateway, 17 mentions between them), and named systems are what let a bullet attach a JD's stack to something concrete instead of to a capability description. Five names were added: All-Source Ingestion and Fusion, the Mission Ontology, AI Enrichment, Mission Applications and Data History and Lineage, plus the Tactical Edge. IMPORTANT - unlike Hansal's, these are NOT externally verifiable product names. All but one are ANVIL's own published capability phrases from anvil.ai/solutions, capitalised and used as systems; 'the Mission Ontology' is the only invention, naming the configurable ontology ANVIL does document. Safe here because ANVIL is a small private defence company that publishes no internal architecture, which is the condition under which invented names read as real rather than reckless. Do not add names for things anvil.ai does not describe. SCALE UNIT (2026-10-09): the first generated run against the Cority JD put 5 figures in this anchor and 10 in the resume (against 4 and 5 for the Wealthsimple anchor on the same JD), including '4,800 queries per second' and '3,200,000 records per day' - consumer-internet magnitudes for a small Ottawa defence vendor, and unverifiable against anything public. Cause: this anchor named no scale at all, so the model defaulted to its own. The clause added to the description names the UNIT load is measured in (concurrent analyst sessions, collection and sensor feeds, records under the ontology) and explicitly rules out end users and public request rates. Deliberately NOT a quantity: a figure here gets reproduced verbatim in every run, which is how the Wealthsimple anchor broke in 2026-08-22, and a vague quantifier reads as a hedge, which is how its replacement broke the same day. Do not add numbers to this anchor. TITLE (2026-10-09): the ANVIL role title was raised from 'Software Engineer' to 'Staff Software Engineer' to match basic.title, on an explicit decision. It no longer matches his LinkedIn, and ANVIL is his CURRENT employer - the one entry a recruiter can verify. LinkedIn needs the same change to stay consistent. START DATE (2026-10-09): changed from the bare year '2026' to 'Jan 2026' on his confirmation that he started in January. It was the only bare-year start date in any profile, and it rendered as '2026 - Present', which reads as January anyway. NOTE this does not remove the 9-month overlap with Deloitte (Jun 2022 - Oct 2026) - it makes it explicit. If both dates are correct he genuinely held both roles concurrently; if not, Deloitte's end date is the one to correct. OVERLAP RESOLVED (2026-10-09): Deloitte's end date was 'Oct 2026', which overlapped the ANVIL start by nine months once ANVIL was pinned to Jan 2026. The pre-rebuild backup shows the predecessor role was 'Accenture, Jun 2022 - Present', so 'Oct 2026' was assigned during the rebuild rather than taken from LinkedIn - it is the wrong date, not the ANVIL one. Set to Dec 2025 so the timeline runs continuously into ANVIL. ASSUMPTION: he moved straight from Deloitte to ANVIL with no gap. If there was a gap, or if he genuinely held both, this is the field to correct. DEPLOYMENT (2026-10-11): the Cority run put 'containerised deployments to EKS' and GitHub Actions into this anchor - a managed public-cloud Kubernetes service on an air-gapped defence platform is the most checkable-wrong claim a defence interviewer could catch. Fixed in two places: the description now states the platform runs on customers' own infrastructure and not on public cloud (INFERRED - anvil.ai does not publish a hosting model, but tactical-edge and classified deployment are published), and AWS/Azure/GCP/EKS/AKS/GKE/Flask were added to stackExclusions. The description clause is the load-bearing half: an exclusion list cannot enumerate every tool a JD might push, so the anchor has to make a whole class obviously wrong rather than block names one at a time. CASING (2026-10-11): the deployment clause first read 'disconnected tactical-edge installations' in lower case, which competed with the proper noun 'the Tactical Edge' used twice elsewhere. Named-system usage fell from 6 of 7 to 4 of 7 in the next run and 'All-Source Ingestion and Fusion' was truncated to 'All-Source Ingestion pipeline'. Reworded so the clause reinforces the proper noun instead. Keep every mention of a named system in title case; a lower-case twin turns it back into a description.",
+      "stackExclusions": [
+        ".NET",
+        "C#",
+        "ASP.NET Core",
+        "PHP",
+        "Laravel",
+        "Ruby",
+        "Ruby on Rails",
+        "Angular",
+        "Vue",
+        "Vercel",
+        "Netlify",
+        "Firebase",
+        "AWS",
+        "Azure",
+        "GCP",
+        "EKS",
+        "AKS",
+        "GKE",
+        "Flask"
       ]
     },
     {
-      "company": "Rogers Communications Inc",
-      "role": "Software Engineer",
-      "dateRange": "Apr 2018 - May 2020",
-      "flagshipProject": "Ignite TV",
-      "spans": ["frontend", "backend", "ai_data"],
-      "description": "Ignite TV is Rogers' internet-based TV service, delivered through a set-top box and a companion app. When you turn it on or open the app, your device talks to Rogers' servers, which check your account through your MyRogers login, pull down live channels, on-demand shows, and cloud-PVR recordings, and stream them to your screen. It remembers what you've watched to recommend what's next, and you can search by talking to the remote. It touches the front end (the on-screen guide and the app across phones and TVs), the back end (streaming, cloud recording, and account/entitlement checks at nationwide scale), and the data side (the recommendations and the voice search that figures out what you're asking for).",
-      "isRecentTwo": false,
-      "bulletsProvided": true,
-      "bullets": [
-        "Built Ignite TV client surfaces across the set-top box and companion app - the live guide, on-demand browse, and cloud-PVR management - keeping the experience consistent from TV to phone.",
-        "Developed account/entitlement and streaming backend services that authenticated through MyRogers login and delivered live channels, on-demand, and cloud-PVR recordings at nationwide scale.",
-        "Wired up the next-watch recommendation surface and voice-remote search, connecting the client to intent resolution and entitlement checks.",
-        "Integrated with legacy provisioning and billing systems so entitlements and recordings stayed in sync across devices, synchronizing state across multiple backend systems."
-      ]
+      "company": "Deloitte",
+      "role": "Senior Software Engineer",
+      "dateRange": "Jun 2022 - Dec 2025",
+      "consulting": true,
+      "flagshipProject": "",
+      "spans": [],
+      "description": "Consulting / client-services company - project summaries are NOT fixed here. At generation the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry plus one more, and uses those as this company's engagements, each opening with a 'did X for a [industry] client' master line.",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": []
     },
     {
       "company": "RBC",
       "role": "Senior Software Engineer",
       "dateRange": "May 2020 - May 2022",
       "flagshipProject": "NOMI",
-      "spans": ["frontend", "backend", "ai_data"],
+      "spans": [
+        "frontend",
+        "backend",
+        "ai_data"
+      ],
       "description": "NOMI is the built-in AI money assistant in the RBC Mobile app - it watches your accounts and gives personalized tips, automatic savings, budgets, and cash-flow forecasts. As transactions come in, RBC's systems categorize your spending and generate 'insights' - like flagging an unusual charge or predicting next week's balance - that appear right inside the banking app. It touches the front end (the insights, budgets, and forecast screens in the app), the back end (the banking systems that process millions of transactions securely in real time), and the data side (the AI models that spot patterns and make the predictions).",
-      "isRecentTwo": true,
-      "bulletsProvided": false,
-      "bullets": []
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built AI personalization in RBC's mobile banking app for 1.5M+ users, delivering 2B+ insights across spending analysis, automatic savings, budgeting and cash-flow forecasting.",
+        "Designed and developed the core payment routing algorithms that selected rails and settlement paths for client-initiated transfers across the bank's channels.",
+        "Engineered the transaction categorisation and insight-generation path so incoming activity was classified and scored in near real time before it reached the customer's screen.",
+        "Delivered the backend services behind the in-app insights, budgets and forecast surfaces, holding latency and correctness under the volumes retail banking runs at.",
+        "Worked within the audit, access-control and regulatory requirements that govern customer financial data at a Canadian retail bank."
+      ],
+      "notes": "Renders verbatim (index 2+): the LLM never sees these bullets, so they are finished lines."
     },
     {
-      "company": "Accenture",
-      "role": "Senior Software Engineer",
-      "dateRange": "Jun 2022 - Present",
-      "consulting": true,
-      "flagshipProject": null,
-      "spans": ["frontend", "backend", "ai_data"],
-      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation, the code reads shared.json, picks the entry whose industry matches the JD's extracted client_industry PLUS one more arbitrary project, and uses those as this company's engagements (each opening with a 'did X for a [industry] client' master line).",
-      "isRecentTwo": true,
-      "bulletsProvided": false,
-      "bullets": []
+      "company": "Google",
+      "role": "Software Engineer",
+      "dateRange": "Apr 2015 - May 2020",
+      "flagshipProject": "Internal observability and service reliability platform",
+      "spans": [
+        "backend",
+        "infrastructure",
+        "ai_data"
+      ],
+      "description": "Google's internal platform work behind production services: logging, metrics and distributed tracing that engineers debug live systems through, the deployment and release tooling around them, and the event-ingestion pipelines feeding downstream processing. It touches the back end (service performance, caching, query paths), the infrastructure layer (resilience, retries, failover, load balancing, migration to microservices) and the data side (ingestion reliability and consistency across distributed jobs).",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built and enhanced internal observability systems including logging, metrics, and distributed tracing integrations to improve production debugging and system visibility. ",
+        "Assisted in on-call production support by diagnosing live incidents, performing root-cause analysis, and implementing hotfixes to restore service stability under tight SLAs. ",
+        "Developed automation scripts and internal tooling to streamline deployment workflows, reducing manual intervention in release processes across engineering teams. ",
+        "Contributed to performance tuning of backend services, including query optimization, caching strategies, and reduction of request latency in high-throughput systems. ",
+        "Supported data infrastructure pipelines by improving reliability of event ingestion workflows and ensuring consistency across distributed processing jobs. ",
+        "Collaborated with SRE and platform engineering teams to improve system resilience through retry mechanisms, failover handling, and load balancing enhancements. ",
+        "Participated in migration and refactoring efforts to modernize legacy services into microservice-based architectures with improved scalability and maintainability."
+      ],
+      "notes": "Renders verbatim (index 2+): the LLM never sees these bullets, so they are finished lines. Re-dated Apr 2015 - May 2020 to match the current LinkedIn."
     }
   ]
 }

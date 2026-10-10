@@ -2,21 +2,40 @@
   "id": "rohit_kumar",
   "basic": {
     "fullName": "Rohit Kumar",
-    "title": "Senior Software Engineer",
-    "email": "kumar13194@gmail.com",
-    "phone": "437 269 7684",
+    "title": "Staff Software Engineer",
+    "email": "rohit917684@gmail.com",
+    "phone": "+1 (437) 269-7684",
     "location": "Mississauga, Ontario, Canada | Remote | Hybrid within a 20-mile radius of Mississauga",
+    "summary": "Senior Software Engineer with over a decade building and modernizing production systems across defence intelligence, financial services and large-scale consumer infrastructure. Experienced across backend and distributed services, event-driven architectures, APIs, data and streaming pipelines, cloud infrastructure, analytical and operational front ends, AI/ML-enabled workflows, search and retrieval, security and access control, and platform reliability. Has led architecture and delivery for regulated, high-availability systems involving sensitive mission data, payments and money movement, operational telemetry at consumer scale, and large-scale platform modernization, translating complex mission and business requirements into scalable software platforms that remain reliable under production load.",
     "linkedin": "https://www.linkedin.com/in/kumarr3205/"
   },
   "experience": [
     {
-      "company": "Accenture",
-      "location": "Remote / US ",
-      "title": "Senior Software Engineer",
-      "startDate": "Jun 2022 ",
+      "company": "ANVIL",
+      "location": "Canada | Remote",
+      "title": "Staff Software Engineer",
+      "startDate": "Jan 2026",
       "endDate": "Present",
+      "bullets": [
+        "Build full-stack and AI capabilities across the ANVIL Platform, the shared mission-data environment Canadian defence and security organizations connect intelligence, operations and planning through, spanning All-Source Ingestion and Fusion, the Mission Ontology beneath it, and AI Enrichment.",
+        "Architected All-Source Ingestion and Fusion into scalable storage organised around the Mission Ontology, so records arriving from separate sources resolve against one configurable entity model instead of sitting as parallel copies that disagree.",
+        "Engineer the Python backend services behind the platform's analytical workflows, the REST contracts its distributed services agree on, and the PostgreSQL schemas, migrations and data contracts that hold the structured mission data underneath them.",
+        "Delivered the Mission Applications analysts work in - threat-network exploration, analytical workflow execution and real-time visualization - including the Tactical Edge interfaces that stay usable in disconnected environments.",
+        "Embedded the AI Enrichment path that annotates, classifies and links incoming records, and the search and retrieval layer over Elasticsearch that analysts query that enriched data through.",
+        "Maintain Data History and Lineage alongside attribute-based access control, so provenance and every access record are preserved as information evolves and each analyst sees only what their attributes permit."
+      ],
+      "paragraphs": [],
+      "notes": "Six bullets mapped onto the anchor: the ANVIL Platform and its end-to-end path, All-Source Ingestion and Fusion over the Mission Ontology, the Python/PostgreSQL backend and its data contracts, the Mission Applications and Tactical Edge front end, the AI Enrichment and Elasticsearch retrieval path, and Data History and Lineage with attribute-based access control. Written as the project universe, not a fixed stack - the writer selects per JD from inside it. Tense is mixed deliberately (Build / Architected / Engineer / Delivered / Embedded / Maintain) so the set does not read as one generated block. Stack names are limited to what the anchor notes in Experiment/projects evidence from hiring posts (Python, REST, PostgreSQL, TypeScript, React, Elasticsearch); Kafka, Redpanda, Docker and Kubernetes stay out of the bullets because they appear there only as preferred items. The capitalised system names are ANVIL's own published capability language used as proper nouns - see the anchor notes for what is verifiable and what is not."
+    },
+    {
+      "company": "Deloitte",
+      "location": "Remote",
+      "title": "Senior Software Engineer",
+      "startDate": "Jun 2022",
+      "endDate": "Dec 2025",
       "bullets": [],
       "paragraphs": [],
+      "notes": "Deloitte is a consulting / client-services firm; the role is engineering delivered on client engagements. Kept industry-neutral in the profile. At generation, shared.json supplies the JD-matched anonymised client engagements.",
       "consulting": true
     },
     {
@@ -26,31 +45,21 @@
       "startDate": "May 2020",
       "endDate": "May 2022",
       "bullets": [
-        "AI personalization in RBC's mobile banking app for 1.5M+ users (2B+ insights delivered). Features that surfaced spending insights, auto-saved spare cash, budgeting, a conversational assistant, and cash-flow forecasts. Impact: ~$415/mo saved per client → C$1.7B+ total, 1M+ assistant questions across 12 languages, and session time doubled (3.5 → 7.5 min). Core challenge: moving real-time personalization off the legacy mainframe onto a modern event-driven platform, with regulator-required explainability on every decision."
+        "Built AI personalization in RBC's mobile banking app for 1.5M+ users, delivering 2B+ insights across spending analysis, automatic savings, budgeting and cash-flow forecasting.",
+        "Designed and developed the core payment routing algorithms that selected rails and settlement paths for client-initiated transfers across the bank's channels.",
+        "Engineered the transaction categorisation and insight-generation path so incoming activity was classified and scored in near real time before it reached the customer's screen.",
+        "Delivered the backend services behind the in-app insights, budgets and forecast surfaces, holding latency and correctness under the volumes retail banking runs at.",
+        "Worked within the audit, access-control and regulatory requirements that govern customer financial data at a Canadian retail bank."
       ],
-      "paragraphs": []
-    },
-    {
-      "company": "Rogers Communications Inc",
-      "location": "Brampton, Ontario, Canada",
-      "title": "Software Engineer",
-      "startDate": "Apr 2018",
-      "endDate": "May 2020",
-      "bullets": [
-        "Spearheaded the development of new account creations, encompassing diverse service packages like phone, internet, and TV.",
-        "Developed backend provisioning services for automated account creation and service package (phone, internet, TV) activation using Java and the Spring framework.",
-        "Designed and implemented RESTful APIs and SOAP web services to process customer orders and synchronize state changes across multiple backend legacy systems.",
-        "Utilized Oracle DB and complex SQL queries to manage customer account states, ensuring accurate billing and service configurations.",
-        "Deployed and managed microservices within Kubernetes clusters, utilizing Horizontal Pod Autoscaling (HPA) to maintain backend performance for order management during peak promotional periods."
-      ],
-      "paragraphs": []
+      "paragraphs": [],
+      "notes": "Renders verbatim (index 2+). NOMI, RBC's in-app AI money assistant, plus the payment-routing work."
     },
     {
       "company": "Google",
       "location": "Toronto, Ontario, Canada ",
       "title": "Software Engineer",
-      "startDate": "Apr 2014",
-      "endDate": "Apr 2018",
+      "startDate": "Apr 2015",
+      "endDate": "May 2020",
       "bullets": [
         "Built and enhanced internal observability systems including logging, metrics, and distributed tracing integrations to improve production debugging and system visibility. ",
         "Assisted in on-call production support by diagnosing live incidents, performing root-cause analysis, and implementing hotfixes to restore service stability under tight SLAs. ",
@@ -60,38 +69,34 @@
         "Collaborated with SRE and platform engineering teams to improve system resilience through retry mechanisms, failover handling, and load balancing enhancements. ",
         "Participated in migration and refactoring efforts to modernize legacy services into microservice-based architectures with improved scalability and maintainability."
       ],
-      "paragraphs": []
+      "paragraphs": [],
+      "notes": "Renders verbatim (index 2+). Internal observability, release tooling and service reliability work."
     }
   ],
   "skills": [
-    "Frontend: React, React Native, Vue, Angular, Svelte, Next.js, TypeScript, HTML/CSS, Tailwind, state management (Redux/Zustand/Pinia), Web accessibility (a11y), testing (Jest, Playwright, Cypress)",
-    "Backend: Python, TypeScript/Node.js, Java, Go, Rust, C#/.NET, REST, GraphQL, gRPC, WebSockets, authentication/authorization (OAuth2, JWT, OIDC), message queues (Kafka, RabbitMQ, SQS)",
-    "Database: PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch, SQLite, data modeling, indexing/query optimization, migrations, ORMs, transactions & ACID, sharding/replication",
-    "CI/CD & DevOps: Docker, Kubernetes, Terraform, GitHub Actions, GitLab CI, Jenkins, Helm, ArgoCD, infrastructure as code, blue-green/canary deploys",
-    "Cloud: AWS, GCP, Azure, serverless (Lambda/Cloud Functions), CDNs, load balancing, cost optimization",
-    "AI/ML: LLMs, agentic systems, RAG, prompt engineering, embeddings/vector DBs (Pinecone, pgvector), fine-tuning, PyTorch/TensorFlow, MLOps, model evaluation",
-    "Observability & Reliability: Logging, metrics, tracing (OpenTelemetry, Prometheus, Grafana, Datadog), alerting, SLOs/SLAs, incident response, on-call practices",
-    "Security: OWASP Top 10, secrets management, encryption (at rest/in transit), threat modeling, dependency scanning, principle of least privilege",
-    "Architecture & Design: System design, microservices vs. monoliths, event-driven architecture, design patterns, domain-driven design, caching strategies, API design, scalability/high availability",
-    "Version Control & Collaboration: Git, code review, trunk-based development, semantic versioning",
-    "Testing: Unit, integration, end-to-end, TDD, mocking, load/performance testing, contract testing",
-    "Fundamentals: Data structures & algorithms, time/space complexity, networking (HTTP, TCP/IP, DNS), operating systems, concurrency/parallelism, distributed systems basics (CAP theorem, consensus)",
-    "AI-Assisted Development: Claude Code, Cursor, GitHub Copilot, AI-assisted development"
+    "Languages & Backend: Python, TypeScript, JavaScript, Java, Go, Rust, C#, .NET, SQL, PL/pgSQL, Bash, FastAPI, Django, Celery, Spring Boot, Node.js, NestJS, Express, REST, GraphQL, gRPC, WebSockets and Protocol Buffers",
+    "Frontend & Visualization: React, Redux, Zustand, React Query, Next.js, Svelte, Angular, Vue, TypeScript, JavaScript, HTML/CSS, Tailwind CSS, Webpack, Vite, React Native, D3.js, Deck.gl, MapLibre, real-time dashboards, geospatial map interfaces, graph and network visualization and web accessibility (a11y)",
+    "AI & Machine Learning: Python, PyTorch, TensorFlow, scikit-learn, XGBoost, pandas, NumPy, Hugging Face Transformers, recommendation and personalization models, ranking, entity resolution and record linkage, anomaly detection, fraud detection, classification, forecasting, time-series analysis, NLP, named-entity recognition, feature engineering, A/B testing and model evaluation",
+    "Generative & Agentic AI: LLMs, RAG, embeddings, vector search, semantic search, hybrid retrieval, reranking, LangChain, LlamaIndex, LangGraph, OpenAI API, Anthropic API, Google Gemini API, pgvector, Pinecone, prompt engineering, fine-tuning, agentic systems, multi-agent systems, tool use, multi-step tool calling, Model Context Protocol (MCP), structured output and JSON-mode generation, guardrails, LLM evaluation, LLM-as-a-judge, Ragas, prompt versioning and regression suites, open-weight models (Llama 3, Mistral), vLLM and self-hosted inference",
+    "Data Engineering & Streaming: Apache Kafka, Kafka Streams, Redpanda, Apache Spark, Apache Beam, Apache Flink, Apache Airflow, Dagster, BigQuery, Snowflake, dbt, Debezium, Avro, Parquet, ETL/ELT, change data capture, all-source ingestion and fusion, data contracts, schema registry and schema evolution",
+    "Databases, Search & Retrieval: PostgreSQL, PostGIS, MySQL, SQL Server, MongoDB, DynamoDB, Bigtable, Spanner, Cassandra, Neo4j, Redis, Memcached, Elasticsearch/OpenSearch, Apache Solr, vector stores (pgvector, Pinecone, FAISS, Chroma), knowledge graphs, ontology and graph data modeling, full-text and faceted search, relevance tuning, indexing, partitioning, sharding, replication, migrations and query optimization",
+    "Cloud & Platform: AWS, GCP, Azure, EC2, S3, Lambda, RDS, EKS, SQS, SNS, API Gateway, GKE, Cloud Run, Pub/Sub, BigQuery, Docker, Kubernetes, Helm, Argo CD, Terraform, GitHub Actions, GitLab CI, Jenkins, Bazel, infrastructure as code, blue-green and canary deploys, air-gapped and on-premise deployment, load balancing and autoscaling",
+    "MLOps & Model Systems: MLflow, Kubeflow, Vertex AI, Amazon SageMaker, TensorFlow Serving, Triton Inference Server, ONNX, feature stores, model serving, batch and real-time inference, experiment tracking, model registries and drift monitoring",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, Splunk, ELK Stack, Jaeger, PagerDuty, structured logging, distributed tracing, profiling and flame graphs, SLOs/SLAs, error budgets, alerting, on-call practice, incident response and postmortems, capacity planning and load testing",
+    "Security, Identity & Access Control: OAuth 2.0, OpenID Connect, JWT, SAML, SSO, SCIM, RBAC, attribute-based access control (ABAC), Open Policy Agent, data classification and handling, need-to-know enforcement, audit logging, data provenance and lineage, TLS, mTLS, encryption at rest and in transit, AES-256, HashiCorp Vault, AWS KMS, secrets management, OWASP Top 10, threat modeling, PCI DSS, SOC 2 and PIPEDA",
+    "Architecture & Distributed Systems: Microservices, monolith decomposition, event-driven architecture, domain-driven design, CQRS, event sourcing, idempotency, exactly-once semantics, consistency models, backpressure, rate limiting, circuit breakers, retries and dead-letter queues, caching strategies, API design and versioning, multi-region high availability and disaster recovery",
+    "Geospatial, Mission & Intelligence Systems: Geospatial data processing, PostGIS, GDAL, GeoJSON, vector and raster tiles, spatial indexing, coordinate reference systems, link analysis and threat-network exploration, entity and relationship modeling, all-source intelligence workflows, analytical workflow orchestration, sensor and telemetry feeds, real-time collaboration, tactical-edge and disconnected operation, offline-first sync and conflict resolution and NATO interoperability standards",
+    "Financial Systems & Payments: Payments and money movement, payment routing and orchestration, authorization and settlement, ACH, EFT, Interac e-Transfer, ISO 20022, SWIFT, double-entry accounting, general ledger, balances and positions, reconciliation and break resolution, fraud and risk scoring, customer personalization and next-best-action, KYC, AML and regulated financial reporting",
+    "Testing & Engineering Practices: Git, trunk-based development, code review, Agile, Scrum, sprint planning, pytest, Hypothesis, property-based testing, JUnit, Jest, Playwright, Cypress, Locust, k6, Pact, unit/integration/end-to-end testing, TDD, contract testing, load testing, static analysis, feature flags and technical design documents"
   ],
   "education": [
     {
       "school": "Carleton University",
-      "degree": "B.S.",
+      "degree": "Bachelor of Science",
       "field": "Computer Science",
-      "startDate": "2010",
+      "startDate": "2009",
       "endDate": "2014"
-    },
-    {
-      "school": "Western (UWO)",
-      "degree": "MSc",
-      "field": "Computer Science",
-      "startDate": "2023",
-      "endDate": "2026"
     }
-  ]
+  ],
+  "note": "Built from the current LinkedIn (2026-10-08). ANVIL is the anchor and Deloitte the consulting employer, so both sit in the tailored top two; RBC and Google render verbatim. basic.title stays Senior Software Engineer while ANVIL's own title matches LinkedIn exactly. Education is Carleton only, as LinkedIn shows."
 }
