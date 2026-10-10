@@ -236,16 +236,46 @@ function listedForms(entry: string): string[] {
   return [...forms];
 }
 
-export function skillsListTool(skills: string[], item: string): boolean {
+/** Vendor prefixes a skills line may or may not carry: "Apache Kafka" and "Kafka" are one tool. */
+const VENDOR_PREFIX = /^(apache|google|amazon|aws|microsoft|azure)\s+/;
+
+/** Both spellings of a requested tool, so the match works whichever side carries the prefix. */
+function requestedForms(item: string): string[] {
   const low = item.toLowerCase();
+  const bare = low.replace(VENDOR_PREFIX, "");
+  return bare === low ? [low, `apache ${low}`] : [low, bare];
+}
+
+export function skillsListTool(skills: string[], item: string): boolean {
+  const wanted = requestedForms(item);
   return skills.some((l) =>
     splitTopLevel(l.slice(l.indexOf(":") + 1))
       .map((x) => x.toLowerCase())
       .some((x) => {
         const inner = (x.match(/\(([^)]*)\)?/)?.[1] ?? "").split(/[,/]/).map((y) => y.trim());
-        return listedForms(x).some((f) => f === low || f === `apache ${low}`) || inner.includes(low);
+        const listed = listedForms(x).flatMap((f) => [f, f.replace(VENDOR_PREFIX, "")]);
+        return listed.some((f) => wanted.includes(f)) || wanted.some((w) => inner.includes(w));
       })
   );
+}
+
+/**
+ * Drop a later item that is the same tool as one already kept on the line.
+ *
+ * The restore cannot prevent this on its own: the model itself writes "Kafka, Apache Kafka"
+ * into one line, and both survive because each is a legitimate JD term. Equivalence is the
+ * same notion skillsListTool uses, so "Kafka"/"Apache Kafka" and "MCP"/"MCP servers" collapse
+ * while genuinely different tools do not.
+ */
+export function dedupeSkillLine(line: string): string {
+  const idx = line.indexOf(":");
+  if (idx <= 0) return line;
+  const items = splitTopLevel(line.slice(idx + 1)).map((s) => s.trim()).filter(Boolean);
+  const kept: string[] = [];
+  for (const item of items) {
+    if (!kept.some((k) => skillsListTool([`x: ${k}`], item))) kept.push(item);
+  }
+  return `${line.slice(0, idx)}: ${kept.join(", ")}`;
 }
 
 /** Comma-separated items, keeping "AWS (S3, Lambda, EKS)" together as one. */
@@ -468,5 +498,5 @@ export function trimSkills(
     // Print in the original order so the most relevant items still lead.
     return `${l.name}: ${l.items.filter((_, i) => keep.has(i)).join(", ")}`;
   });
-  return { skills: out, removed };
+  return { skills: out.map(dedupeSkillLine), removed };
 }
