@@ -10,6 +10,7 @@ import {
 } from "react";
 import { api, setUnauthorizedHandler } from "../api";
 import type { AuthUser } from "../types";
+import { clearViewState } from "../viewState";
 
 type AuthState = {
   user: AuthUser | null;
@@ -85,6 +86,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch {
       /* best-effort */
     }
+    // The next person to sign in on this tab shouldn't inherit these filters.
+    clearViewState();
     setState({ user: null, loading: false, needsSetup: false });
   }, []);
 

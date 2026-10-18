@@ -7,6 +7,8 @@ import Profiles from "./enpply/pages/Profiles";
 import Apply from "./enpply/pages/Apply";
 import Result from "./enpply/pages/Result";
 import Logs from "./enpply/pages/Logs";
+import Interviews from "./enpply/pages/Interviews";
+import Schedule from "./enpply/pages/Schedule";
 import Config from "./enpply/pages/Config";
 import Playground from "./enpply/pages/Playground";
 import GlobalSpinner from "./enpply/components/GlobalSpinner";
@@ -26,7 +28,9 @@ import {
   IconChart,
   IconFlask,
   IconGear,
+  IconCalendar,
   IconIdCard,
+  IconInbox,
   IconList,
   IconMark,
   IconPlug,
@@ -49,6 +53,8 @@ const KNOWN_ROUTE_PATTERNS: RegExp[] = [
   /^\/apply$/,
   /^\/result\/[^/]+$/,
   /^\/logs$/,
+  /^\/interviews$/,
+  /^\/schedule$/,
   /^\/config$/,
   /^\/playground$/,
   /^\/users$/,
@@ -98,6 +104,14 @@ function Layout({ children }: { children: ReactNode }) {
             <NavLink to="/logs" className={navClass}>
               <IconList />
               Application Logs
+            </NavLink>
+            <NavLink to="/schedule" className={navClass}>
+              <IconCalendar />
+              Schedule
+            </NavLink>
+            <NavLink to="/interviews" className={navClass}>
+              <IconInbox />
+              Interviews
             </NavLink>
           </nav>
 
@@ -256,6 +270,22 @@ function AppShell() {
           element={
             <RequireAuth>
               <Logs />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/schedule"
+          element={
+            <RequireAuth>
+              <Schedule />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/interviews"
+          element={
+            <RequireAuth>
+              <Interviews />
             </RequireAuth>
           }
         />

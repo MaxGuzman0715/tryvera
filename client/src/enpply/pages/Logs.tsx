@@ -11,7 +11,7 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import { api } from "../api";
-import type { ApplicationLogEntry, AuthUser } from "../types";
+import type { ApplicationLogEntry, AuthUser, InterviewSummary, PipelineStage } from "../types";
 import { formatDateTimeJst } from "../timeJst";
 import { dismissGenerationToastById } from "../generationToasts";
 import { getAutoDownloadRecord } from "../autoDownload";
@@ -20,6 +20,8 @@ import CopyButton from "../components/CopyButton";
 import { downloadApplicationsCsv, filterForCsv } from "../resultsCsv";
 import { findFoldersByLinks, NOT_FOUND } from "../folderLookup";
 import { IconList } from "../../ui/icons";
+import { stringSetCodec, useOnChange, usePersistentState, useScrollRestore } from "../viewState";
+import { kindBadge, kindLabel, STAGE_LABEL, stageBadge } from "../interviewLabels";
 
 const DEFAULT_PAGE_SIZE = 10;
 const LOGS_COLUMNS_VIS_KEY = "enpply:logs:columnVisibility";
@@ -56,21 +58,24 @@ function readStoredColumnVisibility(): VisibilityState {
 export default function Logs() {
   const { isAdmin } = useAuth();
   const [rows, setRows] = useState<ApplicationLogEntry[]>([]);
+  const [interviews, setInterviews] = useState<Record<string, InterviewSummary>>({});
   const [users, setUsers] = useState<AuthUser[]>([]);
-  const [q, setQ] = useState("");
-  const [userFilter, setUserFilter] = useState<string>("");
-  const [profileFilter, setProfileFilter] = useState<Set<string>>(new Set());
-  const [statusFilter, setStatusFilter] = useState<string>("");
-  const [trackingFilter, setTrackingFilter] = useState<string>("");
-  const [fromFilter, setFromFilter] = useState<string>("");
-  const [toFilter, setToFilter] = useState<string>("");
+  // Remembered for this tab, so opening a record and coming back keeps the view.
+  const [q, setQ] = usePersistentState("logs:q", "");
+  const [userFilter, setUserFilter] = usePersistentState<string>("logs:user", "");
+  const [profileFilter, setProfileFilter] = usePersistentState<Set<string>>("logs:profiles", new Set(), stringSetCodec);
+  const [statusFilter, setStatusFilter] = usePersistentState<string>("logs:status", "");
+  const [trackingFilter, setTrackingFilter] = usePersistentState<string>("logs:tracking", "");
+  const [stageFilter, setStageFilter] = usePersistentState<string>("logs:stage", "");
+  const [fromFilter, setFromFilter] = usePersistentState<string>("logs:from", "");
+  const [toFilter, setToFilter] = usePersistentState<string>("logs:to", "");
   const [error, setError] = useState<string | null>(null);
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = usePersistentState("logs:page", 1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const [sorting, setSorting] = useState<SortingState>([{ id: "created_at", desc: true }]);
+  const [pageSize, setPageSize] = usePersistentState("logs:pageSize", DEFAULT_PAGE_SIZE);
+  const [sorting, setSorting] = usePersistentState<SortingState>("logs:sorting", [{ id: "created_at", desc: true }]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => readStoredColumnVisibility());
   const [csvOpen, setCsvOpen] = useState(false);
   const [linksOpen, setLinksOpen] = useState(false);
@@ -80,7 +85,13 @@ export default function Logs() {
   const [csvTo, setCsvTo] = useState("");
 
   async function reload() {
-    const r = await api.listApplications();
+    // Fetched together so the Stage column/filter never shows rows before
+    // their stages are known. A failed summary must not blank the logs.
+    const [r, s] = await Promise.all([
+      api.listApplications(),
+      api.interviewSummary().catch(() => ({ by_application: {} })),
+    ]);
+    setInterviews(s.by_application);
     setRows(r.applications);
   }
 
@@ -120,15 +131,18 @@ export default function Logs() {
     if (profileFilter.size > 0) out = out.filter((r) => profileFilter.has(r.resume_profile));
     if (statusFilter) out = out.filter((r) => r.status === statusFilter);
     if (trackingFilter) out = out.filter((r) => (r.tracking_status ?? "pending") === trackingFilter);
+    if (stageFilter) out = out.filter((r) => stageOf(r) === stageFilter);
     // created_at is an ISO string with an offset; the leading YYYY-MM-DD compares
     // correctly against the date inputs without parsing or timezone conversion.
     if (fromFilter) out = out.filter((r) => String(r.created_at).slice(0, 10) >= fromFilter);
     if (toFilter) out = out.filter((r) => String(r.created_at).slice(0, 10) <= toFilter);
     return out;
-  }, [rows, userFilter, isAdmin, profileFilter, statusFilter, trackingFilter, fromFilter, toFilter]);
+  }, [rows, userFilter, isAdmin, profileFilter, statusFilter, trackingFilter, stageFilter, interviews, fromFilter, toFilter]);
 
-  // Drop any selected profiles that no longer appear in the data.
+  // Drop any selected profiles that no longer appear in the data. Not before
+  // the data has loaded: an empty list would wipe a remembered filter.
   useEffect(() => {
+    if (rows.length === 0) return;
     setProfileFilter((prev) => {
       if (prev.size === 0) return prev;
       const valid = new Set(profileOptions);
@@ -138,9 +152,12 @@ export default function Logs() {
     });
   }, [profileOptions]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [q, pageSize, userFilter, profileFilter, statusFilter, trackingFilter, fromFilter, toFilter]);
+  // Back to page 1 when the filters change, but not on arrival: that would
+  // throw away the page you were on.
+  useOnChange([q, pageSize, userFilter, profileFilter, statusFilter, trackingFilter, stageFilter, fromFilter, toFilter], () =>
+    setPage(1)
+  );
+  useScrollRestore("logs", rows.length > 0);
 
   useEffect(() => {
     setSelectedIds((prev) => {
@@ -162,7 +179,15 @@ export default function Logs() {
     }
   }, [columnVisibility]);
 
-  async function handleMetaPatch(id: string, patch: Partial<Pick<ApplicationLogEntry, "note" | "tracking_status">>) {
+  /** Hand-set stage wins; otherwise what the linked interview emails say. */
+  function stageOf(r: ApplicationLogEntry): PipelineStage {
+    return r.pipeline_stage ?? interviews[r.id]?.stage_auto ?? "applied";
+  }
+
+  async function handleMetaPatch(
+    id: string,
+    patch: Partial<Pick<ApplicationLogEntry, "note" | "tracking_status">> & { pipeline_stage?: PipelineStage | null }
+  ) {
     setUpdatingId(id);
     setError(null);
     try {
@@ -363,6 +388,66 @@ export default function Logs() {
         },
       },
       {
+        id: "interviews",
+        header: "Interviews",
+        accessorFn: (r) => interviews[r.id]?.latest_at ?? "",
+        cell: ({ row }) => {
+          const s = interviews[row.original.id];
+          if (!s) return <span className="sub">—</span>;
+          const title =
+            `${s.count} interview email(s), ${s.open} not done in Slack` +
+            (s.unconfirmed ? `
+${s.unconfirmed} auto-matched, not yet confirmed` : "");
+          return (
+            <Link
+              to={`/interviews?app=${encodeURIComponent(row.original.id)}`}
+              className="interview-chip"
+              title={title}
+            >
+              <span className={`badge ${kindBadge(s.latest_kind, s.latest_verdict)}`}>
+                {kindLabel(s.latest_kind, s.latest_verdict)}
+              </span>
+              <span className="mono" style={{ fontSize: "0.76rem" }}>
+                {s.count}
+                {s.unconfirmed ? "?" : ""}
+              </span>
+            </Link>
+          );
+        },
+      },
+      {
+        id: "pipeline_stage",
+        header: "Stage",
+        accessorFn: (r) => stageOf(r),
+        cell: ({ row }) => {
+          const r = row.original;
+          const auto = interviews[r.id]?.stage_auto ?? "applied";
+          const stage = stageOf(r);
+          return (
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}>
+              <span className={`badge ${stageBadge(stage)}`}>{STAGE_LABEL[stage]}</span>
+              <select
+                value={r.pipeline_stage ?? ""}
+                disabled={updatingId === r.id}
+                onChange={(e) =>
+                  void handleMetaPatch(r.id, { pipeline_stage: (e.target.value || null) as PipelineStage | null })
+                }
+                title={r.pipeline_stage ? "Set by hand. Pick Auto to follow the interview emails again." : "Follows the interview emails"}
+                aria-label="Stage"
+                style={{ fontSize: "0.76rem" }}
+              >
+                <option value="">Auto ({STAGE_LABEL[auto]})</option>
+                {Object.entries(STAGE_LABEL).map(([k, v]) => (
+                  <option key={k} value={k}>
+                    {v}
+                  </option>
+                ))}
+              </select>
+            </span>
+          );
+        },
+      },
+      {
         accessorKey: "note",
         header: "Note",
         cell: ({ row }) => (
@@ -424,7 +509,7 @@ export default function Logs() {
         },
       },
     ],
-    [selectedIds, removingId, updatingId, isAdmin]
+    [selectedIds, removingId, updatingId, isAdmin, interviews]
   );
 
   const table = useReactTable({
@@ -730,6 +815,17 @@ export default function Logs() {
           </select>
         </label>
         <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+          Stage
+          <select value={stageFilter} onChange={(e) => setStageFilter(e.target.value)}>
+            <option value="">All</option>
+            {Object.entries(STAGE_LABEL).map(([k, v]) => (
+              <option key={k} value={k}>
+                {v}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="mono" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
           From
           <input type="date" value={fromFilter} onChange={(e) => setFromFilter(e.target.value)} />
         </label>
@@ -737,13 +833,14 @@ export default function Logs() {
           To
           <input type="date" value={toFilter} onChange={(e) => setToFilter(e.target.value)} />
         </label>
-        {(statusFilter || trackingFilter || fromFilter || toFilter) && (
+        {(statusFilter || trackingFilter || stageFilter || fromFilter || toFilter) && (
           <button
             type="button"
             className="btn small"
             onClick={() => {
               setStatusFilter("");
               setTrackingFilter("");
+              setStageFilter("");
               setFromFilter("");
               setToFilter("");
             }}

@@ -164,6 +164,16 @@ export function IconPlus(props: IconProps) {
   );
 }
 
+export function IconCalendar(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="2.2" />
+      <path d="M3.5 9.8h17M8 3v4M16 3v4" />
+      <path d="M8 13.5h2.5M13.5 13.5H16M8 17h2.5" />
+    </Svg>
+  );
+}
+
 export function IconClock(props: IconProps) {
   return (
     <Svg {...props}>

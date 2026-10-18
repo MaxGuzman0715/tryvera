@@ -54,6 +54,8 @@ export type ApplicationLogEntry = {
   status: string;
   status_step?: string;
   tracking_status?: "pending" | "in_process" | "failed";
+  /** Stage set by hand; unset = derived from linked interview emails. */
+  pipeline_stage?: PipelineStage;
   note?: string;
   /** Short failure summary when status is failed (from server). */
   generation_error?: string;
@@ -77,6 +79,65 @@ export type ApplicationLogEntry = {
    */
   duplicate_of?: string;
 };
+
+/** Mirrors server InterviewMatchStatus. */
+export type InterviewMatchStatus = "auto_matched" | "needs_check" | "confirmed" | "not_from_tryvera" | "ignored";
+
+export type InterviewAppSummary = {
+  id: string;
+  company_name: string;
+  role_name: string;
+  resume_profile: string;
+  created_at: string;
+  job_link: string;
+};
+
+/** One hiring email flagged by the Slack triage bot. */
+export type InterviewEvent = {
+  id: string;
+  received_at: string;
+  verdict: "ACTION" | "MAYBE" | "REJECTION";
+  kind: string | null;
+  company: string;
+  role: string;
+  reason: string;
+  asked: string;
+  deadline: string;
+  subject: string;
+  sender: string;
+  sender_addr: string;
+  to: string;
+  to_addr: string;
+  permalink: string;
+  handled: boolean;
+  handled_at?: string;
+  handled_by?: string;
+  /** Done/Reopen clicked here, not yet applied to the Slack card. */
+  handled_pending?: boolean;
+  profile_ids: string[];
+  application_id: string | null;
+  application: InterviewAppSummary | null;
+  match_status: InterviewMatchStatus;
+  match_note: string;
+  candidate_ids: string[];
+  status_by?: string;
+  status_at?: string;
+  note?: string;
+};
+
+/** Per-application roll-up shown on Application Logs. */
+export type InterviewSummary = {
+  count: number;
+  open: number;
+  unconfirmed: number;
+  latest_at: string;
+  latest_kind: string | null;
+  latest_verdict: string;
+  stage_auto: PipelineStage;
+};
+
+/** Mirrors server PIPELINE_STAGES. */
+export type PipelineStage = "applied" | "screening" | "interviewing" | "offer" | "rejected" | "withdrawn";
 
 export type GenerationOptions = {
   gen_resume: boolean;
@@ -400,4 +461,41 @@ export type BulletExperimentResult = {
   timings: { extraction_ms: number; injection_ms: number; total_ms: number };
   usage: { extraction?: TokenUsage; injection_calls: { company: string; usage?: TokenUsage }[] };
   models: { extraction: string; injection: string };
+};
+
+/* ---------- Schedule tab (mirrors server scheduleBuild.ts) ---------- */
+
+export type SchedRoundState = "none" | "pending" | "sched" | "wait" | "done" | "failed" | "skipped";
+export type SchedRound = { state: SchedRoundState; date: string; time: string; source: string };
+
+export type ScheduleEmail = { id: string; received_at: string; kind: string; subject: string; permalink: string };
+
+export type ScheduleRow = {
+  id: string;
+  person: string;
+  person_label: string;
+  company: string;
+  role: string;
+  contact: string;
+  applied: string;
+  application_id: string | null;
+  rounds: SchedRound[];
+  offer: boolean;
+  closed: string | null;
+  auto_closed?: boolean;
+  note: string;
+  last_activity: string;
+  from_sheet: boolean;
+  emails: ScheduleEmail[];
+};
+
+export type SchedulePerson = { key: string; label: string; count?: number };
+
+export type ScheduleResponse = {
+  today: string;
+  rounds: string[];
+  rows: ScheduleRow[];
+  people: SchedulePerson[];
+  all_people: SchedulePerson[];
+  unplaced: number;
 };

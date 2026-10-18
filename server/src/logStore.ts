@@ -105,6 +105,15 @@ function insertRow(d: DatabaseSync, entry: ApplicationLogEntry): void {
   );
 }
 
+/**
+ * The shared connection, for stores that keep their own tables in this same
+ * file (interviewStore). One connection per process keeps every write
+ * serialized through the same handle, so no store can hit SQLITE_BUSY on another.
+ */
+export function appDb(): DatabaseSync {
+  return open();
+}
+
 const toEntry = (row: { data: string }): ApplicationLogEntry =>
   JSON.parse(row.data) as ApplicationLogEntry;
 

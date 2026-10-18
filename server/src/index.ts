@@ -15,6 +15,7 @@ import {
   deleteProfile,
 } from "./profileStore.js";
 import {
+  PIPELINE_STAGES,
   profileBodySchema,
   type ArtifactKey,
   type ArtifactStatus,
@@ -163,6 +164,8 @@ import {
 } from "./auth/middleware.js";
 import { registerAuthRoutes } from "./auth/routes.js";
 import { registerUserRoutes } from "./auth/userRoutes.js";
+import { registerInterviewRoutes } from "./interviewRoutes.js";
+import { registerScheduleRoutes } from "./scheduleRoutes.js";
 import { unassignProfileFromAllUsers } from "./auth/userStore.js";
 
 ensureDirs();
@@ -192,6 +195,8 @@ app.use(express.json({ limit: "2mb" }));
 app.use(resolveUser);
 registerAuthRoutes(app);
 registerUserRoutes(app);
+registerInterviewRoutes(app);
+registerScheduleRoutes(app);
 const cancelledRuns = new Set<string>();
 
 const generateBody = z.object({
@@ -1701,6 +1706,8 @@ app.put<{ id: string }>("/api/applications/:id/meta", requireAuth, async (req, r
       .object({
         note: z.string().max(5000).optional(),
         tracking_status: z.enum(["pending", "in_process", "failed"]).optional(),
+        /** null = back to the stage derived from interview emails. */
+        pipeline_stage: z.enum(PIPELINE_STAGES).nullable().optional(),
         company_name: z.string().min(1).max(500).optional(),
         role_name: z.string().min(1).max(500).optional(),
         job_link: z.string().max(2000).optional(),
@@ -1716,6 +1723,7 @@ app.put<{ id: string }>("/api/applications/:id/meta", requireAuth, async (req, r
     const logPatch: Parameters<typeof updateApplication>[1] = {
       ...(body.note !== undefined ? { note: body.note } : {}),
       ...(body.tracking_status !== undefined ? { tracking_status: body.tracking_status } : {}),
+      ...(body.pipeline_stage !== undefined ? { pipeline_stage: body.pipeline_stage ?? undefined } : {}),
       ...(body.company_name !== undefined ? { company_name: body.company_name.trim() } : {}),
       ...(body.role_name !== undefined ? { role_name: body.role_name.trim() } : {}),
       ...(body.job_link !== undefined ? { job_link: body.job_link.trim() } : {}),

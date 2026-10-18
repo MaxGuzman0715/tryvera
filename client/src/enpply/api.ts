@@ -152,7 +152,7 @@ export const api = {
         import("./types").ApplicationLogEntry,
         "note" | "tracking_status" | "company_name" | "role_name" | "job_link" | "recruiter_name"
       >
-    >
+    > & { pipeline_stage?: import("./types").PipelineStage | null }
   ) =>
     req<{ ok: boolean; application: import("./types").ApplicationLogEntry }>(
       `/api/applications/${encodeURIComponent(id)}/meta`,
@@ -311,6 +311,52 @@ export const api = {
     }),
 
   listUsers: () => req<{ users: import("./types").AuthUser[] }>("/api/users"),
+  listInterviews: () => req<{ interviews: import("./types").InterviewEvent[] }>("/api/interviews"),
+  interviewSummary: () =>
+    req<{ by_application: Record<string, import("./types").InterviewSummary> }>("/api/interviews/summary"),
+  interviewCandidates: (id: string, q = "") =>
+    req<{ candidates: (import("./types").InterviewAppSummary & { suggested: boolean })[] }>(
+      `/api/interviews/${encodeURIComponent(id)}/candidates?q=${encodeURIComponent(q)}`
+    ),
+  updateInterview: (
+    id: string,
+    patch: {
+      match_status?: Exclude<import("./types").InterviewMatchStatus, "auto_matched">;
+      application_id?: string | null;
+      note?: string;
+      handled?: boolean;
+    }
+  ) =>
+    req<{ ok: boolean; interview: import("./types").InterviewEvent }>(`/api/interviews/${encodeURIComponent(id)}`, {
+      method: "PUT",
+      body: JSON.stringify(patch),
+    }),
+  getSchedule: () => req<import("./types").ScheduleResponse>("/api/schedule"),
+  updateScheduleRow: (
+    id: string,
+    patch: {
+      rounds?: Record<string, { state: import("./types").SchedRoundState; date: string; time: string }>;
+      closed?: string | null;
+      offer?: boolean;
+      note?: string;
+    }
+  ) =>
+    req<{ ok: boolean; row: import("./types").ScheduleRow | null; undo: string }>(
+      `/api/schedule/${encodeURIComponent(id)}`,
+      { method: "PUT", body: JSON.stringify(patch) }
+    ),
+  /** Undo one change, by the token that change returned. */
+  restoreScheduleRow: (id: string, token: string) =>
+    req<{ ok: boolean; row: import("./types").ScheduleRow | null }>(`/api/schedule/${encodeURIComponent(id)}/restore`, {
+      method: "POST",
+      body: JSON.stringify({ token }),
+    }),
+  addScheduleRow: (body: { person: string; company: string; role: string; contact?: string }) =>
+    req<{ ok: boolean }>("/api/schedule/rows", { method: "POST", body: JSON.stringify(body) }),
+  importSchedule: (person: string, tsv: string) =>
+    req<{ ok: boolean; imported: number }>("/api/schedule/import", { method: "POST", body: JSON.stringify({ person, tsv }) }),
+  rematchInterviews: () =>
+    req<{ ok: boolean; rematched: number; matched: number }>("/api/interviews/rematch", { method: "POST" }),
   createUser: (body: {
     email: string;
     password: string;

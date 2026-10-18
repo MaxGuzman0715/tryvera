@@ -183,6 +183,11 @@ export type ApplicationLogEntry = {
   status: GenerationStatus;
   status_step?: string;
   tracking_status?: "pending" | "in_process" | "failed";
+  /**
+   * Stage set by hand on Application Logs. Unset = derived from the linked
+   * interview emails (pipelineStage.ts autoStage). Independent of tracking_status.
+   */
+  pipeline_stage?: PipelineStage;
   note?: string;
   /** Short LLM / pipeline failure summary for failed runs (shown in logs and toasts). */
   generation_error?: string;
@@ -202,6 +207,74 @@ export type ApplicationLogEntry = {
   user_id?: string;
   /** Cached user email at generation time for admin display in logs. */
   user_email?: string;
+};
+
+export const PIPELINE_STAGES = ["applied", "screening", "interviewing", "offer", "rejected", "withdrawn"] as const;
+export type PipelineStage = (typeof PIPELINE_STAGES)[number];
+
+/**
+ * How sure we are which application an interview email belongs to.
+ * - auto_matched: the matcher picked one application; nobody has checked it yet
+ * - needs_check: no application, or several equally likely ones; a person must pick
+ * - confirmed: a person confirmed (or chose) the linked application
+ * - not_from_tryvera: a real interview, but not from an application made here
+ * - ignored: not a real interview (a misclassified email)
+ */
+export type InterviewMatchStatus =
+  | "auto_matched"
+  | "needs_check"
+  | "confirmed"
+  | "not_from_tryvera"
+  | "ignored";
+
+/**
+ * One hiring email the Slack triage bot flagged (ACTION or MAYBE), kept so it
+ * can be tied back to the application that produced it. `id` is the triage
+ * card's Slack ts, so re-sending the same card updates this row in place.
+ */
+export type InterviewEvent = {
+  id: string;
+  source: "slack_triage";
+  received_at: string;
+  /** REJECTION rows never had a Slack card: the bot reads company/role out of them separately. */
+  verdict: "ACTION" | "MAYBE" | "REJECTION";
+  /** SCHEDULING | RESCHEDULE | NEXT_ROUND | SCREENING_QUESTION | DOCUMENT_REQUEST | ASSESSMENT | OFFER | OTHER */
+  kind: string | null;
+  company: string;
+  role: string;
+  reason: string;
+  asked: string;
+  deadline: string;
+  subject: string;
+  sender: string;
+  sender_addr: string;
+  to: string;
+  /** Bare recipient address, lowercased; how the email is tied to profiles. */
+  to_addr: string;
+  permalink: string;
+  /** Marked Done, on the Slack card or here. */
+  handled: boolean;
+  handled_at?: string;
+  /** Who marked it done in Tryvera (email); absent when done in Slack. */
+  handled_by?: string;
+  /**
+   * Set when Done/Reopen was clicked in Tryvera and the bot hasn't applied it
+   * to the Slack card yet. While set, ingest doesn't overwrite `handled`.
+   */
+  handled_pending?: boolean;
+  /** Profiles whose basic.email is the recipient. Drives who can see the row. */
+  profile_ids: string[];
+  application_id: string | null;
+  match_status: InterviewMatchStatus;
+  /** Why the matcher decided what it did, shown on the row. */
+  match_note: string;
+  /** Applications the matcher considered plausible, best first. */
+  candidate_ids: string[];
+  status_by?: string;
+  status_at?: string;
+  note?: string;
+  created_at: string;
+  updated_at: string;
 };
 
 export type ResultJson = {
