@@ -114,6 +114,9 @@ export type InterviewEvent = {
   handled_by?: string;
   /** Done/Reopen clicked here, not yet applied to the Slack card. */
   handled_pending?: boolean;
+  /** Booked interview time read from the email body (ET). */
+  meeting_date?: string;
+  meeting_time?: string;
   profile_ids: string[];
   application_id: string | null;
   application: InterviewAppSummary | null;
@@ -465,8 +468,11 @@ export type BulletExperimentResult = {
 
 /* ---------- Schedule tab (mirrors server scheduleBuild.ts) ---------- */
 
-export type SchedRoundState = "none" | "pending" | "sched" | "wait" | "done" | "failed" | "skipped";
-export type SchedRound = { state: SchedRoundState; date: string; time: string; source: string };
+/** ask: they asked you to book a time (your move). pending: waiting on them. */
+export type SchedRoundState = "none" | "ask" | "pending" | "sched" | "wait" | "done" | "failed" | "skipped";
+export type SchedRound = { state: SchedRoundState; date: string; time: string; source: string; at?: string; why?: "reschedule" | "confirm" };
+/** An assessment / take-home waiting on you (not an interview round). */
+export type SchedTask = { kind: "assessment"; asked: string; at: string; email_id: string };
 
 export type ScheduleEmail = { id: string; received_at: string; kind: string; subject: string; permalink: string };
 
@@ -483,16 +489,24 @@ export type ScheduleRow = {
   offer: boolean;
   closed: string | null;
   auto_closed?: boolean;
+  removed?: boolean;
+  task?: SchedTask | null;
   note: string;
   last_activity: string;
   from_sheet: boolean;
   emails: ScheduleEmail[];
+  /** What each email did to the row, oldest first (server scheduleBuild RowChange). */
+  changes?: { at: string; what: RowChangeKind; round?: number }[];
 };
+
+export type RowChangeKind = "new" | "booked" | "time" | "cancelled" | "rejected" | "offer" | "advanced" | "email";
 
 export type SchedulePerson = { key: string; label: string; count?: number };
 
 export type ScheduleResponse = {
   today: string;
+  /** When this person last marked the schedule seen: later changes show as New. */
+  seen_at: string;
   rounds: string[];
   rows: ScheduleRow[];
   people: SchedulePerson[];

@@ -73,6 +73,8 @@ export function sameCompany(a: string, b: string): boolean {
   const y = normCompany(b);
   if (!x || !y) return false;
   if (x === y) return true;
+  // "Lutrapartners" in a sheet, "Lutra Partners" in the email.
+  if (x.replace(/ /g, "") === y.replace(/ /g, "")) return true;
   const inside = (short: string, long: string, shortRaw: string, longRaw: string) => {
     if (!` ${long} `.includes(` ${short} `)) return false;
     const longWords = new Set(words(longRaw, LEGAL_SUFFIX));

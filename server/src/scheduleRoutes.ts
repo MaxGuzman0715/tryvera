@@ -13,7 +13,7 @@ import {
   type Round,
   type ScheduleRow,
 } from "./scheduleBuild.js";
-import { addBaseRow, getOverride, listBase, listOverrides, mergeOverride, replaceSheetRows, setOverride } from "./scheduleStore.js";
+import { addBaseRow, getOverride, getSeen, listBase, listOverrides, mergeOverride, replaceSheetRows, setOverride, setSeen } from "./scheduleStore.js";
 import type { ScheduleOverride } from "./scheduleBuild.js";
 import type { User } from "./types.js";
 
@@ -94,6 +94,35 @@ async function build() {
 
 type Built = Awaited<ReturnType<typeof build>>;
 
+/**
+ * The Inbox's "Needs your attention": open hiring emails the schedule can't
+ * show for you. A scheduling email it couldn't place (no company, or sent to
+ * an inbox no profile uses), at any age, since nothing else will surface it;
+ * or one from the last week that asks for something (documents, answers, a
+ * test, an offer to answer). Marking one Done or Ignored takes it off.
+ */
+const ATTENTION_DAYS = 7;
+const ASK_KINDS = new Set(["DOCUMENT_REQUEST", "SCREENING_QUESTION", "ASSESSMENT", "OFFER", "OTHER"]);
+export type Attention = "not_placed" | "asks";
+
+function attentionOf(b: Built): Map<string, Attention> {
+  const unplaced = new Set(b.unplaced.map((e) => e.id));
+  for (const r of b.rows) if (!b.persons.has(r.person)) for (const id of r.email_ids) unplaced.add(id);
+  const since = Date.now() - ATTENTION_DAYS * 86400_000;
+  const out = new Map<string, Attention>();
+  for (const e of b.events.values()) {
+    if (e.handled || e.verdict !== "ACTION" || e.match_status === "ignored") continue;
+    if (unplaced.has(e.id)) out.set(e.id, "not_placed");
+    else if (ASK_KINDS.has(e.kind ?? "") && Date.parse(e.received_at) >= since) out.set(e.id, "asks");
+  }
+  return out;
+}
+
+const visibleEvent = (user: User, b: Built, id: string) => {
+  const e = b.events.get(id);
+  return Boolean(e && canSeePerson(user, b.persons.get(e.to_addr)));
+};
+
 function present(row: ScheduleRow, b: Built) {
   const emails = row.email_ids
     .map((id) => b.events.get(id))
@@ -111,7 +140,7 @@ function present(row: ScheduleRow, b: Built) {
 }
 
 const roundBody = z.object({
-  state: z.enum(["none", "pending", "sched", "wait", "done", "failed", "skipped"]),
+  state: z.enum(["none", "ask", "pending", "sched", "wait", "done", "failed", "skipped"]),
   date: z.string().regex(/^(\d{4}-\d{2}-\d{2})?$/),
   time: z.string().regex(/^(\d{2}:\d{2})?$/),
 });
@@ -132,11 +161,37 @@ function issueUndo(rowId: string, userId: string, previous: ScheduleOverride | n
   return token;
 }
 
+/** Undo for a bulk change: every row's hand changes as they were before it. */
+const bulkUndoTokens = new Map<string, { userId: string; items: { rowId: string; previous: ScheduleOverride | null }[]; expires: number }>();
+
+/**
+ * A row that only exists because of an email gets a fixed home on its first
+ * hand edit, so the edit stays attached even if that first email is later
+ * ignored or an older one turns up.
+ */
+function materialize(row: ScheduleRow): void {
+  if (!row.id.startsWith("mail:") || listBase().some((r) => r.id === row.id)) return;
+  addBaseRow({
+    ...row,
+    rounds: ROUNDS.map(() => ({ state: "none", date: "", time: "", source: "" })),
+    email_ids: [],
+    offer: false,
+    closed: null,
+    note: "",
+    auto_closed: undefined,
+    changes: undefined,
+    removed: undefined,
+    task: undefined,
+    since: undefined,
+  });
+}
+
 const patchBody = z.object({
   rounds: z.record(z.enum(["0", "1", "2", "3"]), roundBody).optional(),
   closed: z.string().trim().min(1).max(80).nullable().optional(),
   offer: z.boolean().optional(),
   note: z.string().max(2000).optional(),
+  removed: z.boolean().optional(),
 });
 
 export function registerScheduleRoutes(app: Express): void {
@@ -145,9 +200,10 @@ export function registerScheduleRoutes(app: Express): void {
       const b = await build();
       const visible = b.rows.filter((r) => b.persons.has(r.person) && canSeePerson(req.user!, b.persons.get(r.person)));
       const counts = new Map<string, number>();
-      for (const r of visible) counts.set(r.person, (counts.get(r.person) ?? 0) + 1);
+      for (const r of visible) if (!r.removed) counts.set(r.person, (counts.get(r.person) ?? 0) + 1);
       res.json({
         today: b.today,
+        seen_at: getSeen(req.user!.id),
         rounds: ROUNDS,
         rows: visible.map((r) => present(r, b)),
         people: [...counts.keys()].map((k) => ({ key: k, label: b.persons.get(k)!.label, count: counts.get(k) })),
@@ -155,11 +211,51 @@ export function registerScheduleRoutes(app: Express): void {
         all_people: [...b.persons.values()]
           .filter((p) => canSeePerson(req.user!, p))
           .map((p) => ({ key: p.key, label: p.label })),
-        unplaced:
-          b.unplaced.filter((e) => canSeePerson(req.user!, b.persons.get(e.to_addr))).length +
-          // Emails to an inbox no profile uses: nobody could see their rows, so count them here for admins.
-          (req.user!.role === "admin" ? b.rows.filter((r) => !b.persons.has(r.person)).length : 0),
+        // The same emails the Inbox lists as "Not on the schedule", so the link and the list agree.
+        unplaced: [...attentionOf(b)].filter(([id, why]) => why === "not_placed" && visibleEvent(req.user!, b, id)).length,
       });
+    } catch (e) {
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
+  /** "Mark all seen": nothing before now counts as New for this person any more. */
+  app.post("/api/schedule/seen", requireAuth, (req, res) => {
+    const at = new Date().toISOString();
+    setSeen(req.user!.id, at);
+    res.json({ ok: true, seen_at: at });
+  });
+
+  /** How many rows have news since this person last looked: the sidebar badge. */
+  app.get("/api/schedule/new-count", requireAuth, async (req, res) => {
+    try {
+      const b = await build();
+      const seen = getSeen(req.user!.id);
+      const count = b.rows.filter(
+        (r) => !r.removed && b.persons.has(r.person) && canSeePerson(req.user!, b.persons.get(r.person)) && (r.changes ?? []).some((c) => c.at > seen)
+      ).length;
+      const attention = [...attentionOf(b).keys()].filter((id) => visibleEvent(req.user!, b, id)).length;
+      res.json({ count, seen_at: seen, attention });
+    } catch (e) {
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
+  /**
+   * For the Inbox: which schedule row each email landed on (to link to it),
+   * and which emails need attention and why.
+   */
+  app.get("/api/schedule/email-map", requireAuth, async (req, res) => {
+    try {
+      const b = await build();
+      const placed: Record<string, { row: string; company: string }> = {};
+      for (const r of b.rows) {
+        if (!b.persons.has(r.person) || !canSeePerson(req.user!, b.persons.get(r.person))) continue;
+        for (const id of r.email_ids) placed[id] = { row: r.id, company: r.company };
+      }
+      const attention: Record<string, Attention> = {};
+      for (const [id, why] of attentionOf(b)) if (visibleEvent(req.user!, b, id)) attention[id] = why;
+      res.json({ placed, attention, attention_days: ATTENTION_DAYS });
     } catch (e) {
       res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
     }
@@ -175,20 +271,7 @@ export function registerScheduleRoutes(app: Express): void {
         return res.status(404).json({ error: "Row not found" });
       }
       const previous = getOverride(row.id) ?? null;
-      // A row that only exists because of an email gets a fixed home on its
-      // first hand edit, so the edit stays attached even if that first email
-      // is later ignored or an older one turns up.
-      if (row.id.startsWith("mail:") && !listBase().some((r) => r.id === row.id)) {
-        addBaseRow({
-          ...row,
-          rounds: ROUNDS.map(() => ({ state: "none", date: "", time: "", source: "" })),
-          email_ids: [],
-          offer: false,
-          closed: null,
-          note: "",
-          auto_closed: undefined,
-        });
-      }
+      materialize(row);
       const now = new Date().toISOString();
       mergeOverride(row.id, (cur) => ({
         ...cur,
@@ -199,6 +282,7 @@ export function registerScheduleRoutes(app: Express): void {
         ...(body.closed !== undefined ? { closed: body.closed } : {}),
         ...(body.offer !== undefined ? { offer: body.offer } : {}),
         ...(body.note !== undefined ? { note: body.note } : {}),
+        ...(body.removed !== undefined ? { removed: body.removed ? now : null } : {}),
         updated_at: now,
         updated_by: req.user!.email,
       }));
@@ -223,6 +307,46 @@ export function registerScheduleRoutes(app: Express): void {
       const after = await build();
       const next = after.rows.find((r) => r.id === u.rowId);
       res.json({ ok: true, row: next ? present(next, after) : null });
+    } catch (e) {
+      if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
+  /** Remove (or put back) several rows at once, from the checkboxes. One Undo puts them all back. */
+  app.post("/api/schedule/bulk-remove", requireAuth, async (req, res) => {
+    try {
+      const body = z.object({ ids: z.array(z.string().min(1)).min(1).max(500), removed: z.boolean() }).parse(req.body);
+      const b = await build();
+      const want = new Set(body.ids);
+      const rows = b.rows.filter((r) => want.has(r.id) && canSeePerson(req.user!, b.persons.get(r.person)));
+      const now = new Date().toISOString();
+      const items = rows.map((row) => {
+        const previous = getOverride(row.id) ?? null;
+        materialize(row);
+        mergeOverride(row.id, (cur) => ({ ...cur, removed: body.removed ? now : null, updated_at: now, updated_by: req.user!.email }));
+        return { rowId: row.id, previous };
+      });
+      for (const [k, v] of bulkUndoTokens) if (v.expires < Date.now()) bulkUndoTokens.delete(k);
+      const undo = randomUUID();
+      bulkUndoTokens.set(undo, { userId: req.user!.id, items, expires: Date.now() + UNDO_MS });
+      res.json({ ok: true, count: items.length, undo });
+    } catch (e) {
+      if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
+  app.post("/api/schedule/bulk-restore", requireAuth, (req, res) => {
+    try {
+      const { token } = z.object({ token: z.string().min(1) }).parse(req.body);
+      const u = bulkUndoTokens.get(token);
+      if (!u || u.userId !== req.user!.id || u.expires < Date.now()) {
+        return res.status(410).json({ error: "This change can no longer be undone." });
+      }
+      bulkUndoTokens.delete(token);
+      for (const it of u.items) setOverride(it.rowId, it.previous);
+      res.json({ ok: true, count: u.items.length });
     } catch (e) {
       if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
       res.status(500).json({ error: e instanceof Error ? e.message : String(e) });

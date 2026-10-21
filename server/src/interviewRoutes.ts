@@ -62,13 +62,17 @@ const ingestEvent = z.object({
   permalink: text(1000),
   handled: z.boolean().default(false),
   handled_at: z.string().nullish(),
+  // Anything malformed is dropped rather than refused: a bad time must not cost the email.
+  meeting_date: z.unknown().transform((v) => (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined)),
+  meeting_time: z.unknown().transform((v) => (typeof v === "string" && /^\d{2}:\d{2}$/.test(v) ? v : undefined)),
 });
 
 const ingestBody = z.object({ events: z.array(ingestEvent).min(1).max(MAX_EVENTS_PER_REQUEST) });
 
 const patchBody = z.object({
-  // auto_matched is the matcher's word only; a person confirms instead.
-  match_status: z.enum(["needs_check", "confirmed", "not_from_tryvera", "ignored"]).optional(),
+  // auto_matched is the matcher's word; a person confirms instead. It is
+  // accepted only with its application, to put a Remove back exactly (Undo).
+  match_status: z.enum(["needs_check", "auto_matched", "confirmed", "not_from_tryvera", "ignored"]).optional(),
   application_id: z.string().min(1).nullable().optional(),
   note: z.string().max(5000).optional(),
   handled: z.boolean().optional(),
@@ -300,6 +304,9 @@ export function registerInterviewRoutes(app: Express): void {
       if (!status && !application_id && LINKED.has(existing.match_status)) status = "needs_check";
       if (status === "confirmed" && !application_id) {
         return res.status(400).json({ error: "Pick an application to confirm." });
+      }
+      if (status === "auto_matched" && !body.application_id) {
+        return res.status(400).json({ error: "Auto-matched needs its application." });
       }
 
       const now = new Date().toISOString();

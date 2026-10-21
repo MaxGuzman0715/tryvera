@@ -15,6 +15,7 @@ function db() {
   if (!ready) {
     d.exec(`CREATE TABLE IF NOT EXISTS schedule_base (id TEXT PRIMARY KEY, person TEXT NOT NULL, data TEXT NOT NULL)`);
     d.exec(`CREATE TABLE IF NOT EXISTS schedule_overrides (id TEXT PRIMARY KEY, data TEXT NOT NULL)`);
+    d.exec(`CREATE TABLE IF NOT EXISTS schedule_seen (user_id TEXT PRIMARY KEY, at TEXT NOT NULL)`);
     ready = true;
   }
   return d;
@@ -78,4 +79,21 @@ export function getOverride(id: string): ScheduleOverride | undefined {
 export function setOverride(id: string, ov: ScheduleOverride | null): void {
   if (ov) db().prepare("INSERT OR REPLACE INTO schedule_overrides (id, data) VALUES (?, ?)").run(id, JSON.stringify(ov));
   else db().prepare("DELETE FROM schedule_overrides WHERE id = ?").run(id);
+}
+
+/**
+ * When this person last marked the schedule seen. Anything an email changed
+ * after it shows as "New". A first visit starts a day back, so the latest
+ * arrivals show as new straight away rather than nothing at all.
+ */
+export function getSeen(userId: string): string {
+  const row = db().prepare("SELECT at FROM schedule_seen WHERE user_id = ?").get(userId) as { at: string } | undefined;
+  if (row) return row.at;
+  const start = new Date(Date.now() - 24 * 3600_000).toISOString();
+  setSeen(userId, start);
+  return start;
+}
+
+export function setSeen(userId: string, at: string): void {
+  db().prepare("INSERT OR REPLACE INTO schedule_seen (user_id, at) VALUES (?, ?)").run(userId, at);
 }

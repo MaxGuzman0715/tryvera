@@ -262,6 +262,9 @@ export type InterviewEvent = {
    * to the Slack card yet. While set, ingest doesn't overwrite `handled`.
    */
   handled_pending?: boolean;
+  /** The booked interview time the bot read from the email body (ET), when it states one. */
+  meeting_date?: string;
+  meeting_time?: string;
   /** Profiles whose basic.email is the recipient. Drives who can see the row. */
   profile_ids: string[];
   application_id: string | null;

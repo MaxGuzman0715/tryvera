@@ -321,7 +321,7 @@ export const api = {
   updateInterview: (
     id: string,
     patch: {
-      match_status?: Exclude<import("./types").InterviewMatchStatus, "auto_matched">;
+      match_status?: import("./types").InterviewMatchStatus;
       application_id?: string | null;
       note?: string;
       handled?: boolean;
@@ -332,6 +332,12 @@ export const api = {
       body: JSON.stringify(patch),
     }),
   getSchedule: () => req<import("./types").ScheduleResponse>("/api/schedule"),
+  markScheduleSeen: () => req<{ ok: boolean; seen_at: string }>("/api/schedule/seen", { method: "POST" }),
+  scheduleNewCount: () => req<{ count: number; seen_at: string; attention: number }>("/api/schedule/new-count"),
+  scheduleEmailMap: () =>
+    req<{ placed: Record<string, { row: string; company: string }>; attention: Record<string, "not_placed" | "asks">; attention_days: number }>(
+      "/api/schedule/email-map"
+    ),
   updateScheduleRow: (
     id: string,
     patch: {
@@ -339,6 +345,7 @@ export const api = {
       closed?: string | null;
       offer?: boolean;
       note?: string;
+      removed?: boolean;
     }
   ) =>
     req<{ ok: boolean; row: import("./types").ScheduleRow | null; undo: string }>(
@@ -351,6 +358,10 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ token }),
     }),
+  bulkRemoveSchedule: (ids: string[], removed: boolean) =>
+    req<{ ok: boolean; count: number; undo: string }>("/api/schedule/bulk-remove", { method: "POST", body: JSON.stringify({ ids, removed }) }),
+  bulkRestoreSchedule: (token: string) =>
+    req<{ ok: boolean; count: number }>("/api/schedule/bulk-restore", { method: "POST", body: JSON.stringify({ token }) }),
   addScheduleRow: (body: { person: string; company: string; role: string; contact?: string }) =>
     req<{ ok: boolean }>("/api/schedule/rows", { method: "POST", body: JSON.stringify(body) }),
   importSchedule: (person: string, tsv: string) =>

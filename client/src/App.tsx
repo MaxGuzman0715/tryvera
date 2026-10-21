@@ -9,6 +9,7 @@ import Result from "./enpply/pages/Result";
 import Logs from "./enpply/pages/Logs";
 import Interviews from "./enpply/pages/Interviews";
 import Schedule from "./enpply/pages/Schedule";
+import { useInterviewCounts } from "./enpply/useInterviewCounts";
 import Config from "./enpply/pages/Config";
 import Playground from "./enpply/pages/Playground";
 import GlobalSpinner from "./enpply/components/GlobalSpinner";
@@ -80,6 +81,7 @@ function Layout({ children }: { children: ReactNode }) {
   }
 
   const navClass = ({ isActive }: { isActive: boolean }) => (isActive ? "active" : "");
+  const { news: scheduleNew, attention } = useInterviewCounts(Boolean(user));
   const initial = (user?.email ?? "?").trim().charAt(0).toUpperCase();
 
   return (
@@ -105,13 +107,19 @@ function Layout({ children }: { children: ReactNode }) {
               <IconList />
               Application Logs
             </NavLink>
-            <NavLink to="/schedule" className={navClass}>
+          </nav>
+
+          <p className="nav-group">Interviews</p>
+          <nav className="nav-links">
+            <NavLink to="/schedule" className={navClass} title="One row per interview, with a calendar">
               <IconCalendar />
               Schedule
+              {scheduleNew > 0 && <span className="nav-badge" title={`${scheduleNew} new since you last looked`}>{scheduleNew}</span>}
             </NavLink>
-            <NavLink to="/interviews" className={navClass}>
+            <NavLink to="/interviews" className={navClass} title="Emails that need your attention, and every hiring email">
               <IconInbox />
-              Interviews
+              Inbox
+              {attention > 0 && <span className="nav-badge soft" title={`${attention} email${attention === 1 ? "" : "s"} need your attention`}>{attention}</span>}
             </NavLink>
           </nav>
 
