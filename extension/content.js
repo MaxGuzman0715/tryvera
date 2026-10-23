@@ -58,16 +58,43 @@
 
   // --- messaging -------------------------------------------------------------
 
+  /**
+   * True once this content script has been orphaned — the extension was
+   * reloaded/updated while this old script keeps running on an already-open tab.
+   * Any chrome.* call then throws "Extension context invalidated", so we stop
+   * talking to it (and stop the nav timer) instead of spamming errors.
+   */
+  let contextDead = false;
+  function extensionAlive() {
+    try {
+      return !contextDead && !!chrome.runtime?.id;
+    } catch {
+      return false;
+    }
+  }
+
   /** Promise wrapper over chrome.runtime.sendMessage. */
   function send(type, payload) {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type, payload }, (res) => {
-        if (chrome.runtime.lastError) {
-          resolve({ ok: false, error: chrome.runtime.lastError.message });
-        } else {
-          resolve(res || { ok: false, error: "No response from extension." });
-        }
-      });
+      if (!extensionAlive()) {
+        resolve({ ok: false, error: "Extension reloaded — refresh this page." });
+        return;
+      }
+      try {
+        chrome.runtime.sendMessage({ type, payload }, (res) => {
+          if (chrome.runtime.lastError) {
+            const msg = chrome.runtime.lastError.message || "";
+            if (/context invalidated|receiving end does not exist/i.test(msg)) contextDead = true;
+            resolve({ ok: false, error: msg });
+          } else {
+            resolve(res || { ok: false, error: "No response from extension." });
+          }
+        });
+      } catch (e) {
+        // Synchronous throw when the context is already gone.
+        contextDead = true;
+        resolve({ ok: false, error: e?.message || "Extension context invalidated." });
+      }
     });
   }
 
@@ -1771,6 +1798,7 @@
   }
   let reattachScheduled = false;
   const keepAlive = new MutationObserver(() => {
+    if (!extensionAlive()) { keepAlive.disconnect(); return; } // orphaned by a reload — stop observing
     if (reattachScheduled) return;
     reattachScheduled = true;
     requestAnimationFrame(() => {
@@ -3489,6 +3517,7 @@
   let notFoundCount = 0;
 
   async function poll(appId) {
+    if (!extensionAlive()) { stopPolling(); return; } // orphaned by a reload — stop quietly
     const res = await send("enpplify:status", { appId, jobLink: location.href });
     if (!res.ok) { setStatus(res.error || "Status check failed.", "err"); return; }
     if (!res.found) {
@@ -3823,6 +3852,36 @@
       }
     }
     console.log("[enpplify] active on", host, isTopFrame ? "(top frame)" : "(child frame)");
+  }
+
+  // jobright and other job boards are single-page apps: moving between the feed
+  // and a job (or between jobs) changes the URL with history.pushState and NO
+  // page reload, so the content script never re-runs and the panel keeps showing
+  // the page it first loaded on. Content scripts run in an isolated world and
+  // cannot intercept the page's own pushState, so poll the URL (plus popstate for
+  // back/forward) and, on a real change, re-run the existing refresh — which just
+  // re-reads state for the new URL. No logic beyond calling doRefresh(). Skip
+  // while a generation is mid-flight so "Generating…" is not interrupted.
+  if (isTopFrame) {
+    let lastHref = location.href;
+    let t = null;
+    const navTimer = setInterval(() => {
+      // Stop the moment this script is orphaned by an extension reload, so it
+      // doesn't fire doRefresh() into a dead context every tick.
+      if (!extensionAlive()) { clearInterval(navTimer); return; }
+      if (location.href === lastHref) return;
+      lastHref = location.href;
+      if (t) clearTimeout(t);
+      t = setTimeout(() => { if (extensionAlive() && !(goBtn && goBtn.disabled)) void doRefresh(); }, 500);
+    }, 700);
+    const onNav = () => {
+      if (location.href === lastHref) return;
+      lastHref = location.href;
+      if (t) clearTimeout(t);
+      t = setTimeout(() => { if (extensionAlive() && !(goBtn && goBtn.disabled)) void doRefresh(); }, 500);
+    };
+    window.addEventListener("popstate", onNav);
+    window.addEventListener("hashchange", onNav);
   }
 
   init();

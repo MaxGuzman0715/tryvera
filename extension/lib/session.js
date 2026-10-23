@@ -44,6 +44,11 @@ export async function getSession(jobLink, profileId) {
   return all[sessionKey(jobLink, profileId)] || null;
 }
 
+/** Every stored url+profile session, so the resolver can match by job id. */
+export async function getAllSessions() {
+  return readAll();
+}
+
 /**
  * Create/update the session for this job+profile.
  * @param {string} jobLink @param {string} profileId

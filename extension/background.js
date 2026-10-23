@@ -18,6 +18,7 @@ import {
 import {
   getSession,
   saveSession,
+  getAllSessions,
   getTabSession,
   saveTabSession,
   clearTabSession,
@@ -72,6 +73,46 @@ async function inheritFromOpener(tabId, profileId) {
   });
 }
 
+/**
+ * A job's jobright id, the one value that identifies the SAME job across its
+ * jobright page and the apply link jobright opens:
+ *   jobright posting : jobright.ai/jobs/info/<id>   (last path segment)
+ *   apply link       : <ats-url>?jr_id=<id>          (query param)
+ * Returns "" when the URL carries no such id (e.g. the /jobs/recommend feed, or
+ * a non-jobright page reached directly), which keeps the caller's behavior
+ * unchanged in those cases.
+ */
+function jobIdOf(url) {
+  try {
+    const u = new URL(url);
+    const q =
+      u.searchParams.get("jr_id") ||
+      u.searchParams.get("gh_jid") ||
+      u.searchParams.get("ashby_jid");
+    if (q) return q.trim().toLowerCase();
+    const m = u.pathname.match(/\/jobs\/info\/([a-z0-9]{8,})/i);
+    if (m) return m[1].toLowerCase();
+  } catch {
+    /* not a URL */
+  }
+  return "";
+}
+
+/**
+ * A jobright feed/list page — a list of many jobs, not a single job. The panel
+ * must not pin a specific run to these. A specific job is /jobs/info/<id>, which
+ * is deliberately NOT matched here.
+ */
+function isJobBoardFeed(url) {
+  try {
+    const u = new URL(url);
+    if (!/(^|\.)jobright\.ai$/i.test(u.hostname)) return false;
+    return /^\/jobs(\/(recommend|liked|applied|external|search))?\/?$/i.test(u.pathname);
+  } catch {
+    return false;
+  }
+}
+
 /** Normalize any thrown error into a serializable shape for the content script. */
 function errPayload(e) {
   if (e instanceof ApiError) return { ok: false, status: e.status, error: e.message };
@@ -114,19 +155,52 @@ async function handleGetState({ jobLink }, tabId) {
   //      navigated to a *different* known job doesn't inherit the opener's run
   //      and show the wrong company/role in the memory panel.
   let session = null;
-  const tabSession = await getTabSession(tabId);
-  const urlSession = profileId ? await getSession(jobLink, profileId) : null;
-  const tabOk = tabSession?.appId && (!tabSession.profileId || tabSession.profileId === profileId);
-  // If both exist and disagree, the tab was reused for a different posting:
-  // trust the page's own run over the stale tab anchor.
-  if (tabOk && !(urlSession?.appId && urlSession.appId !== tabSession.appId)) {
-    session = tabSession;
-  } else if (urlSession?.appId) {
-    session = urlSession;
-  } else {
-    const inherited = await inheritFromOpener(tabId, profileId);
-    if (inherited?.appId) session = inherited;
+  const pageJobId = jobIdOf(jobLink);
+  // 1. EXACT MATCH BY JOB ID WINS. jobright stamps one id on a job's posting
+  //    (/jobs/info/<id>) and on the apply link it opens (?jr_id=<id>), so the run
+  //    generated for THIS job is found on its apply form no matter how the tab
+  //    was opened. Being exact, it beats the tab/opener anchor — whose job is
+  //    only a guess (the tab you came from) and was showing the wrong job.
+  if (pageJobId && profileId) {
+    const all = await getAllSessions();
+    for (const k in all) {
+      const s = all[k];
+      if (s?.appId && s.profileId === profileId && jobIdOf(s.jobLink) === pageJobId) {
+        session = s;
+        break;
+      }
+    }
   }
+  // 2. Otherwise the ORIGINAL resolution: this tab's anchor, the URL+profile
+  //    session, or the opener tab. Only runs when the exact id match found
+  //    nothing (a job not generated yet, or a page/run with no id).
+  if (!session?.appId) {
+    const tabSession = await getTabSession(tabId);
+    const urlSession = profileId ? await getSession(jobLink, profileId) : null;
+    const tabOk = tabSession?.appId && (!tabSession.profileId || tabSession.profileId === profileId);
+    if (tabOk && !(urlSession?.appId && urlSession.appId !== tabSession.appId)) {
+      session = tabSession;
+    } else if (urlSession?.appId) {
+      session = urlSession;
+    } else {
+      const inherited = await inheritFromOpener(tabId, profileId);
+      if (inherited?.appId) session = inherited;
+    }
+  }
+  // Guards (subtractive — only ever REMOVE a wrong run, never add one):
+  if (session?.jobLink) {
+    const runJobId = jobIdOf(session.jobLink);
+    // (a) Both carry a job id and they differ → a stale previous job.
+    if (pageJobId && runJobId && pageJobId !== runJobId) session = null;
+    // (b) This page is a SPECIFIC job, but the run is anchored to a jobright
+    //     FEED (/jobs/recommend etc.) with no specific job of its own. A
+    //     feed-anchored run has no claim to this job — it only reached here via
+    //     the tab/opener anchor — so it must not carry over. This is the
+    //     "generated on the feed, then a different job's apply shows it" bug.
+    else if (pageJobId && !runJobId && isJobBoardFeed(session.jobLink)) session = null;
+  }
+  // The feed page itself lists many jobs, so it never pins one run.
+  if (session && isJobBoardFeed(jobLink)) session = null;
   // Server-backed fallback: no local session, but this user may have already
   // generated for this exact job link + profile from the dashboard or another
   // device. Match by normalized link so the panel can say "you already applied".
