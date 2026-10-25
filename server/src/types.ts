@@ -265,6 +265,11 @@ export type InterviewEvent = {
   /** The booked interview time the bot read from the email body (ET), when it states one. */
   meeting_date?: string;
   meeting_time?: string;
+  /**
+   * The interview step the classifier read from the whole email. "unknown" =
+   * it read the email and the step isn't stated; absent = never read.
+   */
+  round?: "intro" | "hr" | "tech" | "final" | "unknown";
   /** Profiles whose basic.email is the recipient. Drives who can see the row. */
   profile_ids: string[];
   application_id: string | null;

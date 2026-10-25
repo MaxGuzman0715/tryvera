@@ -333,6 +333,8 @@ export const api = {
     }),
   getSchedule: () => req<import("./types").ScheduleResponse>("/api/schedule"),
   markScheduleSeen: () => req<{ ok: boolean; seen_at: string }>("/api/schedule/seen", { method: "POST" }),
+  markScheduleRowSeen: (id: string) =>
+    req<{ ok: boolean; id: string; at: string }>(`/api/schedule/${encodeURIComponent(id)}/seen`, { method: "POST" }),
   scheduleNewCount: () => req<{ count: number; seen_at: string; attention: number }>("/api/schedule/new-count"),
   scheduleEmailMap: () =>
     req<{ placed: Record<string, { row: string; company: string }>; attention: Record<string, "not_placed" | "asks">; attention_days: number }>(

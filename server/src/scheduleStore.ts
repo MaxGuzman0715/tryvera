@@ -16,6 +16,9 @@ function db() {
     d.exec(`CREATE TABLE IF NOT EXISTS schedule_base (id TEXT PRIMARY KEY, person TEXT NOT NULL, data TEXT NOT NULL)`);
     d.exec(`CREATE TABLE IF NOT EXISTS schedule_overrides (id TEXT PRIMARY KEY, data TEXT NOT NULL)`);
     d.exec(`CREATE TABLE IF NOT EXISTS schedule_seen (user_id TEXT PRIMARY KEY, at TEXT NOT NULL)`);
+    d.exec(
+      `CREATE TABLE IF NOT EXISTS schedule_row_seen (user_id TEXT NOT NULL, row_id TEXT NOT NULL, at TEXT NOT NULL, PRIMARY KEY (user_id, row_id))`
+    );
     ready = true;
   }
   return d;
@@ -96,4 +99,32 @@ export function getSeen(userId: string): string {
 
 export function setSeen(userId: string, at: string): void {
   db().prepare("INSERT OR REPLACE INTO schedule_seen (user_id, at) VALUES (?, ?)").run(userId, at);
+  // A row marked seen before this is covered by the global mark now; drop it so
+  // the table only holds rows marked individually since the last "Mark all".
+  db().prepare("DELETE FROM schedule_row_seen WHERE user_id = ? AND at <= ?").run(userId, at);
+}
+
+/**
+ * Rows this person marked seen one at a time (row id → when). A row's news is
+ * whatever changed after the LATER of this and the global mark, so handling one
+ * interview clears its badge without clearing the rest.
+ */
+export function getRowSeen(userId: string): Record<string, string> {
+  const rows = db().prepare("SELECT row_id, at FROM schedule_row_seen WHERE user_id = ?").all(userId) as {
+    row_id: string;
+    at: string;
+  }[];
+  const out: Record<string, string> = {};
+  for (const r of rows) out[r.row_id] = r.at;
+  return out;
+}
+
+export function setRowSeen(userId: string, rowId: string, at: string): void {
+  db().prepare("INSERT OR REPLACE INTO schedule_row_seen (user_id, row_id, at) VALUES (?, ?, ?)").run(userId, rowId, at);
+}
+
+/** The moment after which a change to this row counts as New for this person. */
+export function seenForRow(globalSeen: string, rowSeen: Record<string, string>, rowId: string): string {
+  const own = rowSeen[rowId] ?? "";
+  return own > globalSeen ? own : globalSeen;
 }

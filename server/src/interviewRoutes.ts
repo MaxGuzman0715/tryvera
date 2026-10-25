@@ -65,6 +65,12 @@ const ingestEvent = z.object({
   // Anything malformed is dropped rather than refused: a bad time must not cost the email.
   meeting_date: z.unknown().transform((v) => (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined)),
   meeting_time: z.unknown().transform((v) => (typeof v === "string" && /^\d{2}:\d{2}$/.test(v) ? v : undefined)),
+  // The interview step the classifier read from the email. null = never read (older emails).
+  round: z.unknown().transform((v): InterviewEvent["round"] => {
+    if (typeof v !== "string") return undefined;
+    const r = v.trim().toLowerCase();
+    return r === "intro" || r === "hr" || r === "tech" || r === "final" ? r : "unknown";
+  }),
 });
 
 const ingestBody = z.object({ events: z.array(ingestEvent).min(1).max(MAX_EVENTS_PER_REQUEST) });

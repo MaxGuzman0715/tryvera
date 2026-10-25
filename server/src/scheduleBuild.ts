@@ -35,10 +35,24 @@ export type Round = {
    * asked to move it); confirm = they offered a time, you say yes or no.
    */
   why?: "reschedule" | "confirm";
+  /** Who the booked meeting is with, read from the calendar invite ("hansal maniar and brandi parson"). */
+  with?: string;
 };
 
+/**
+ * The participants named in a calendar invite subject: "Invitation: Hansal
+ * Maniar and Brandi Parson @ Fri Oct 16…" -> "hansal maniar and brandi parson".
+ * Two invites with the same participants are the same meeting being moved,
+ * not a new round: Lutra's recruiter call went Oct 16 -> 26 -> 23 -> 30 and was
+ * read as HR passed, then Tech.
+ */
+function meetingWith(subject: string): string {
+  const m = /(?:^|:\s)(?:updated |new )?(?:invitation|accepted|declined|tentatively accepted)(?: from an unknown sender)?:\s*(.+?)\s+@\s/i.exec(subject || "");
+  return m ? m[1].toLowerCase().replace(/\s*\([^)]*\)/g, "").replace(/\s+/g, " ").trim() : "";
+}
+
 /** An assessment or take-home waiting on you. Not an interview round. */
-export type RowTask = { kind: "assessment"; asked: string; at: string; email_id: string };
+export type RowTask = { kind: "assessment"; asked: string; at: string; email_id: string; due?: string };
 
 export type ScheduleRow = {
   id: string;
@@ -130,6 +144,8 @@ const CONFIRM_RE = /\bconfirm (if|whether)\b|\bconfirm (the )?(new|updated|resch
  */
 const BOOKED_ASK_RE = /^(attend|join)\b|manage (the |your )?(meeting|booking|interview)|reschedule or cancel|cancel or reschedule|coming up|is (now )?(scheduled|confirmed)|confirm(ed)? (your )?attendance|confirm (if|whether) (you('| a)re )?joining/i;
 const BOOKED_SUBJ_RE = /\b(confirmation|confirmed|is scheduled|invitation|accepted|booked|coming up)\b/i;
+/** You (or they) missed the meeting: it needs a new time. */
+const MISSED_RE = /\bmissed (our|the|your|you)\b|\bwe missed\b|no[- ]show|couldn'?t (connect|reach you)|sorry we missed/i;
 const saysBooked = (ev: InterviewEvent) => BOOKED_ASK_RE.test(ev.asked) || BOOKED_SUBJ_RE.test(ev.subject);
 
 /** A booking whose time we never read counts as ahead for this long (people book up to two weeks out), then as over. */
@@ -142,10 +158,62 @@ const ROUND_WORDS: [number, RegExp][] = [
   [0, /\bintro|recruiter|phone screen|screening call|initial|talent acquisition|first call|quick (call|chat)|exploratory/i],
 ];
 
+/**
+ * Job titles that contain round words: "Member of Technical Staff" is not a
+ * tech interview (FirstPrinciples' intro landed on Tech), "HR Systems
+ * Engineer" not an HR round, "Final Cut Pro Editor" not a final.
+ */
+const TITLE_WORDS_RE = /member of (the )?technical staff|technical (lead|leader|architect|director|manager|program manager|product manager|writer|consultant|specialist|support|account manager|staff)|(senior |staff |principal |lead )?technical \w+ (engineer|developer|analyst)|engineering leadership|leadership (team|role|position)|\bhr (systems|tech|technology|business partner|generalist|analyst|engineer|developer)\b/gi;
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** The words an email's round is read from: its subject and ask, with the job title taken out. */
+export function roundText(ev: Pick<InterviewEvent, "subject" | "asked" | "role">): string {
+  let text = `${ev.subject} ${ev.asked}`;
+  const role = (ev.role ?? "").trim();
+  // A "role" that names a meeting ("Recruiter Phone Interview") was misread from the subject: keep it.
+  if (role.length >= 4 && !/interview|screen|call|chat|meeting/i.test(role)) text = text.replace(new RegExp(escapeRe(role), "gi"), " ");
+  return text.replace(TITLE_WORDS_RE, " ");
+}
+
 /** Which round an email is about, from its subject and the ask; -1 if it doesn't say. */
 export function detectRound(text: string, kind: string | null): number {
   for (const [i, re] of ROUND_WORDS) if (re.test(text)) return i;
   return -1;
+}
+
+const SAID_ROUND: Record<string, number> = { intro: 0, hr: 1, tech: 2, final: 3 };
+
+/**
+ * The round the classifier read from the whole email, -1 if it couldn't tell.
+ * `checked` is false for emails classified before it was asked: only those
+ * fall back to keywords. Keywords on the subject and ask were what kept
+ * jumping rows ahead ("technical" in a recruiter's note → Tech).
+ */
+export function saidRound(ev: Pick<InterviewEvent, "round">): { k: number; checked: boolean } {
+  return { k: ev.round ? SAID_ROUND[ev.round] ?? -1 : -1, checked: Boolean(ev.round) };
+}
+
+/**
+ * The email names an earlier round than the row reached. That is believed
+ * (and the later rounds cleared) only while everything after it came from
+ * email guesses and is still open: never over a round passed, failed, or set
+ * by hand or by the sheet.
+ */
+function mayGoBack(row: ScheduleRow, k: number, evAt: string, moving: boolean, ev: InterviewEvent): boolean {
+  const x = row.rounds[k];
+  if (x.state === "failed") return false;
+  // That round's meeting already took place and this is no reschedule of it
+  // (nor the same people again): the email is about a later round, misread
+  // (Cision's second-round confirmation read as Intro).
+  const w = meetingWith(ev.subject);
+  const sameMeeting = Boolean(w && x.with && w === x.with);
+  if (x.date && etMs(x.date, x.time) < Date.parse(evAt) && !moving && !sameMeeting) return false;
+  for (let j = k + 1; j < 4; j++) {
+    const x = row.rounds[j];
+    if (x.state === "none" || x.state === "skipped") continue;
+    if (x.source === "manual" || x.source === "sheet" || !ACTIVE.includes(x.state)) return false;
+  }
+  return true;
 }
 
 /* ---------- dates & times (everything ends up as ET wall time) ---------- */
@@ -267,10 +335,14 @@ const PROPOSED_RE = /availability|choose a time|pick a (slot|time)|propose|selec
 export function extractWhen(
   ev: Pick<InterviewEvent, "subject" | "deadline" | "asked" | "received_at" | "meeting_date" | "meeting_time">
 ): When | null {
-  // The bot read it from the email body, where most confirmations put it, and
-  // only when the email states it as booked (meeting_time.py).
-  if (ev.meeting_date) return { date: ev.meeting_date, time: ev.meeting_time ?? "" };
   const receivedMs = Date.parse(ev.received_at);
+  // The bot read it from the email body, where most confirmations put it, and
+  // only when the email states it as booked (meeting_time.py). A date months
+  // out is a misread year (Twilio's "Oct 29" read as Jan 29 2027): not used.
+  if (ev.meeting_date) {
+    const at = etMs(ev.meeting_date, ev.meeting_time ?? "");
+    if (at > receivedMs - 2 * 86400000 && at < receivedMs + 90 * 86400000) return { date: ev.meeting_date, time: ev.meeting_time ?? "" };
+  }
   const inv = parseInvite(ev.subject, receivedMs);
   if (inv) return inv;
   const text = `${ev.subject} ${ev.asked}`;
@@ -448,9 +520,18 @@ export type BuildInput = {
 
 export type BuildResult = { rows: ScheduleRow[]; unplaced: InterviewEvent[] };
 
-function findRow(rows: ScheduleRow[], person: string, ev: InterviewEvent): ScheduleRow | undefined {
+function findRow(rows: ScheduleRow[], person: string, ev: InterviewEvent, senderOf: (id: string) => string): ScheduleRow | undefined {
+  // A job title the email never states is the classifier's guess: a bare
+  // calendar invite from Bill Lai ("Rajeev Kumar and Bill Lai") got "Senior
+  // Platform Engineer" and split Burq's Full-Stack interview onto a second row.
+  // So a guessed title doesn't keep an email off a row the same person has
+  // already written on. Rejections keep their title: it's read from the body.
+  const guessed = ev.verdict !== "REJECTION" && Boolean(ev.role) && rolesConflict(ev.role, `${ev.subject} ${ev.asked}`);
+  const from = (ev.sender_addr || "").toLowerCase();
+  const sameSender = (r: ScheduleRow) => Boolean(from) && r.email_ids.some((id) => senderOf(id) === from);
+  const conflicts = (r: ScheduleRow) => Boolean(ev.role && r.role && rolesConflict(ev.role, r.role)) && !(guessed && sameSender(r));
   const cands = rows.filter(
-    (r) => r.person === person && !(r.since && ev.received_at < r.since) && sameCompany(r.company, ev.company) && !(ev.role && r.role && rolesConflict(ev.role, r.role))
+    (r) => r.person === person && !(r.since && ev.received_at < r.since) && sameCompany(r.company, ev.company) && !conflicts(r)
   );
   if (cands.length <= 1) return cands[0];
   return cands
@@ -458,12 +539,53 @@ function findRow(rows: ScheduleRow[], person: string, ev: InterviewEvent): Sched
     .sort((a, b) => b.s - a.s || b.r.last_activity.localeCompare(a.r.last_activity))[0].r;
 }
 
+/** The same job: titles equal once case, punctuation and "Sr" are evened out, or one side doesn't say. */
+const normRole = (r: string) => r.toLowerCase().replace(/\bsr\.?\b/g, "senior").replace(/\bjr\.?\b/g, "junior").replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+const sameRole = (a: string, b: string) => !normRole(a) || !normRole(b) || normRole(a) === normRole(b);
+
+/** Booked times seen for a round a person set to "Waiting on them" (see setRound). */
+const held = new WeakMap<Round, { date: string; time: string; firm: boolean }>();
+/** The round the classifier named for the email being applied (-1: none). `firm` above = the time came from an email labelled with that very round, not a guess. */
+let applyingSaid = -1;
+
+/**
+ * A round set to "Waiting on them" by hand after its meeting took place is
+ * awaiting a result: give it back the meeting's date and time (Marqeta,
+ * Arista, Vantage… lost their Oct 19–20 interviews this way).
+ */
+function restoreHeldTimes(row: ScheduleRow): void {
+  for (let k = 0; k < 4; k++) {
+    const x = row.rounds[k];
+    const h = held.get(x);
+    // Not when another round holds that same meeting: the email was this round's only by a guess (Verto's Oct 20 tech interview).
+    // Nor when it would sit before an earlier round's date (Liberty Mutual: HR "Oct 2" under an Oct 12 intro).
+    const elsewhere = row.rounds.some((y, j) => (j !== k && y.date === h?.date && y.time === h?.time) || (j < k && y.date && h && y.date > h.date));
+    if (h && !elsewhere && x.source === "manual" && x.state === "pending" && x.at && etMs(h.date, h.time) < Date.parse(x.at)) {
+      row.rounds[k] = { ...x, state: "wait", date: h.date, time: h.time };
+    }
+  }
+}
+
 /** A hand edit wins over emails that arrived before it, not over newer ones. */
 const lockedFor = (x: Round, evAt: string) => x.source === "manual" && evAt <= (x.at ?? "");
 
 function setRound(row: ScheduleRow, k: number, next: Partial<Round>, evAt: string): void {
   const cur = row.rounds[k];
-  if (lockedFor(cur, evAt)) return;
+  if (lockedFor(cur, evAt)) {
+    // "Waiting on them" picked by hand drops the meeting's time. Remember the
+    // last booking the emails before that edit gave this round (a cancel or a
+    // reschedule ask forgets it), so a meeting that was over by then still
+    // shows as "awaiting result" with its date (see restoreHeldTimes).
+    if (cur.source === "manual" && cur.state === "pending") {
+      if ((next.state === "sched" || next.state === "wait") && next.date) {
+        const prev = held.get(cur);
+        const same = prev && prev.date === next.date && prev.time === (next.time ?? "");
+        held.set(cur, { date: next.date, time: next.time ?? "", firm: applyingSaid === k || Boolean(same && prev.firm) });
+      }
+      else if (next.state === "ask" || next.state === "none" || next.state === "pending") held.delete(cur);
+    }
+    return;
+  }
   row.rounds[k] = { ...cur, ...next, source: "email", at: evAt };
 }
 
@@ -479,14 +601,22 @@ function settleBefore(row: ScheduleRow, k: number, evAt: string, pass: boolean):
     const x = row.rounds[j];
     if (lockedFor(x, evAt)) continue;
     // A meeting still ahead hasn't been passed, whatever got booked after it.
-    if (x.state === "sched" && x.date && etMs(x.date, x.time) > Date.parse(evAt)) continue;
+    // "wait" counts too: it only means the time is past as of TODAY, but at the
+    // moment this email arrived the meeting may still have been ahead (Practice
+    // Better: Oct 22 prep email, Oct 23 tech interview).
+    if ((x.state === "sched" || x.state === "wait") && x.date && etMs(x.date, x.time) > Date.parse(evAt)) continue;
     if (ACTIVE.includes(x.state) && !x.date) {
       // Never booked, and a later round is underway: it simply didn't happen.
       row.rounds[j] = { ...x, state: "skipped", source: x.source === "manual" ? "email" : x.source || "inferred", at: evAt };
     } else if (ACTIVE.includes(x.state)) {
       // It took place: passed only on proof (see above), else it awaits a result.
       if (pass) row.rounds[j] = { ...x, state: "done", source: x.source === "manual" ? "email" : x.source || "inferred", at: evAt };
-    } else if (x.state === "none") row.rounds[j] = { state: "skipped", date: "", time: "", source: "inferred", at: evAt };
+    } else if (x.state === "none" && pass) {
+      // Never mentioned: skipped only once a later round is really under way
+      // (booked or passed). An email merely asking to book Tech leaves Intro
+      // and HR blank rather than claiming they were skipped (Genius AI).
+      row.rounds[j] = { state: "skipped", date: "", time: "", source: "inferred", at: evAt };
+    }
   }
 }
 
@@ -501,6 +631,23 @@ const highest = (row: ScheduleRow, states: RoundState[]) => {
   for (let k = 3; k >= 0; k--) if (states.includes(row.rounds[k].state)) return k;
   return -1;
 };
+
+/**
+ * The sheet already reflects emails up to its last day, except ones that came
+ * after the meeting it lists for that day: "missed you, let's reschedule" an
+ * hour later is news the sheet can't have (CircleCI's Oct 5 call, moved to Oct 9).
+ */
+function sheetCovers(row: ScheduleRow, evAt: string, day: string): boolean {
+  if (day !== row.sheet_until) return day < row.sheet_until;
+  const cut = sheetCut.get(row);
+  return !(cut !== undefined && Date.parse(evAt) > cut);
+}
+/** When the sheet's meeting on its last day started, read once from the rows as imported (emails change them later). */
+const sheetCut = new WeakMap<ScheduleRow, number>();
+function noteSheetCut(row: ScheduleRow): void {
+  const last = row.rounds.find((x) => x.source === "sheet" && x.date === row.sheet_until && x.time);
+  if (row.from_sheet && last) sheetCut.set(row, etMs(last.date, last.time));
+}
 
 /** Apply one email and record what it changed (for "New" on the page). */
 function applyAndRecord(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: ScheduleOverride | undefined, created: boolean): void {
@@ -531,11 +678,20 @@ function applyAndRecord(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov:
 
 function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: ScheduleOverride | undefined): void {
   const evAt = ev.received_at;
+  applyingSaid = saidRound(ev).k;
   const day = etDate(evAt);
   row.email_ids.push(ev.id);
   if (day > row.last_activity) row.last_activity = day;
   // The sheet already reflects what happened up to the day it was imported.
-  if (row.from_sheet && day <= row.sheet_until) return;
+  if (row.from_sheet && sheetCovers(row, evAt, day)) {
+    // Except who a sheet round's meeting was with, which the sheet doesn't say:
+    // a later invite with the same people is then that meeting moved, not the
+    // next round (Lutra: the Oct 8 intro with Brandi, rebooked four times).
+    const w = meetingWith(ev.subject);
+    const when = w && ev.verdict === "ACTION" ? extractWhen(ev) : null;
+    if (when) for (const x of row.rounds) if (x.date === when.date && (!x.time || x.time === when.time) && !x.with) x.with = w;
+    return;
+  }
 
   if (ev.verdict === "REJECTION") {
     // After an offer, "rejection" mail is onboarding text tripping the
@@ -559,21 +715,36 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   }
   if (ev.kind === "NEXT_ROUND" && !extractWhen(ev)) {
     const k = highest(row, REACHED);
+    // A "next round" email sent BEFORE the booked round has even happened is
+    // prep for that round ("Recruiter tips for your next interview"), not news
+    // that it was passed — so it must not tick that round or open the next one.
+    const kr = k >= 0 ? row.rounds[k] : null;
+    if (kr && (kr.state === "sched" || kr.state === "wait") && kr.date && etMs(kr.date, kr.time) > Date.parse(evAt)) return;
     row.task = null;
-    if (k < 3) {
+    // The step it moves you to: as the email names it ("next, a technical
+    // interview" skips HR), else the one after the last reached.
+    const said = saidRound(ev).k;
+    const t = said >= 0 ? said : k + 1;
+    const ask = !ev.handled && asksToBook(ev.asked);
+    if (t > k && t <= 3) {
       // "You're through to the next round" says outright the last one was passed.
-      settleBefore(row, k + 1, evAt, true);
-      const ask = !ev.handled && asksToBook(ev.asked);
-      if (row.rounds[k + 1].state === "none") setRound(row, k + 1, { state: ask ? "ask" : "pending", date: "", time: "" }, evAt);
+      settleBefore(row, t, evAt, true);
+      if (row.rounds[t].state === "none" || row.rounds[t].state === "skipped") setRound(row, t, { state: ask ? "ask" : "pending", date: "", time: "" }, evAt);
+    } else if (t === k && ask && row.rounds[t].state === "pending") {
+      // About the round you're already waiting on, now asking you to book it.
+      setRound(row, t, { state: "ask", date: "", time: "" }, evAt);
     }
     return;
   }
   // An assessment or take-home is a to-do on the row, not an interview round
   // (micro1's "AI interview" used to land as the Final round). Marking its
   // email Done closes it; so does the process moving on.
-  if (ev.kind === "ASSESSMENT" && !extractWhen(ev)) {
+  // Only a calendar invite makes it a meeting: a time in the text is the
+  // deadline (Softtek's "AI Interview" due 11:59 PM PT showed as a 2:59 AM interview).
+  if (ev.kind === "ASSESSMENT" && !parseInvite(ev.subject, Date.parse(evAt))) {
     // Reminders repeat the same test: marking any of them done closes it, a newer open one reopens it.
-    row.task = ev.handled ? null : { kind: "assessment", asked: ev.asked, at: evAt, email_id: ev.id };
+    const due = ev.meeting_date || (ev.deadline ?? "").slice(0, 10);
+    row.task = ev.handled ? null : { kind: "assessment", asked: ev.asked, at: evAt, email_id: ev.id, due: /^\d{4}-\d{2}-\d{2}$/.test(due) ? due : undefined };
     return;
   }
   if (!ROW_KINDS.has(ev.kind ?? "")) return;
@@ -589,14 +760,58 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   // Asked to book (or rebook) a time, and not yet marked done in the inbox.
   const asks = !when && !ev.handled && asksToBook(ev.asked);
   const confirm = asks && CONFIRM_RE.test(ev.asked);
-  const bookedNoTime = !when && !asksToBook(ev.asked) && saysBooked(ev);
+  const missed = !when && MISSED_RE.test(ev.subject);
+  const bookedNoTime = !when && !missed && !asksToBook(ev.asked) && saysBooked(ev);
   const reached = highest(row, REACHED);
-  // Only the subject and the ask: the classifier's free-text "reason" mentions
-  // "recruiter" or "on-site" in passing and would drag emails to the wrong round.
-  let k = detectRound(`${ev.subject} ${ev.asked}`, ev.kind);
   const moving = ev.kind === "RESCHEDULE" || RESCHEDULE_RE.test(ev.subject);
-  if (moving && active >= 0) k = active; // a new time for the same round
-  else if (k >= 0 && k < reached) k = -1; // keywords may move forward, never back over rounds already reached
+  const said = saidRound(ev);
+  let saidK = said.k;
+  const am = active >= 0 ? row.rounds[active] : null;
+  if (saidK > 0 && reached < 0 && detectRound(roundText(ev), ev.kind) !== saidK) {
+    // The first meeting of a process is the intro unless the email says
+    // otherwise in so many words (Tempo's 15-minute screen was read as HR).
+    saidK = 0;
+  } else if (saidK > active && active >= 0 && bookedNoTime && am?.date && etMs(am.date, am.time) <= Date.parse(evAt) && Date.parse(evAt) - etMs(am.date, am.time) < 3 * 3600_000) {
+    // No new time, sent while the booked meeting is under way ("Follow up!
+    // Join the interview" four minutes in): it's about that meeting.
+    saidK = active;
+  }
+  // The exact time a round already holds is that round's meeting, whatever
+  // the label says (ACV's updated invite for the Oct 19 intro read as Tech).
+  const sameSlot = when
+    ? row.rounds.findIndex((x) => {
+        const h = held.get(x);
+        return (x.date === when.date && x.time === when.time) || (h?.firm && h.date === when.date && h.time === when.time);
+      })
+    : -1;
+  if (sameSlot >= 0) saidK = sameSlot;
+  let k: number;
+  // Going back needs the email to book or move something: a plain "send your
+  // availability" reminder labelled Intro doesn't undo Tech (Genius AI).
+  if (saidK >= 0 && saidK < reached && sameSlot < 0 && !when && !moving) saidK = -1;
+  if (saidK >= 0 && saidK < reached && !mayGoBack(row, saidK, evAt, moving, ev)) {
+    // An earlier round than the row reached, and what's ahead is real (or that
+    // round already took place): don't trust the label, place it as before.
+    saidK = -1;
+  }
+  if (saidK >= 0) {
+    // The classifier named the round from the whole email: that's the round,
+    // a reschedule included (it names the meeting being moved).
+    k = saidK;
+    if (k < reached) {
+      // An earlier round than the row reached: the row ran ahead on a guess
+      // (a rebooked intro read as the next round). Put it back.
+      for (let j = k + 1; j < 4; j++) if (row.rounds[j].state !== "none") setRound(row, j, { state: "none", date: "", time: "", why: undefined, with: undefined }, evAt);
+    }
+  } else {
+    // Only the subject and the ask: the classifier's free-text "reason" mentions
+    // "recruiter" or "on-site" in passing and would drag emails to the wrong round.
+    // Emails the classifier already read for the round and found no answer
+    // don't get a second, weaker guess from keywords.
+    k = said.checked ? -1 : detectRound(roundText(ev), ev.kind);
+    if (moving && active >= 0) k = active; // a new time for the same round
+    else if (k >= 0 && k < reached) k = -1; // keywords may move forward, never back over rounds already reached
+  }
   if (k < 0) {
     const done = highest(row, ["done", "skipped"]);
     const a = active >= 0 ? row.rounds[active] : null;
@@ -608,7 +823,10 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
       // touch") leaves everything as it is.
       const happened = a.date && a.state !== "pending" && a.state !== "ask" && etMs(a.date, a.time) < Date.parse(evAt);
       const differs = when && (when.date !== a.date || when.time !== a.time);
-      k = happened && differs && !moving && active < 3 ? active + 1 : active;
+      // Same people as the round's booked meeting: that meeting moved, it is not the next round.
+      const w = meetingWith(ev.subject);
+      const sameMeeting = Boolean(w && a.with && w === a.with);
+      k = happened && differs && !moving && !sameMeeting && active < 3 ? active + 1 : active;
     } else {
       k = Math.min(3, done + 1);
     }
@@ -620,8 +838,12 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   settleBefore(row, k, evAt, Boolean(when));
   const cur = row.rounds[k];
   if (when) {
-    setRound(row, k, { state: etMs(when.date, when.time) < nowMs ? "wait" : "sched", date: when.date, time: when.time, why: undefined }, evAt);
+    const w = meetingWith(ev.subject);
+    setRound(row, k, { state: etMs(when.date, when.time) < nowMs ? "wait" : "sched", date: when.date, time: when.time, why: undefined, ...(w ? { with: w } : {}) }, evAt);
     row.task = null; // a booked interview means the process moved past any test
+  } else if (missed && (cur.state === "sched" || cur.state === "wait")) {
+    // "Missed our call? Let's reschedule": the slot is gone, pick a new one.
+    setRound(row, k, { state: "ask", date: "", time: "", why: "reschedule" }, evAt);
   } else if (bookedNoTime) {
     // Booked, time not in the text. A booking already holding a time keeps it.
     if (cur.state === "none" || cur.state === "skipped" || cur.state === "pending" || cur.state === "ask") {
@@ -698,6 +920,8 @@ function inferCompanies(events: InterviewEvent[], personOf: (ev: InterviewEvent)
 
 export function buildSchedule(input: BuildInput): BuildResult {
   const receivedAt = new Map(input.events.map((e) => [e.id, e.received_at]));
+  const senders = new Map(input.events.map((e) => [e.id, (e.sender_addr || "").toLowerCase()]));
+  const senderOf = (id: string) => senders.get(id) ?? "";
   const rows: ScheduleRow[] = input.base.map((r) =>
     // Emails are replayed below, so a stored row starts with none of their effects.
     lockRounds({
@@ -705,6 +929,7 @@ export function buildSchedule(input: BuildInput): BuildResult {
       since: r.id.startsWith("mail:") ? receivedAt.get(r.id.slice(5)) : undefined,
     }, input.overrides.get(r.id))
   );
+  for (const r of rows) noteSheetCut(r);
   const appsById = new Map(input.apps.map((a) => [a.id, a]));
   const unplaced: InterviewEvent[] = [];
   const ordered = inferCompanies(input.events, input.personOf, input.base)
@@ -718,7 +943,19 @@ export function buildSchedule(input: BuildInput): BuildResult {
       if (startsRow) unplaced.push(ev);
       continue;
     }
-    let row = findRow(rows, person, ev);
+    let row = findRow(rows, person, ev, senderOf);
+    // Rejected by email, then a fresh invite. The same role: the "rejection"
+    // was wrong or they came back (Talan's "following up" read as a rejection,
+    // then an offer to reschedule), so the row reopens. Another role: a new
+    // process (Deel's newly opened Sr Backend role after the Oct 7 rejection).
+    // A rejection set by hand or in your sheet stands.
+    if (row && startsRow) {
+      const rejected = row.rounds.filter((x) => x.state === "failed" && (x.at ?? "") < ev.received_at);
+      if (rejected.length) {
+        if (rejected.some((x) => x.source === "manual" || x.source === "sheet") || !sameRole(row.role, ev.role)) row = undefined;
+        else row.rounds = row.rounds.map((x) => (rejected.includes(x) ? { ...x, state: x.date ? "wait" : "pending" } : x));
+      }
+    }
     let created = false;
     if (!row) {
       if (!startsRow) continue;
@@ -768,6 +1005,7 @@ export function buildSchedule(input: BuildInput): BuildResult {
     }
     if (ov && etDate(ov.updated_at) > row.last_activity) row.last_activity = etDate(ov.updated_at);
 
+    restoreHeldTimes(row);
     // Time passes: a booked interview whose time has gone by now needs a result.
     // One booked without a time we could read is taken as over after two weeks.
     for (const x of row.rounds) {

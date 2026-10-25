@@ -280,7 +280,14 @@ export default function Schedule() {
     return true;
   };
   const seenAt = data?.seen_at ?? "";
-  const isNew = (r: ScheduleRow) => Boolean(seenAt) && newChanges(r, seenAt).length > 0;
+  const rowSeen = data?.row_seen ?? {};
+  // A row's news is whatever changed after the LATER of the global "Mark all seen"
+  // and that row's own mark, so clearing one row leaves the others New.
+  const seenFor = (r: ScheduleRow) => {
+    const own = rowSeen[r.id] ?? "";
+    return own > seenAt ? own : seenAt;
+  };
+  const isNew = (r: ScheduleRow) => Boolean(seenAt) && newChanges(r, seenFor(r)).length > 0;
   const QUICK: Record<string, (r: ScheduleRow) => boolean> = {
     new: isNew,
     active: (r) => !deriveStatus(r).closed,
@@ -424,6 +431,18 @@ export default function Schedule() {
     }
   }
 
+  /** Clear ONE row's New badge (e.g. after moving its email to a label in Gmail). */
+  async function markRowSeen(id: string) {
+    const at = new Date().toISOString();
+    setData((d) => (d ? { ...d, row_seen: { ...(d.row_seen ?? {}), [id]: at } } : d)); // instant
+    try {
+      await api.markScheduleRowSeen(id);
+      window.dispatchEvent(new Event("schedule-seen")); // refresh the sidebar count
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
   function exportCsv() {
     const blob = new Blob([scheduleCsv(filtered.map((f) => f.row))], { type: "text/csv" });
     const a = document.createElement("a");
@@ -477,7 +496,7 @@ export default function Schedule() {
 
       {calOpen ? (
         <Calendar
-          seenAt={seenAt}
+          seenFor={seenFor}
           rows={inPerson}
           today={today}
           view={view}
@@ -591,7 +610,7 @@ export default function Schedule() {
                       )}
                     </td>
                     <td>
-                      <NewBadge row={r} seenAt={seenAt} />
+                      <NewBadge row={r} seenAt={seenFor(r)} onSeen={() => void markRowSeen(r.id)} />
                       <button className="sc-co" type="button" onClick={() => setDrawerId(r.id)}>
                         <span className="co">{r.company}</span>
                         <span className="role">{r.role || "—"}</span>
@@ -730,7 +749,7 @@ function Avatar({ label }: { label: string }) {
 }
 
 /** What changed on this row since you last looked, e.g. "● Time changed · 2h ago". */
-function NewBadge({ row, seenAt }: { row: ScheduleRow; seenAt: string }) {
+function NewBadge({ row, seenAt, onSeen }: { row: ScheduleRow; seenAt: string; onSeen?: () => void }) {
   if (!seenAt) return null;
   const c = headlineChange(row, seenAt);
   if (!c) return null;
@@ -740,6 +759,17 @@ function NewBadge({ row, seenAt }: { row: ScheduleRow; seenAt: string }) {
       <span className="sc-newdot" aria-hidden="true" />
       {CHANGE_LABEL[c.what]}{c.round !== undefined && c.what !== "new" ? ` · ${ROUNDS[c.round]}` : ""}
       <span className="when">{ago(c.at)}{more > 0 ? ` · +${more}` : ""}</span>
+      {onSeen && (
+        <button
+          className="sc-newseen"
+          type="button"
+          title="Mark this one as seen"
+          aria-label="Mark this interview as seen"
+          onClick={(e) => { e.stopPropagation(); onSeen(); }}
+        >
+          ✓
+        </button>
+      )}
     </span>
   );
 }
@@ -748,7 +778,13 @@ function NextDate({ row, today, onBooked }: { row: ScheduleRow; today: string; o
   const st = deriveStatus(row);
   const x = st.i !== undefined ? row.rounds[st.i] : null;
   if (st.kind === "task" && row.task) {
-    return <span className="sc-next task" title={row.task.asked}>Assessment<small>{row.task.asked || "to do"} · {shortDay(row.task.at.slice(0, 10))}</small></span>;
+    const due = row.task.due;
+    return (
+      <span className="sc-next task" title={row.task.asked}>
+        {due ? `Due ${shortDay(due)}` : "Assessment"}
+        <small>{row.task.asked || "to do"}{due ? ` · ${relativeDay(due, today)}` : ` · sent ${shortDay(row.task.at.slice(0, 10))}`}</small>
+      </span>
+    );
   }
   if (x && x.date && (x.state === "sched" || x.state === "wait")) {
     const days = Math.round((parseDay(x.date).getTime() - parseDay(today).getTime()) / 86400000);
@@ -1060,8 +1096,8 @@ function ImportDialog({ people, onClose, onDone }: { people: { key: string; labe
 
 type Ev = { row: ScheduleRow; i: number; date: string; time: string; state: SchedRoundState };
 
-function Calendar({ seenAt, rows, today, view, anchor, onView, onAnchor, onToday, onOpen, onHide }: {
-  seenAt: string; rows: ScheduleRow[]; today: string; view: View; anchor: string; onView: (v: View) => void; onAnchor: (iso: string) => void; onToday: () => void; onOpen: (id: string) => void; onHide: () => void;
+function Calendar({ seenFor, rows, today, view, anchor, onView, onAnchor, onToday, onOpen, onHide }: {
+  seenFor: (r: ScheduleRow) => string; rows: ScheduleRow[]; today: string; view: View; anchor: string; onView: (v: View) => void; onAnchor: (iso: string) => void; onToday: () => void; onOpen: (id: string) => void; onHide: () => void;
 }) {
   const evs = useMemo<Ev[]>(() => {
     const out: Ev[] = [];
@@ -1115,7 +1151,7 @@ function Calendar({ seenAt, rows, today, view, anchor, onView, onAnchor, onToday
                       <button key={`${e.row.id}-${e.i}`} type="button" className={`sc-ev ${e.state}`} onClick={() => onOpen(e.row.id)}>
                         <span className="top">
                           <span className="time">
-                            {seenAt && newChanges(e.row, seenAt).some((c) => c.round === undefined || c.round === e.i) && <span className="sc-newdot" title="New since you last looked" />}
+                            {seenFor(e.row) && newChanges(e.row, seenFor(e.row)).some((c) => c.round === undefined || c.round === e.i) && <span className="sc-newdot" title="New since you last looked" />}
                             {time12(e.time) || "Time TBD"}
                           </span>
                           <Avatar label={e.row.person_label} />

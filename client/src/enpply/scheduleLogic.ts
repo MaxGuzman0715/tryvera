@@ -32,7 +32,11 @@ export function deriveStatus(r: Pick<ScheduleRow, "rounds" | "closed" | "offer">
     const x = r.rounds[i];
     if (x.state === "none" || x.state === "skipped") continue;
     // An open assessment is the next thing to do, unless an interview is booked ahead.
-    if (r.task && x.state !== "sched") return { label: "Assessment to do", kind: "task", i };
+    if (r.task && x.state !== "sched") {
+      // Both are true: don't hide that the interview itself is over and waiting on a result.
+      const label = x.state === "wait" ? `Assessment to do · ${ROUNDS[i]} awaiting result` : "Assessment to do";
+      return { label, kind: "task", i };
+    }
     if (x.state === "ask") return { label: `${ROUNDS[i]} · ${ASK_WHY[x.why ?? ""] ?? ASK_WHY[""]}`, kind: "ask", i };
     if (x.state === "wait") return { label: `${ROUNDS[i]} · awaiting result`, kind: "wait", i };
     if (x.state === "sched") return { label: x.date ? `${ROUNDS[i]} Scheduled` : `${ROUNDS[i]} booked · time not set`, kind: "sched", i };
@@ -66,12 +70,23 @@ export function setRound(
   time = ""
 ): { rounds: SchedRound[]; changed: number[] } {
   const next = rounds.map((x) => ({ ...x }));
+  // "Waiting on them" after the interview took place is "awaiting result":
+  // keep the meeting's date instead of wiping it.
+  if (state === "pending" && rounds[i].state === "wait" && rounds[i].date) {
+    state = "wait";
+    date = rounds[i].date;
+    time = rounds[i].time;
+  }
   const dated = DATED.includes(state);
   next[i] = { state, date: dated ? date : "", time: dated ? time : "", source: "manual" };
   if (["ask", "pending", "sched", "wait", "done"].includes(state)) {
     for (let j = 0; j < i; j++) {
       const x = next[j];
-      if (["none", "ask", "pending", "sched", "wait"].includes(x.state)) next[j] = { ...x, state: x.date ? "done" : "skipped", source: "manual" };
+      // A round that was underway is behind you now. One that never started
+      // is marked skipped only when you pass a later one: picking Tech to book
+      // doesn't say Intro and HR never happened (Blitzoo showed both skipped).
+      const settle = ["ask", "pending", "sched", "wait"].includes(x.state) || (x.state === "none" && state === "done");
+      if (settle) next[j] = { ...x, state: x.date ? "done" : "skipped", source: "manual" };
     }
   }
   if (state === "done" && i < 3 && next[i + 1].state === "none") next[i + 1] = { ...blank(), state: "pending", source: "manual" };

@@ -472,7 +472,7 @@ export type BulletExperimentResult = {
 export type SchedRoundState = "none" | "ask" | "pending" | "sched" | "wait" | "done" | "failed" | "skipped";
 export type SchedRound = { state: SchedRoundState; date: string; time: string; source: string; at?: string; why?: "reschedule" | "confirm" };
 /** An assessment / take-home waiting on you (not an interview round). */
-export type SchedTask = { kind: "assessment"; asked: string; at: string; email_id: string };
+export type SchedTask = { kind: "assessment"; asked: string; at: string; email_id: string; due?: string };
 
 export type ScheduleEmail = { id: string; received_at: string; kind: string; subject: string; permalink: string };
 
@@ -507,6 +507,8 @@ export type ScheduleResponse = {
   today: string;
   /** When this person last marked the schedule seen: later changes show as New. */
   seen_at: string;
+  /** Rows marked seen one at a time (row id → when); later changes still show as New. */
+  row_seen?: Record<string, string>;
   rounds: string[];
   rows: ScheduleRow[];
   people: SchedulePerson[];

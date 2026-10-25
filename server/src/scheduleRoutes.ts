@@ -13,7 +13,7 @@ import {
   type Round,
   type ScheduleRow,
 } from "./scheduleBuild.js";
-import { addBaseRow, getOverride, getSeen, listBase, listOverrides, mergeOverride, replaceSheetRows, setOverride, setSeen } from "./scheduleStore.js";
+import { addBaseRow, getOverride, getRowSeen, getSeen, listBase, listOverrides, mergeOverride, replaceSheetRows, seenForRow, setOverride, setRowSeen, setSeen } from "./scheduleStore.js";
 import type { ScheduleOverride } from "./scheduleBuild.js";
 import type { User } from "./types.js";
 
@@ -204,6 +204,7 @@ export function registerScheduleRoutes(app: Express): void {
       res.json({
         today: b.today,
         seen_at: getSeen(req.user!.id),
+        row_seen: getRowSeen(req.user!.id),
         rounds: ROUNDS,
         rows: visible.map((r) => present(r, b)),
         people: [...counts.keys()].map((k) => ({ key: k, label: b.persons.get(k)!.label, count: counts.get(k) })),
@@ -226,14 +227,24 @@ export function registerScheduleRoutes(app: Express): void {
     res.json({ ok: true, seen_at: at });
   });
 
+  /** Mark ONE row seen: clears its New badge and leaves every other row's alone. */
+  app.post<{ id: string }>("/api/schedule/:id/seen", requireAuth, (req, res) => {
+    const at = new Date().toISOString();
+    setRowSeen(req.user!.id, req.params.id, at);
+    res.json({ ok: true, id: req.params.id, at });
+  });
+
   /** How many rows have news since this person last looked: the sidebar badge. */
   app.get("/api/schedule/new-count", requireAuth, async (req, res) => {
     try {
       const b = await build();
       const seen = getSeen(req.user!.id);
-      const count = b.rows.filter(
-        (r) => !r.removed && b.persons.has(r.person) && canSeePerson(req.user!, b.persons.get(r.person)) && (r.changes ?? []).some((c) => c.at > seen)
-      ).length;
+      const rowSeen = getRowSeen(req.user!.id);
+      const count = b.rows.filter((r) => {
+        if (r.removed || !b.persons.has(r.person) || !canSeePerson(req.user!, b.persons.get(r.person))) return false;
+        const since = seenForRow(seen, rowSeen, r.id);
+        return (r.changes ?? []).some((c) => c.at > since);
+      }).length;
       const attention = [...attentionOf(b).keys()].filter((id) => visibleEvent(req.user!, b, id)).length;
       res.json({ count, seen_at: seen, attention });
     } catch (e) {
