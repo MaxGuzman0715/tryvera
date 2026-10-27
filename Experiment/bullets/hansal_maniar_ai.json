@@ -2,26 +2,26 @@
   "id": "hansal_maniar_ai",
   "basic": {
     "fullName": "Hansal Maniar",
-    "title": "Senior Software Engineer",
+    "title": "Staff Software Engineer",
     "email": "maniar.hansal@gmail.com",
     "phone": "+1 (289) 481-0751",
     "location": "Ontario, Canada | Remote",
-    "summary": "Senior Software Engineer with nearly two decades of experience building and modernizing production systems across financial services, enterprise platforms, digital products, and data-intensive applications. Experienced across backend and distributed services, event-driven architectures, APIs, data and streaming pipelines, cloud infrastructure, web applications, AI/ML-enabled workflows, security, and platform reliability. Has led architecture and delivery for regulated, high-availability systems involving financial transactions, enterprise integrations, operational data, and large-scale modernization, translating complex business requirements into scalable software platforms that remain reliable under production load.",
+    "summary": "Staff Software Engineer with 18 years building and owning production systems at Wealthsimple, Google and CIBC, and a year of contract AI-training work on Snorkel AI and Handshake AI building agentic coding tasks and grading model-written code. Writes the tests, reference solutions and review criteria that decide whether code is actually correct, and reviews code daily, including output from AI coding assistants. Deepest in distributed systems, testing and code review, and judging AI output against written rubrics.",
     "linkedin": "https://www.linkedin.com/in/humaniar/"
   },
   "experience": [
     {
       "company": "Wealthsimple",
       "location": "Remote",
-      "title": "Senior Software Engineer",
+      "title": "Staff Software Engineer",
       "startDate": "Aug 2025",
       "endDate": "Present",
       "bullets": [
-        "Build and evaluate the AI surfaces of Wealthsimple's Book of Record estate, spanning anomaly detection and exception classification on the Machine Learning Platform and retrieval through the LLM Gateway.",
-        "Rate model output against written accuracy criteria before it reaches a customer surface, labelling each miss by failure type and writing the corrected answer the model should have produced.",
-        "Write the reference implementations and acceptance criteria that define a correct result, so a judgment is checked against a known-good answer instead of a reviewer's memory.",
-        "Sample completed reviews and compare the verdicts two reviewers reached on the same item, working the disagreements until the same rule produces the same outcome.",
-        "Review code and designs across the write funnel against correctness and edge-case criteria, checking that an implementation matches its stated contract before it is promoted."
+        "Build full-stack and AI capabilities across Wealthsimple's Book of Record estate, spanning the Financial Activity Model (the single validated write funnel), the Financial Calculation Platform (streaming recomputation of derived views), and the Machine Learning Platform.",
+        "Architected the streaming recomputation and materialized views behind the Financial Calculation Platform, so every customer-facing surface derives from one record rather than from separate copies that drift apart.",
+        "Built deterministic test harnesses that replay duplicate, reordered and late events against the recomputation engine, so correctness and retry edge cases are proven before merge rather than found in production.",
+        "Review code and designs across the write funnel against written contracts and edge-case criteria, checking that an implementation matches its stated behaviour before it is promoted, including code drafted with AI coding assistants.",
+        "Embedded anomaly detection and exception classification on the Machine Learning Platform, and prototyped retrieval over internal policy and operations documents through the LLM Gateway, judged against evaluation sets and written accuracy criteria."
       ],
       "paragraphs": [],
       "notes": "Four bullets mapped onto the anchor: write path (Book of Record / Financial Activity Model / controlled migration), read path (Financial Calculation Platform / read models), event-driven processing and reconciliation, and the ML decisioning layer. Bullet 4 deliberately covers the FULL model lifecycle (feature extraction, retraining, lineage, promotion, serving, monitoring) but welds every stage to a financial object - ledger events, activity history, reconciliation breaks, money-movement and back-office workflows - so a JD's named tooling (MLflow, SageMaker, TorchServe) attaches to the financial story instead of floating as generic MLOps. No stage is left empty, because an empty stage is a slot the model fills from reframed_jd. Number-free, matching deepankar/rowland/andrew."
@@ -36,6 +36,20 @@
       "paragraphs": [],
       "notes": "TEEMA is a staffing / contract-placement firm; the role is contract engineering delivered at client sites. Kept industry-neutral in the profile. At generation, projects/shared.json supplies the JD-matched anonymized client engagement(s).",
       "consulting": true
+    },
+    {
+      "company": "Snorkel AI and Handshake AI",
+      "location": "Remote",
+      "title": "AI Training Contributor, Software Engineering (Contract)",
+      "startDate": "Sep 2025",
+      "endDate": "Aug 2026",
+      "bullets": [
+        "Built terminal-based agentic coding tasks for frontier-model training: a task specification, a Dockerized environment, deterministic tests that decide correctness and a verified reference solution, calibrated so plausible but wrong fixes fail.",
+        "Graded model-written code and multi-step agent trajectories against detailed rubrics for correctness, edge cases, error handling and whether the tests actually prove the fix, with a written justification for every rating.",
+        "Reviewed other contributors' tasks and ratings for guideline adherence, and flagged ambiguous instructions and reward-hacking paths where an agent could pass the tests without solving the problem."
+      ],
+      "paragraphs": [],
+      "notes": "Real contract AI-training work (Snorkel AI expert network and Handshake AI), Sep 2025 - Aug 2026, alongside Wealthsimple. AI-platform resumes ONLY: never add to hansal_maniar (job applications leave it out on purpose). Kept at index 2 so Wealthsimple/TEEMA remain the two tailored roles; AI-platform renders sort by end date, which prints it right under Wealthsimple. Project codenames (Terminus 3, Project Boson) are internal/NDA and deliberately not printed. Prints VERBATIM; compact keeps the first 3 bullets."
     },
     {
       "company": "Suncore Construction & Materials",
@@ -84,14 +98,13 @@
     }
   ],
   "skills": [
-    "AI Evaluation & Training: LLM output evaluation and rating, human preference data collection, guideline and rubric adherence, data labeling and annotation, fact-checking and accuracy review, AI model assessment, response ranking, pairwise comparison, inter-annotator agreement, quality assurance sampling, RLHF, red-teaming, prompt durability testing, rubric design, annotation workflow design, dataset engineering, model benchmarking, evaluation harness design",
-    "Multimodal, Geospatial & Scientific Data: QGIS, GIS spatial analysis, terrain analysis, spatial dataset overlays, ParaView, scientific visualization, DICOM, 3D medical dataset reconstruction, FreeCAD, parametric CAD modelling, mechanical assemblies, technical schematics, 3D modelling, image and audio annotation",
-    "Languages: Python, Java, C++, Go, JavaScript, TypeScript, SQL, Bash",
-    "Frameworks & Runtimes: FastAPI, Flask, Next.js, Node.js, Express, Spring Boot, React",
-    "Data & Backend: REST APIs, gRPC, Protocol Buffers, GraphQL, PostgreSQL, Redis, Elasticsearch, Kafka, Spark, Airflow, Parquet, distributed systems, asynchronous processing, ETL tools, database schema design",
-    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, pandas, NumPy, Hugging Face Transformers, OpenAI API, Anthropic API, MLflow, Jupyter",
-    "Testing & Verification: pytest, JUnit, Jest, property-based testing, fuzz testing, golden files, differential testing, regression testing, unit and integration testing, test-case design",
-    "Documentation & Review Practices: technical documentation, workflow guides, step-by-step verification protocols, specification writing, style and contribution guides, code review, quality assurance, critical thinking, remote and independent work, deadline management",
+    "AI Evaluation & Training: grading model-written code, agent trajectory review, rubric-based evaluation, reference solutions, coding task design, evaluation harnesses, LLM output evaluation, response ranking, pairwise comparison, guideline adherence, RLHF, red-teaming, quality review",
+    "Languages: Python, Java, TypeScript, JavaScript, Go, Kotlin, C++, SQL, Bash",
+    "Testing & Verification: pytest, JUnit, Jest, Playwright, unit, integration and end-to-end testing, regression testing, property-based testing, golden files, test-case design, code review",
+    "Frameworks & Backend: Spring Boot, Node.js, FastAPI, React, Next.js, REST APIs, gRPC, GraphQL, PostgreSQL, Redis, Kafka, Spark, distributed systems",
+    "AI & Machine Learning: LLMs, RAG, agents and tool calling, Model Context Protocol, OpenAI API, Anthropic API, PyTorch, scikit-learn, Hugging Face Transformers, MLflow, Claude Code, Cursor, GitHub Copilot",
+    "Cloud & DevOps: AWS, Azure, Docker, Kubernetes, Terraform, Linux, Git, GitHub Actions, CI/CD",
+    "Documentation & Review: technical specifications, design docs, postmortems, review guidelines, written justifications, remote and independent work",
     "Spoken Languages: English (Professional), Gujarati (Native), Hindi (Fluent)"
   ],
   "education": [
@@ -103,5 +116,5 @@
       "endDate": ""
     }
   ],
-  "note": "AI-training / evaluation variant of hansal_maniar for Handshake AI-style postings. SAME companies, dates, locations and education as the base profile - only skills and bullets differ. Wealthsimple (anchor) and TEEMA (consulting, no bullets) are tailored live; Suncore, Google and CIBC render verbatim, so Google carries the Java/C++ code-review, correctness-check and offline-evaluation signal this role screens for. Skills are tool-forward with the annotation-EXECUTION terms first, and there is no soft-skills category."
+  "note": "AI-training / evaluation variant of hansal_maniar. The server uses it automatically when hansal_maniar is chosen with the AI platform box ticked (generation.ts, '<id>_ai' twin). SAME companies, titles (Staff at Wealthsimple), dates, locations and education as the base profile, plus the real Snorkel AI / Handshake AI contract (Sep 2025 - Aug 2026), which the base profile leaves out on purpose. Master's only. The Multimodal/Geospatial/Scientific skills line was removed on 2026-10-27: not defensible for a software engineer in a platform interview."
 }

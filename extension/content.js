@@ -772,8 +772,8 @@
     for (const { ref, value } of values) {
       const entry = refToEl.get(ref);
       if (!entry || !value) continue;
-      if (entry.el) entry.el = liveEl(entry.el);
       try {
+        if (entry.el) entry.el = liveEl(entry.el);
         const combo = entry.kind === "combobox" || (entry.kind !== "select" && entry.kind !== "radio" && entry.kind !== "checkboxes" && entry.kind !== "buttons" && isCombobox(entry.el));
         // Bring the field into view first — some controlled inputs ignore writes
         // while off-screen, and it lets the user see what's being filled.
@@ -1800,7 +1800,7 @@
                   <div class="toggles" id="genToggles">
                     <label class="chip" id="grRow"><input type="checkbox" id="gr" /> Résumé</label>
                     <label class="chip"><input type="checkbox" id="gc" /> Cover letter</label>
-                    <label class="chip" id="aiRow" title="For AI training / expert platforms (Terac, Mercor, Handshake AI, Outlier…): a shorter résumé written for their screeners. Normal job applications keep the usual résumé."><input type="checkbox" id="ai" /> AI platform</label>
+                    <label class="chip" id="aiRow" title="For AI training / expert platforms (Terac, Mercor, Handshake AI, Outlier…): a shorter résumé written for their screeners. Normal job applications keep the usual résumé."><input type="checkbox" id="aiPlat" /> AI platform</label>
                   </div>
                   <label class="row" id="baseRow"><input type="checkbox" id="base" /> Use my base résumé instead</label>
                   <div class="btnrow">
@@ -1978,7 +1978,7 @@
 
   dlBtn.disabled = true; // enabled once a run exists for this page
   hdProf.classList.add("hidden"); // shown once signed in (profile known)
-  const grEl = $("gr"), gcEl = $("gc"), baseEl = $("base"), grRow = $("grRow"), aiEl = $("ai");
+  const grEl = $("gr"), gcEl = $("gc"), baseEl = $("base"), grRow = $("grRow"), aiEl = $("aiPlat");
   const manualToggleBtn = $("manualToggle"), manualFields = $("manualFields"), manualCompanyEl = $("manualCompany"), manualRoleEl = $("manualRole");
   const genToggles = $("genToggles"), genSecText = $("genSecText"), baseRow = $("baseRow"), qaSplit = $("qaSplit");
   const brandLogo = $("brandLogo"), brandTtl = $("brandTtl"), panelEl = $("panel"), fabTxt = $("fabtxt");
@@ -2665,6 +2665,8 @@
       if (otherBtn) otherBtn.disabled = false;
     };
 
+    // Anything that throws below must not leave both fill buttons disabled for good.
+    try {
     const pwFields = passwords ? passwordFields() : [];
     const fields = harvestFields();
     if (fields.length === 0 && pwFields.length === 0) {
@@ -2716,6 +2718,12 @@
     reenable();
     const note = !activeAppId ? " Press Q&A to answer job-specific questions." : "";
     setStatus((parts.length ? parts.join(" · ") : "Nothing to fill") + "." + note + " Review, then submit manually.", "ok");
+    } catch (e) {
+      console.warn("[enpplify] fill failed:", e);
+      setStatus("Fill failed: " + (e?.message || e), "err");
+    } finally {
+      reenable();
+    }
   }
 
   // Easy Fill: instant profile basics + reusable answers — no AI, no docs.

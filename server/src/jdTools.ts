@@ -297,6 +297,11 @@ export function splitTopLevel(text: string): string[] {
   return out.filter(Boolean);
 }
 
+const CODE_HOSTS = new Set(["github", "gitlab", "bitbucket"]);
+const SOURCE_CONTROL_NEIGHBOURS = new Set([
+  "git", "github actions", "gitlab ci", "jenkins", "azure devops", "circleci", "buildkite", "ci/cd", "ci/cd pipelines",
+]);
+
 /**
  * Where a tool goes in the printed skills. Returns the updated lines (a new category line may be
  * appended) or null when no sensible home exists.
@@ -317,6 +322,13 @@ export function placeTool(skills: string[], profileSkills: string[], tool: JdToo
     return next;
   };
   const printed = skills.map((line, k) => ({ line, k })).filter((x) => nameOf(x.line) !== "");
+
+  // 0. A code host (GitHub, GitLab, Bitbucket) goes only beside Git or a CI tool. JDs name it in passing
+  //    ("GitHub stars", "GitHub workflows"), and anywhere else it reads as a language or a framework.
+  if (CODE_HOSTS.has(low)) {
+    const home = printed.find(({ line }) => skillLineItems(line).some((x) => SOURCE_CONTROL_NEIGHBOURS.has(x)));
+    return home ? add(home.k) : null;
+  }
 
   // 1. A printed category of the tool's own domain (a language only into a languages line, never the reverse).
   const sameDomain = printed.filter(({ line }) => {

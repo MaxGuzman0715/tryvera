@@ -21,6 +21,7 @@ import type {
 import { resolveStepModel, effectiveTiers } from "./llmTiers.js";
 import { markdownToPdfBuffer } from "./pdf.js";
 import { readAllPrompts, readVariant } from "./promptStore.js";
+import { readProfile } from "./profileStore.js";
 import { listApplications } from "./logStore.js";
 import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlaceholders.js";
 import { renderTemplatedPdf } from "./templatePdf.js";
@@ -794,7 +795,17 @@ function renderResumeFromStructured(
     console.log(`[enpply] ${profile.id}: trimmed ${trimmed.removed.length} skills item(s) to keep the block readable`);
   }
   const skillsSection = `## Skills\n${renderSkillsList(trimmed.skills)}`;
-  const experienceSection = `## Experience\n${expBlocks.join("\n\n")}`;
+  // AI-platform résumés print roles most-recently-ended first, so a contract that ran alongside the
+  // current job (kept later in the profile so the first two roles stay the tailored ones) sits
+  // right under it. The sort is stable; ordinary runs keep profile order.
+  const endRank = (d: string) => (/present|current/i.test(d) ? Infinity : Date.parse(`1 ${d}`) || 0);
+  const printedBlocks = compact
+    ? expBlocks
+        .map((block, i) => ({ block, end: endRank(profile.experience[i].endDate ?? "") }))
+        .sort((a, b) => b.end - a.end)
+        .map((x) => x.block)
+    : expBlocks;
+  const experienceSection = `## Experience\n${printedBlocks.join("\n\n")}`;
   const educationSection = `## Education\n${eduBlocks.join("\n")}`;
 
   // Section order is theme-specific:
@@ -837,6 +848,8 @@ export type ResumeCompanyPlan = { company: string; role: CompanyRole; industries
  */
 async function buildResumeDoc(params: {
   profile: Profile;
+  /** Whose project store to read; differs from profile.id when an AI-platform run uses the "_ai" twin. */
+  projectsProfileId?: string;
   variations: JdVariation[];
   industries: string[];
   sharedProjects: SharedProject[];
@@ -859,7 +872,7 @@ async function buildResumeDoc(params: {
   const varB = variations.find((v) => v.label.toUpperCase() === "B") ?? variations[1] ?? varA;
   const reframedFor = (consulting: boolean) => (consulting ? varB : varA);
 
-  const profileProjects = await loadProfileProjects(profile.id);
+  const profileProjects = await loadProfileProjects(params.projectsProfileId ?? profile.id);
 
   // Older companies (index ≥ 2): swap in the per-profile store's stored flagship
   // bullets where present; otherwise leave them (renderer falls back to profile).
@@ -1323,7 +1336,14 @@ export async function runGeneration(params: {
     priorApplyForm?: string;
   };
 }): Promise<ResultJson> {
-  const { profile, job_link, job_description, apply_form, appId, outputRootAbs } = params;
+  const { job_link, job_description, apply_form, appId, outputRootAbs } = params;
+  // AI-platform runs write from the profile's "<id>_ai" twin when one exists (its AI-training
+  // experience, skills and project store), under the chosen id so folders, file names, logs and
+  // duplicate checks stay the profile the user picked.
+  const aiTwin = params.ai_platform === true ? await readProfile(`${params.profile.id}_ai`) : null;
+  const profile: Profile = aiTwin ? { ...aiTwin, id: params.profile.id } : params.profile;
+  const projectsProfileId = aiTwin ? aiTwin.id : profile.id;
+  if (aiTwin) console.log(`[enpply] ${profile.id}: AI platform run, writing from profile ${aiTwin.id}`);
   // The two-tier model config + this user's function→tier choices. Every LLM
   // step resolves through resolveStepModel(step, tierSettings, llmTiers).
   // Attach the per-run effort to every model this run resolves, so the two
@@ -1827,6 +1847,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
     try {
       const { doc, plan, llmInput } = await buildResumeDoc({
         profile,
+        projectsProfileId,
         variations: extraction.variations,
         industries: extraction.industries,
         sharedProjects,
