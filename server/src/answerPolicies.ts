@@ -33,11 +33,12 @@ type PoliciesFile = { items: AnswerPolicy[]; seeded?: boolean };
  * removals stick because the profile is marked `seeded` (see getAnswerPolicies).
  */
 export const DEFAULT_POLICIES: string[] = [
-  "Salary / compensation expectation: if the job description posts a range X–Y, " +
-    "answer the value 80% of the way from X to Y (i.e. X + 0.8*(Y-X)); when a " +
-    "range is requested, give the 40%-to-120% span (X+0.4*(Y-X) to X+1.2*(Y-X)). " +
-    "Round every figure to the nearest $5,000. If no range is posted, use " +
-    "$150,000 for a single value, or $140,000–$200,000 for a range.",
+  "Salary / compensation expectation (annual): never answer below $170,000 a year. If the job " +
+    "description posts a range X–Y, answer the value 80% of the way from X to Y (i.e. X + 0.8*(Y-X)), " +
+    "but at least $170,000; when a range is requested, give X+0.4*(Y-X) to X+1.2*(Y-X), raising each end " +
+    "to at least $170,000 and keeping the top above the bottom. Round every figure to the nearest $5,000. " +
+    "If no range is posted, use $175,000 for a single value, or $170,000–$210,000 for a range. This rule is " +
+    "for yearly salary only: an hourly-rate question is answered as an hourly rate, never with a yearly figure.",
   "For acknowledgement / consent fields phrased as \"I accept that …\", " +
     "\"I agree …\", \"I certify …\", or \"I consent …\" that expect a positive " +
     "answer to proceed, answer yes / true / the affirmative option — unless the " +

@@ -22,17 +22,40 @@ import {
   getTabSession,
   saveTabSession,
   clearTabSession,
+  clearAllTabSessions,
+  forgetSession,
   normalizeJobLink,
 } from "./lib/session.js";
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("[enpplify] installed");
+  // Tab links saved by an older version may point at the wrong job (see the
+  // typed-navigation rule below); start every open tab clean.
+  void clearAllTabSessions();
 });
 
 // Forget a tab's anchored application when the tab closes, so a future tab with
 // the same id starts clean.
 chrome.tabs.onRemoved.addListener((tabId) => {
   void clearTabSession(tabId);
+});
+
+// A URL typed or pasted into the address bar (or opened from a bookmark) is a
+// new job of your choosing, never the next step of the one the tab showed
+// before. So that tab starts clean: its old run is dropped, and it must not
+// borrow its opener's run either (a Ctrl+T tab records the tab you were on as
+// its opener). Pasting four LinkedIn links into new tabs showed one earlier
+// Svitla run on all of them. Link clicks, redirects, form submits and reloads
+// are untouched, so Apply → application form keeps its run as before.
+const TYPED = new Set(["typed", "auto_bookmark", "generated", "keyword", "start_page"]);
+chrome.webNavigation.onCommitted.addListener(({ tabId, frameId, transitionType, transitionQualifiers }) => {
+  if (frameId !== 0) return;
+  const typed = TYPED.has(transitionType) || (transitionQualifiers || []).includes("from_address_bar");
+  if (!typed) return;
+  void (async () => {
+    await clearTabSession(tabId);
+    await saveTabSession(tabId, { typedStart: true });
+  })();
 });
 
 /** Promise wrapper for chrome.tabs.get (returns null on any error). */
@@ -60,6 +83,8 @@ async function inheritFromOpener(tabId, profileId) {
   const tab = await getTab(tabId);
   const openerId = tab?.openerTabId;
   if (openerId == null) return null;
+  // This tab's page was typed or pasted in: it isn't continuing the opener's job.
+  if ((await getTabSession(tabId))?.typedStart) return null;
   const opener = await getTabSession(openerId);
   if (!opener?.appId) return null;
   if (opener.profileId && profileId && opener.profileId !== profileId) return null;
@@ -96,6 +121,83 @@ function jobIdOf(url) {
     /* not a URL */
   }
   return "";
+}
+
+/** Query params that only say where a click came from, never which job it is. */
+const TRACKING_PARAM = /^(utm_.*|src|source|ref|referrer|jr_id|gh_src|lever-source|lever-origin|trk|trackingid|refid|iis|iisn|mode|flowselection|ccuid|codes)$/i;
+
+/**
+ * One posting's identity: host + path (minus a leading locale like /en-CA/ and
+ * a trailing /application or /apply) + the params that aren't tracking.
+ */
+function postingKey(url) {
+  try {
+    const u = new URL(url);
+    const path = u.pathname
+      .replace(/^\/[a-z]{2}-[a-z]{2}(?=\/)/i, "")
+      .replace(/\/(application|apply)\/?$/i, "")
+      .replace(/\/+$/, "")
+      .toLowerCase();
+    const query = [...u.searchParams.entries()]
+      .filter(([k]) => !TRACKING_PARAM.test(k))
+      .map(([k, v]) => `${k.toLowerCase()}=${v}`)
+      .sort()
+      .join("&");
+    return { where: `${u.host.toLowerCase()}${path}`, query };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The same posting on both URLs: the same page, or the same jobright id. A side
+ * whose only extra params are tracking ones still matches
+ * (ramp/…?src=LinkedIn is ramp/…?jr_id=…).
+ */
+function samePosting(a, b) {
+  const ida = jobIdOf(a);
+  if (ida && ida === jobIdOf(b)) return true;
+  const x = postingKey(a);
+  const y = postingKey(b);
+  if (!x || !y || x.where !== y.where) return false;
+  return x.query === y.query || !x.query || !y.query;
+}
+
+/**
+ * The company a careers-site URL names, for the hosts that put it in the URL
+ * (jobs.ashbyhq.com/<company>/…, <company>.bamboohr.com, …); "" when the URL
+ * doesn't say (Workday's tenant names, LinkedIn, job boards).
+ */
+function urlCompany(url) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.toLowerCase();
+    const seg = u.pathname.split("/").filter(Boolean);
+    if (/(^|\.)greenhouse\.io$/.test(host)) return u.searchParams.get("for") || (seg[0] !== "embed" ? seg[0] : "") || "";
+    if (/^(jobs\.ashbyhq\.com|jobs\.lever\.co|jobs\.smartrecruiters\.com|apply\.workable\.com|jobs\.jobvite\.com)$/.test(host)) return seg[0] || "";
+    if (host === "jobs.dayforcehcm.com") {
+      // …/<locale>/<company>/CANDIDATEPORTAL/…; its sign-in pages (/api/auth/…) name no company.
+      const rest = /^[a-z]{2}-[a-z]{2}$/i.test(seg[0] || "") ? seg.slice(1) : seg;
+      return /^candidateportal$/i.test(rest[1] || "") ? rest[0] : "";
+    }
+    const sub = host.match(/^([a-z0-9-]+)\.(bamboohr\.com|recruitee\.com|applytojob\.com|breezy\.hr|teamtailor\.com)$/);
+    return sub ? sub[1] : "";
+  } catch {
+    return "";
+  }
+}
+
+const COMPANY_FILLER = /\b(inc|llc|ltd|corp|corporation|co|company|group|the|systems|technologies|technology|software|solutions|labs|holdings)\b/g;
+
+/** The page names a company and the run is plainly another one (Svitla on /miovision/). */
+function companyConflict(pageUrl, runCompany) {
+  const slug = urlCompany(pageUrl).toLowerCase().replace(/[^a-z0-9]/g, "");
+  const company = String(runCompany || "").toLowerCase();
+  if (slug.length < 3 || !company || /^unknown$/.test(company.trim())) return false;
+  const words = company.replace(COMPANY_FILLER, " ").split(/[^a-z0-9]+/).filter((w) => w.length >= 3);
+  const joined = company.replace(/[^a-z0-9]/g, "");
+  if (joined.includes(slug) || slug.includes(joined)) return false;
+  return !words.some((w) => slug.includes(w) || w.includes(slug));
 }
 
 /**
@@ -201,30 +303,39 @@ async function handleGetState({ jobLink }, tabId) {
   }
   // The feed page itself lists many jobs, so it never pins one run.
   if (session && isJobBoardFeed(jobLink)) session = null;
-  // Server-backed fallback: no local session, but this user may have already
-  // generated for this exact job link + profile from the dashboard or another
-  // device. Match by normalized link so the panel can say "you already applied".
-  if (!session?.appId && profileId) {
+  // Server check. The server knows each run's real job link and company, which
+  // the local records don't, so it settles what they can get wrong:
+  //   - the run generated for THIS posting (same page, ignoring tracking params,
+  //     locale and /application) wins over anything saved locally. A wrong
+  //     record had stuck Svitla's run on Ramp's and Cority's pages although
+  //     each had its own run;
+  //   - a run for another company can't sit on a careers page that names its
+  //     company (jobs.ashbyhq.com/miovision/… with Svitla's run): dropped, and
+  //     its record forgotten;
+  //   - no local session at all: an earlier run for this posting, generated
+  //     from the dashboard or another device, so the panel can say "you
+  //     already applied".
+  if (profileId && !isJobBoardFeed(jobLink)) {
     try {
-      const wanted = normalizeJobLink(jobLink);
-      if (wanted) {
-        const { applications } = await listApplications();
-        const prior = (applications || []).find(
-          (a) =>
-            a.resume_profile === profileId &&
-            a.status === "completed" &&
-            normalizeJobLink(a.job_link) === wanted,
-        );
-        if (prior) {
-          session = await saveSession(jobLink, profileId, {
-            appId: prior.id,
-            runUuid: prior.run_uuid,
-            status: prior.status,
-          });
-        }
+      const { applications } = await listApplications();
+      const apps = applications || [];
+      const own = apps
+        .filter((a) => a.resume_profile === profileId && a.status === "completed" && samePosting(a.job_link, jobLink))
+        .sort((x, y) => String(y.created_at || "").localeCompare(String(x.created_at || "")))[0];
+      const run = session?.appId ? apps.find((a) => a.id === session.appId) : null;
+      // Only when nothing is shown, or what's shown is another posting's run: a
+      // newer run of this same posting (a regenerate) is never swapped back.
+      const foreign = !session?.appId || (run && !samePosting(run.job_link, jobLink));
+      if (own && foreign && own.id !== session?.appId) {
+        session = await saveSession(jobLink, profileId, { appId: own.id, runUuid: own.run_uuid, status: own.status });
+        if (tabId != null) await saveTabSession(tabId, { appId: own.id, runUuid: own.run_uuid, status: own.status, profileId, jobLink });
+      } else if (!own && run && foreign && companyConflict(jobLink, run.company_name)) {
+        await forgetSession(jobLink, profileId);
+        if (tabId != null && (await getTabSession(tabId))?.appId === run.id) await clearTabSession(tabId);
+        session = null;
       }
     } catch {
-      /* listing failed — non-fatal, just no server-backed prior */
+      /* listing failed — non-fatal, keep what was resolved locally */
     }
   }
   return {
@@ -248,7 +359,7 @@ async function persistRun(tabId, jobLink, profileId, patch) {
 }
 
 /** Kick off a fresh generation, or rerun the existing one for this job. */
-async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, genCoverLetter, companyName, roleName }, tabId) {
+async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, genCoverLetter, aiPlatform, companyName, roleName }, tabId) {
   const profileId = await getSelectedProfile();
   if (!profileId) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!jobDescription || !jobDescription.trim()) {
@@ -274,6 +385,8 @@ async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, g
       gen_answers: false,
       gen_fit_answer: false,
       ignore_duplicate_check: false,
+      // AI training / expert platform résumé (separate prompt on the server); absent otherwise.
+      ...(aiPlatform ? { ai_platform: true } : {}),
       // Manual company/role for a log-only run → server skips extraction.
       ...(companyName && roleName ? { company_name: companyName, role_name: roleName } : {}),
     });
@@ -298,6 +411,7 @@ async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, g
             gen_cover_letter: !!genCoverLetter,
             gen_answers: false,
             gen_fit_answer: false,
+            ...(aiPlatform ? { ai_platform: true } : {}),
           });
           const saved = await persistRun(tabId, jobLink, profileId, {
             appId: res.id || existing.appId,
@@ -342,7 +456,20 @@ async function handleGenerate({ jobLink, jobDescription, applyForm, genResume, g
  * so a later Generate reuses it (handleGenerate → rerun) instead of saying
  * "already applied".
  */
-async function handleQaCreate({ jobLink, jobDescription, applyForm }, tabId) {
+// Q&A slots being created right now, per job+profile. Several frames of one page (or
+// a few quick presses) asking at once share one slot instead of each making a run.
+const qaCreating = new Map();
+
+async function handleQaCreate(payload, tabId) {
+  const profileId = await getSelectedProfile();
+  const key = `${normalizeJobLink(payload.jobLink)}::${profileId}`;
+  if (qaCreating.has(key)) return qaCreating.get(key);
+  const p = createQaSlot(payload, tabId).finally(() => qaCreating.delete(key));
+  qaCreating.set(key, p);
+  return p;
+}
+
+async function createQaSlot({ jobLink, jobDescription, applyForm }, tabId) {
   const profileId = await getSelectedProfile();
   if (!profileId) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!jobDescription || !jobDescription.trim()) {
@@ -394,7 +521,7 @@ async function handleQaCreate({ jobLink, jobDescription, applyForm }, tabId) {
  * profile), the server appends "-1" (then -2, …) to the new run's role so it's
  * distinct (suffix_on_duplicate).
  */
-async function handleRegenerate({ jobLink, jobDescription, applyForm, genResume, genCoverLetter, companyName, roleName }, tabId) {
+async function handleRegenerate({ jobLink, jobDescription, applyForm, genResume, genCoverLetter, aiPlatform, companyName, roleName }, tabId) {
   const profileId = await getSelectedProfile();
   if (!profileId) return { ok: false, error: "No profile selected. Open the Tryvify popup and pick a profile." };
   if (!jobDescription || !jobDescription.trim()) {
@@ -412,6 +539,7 @@ async function handleRegenerate({ jobLink, jobDescription, applyForm, genResume,
       gen_fit_answer: false,
       // Don't dead-end on a duplicate; make a distinct "-N" run instead.
       suffix_on_duplicate: true,
+      ...(aiPlatform ? { ai_platform: true } : {}),
       // Manual company/role for a log-only re-log → server skips extraction.
       ...(companyName && roleName ? { company_name: companyName, role_name: roleName } : {}),
     });
@@ -524,7 +652,10 @@ async function handleStatus({ appId, jobLink }, tabId) {
     }
 
     const profileId = await getSelectedProfile();
-    if (profileId && jobLink) {
+    // Remember this page's run, but never pin one company's run onto a page
+    // that names another company: that's how Svitla's run got saved against
+    // Ramp's, Cority's and Miovision's pages and kept coming back.
+    if (profileId && jobLink && !companyConflict(jobLink, row.company_name)) {
       await saveSession(jobLink, profileId, { appId, status: row.status });
     }
     // Keep the tab anchor's status/appId fresh too (e.g. after duplicate

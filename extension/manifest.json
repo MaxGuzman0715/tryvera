@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Tryvify",
-  "version": "0.4.3",
+  "version": "0.5.2",
   "description": "Companion to Tryvera: generate tailored docs and semi-automatically fill job applications. You always review and submit manually.",
-  "permissions": ["storage", "activeTab", "scripting", "notifications", "downloads"],
+  "permissions": ["storage", "activeTab", "scripting", "notifications", "downloads", "webNavigation"],
   "host_permissions": [
     "http://localhost/*",
     "http://127.0.0.1/*",

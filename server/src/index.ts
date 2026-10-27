@@ -219,6 +219,8 @@ const generateBody = z.object({
   gen_answers: z.boolean().optional(),
   gen_fit_answer: z.boolean().optional(),
   ignore_duplicate_check: z.boolean().optional(),
+  /** AI training / expert platform résumé (uses the "ai-platform" résumé prompt for this run only). */
+  ai_platform: z.boolean().optional(),
   /** On duplicate, suffix the role with -1/-2/… instead of failing. */
   suffix_on_duplicate: z.boolean().optional(),
   /**
@@ -946,6 +948,8 @@ const rerunBody = z
     gen_cover_letter: z.boolean().optional(),
     gen_answers: z.boolean().optional(),
     gen_fit_answer: z.boolean().optional(),
+    /** AI training / expert platform résumé (the extension's Generate filling a Q&A slot). */
+    ai_platform: z.boolean().optional(),
     /**
      * Optional per-run reasoning effort for this generation. Omitted falls back
      * to ENPPLY_REASONING_EFFORT, then "medium". Only reasoning models (gpt-5 /
@@ -1089,6 +1093,9 @@ app.post<{ id: string }>("/api/applications/:id/rerun", requireAuth, async (req,
           gen_answers: body.gen_answers === true,
           gen_fit_answer: body.gen_fit_answer === true,
           ignore_duplicate_check: true,
+          // Asked for explicitly (the extension filling a Q&A slot), else kept from the run
+          // being regenerated: an AI-platform résumé stays one on Regenerate.
+          ai_platform: body.ai_platform ?? prior?.generation_options?.ai_platform === true,
           run_uuid: entry.run_uuid,
           onStage: async (stage) => {
             if (cancelledRuns.has(entry.id)) {
@@ -2025,6 +2032,7 @@ app.post("/api/applications/generate", requireAuth, async (req, res) => {
           gen_answers: body.gen_answers,
           gen_fit_answer: body.gen_fit_answer,
           ignore_duplicate_check: body.ignore_duplicate_check,
+          ai_platform: body.ai_platform === true,
           suffix_on_duplicate: body.suffix_on_duplicate,
           ...(extractionOverride ? { extractionOverride } : {}),
           run_uuid: runUuid,
@@ -2141,6 +2149,8 @@ const generateBatchBody = z.object({
   gen_fit_answer: z.boolean().optional(),
   ignore_duplicate_check: z.boolean().optional(),
   suffix_on_duplicate: z.boolean().optional(),
+  /** AI training / expert platform résumé (uses the "ai-platform" résumé prompt for this run only). */
+  ai_platform: z.boolean().optional(),
   /** Post the finished documents to the configured Telegram channel. Opt-in per run. */
   send_to_telegram: z.boolean().optional(),
 });
@@ -2279,6 +2289,7 @@ app.post("/api/applications/generate-batch", requireAuth, async (req, res) => {
             gen_answers: body.gen_answers,
             gen_fit_answer: body.gen_fit_answer,
             ignore_duplicate_check: body.ignore_duplicate_check,
+            ai_platform: body.ai_platform === true,
             suffix_on_duplicate: body.suffix_on_duplicate,
             run_uuid: p.runUuid,
             // One folder for the batch, and per-profile names for the files that

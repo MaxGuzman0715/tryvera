@@ -172,6 +172,11 @@ export default function Apply() {
   const [genFitAnswer, setGenFitAnswer] = useState(() => readStoredGenerationOptions().gen_fit_answer);
   const [ignoreDuplicateCheck, setIgnoreDuplicateCheck] = useState(false);
   /**
+   * AI training / expert platform résumé (Terac, Mercor, Outlier…): the server writes it with
+   * a separate prompt. Per run and never remembered, so it can't leak into normal applications.
+   */
+  const [aiPlatform, setAiPlatform] = useState(false);
+  /**
    * Opt-in per run: test runs and stray pastes should not land in a channel other people
    * read. Remembered like the other generate options.
    */
@@ -416,6 +421,7 @@ export default function Apply() {
           gen_fit_answer: genFitAnswer,
           reasoning_effort: reasoningEffort,
           ignore_duplicate_check: ignoreDuplicateCheck,
+          ...(aiPlatform && genResume ? { ai_platform: true } : {}),
           send_to_telegram: telegramReady === true && sendToTelegram,
         });
         setDoneBatch(batch.applications.map((a) => ({ id: a.id, resume_profile: a.resume_profile })));
@@ -433,6 +439,7 @@ export default function Apply() {
         setJobDescription("");
         setApplyForm("");
         setIgnoreDuplicateCheck(false);
+        setAiPlatform(false);
         return;
       }
       const res = await api.generate({
@@ -448,6 +455,7 @@ export default function Apply() {
         gen_fit_answer: genFitAnswer,
         reasoning_effort: reasoningEffort,
         ignore_duplicate_check: ignoreDuplicateCheck,
+        ...(aiPlatform && genResume ? { ai_platform: true } : {}),
         send_to_telegram: telegramReady === true && sendToTelegram,
       });
       setDoneId(res.id);
@@ -461,6 +469,7 @@ export default function Apply() {
         setFallbackNotice(res.user_message);
       }
       setIgnoreDuplicateCheck(false);
+      setAiPlatform(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       upsertGenerationToast({
@@ -821,6 +830,10 @@ export default function Apply() {
                 onChange={(e) => setIgnoreDuplicateCheck(e.target.checked)}
               />
               <span>Ignore duplicate check</span>
+            </label>
+            <label className="checkbox-row" title="A shorter résumé written for AI training / expert platforms (Terac, Mercor, Outlier, DataAnnotation…). Normal job applications keep the usual résumé.">
+              <input type="checkbox" checked={aiPlatform} onChange={(e) => setAiPlatform(e.target.checked)} />
+              <span>AI training platform résumé</span>
             </label>
             <label className="checkbox-row">
               <input

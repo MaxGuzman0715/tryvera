@@ -167,6 +167,8 @@ export type GenerationOptions = {
   gen_answers: boolean;
   gen_fit_answer: boolean;
   ignore_duplicate_check: boolean;
+  /** Résumé written with the AI training / expert platform prompt. Absent on ordinary runs. */
+  ai_platform?: boolean;
 };
 
 export type ApplicationLogEntry = {

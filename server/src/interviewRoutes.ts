@@ -21,7 +21,7 @@ import type { ApplicationLogEntry, InterviewEvent, User } from "./types.js";
 
 const MAX_EVENTS_PER_REQUEST = 500;
 
-function requireIngestToken(req: Request, res: Response, next: NextFunction): void {
+export function requireIngestToken(req: Request, res: Response, next: NextFunction): void {
   const expected = (process.env.INTERVIEW_INGEST_TOKEN ?? "").trim();
   if (!expected) {
     res.status(503).json({ error: "Interview ingest is off: INTERVIEW_INGEST_TOKEN is not set on the server." });

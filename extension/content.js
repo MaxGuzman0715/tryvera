@@ -124,6 +124,53 @@
     return r.width > 0 && r.height > 0;
   }
 
+  /**
+   * A radio or checkbox the user can actually see. Ashby (and others) hide the real
+   * input under a drawn circle/box, so the input itself measures invisible while its
+   * label and wrapper are on screen. Those groups were silently dropped from the fill.
+   */
+  function choiceVisible(el) {
+    if (!el || el.disabled) return false;
+    if (visible(el)) return true;
+    const lab = (el.id && document.querySelector(`label[for="${CSS.escape(el.id)}"]`)) || el.closest("label");
+    return visible(lab) || visible(el.parentElement);
+  }
+
+  /**
+   * Questions answered by clicking one of a few toggle buttons (Ashby's Yes / No:
+   * <button aria-pressed data-option="yes">). Not form inputs, so the input scan never
+   * saw them. Returns { container, label, buttons } per question.
+   */
+  function buttonChoiceGroups() {
+    const out = [];
+    const seen = new Set();
+    for (const btn of document.querySelectorAll("button[aria-pressed]")) {
+      const box = btn.closest("fieldset, [class*='fieldEntry'], [class*='field-entry'], [class*='application-question'], [role='group']");
+      if (!box || seen.has(box)) continue;
+      seen.add(box);
+      // A text editor's Bold / Italic toggles are aria-pressed too: never a question.
+      if (box.querySelector("textarea, [contenteditable='true'], [contenteditable=''], [role='textbox'], [role='toolbar']")) continue;
+      const buttons = Array.from(box.querySelectorAll("button[aria-pressed]")).filter(visible);
+      const texts = buttons.map((b) => (b.innerText || b.textContent || "").trim());
+      if (buttons.length < 2 || buttons.length > 6 || texts.some((t) => !t || t.length > 60)) continue;
+      const labEl = box.querySelector("label, legend, [class*='label'], [class*='question']");
+      const label = cleanLabel(labEl?.innerText || labEl?.textContent || "");
+      if (!label || isJunkLabel(label)) continue;
+      out.push({ box, label, buttons: buttons.map((b, i) => ({ el: b, text: texts[i] })) });
+    }
+    return out;
+  }
+
+  /** Press the toggle button whose text matches the answer. */
+  function pressChoiceButton(opts, value) {
+    const v = String(value).trim().toLowerCase();
+    const hit = opts.find((o) => o.text.toLowerCase() === v)
+      || opts.find((o) => v.startsWith(o.text.toLowerCase()) || o.text.toLowerCase().startsWith(v));
+    if (!hit) return false;
+    if (hit.el.getAttribute("aria-pressed") !== "true") hit.el.click();
+    return true;
+  }
+
   // react-select (used by Greenhouse/Lever/Ashby) and similar libs are readonly
   // text inputs acting as comboboxes. We must NOT skip those, but we should skip
   // genuinely read-only display fields. Treat a readonly input as fillable only
@@ -211,16 +258,32 @@
    * leaves alone (we never auto-tick a lone consent/agree box).
    */
   function checkboxGroup(el) {
+    const QUESTION = "fieldset, [role='group'], [class*='application-question'], [class*='checkbox-group']";
+    // The question a box belongs to: the nearest container holding two or more boxes.
+    // Ashby wraps EACH box in its own "...checkbox-group-option" span, so the nearest
+    // match alone is a one-box wrapper; its fieldset is a level or two up.
+    // Only a one-box OPTION wrapper is stepped past; any other one-box container is
+    // that box's own question (a lone consent box stays alone, as before).
+    const questionOf = (c) => {
+      let q = c.closest(QUESTION);
+      for (let hops = 0; q && hops < 3; hops++) {
+        const one = q.querySelectorAll('input[type="checkbox"]').length < 2;
+        if (!one || !/option/i.test(String(q.className || ""))) break;
+        q = q.parentElement ? q.parentElement.closest(QUESTION) : null;
+      }
+      return q;
+    };
     const name = el.getAttribute("name") || "";
     if (name) {
       const byName = Array.from(
         document.querySelectorAll(`input[type="checkbox"][name="${CSS.escape(name)}"]`),
       );
-      if (byName.length >= 2) return byName;
+      // Same name, same question. Ashby names each box after its option text, so two
+      // questions' "None of the above" boxes share a name and must not merge.
+      const box = questionOf(el);
+      if (byName.length >= 2 && byName.every((c) => questionOf(c) === box)) return byName;
     }
-    const container = el.closest(
-      "fieldset, [role='group'], [class*='application-question'], [class*='checkbox-group']",
-    );
+    const container = questionOf(el);
     if (container) {
       const inBox = Array.from(container.querySelectorAll('input[type="checkbox"]'));
       if (inBox.length >= 2) return inBox;
@@ -327,7 +390,7 @@
         if (!name || seenRadioGroups.has(name)) continue;
         seenRadioGroups.add(name);
         const group = Array.from(document.querySelectorAll(`input[type="radio"][name="${CSS.escape(name)}"]`));
-        if (!group.some(visible)) continue;
+        if (!group.some(choiceVisible)) continue;
         // Keep each radio paired with the EXACT option text we send to the
         // server, so the returned value maps back to the right radio with no
         // re-derivation/guessing.
@@ -353,7 +416,7 @@
         if (seenCheckboxes.has(el)) continue;
         const group = checkboxGroup(el);
         group.forEach((c) => seenCheckboxes.add(c));
-        if (group.length < 2 || !group.some(visible)) continue;
+        if (group.length < 2 || !group.some(choiceVisible)) continue;
         const opts = group.map((c) => ({ el: c, text: clamp(labelFor(c) || c.value, MAX_OPTION) }));
         const options = opts.map((o) => o.text).filter(Boolean);
         if (options.length < 2) continue;
@@ -399,6 +462,18 @@
         if (opts.length) d.options = opts;
       }
       descriptors.push(d);
+    }
+    // Toggle-button questions (Ashby Yes / No): answered like a radio group, filled by
+    // clicking the matching button.
+    for (const g of buttonChoiceGroups()) {
+      if (descriptors.length >= MAX_FIELDS) break;
+      const ref = `f${refSeq++}`;
+      refToEl.set(ref, { kind: "buttons", opts: g.buttons, el: g.buttons[0].el });
+      const label = clamp(g.label, MAX_STR.label);
+      descriptors.push({
+        ref, type: "radio", options: g.buttons.map((b) => clamp(b.text, MAX_OPTION)),
+        label, surroundingText: label,
+      });
     }
     return descriptors;
   }
@@ -678,14 +753,28 @@
     return false; // couldn't confirm a real selection
   }
 
+  // React forms (Ashby) can re-render a field while the AI is answering, leaving
+  // the harvested element detached; writing to it changes nothing on screen.
+  // Re-find the live copy by id, then by name.
+  function liveEl(el) {
+    if (!el || el.isConnected) return el;
+    const byId = el.id && document.getElementById(el.id);
+    if (byId && byId.tagName === el.tagName) return byId;
+    const name = el.getAttribute && el.getAttribute("name");
+    const byName = name && document.querySelector(`${el.tagName.toLowerCase()}[name="${CSS.escape(name)}"]`);
+    return byName || el;
+  }
+
   /** Apply a ref->value list; returns count of fields actually filled. */
   async function applyValues(values) {
     let filled = 0;
+    const typed = []; // plain text fields, re-checked below
     for (const { ref, value } of values) {
       const entry = refToEl.get(ref);
       if (!entry || !value) continue;
+      if (entry.el) entry.el = liveEl(entry.el);
       try {
-        const combo = entry.kind === "combobox" || (entry.kind !== "select" && entry.kind !== "radio" && entry.kind !== "checkboxes" && isCombobox(entry.el));
+        const combo = entry.kind === "combobox" || (entry.kind !== "select" && entry.kind !== "radio" && entry.kind !== "checkboxes" && entry.kind !== "buttons" && isCombobox(entry.el));
         // Bring the field into view first — some controlled inputs ignore writes
         // while off-screen, and it lets the user see what's being filled.
         if (entry.el && entry.el.scrollIntoView) {
@@ -705,12 +794,26 @@
           if (chooseRadio(entry.opts, value)) filled++;
         } else if (entry.kind === "checkboxes") {
           if (checkBoxes(entry.opts, value)) filled++;
+        } else if (entry.kind === "buttons") {
+          if (pressChoiceButton(entry.opts, value)) filled++;
         } else {
           setNativeValue(entry.el, value);
+          typed.push({ entry, value });
           filled++;
         }
       } catch {
         /* skip a field that won't take the value */
+      }
+    }
+    // Some forms reset fields a moment after we write them (a late re-render, or
+    // the site's own résumé autofill finishing). Write emptied ones once more.
+    if (typed.length) {
+      await sleep(1200);
+      for (const t of typed) {
+        try {
+          const el = liveEl(t.entry.el);
+          if (el && !String(el.value || "").trim()) setNativeValue(el, t.value);
+        } catch { /* ignore */ }
       }
     }
     return filled;
@@ -1697,6 +1800,7 @@
                   <div class="toggles" id="genToggles">
                     <label class="chip" id="grRow"><input type="checkbox" id="gr" /> Résumé</label>
                     <label class="chip"><input type="checkbox" id="gc" /> Cover letter</label>
+                    <label class="chip" id="aiRow" title="For AI training / expert platforms (Terac, Mercor, Handshake AI, Outlier…): a shorter résumé written for their screeners. Normal job applications keep the usual résumé."><input type="checkbox" id="ai" /> AI platform</label>
                   </div>
                   <label class="row" id="baseRow"><input type="checkbox" id="base" /> Use my base résumé instead</label>
                   <div class="btnrow">
@@ -1874,7 +1978,7 @@
 
   dlBtn.disabled = true; // enabled once a run exists for this page
   hdProf.classList.add("hidden"); // shown once signed in (profile known)
-  const grEl = $("gr"), gcEl = $("gc"), baseEl = $("base"), grRow = $("grRow");
+  const grEl = $("gr"), gcEl = $("gc"), baseEl = $("base"), grRow = $("grRow"), aiEl = $("ai");
   const manualToggleBtn = $("manualToggle"), manualFields = $("manualFields"), manualCompanyEl = $("manualCompany"), manualRoleEl = $("manualRole");
   const genToggles = $("genToggles"), genSecText = $("genSecText"), baseRow = $("baseRow"), qaSplit = $("qaSplit");
   const brandLogo = $("brandLogo"), brandTtl = $("brandTtl"), panelEl = $("panel"), fabTxt = $("fabtxt");
@@ -2135,6 +2239,9 @@
       grEl.checked = true;
       // LinkedIn flows are résumé-only by convention — keep cover letter off.
       gcEl.checked = isLinkedIn ? false : flagOn("gen_cover_letter_default");
+      // AI-platform résumé only when ticked by hand: platform application forms live on
+      // all kinds of sites, so nothing guesses it from the address.
+      aiEl.checked = false;
     }
     // Until the user hand-toggles it, the base checkbox follows the active
     // profile's saved default. After a manual change, only correct an
@@ -3090,15 +3197,27 @@
       return true;
     }
     if (!pageText) { setStatus("No readable text found on this page for Q&A.", "err"); return false; }
-    setStatus("Reading the job for Q&A…", "", true);
-    const res = await send("enpplify:qaCreate", { jobLink: location.href, jobDescription: pageText, applyForm: pageText });
-    if (!res.ok) { setStatus(res.error || "Couldn't start Q&A for this page.", "err"); return false; }
-    enableFillActions(res.appId);
-    markGenerated();
-    const who = [res.companyName, res.roleName].filter(Boolean).join(" — ");
-    setStatus(`Q&A ready${who ? `: ${who}` : ""}.`, "ok");
-    return true;
+    // Creating the slot is a multi-second AI call with nothing on screen yet: a second
+    // press (or another caller) while it runs must wait for THIS slot, not start its own.
+    // Three presses used to make three Q&A runs for one job.
+    if (qaSlotPending) return qaSlotPending;
+    qaSlotPending = (async () => {
+      setStatus("Reading the job for Q&A…", "", true);
+      const res = await send("enpplify:qaCreate", { jobLink: location.href, jobDescription: pageText, applyForm: pageText });
+      if (!res.ok) { setStatus(res.error || "Couldn't start Q&A for this page.", "err"); return false; }
+      enableFillActions(res.appId);
+      markGenerated();
+      const who = [res.companyName, res.roleName].filter(Boolean).join(" — ");
+      setStatus(`Q&A ready${who ? `: ${who}` : ""}.`, "ok");
+      return true;
+    })();
+    try {
+      return await qaSlotPending;
+    } finally {
+      qaSlotPending = null;
+    }
   }
+  let qaSlotPending = null;
 
   async function openQA() {
     if (openMenuMode === "qa" && !fldMenu.classList.contains("hidden")) { closeFieldMenu(); return; }
@@ -3599,6 +3718,7 @@
       applyForm: null,
       genResume,
       genCoverLetter,
+      aiPlatform: genResume && aiEl.checked,
       ...(manualCompany && manualRole ? { companyName: manualCompany, roleName: manualRole } : {}),
     });
     if (!res.ok) {
@@ -3655,6 +3775,7 @@
       applyForm: null,
       genResume,
       genCoverLetter,
+      aiPlatform: genResume && aiEl.checked,
       ...(manualCompany && manualRole ? { companyName: manualCompany, roleName: manualRole } : {}),
     });
     regenBtn.disabled = false;
@@ -3678,6 +3799,68 @@
    *  5. fill sign-up passwords.
    * The Generate button is what produces résumé/cover-letter PDFs.
    */
+  /**
+   * Wait until the form stops changing: a site's own autofill (after a résumé upload)
+   * rewrites fields for a few seconds. Resolves after `quietMs` without DOM changes or
+   * input events, or after `maxMs` at most.
+   */
+  function waitForFormToSettle(quietMs = 1500, maxMs = 12000) {
+    return new Promise((resolve) => {
+      let quietTimer = null;
+      const finish = () => {
+        clearTimeout(quietTimer);
+        clearTimeout(cap);
+        obs.disconnect();
+        document.removeEventListener("input", poke, true);
+        document.removeEventListener("change", poke, true);
+        resolve();
+      };
+      const poke = () => {
+        clearTimeout(quietTimer);
+        quietTimer = setTimeout(finish, quietMs);
+      };
+      const obs = new MutationObserver(poke);
+      obs.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["value", "class", "aria-pressed", "checked"] });
+      document.addEventListener("input", poke, true);
+      document.addEventListener("change", poke, true);
+      const cap = setTimeout(finish, maxMs);
+      poke();
+    });
+  }
+
+  /** The site's own "autofill from résumé" panel (Ashby and similar), if the page has one. */
+  function autofillBox() {
+    const hit = Array.from(document.querySelectorAll("div, section"))
+      .filter((e) => /autofill/i.test(e.innerText || "") && (e.innerText || "").length < 400 && e.querySelector("button, input[type='file']"))
+      .sort((a, b) => (a.innerText || "").length - (b.innerText || "").length)[0];
+    return hit || null;
+  }
+
+  /**
+   * After a résumé upload, wait until the site's autofill panel says it has finished
+   * ("Autofill completed!", or an error) and has changed since before the upload.
+   * At least 4 s after upload (the server round-trip), at most 25 s.
+   */
+  function waitForAutofillBox(box, before, minMs = 4000, maxMs = 25000) {
+    const DONE = /complete|completed|done|finished|review the information|couldn'?t|could not|failed|unable/i;
+    const BUSY = /progress|uploading|processing|parsing|reading|analy[sz]ing|loading/i;
+    const t0 = Date.now();
+    let sawChange = false; // a second upload can end on the very same "completed" text
+    return new Promise((resolve) => {
+      const tick = () => {
+        const text = box.isConnected ? box.innerText || "" : "";
+        if (text !== before) sawChange = true;
+        const elapsed = Date.now() - t0;
+        if (elapsed >= maxMs) return resolve();
+        if (elapsed >= minMs && sawChange && DONE.test(text) && !BUSY.test(text)) return resolve();
+        // The panel can be replaced on re-render: follow the new one.
+        if (!box.isConnected) { const nb = autofillBox(); if (nb) box = nb; }
+        setTimeout(tick, 300);
+      };
+      tick();
+    });
+  }
+
   async function doFillAll() {
     fillAllBtn.disabled = true;
     try {
@@ -3686,9 +3869,26 @@
       // was already generated, we reuse it as-is.
       const ok = await ensureQaSlot();
       if (!ok) return;
-      // Q&A pass: AI answers EVERY field (mode "ai") + attach already-generated
-      // docs + passwords. The answers are stored on the run.
-      await doFill({ mode: "ai", sources: ["ai"], attach: true, passwords: true, btn: fillAllBtn });
+      // Attach the documents FIRST and let the site's own "autofill from résumé"
+      // finish: Ashby reads the PDF a few seconds after upload and rewrites the form
+      // (name, location) and resets answers already given. Filling first meant the
+      // site had the last word; now our answers come after it.
+      if (activeAppId || baseEl.checked) {
+        setStatus("Attaching documents…", "", true);
+        const box = autofillBox();
+        const before = box ? box.innerText : "";
+        await attachDocs();
+        if (box) {
+          // The site reads the PDF on its server: the page sits quiet for seconds and
+          // then rewrites the form. Wait for its own autofill box to report it's done.
+          setStatus("Waiting for the site to finish reading the résumé…", "", true);
+          await waitForAutofillBox(box, before);
+        }
+        await waitForFormToSettle(box ? 1500 : 2500);
+      }
+      // Q&A pass: AI answers EVERY field (mode "ai") + passwords. The answers are
+      // stored on the run.
+      await doFill({ mode: "ai", sources: ["ai"], passwords: true, btn: fillAllBtn });
       // Easy Fill applied LAST so profile basics/reusable answers win on any
       // basic field the AI also answered (name/email/phone/links/city).
       await doFill({ mode: "heuristic", sources: ["heuristic", "app", "profile"], btn: fillAllBtn });

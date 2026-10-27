@@ -16,6 +16,7 @@ import {
 import { addBaseRow, getOverride, getRowSeen, getSeen, listBase, listOverrides, mergeOverride, replaceSheetRows, seenForRow, setOverride, setRowSeen, setSeen } from "./scheduleStore.js";
 import type { ScheduleOverride } from "./scheduleBuild.js";
 import type { User } from "./types.js";
+import { requireIngestToken } from "./interviewRoutes.js";
 
 /**
  * The Schedule tab: one row per person + company + role with a date and state
@@ -195,6 +196,38 @@ const patchBody = z.object({
 });
 
 export function registerScheduleRoutes(app: Express): void {
+  /**
+   * Booked interview times for the call-recording organiser (E:\Video\App),
+   * so a recording can be named from the schedule instead of guessed: who,
+   * which company, which round, when. Read-only; a machine caller, so it's
+   * gated by the ingest token rather than a session.
+   */
+  app.get("/api/recordings/schedule", requireIngestToken, async (_req, res) => {
+    try {
+      const b = await build();
+      const meetings = b.rows
+        .filter((r) => !r.removed)
+        .flatMap((r) =>
+          r.rounds
+            .map((x, i) => ({ x, i }))
+            .filter(({ x }) => x.date && ["sched", "wait", "done", "failed"].includes(x.state))
+            .map(({ x, i }) => ({
+              person: r.person,
+              person_label: b.persons.get(r.person)?.label ?? r.person,
+              company: r.company,
+              role: r.role,
+              round: ROUNDS[i],
+              date: x.date,
+              time: x.time,
+              with: x.with ?? "",
+            }))
+        );
+      res.json({ today: b.today, meetings });
+    } catch (e) {
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
   app.get("/api/schedule", requireAuth, async (req, res) => {
     try {
       const b = await build();

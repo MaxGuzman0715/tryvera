@@ -20,7 +20,7 @@ import type {
 } from "./types.js";
 import { resolveStepModel, effectiveTiers } from "./llmTiers.js";
 import { markdownToPdfBuffer } from "./pdf.js";
-import { readAllPrompts } from "./promptStore.js";
+import { readAllPrompts, readVariant } from "./promptStore.js";
 import { listApplications } from "./logStore.js";
 import { placeholderCoverLetterMarkdown, placeholderExtraction } from "./llmPlaceholders.js";
 import { renderTemplatedPdf } from "./templatePdf.js";
@@ -743,17 +743,25 @@ function renderResumeFromStructured(
   extraction: ExtractionResult,
   doc: StructuredDocUpdates,
   theme: string,
+  /**
+   * AI-platform résumés only: about two pages. The two recent roles are already short (their
+   * prompt writes 6-8 bullets); older roles keep their first three bullets and the oldest two,
+   * and the skills block is smaller. Ordinary runs pass false and render exactly as before.
+   */
+  compact = false,
 ): string {
   const updates = new Map<number, StructuredExperienceUpdate>();
   for (const e of doc.experience_updates ?? []) {
     if (Number.isInteger(e.index) && e.index >= 0) updates.set(e.index, e);
   }
   const skills = (doc.skills ?? []).map((s) => s.trim()).filter(Boolean);
+  const lastIdx = profile.experience.length - 1;
   const expBlocks = profile.experience.map((exp, idx) => {
     const u = updates.get(idx);
     const title = pickTitle(exp.title, u?.title, extraction.role_name);
     const bullets = (u?.bullets ?? []).map((b) => b.trim()).filter(Boolean);
-    const finalBullets = bullets.length ? bullets : fallbackBulletsFromProfile(exp);
+    let finalBullets = bullets.length ? bullets : fallbackBulletsFromProfile(exp);
+    if (compact && idx >= 2) finalBullets = finalBullets.slice(0, idx === lastIdx ? 2 : 3);
     const lines = finalBullets.map((b) => `- ${groupThousands(b)}`).join("\n") || "- ";
     const locationLine = exp.location?.trim() ? `\n${exp.location.trim()}` : "";
     return `### ${exp.company} | ${title} (${exp.startDate} – ${exp.endDate})${locationLine}\n${lines}`;
@@ -779,7 +787,9 @@ function renderResumeFromStructured(
     );
   }
   // Readable size, never at the cost of a JD technology or a tool the bullets name.
-  const trimmed = trimSkills(reconciled.skills, extraction.jd_tools ?? [], bulletText, 7, 10, disciplineDomain(profile.basic.title ?? ""));
+  const trimmed = compact
+    ? trimSkills(reconciled.skills, extraction.jd_tools ?? [], bulletText, 5, 8, disciplineDomain(profile.basic.title ?? ""))
+    : trimSkills(reconciled.skills, extraction.jd_tools ?? [], bulletText, 7, 10, disciplineDomain(profile.basic.title ?? ""));
   if (trimmed.removed.length) {
     console.log(`[enpply] ${profile.id}: trimmed ${trimmed.removed.length} skills item(s) to keep the block readable`);
   }
@@ -1196,6 +1206,9 @@ function artifactLineOk(wanted: boolean, st: ArtifactStatus): boolean {
   return st === "completed";
 }
 
+/** The résumé prompt an AI-platform run uses (prompt-defaults/resume/ai-platform.txt). */
+export const AI_PLATFORM_RESUME_VARIANT = "ai-platform";
+
 export async function runGeneration(params: {
   profile: Profile;
   job_link: string;
@@ -1235,6 +1248,12 @@ export async function runGeneration(params: {
   gen_answers?: boolean;
   gen_fit_answer?: boolean;
   ignore_duplicate_check?: boolean;
+  /**
+   * AI training / expert platform résumé (Terac, Mercor, Handshake AI, …): this run's résumé
+   * prompt is the "ai-platform" variant instead of the active one. Everything else (extraction,
+   * profile, cover letter, answers) is unchanged, and a run without it is exactly as before.
+   */
+  ai_platform?: boolean;
   /**
    * On a duplicate (same normalized company+role+profile), DON'T throw — instead
    * append "-1" (then -2, …) to the role name until it's unique, so a new,
@@ -1339,6 +1358,7 @@ export async function runGeneration(params: {
     gen_answers: wantExplicitAnswers,
     gen_fit_answer: wantFitAnswer,
     ignore_duplicate_check: ignoreDuplicateCheck,
+    ...(params.ai_platform === true ? { ai_platform: true } : {}),
   };
 
   const theme = normalizeResumeTheme(params.theme);
@@ -1348,6 +1368,9 @@ export async function runGeneration(params: {
   logLlmKeyPresence(params.llmLight.provider);
   if (params.llmHeavy.provider !== params.llmLight.provider) logLlmKeyPresence(params.llmHeavy.provider);
   const prompts = await readAllPrompts();
+  if (params.ai_platform === true) {
+    prompts.resume = await readVariant("resume", AI_PLATFORM_RESUME_VARIANT);
+  }
 
   if (verbose) {
     await verbose.writeSection(
@@ -1849,7 +1872,7 @@ ${JSON.stringify(resumeTailoringMeta, null, 2)}`;
       if (verbose) {
         await verbose.writeSection("resume-doc — assembled", JSON.stringify({ doc, plan }, null, 2));
       }
-      resumeMd = renderResumeFromStructured(profile, extraction, doc, theme);
+      resumeMd = renderResumeFromStructured(profile, extraction, doc, theme, params.ai_platform === true);
       // The model often ignores the "no em dash" rule. Strip em dashes (—) from the
       // final résumé: numeric ranges become hyphens, clause-joining em dashes become
       // commas. En dashes (–) are left alone — the renderer uses them for date ranges.

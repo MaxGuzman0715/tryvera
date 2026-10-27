@@ -62,6 +62,16 @@ export async function saveSession(jobLink, profileId, patch) {
   return all[k];
 }
 
+/** Forget the stored run for this job+profile (it belonged to another job). */
+export async function forgetSession(jobLink, profileId) {
+  const all = await readAll();
+  const k = sessionKey(jobLink, profileId);
+  if (all[k]) {
+    delete all[k];
+    await set({ [KEY]: all });
+  }
+}
+
 // --- tab-anchored sessions ---------------------------------------------------
 
 async function readTabSessions() {
@@ -99,6 +109,11 @@ export async function clearTabSession(tabId) {
     delete all[String(tabId)];
     await set({ [TAB_KEY]: all });
   }
+}
+
+/** Forget every tab's session (on install/update: older versions may have saved wrong ones). */
+export async function clearAllTabSessions() {
+  await remove(TAB_KEY);
 }
 
 export { remove };
