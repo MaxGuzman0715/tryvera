@@ -1,0 +1,140 @@
+{
+  "items": [
+    {
+      "question": "What's your full address",
+      "answer": "Huffman, TX 77336, United States",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Address line",
+      "answer": "",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "City",
+      "answer": "Huffman",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "State/Province",
+      "answer": "Texas",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Zip code",
+      "answer": "77336",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Country",
+      "answer": "United States",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Candidate full legal name",
+      "answer": "Sean P. Fitzgerald",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Phone type",
+      "answer": "Mobile",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Are you a U.S. citizen?",
+      "answer": "Yes",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "What is your country of citizenship?",
+      "answer": "United States",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the country where this role is based?",
+      "answer": "Yes",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Are you legally authorized to work in the United States?",
+      "answer": "Yes",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Do you now, or will you in the future, require employer-sponsored work authorization in order to be employed in the country where this position is located?*",
+      "answer": "No",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Will you now or in the future require visa sponsorship for employment?",
+      "answer": "No",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Gender",
+      "answer": "Male",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "What are your pronouns?",
+      "answer": "He/Him",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Race / Ethnicity",
+      "answer": "White",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Are you Hispanic or Latino?",
+      "answer": "No",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Veteran status",
+      "answer": "I am not a protected veteran",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Disability status",
+      "answer": "No, I do not have a disability and have not had one in the past",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Are you open to relocation?",
+      "answer": "Yes",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Preferred work arrangement (onsite / hybrid / remote)?",
+      "answer": "Hybrid/Remote",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "What are your salary expectations?",
+      "answer": "170000",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "What is your earliest available start date?",
+      "answer": "Next Monday",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "What is your notice period?",
+      "answer": "1 week",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "How did you hear about us?",
+      "answer": "Linkedin",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    },
+    {
+      "question": "Have you worked in our company or do you have a relative in our company?",
+      "answer": "No",
+      "updated_at": "2026-11-10T12:00:00+09:00"
+    }
+  ],
+  "seeded": true
+}
