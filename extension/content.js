@@ -433,6 +433,8 @@
       // Decide combobox-ness first: a custom dropdown's real <input> may be
       // visually hidden, so judge its visibility by the styled control wrapper
       // (which IS visible), and don't drop it as a read-only display field.
+      // Workday keeps each list button's chosen id in a text input beside it.
+      if (el.previousElementSibling?.matches('button[aria-haspopup="listbox"]')) continue;
       const combobox = tag === "input" && (isCombobox(el) || inSelectWidget(el));
       if (!visible(combobox ? comboboxControl(el) : el)) continue;
       if (!combobox && isReadonlyDisplayOnly(el)) continue; // genuine read-only display field
@@ -474,6 +476,13 @@
         ref, type: "radio", options: g.buttons.map((b) => clamp(b.text, MAX_OPTION)),
         label, surroundingText: label,
       });
+    }
+    for (const btn of workdayListButtons()) {
+      if (descriptors.length >= MAX_FIELDS) break;
+      const ref = `f${refSeq++}`;
+      refToEl.set(ref, { kind: "listbutton", el: btn });
+      const label = clamp(labelFor(btn), MAX_STR.label);
+      descriptors.push({ ref, type: "select", label, name: clamp(btn.getAttribute("name") || "", MAX_STR.name), surroundingText: label });
     }
     return descriptors;
   }
@@ -604,6 +613,7 @@
     const role = (el.getAttribute("role") || "").toLowerCase();
     return (
       role === "combobox" ||
+      isWorkdayPrompt(el) ||
       el.hasAttribute("aria-autocomplete") ||
       el.hasAttribute("aria-controls") ||
       el.getAttribute("aria-expanded") !== null
@@ -651,6 +661,8 @@
         '[role="option"], li[role="option"], [class*="-option"], [class*="__option"], [class*="MenuItem"], [class*="menu-item"]',
       ),
     ).filter((o) => {
+      // Workday shows a chosen value as a role="option" pill; it isn't on offer.
+      if (o.closest('[data-automation-id="selectedItemList"]')) return false;
       const cs = getComputedStyle(o);
       if (cs.display === "none" || cs.visibility === "hidden") return false;
       const r = o.getBoundingClientRect();
@@ -714,6 +726,7 @@
    * best-matching option. Falls back to keyboard ArrowDown+Enter.
    */
   async function fillCombobox(el, value) {
+    if (isWorkdayPrompt(el)) return fillWorkdayPrompt(el, value);
     const control = comboboxControl(el);
     realClick(control);
     el.focus?.();
@@ -725,17 +738,21 @@
       setNativeValue(el, value);
       fireKey(el, value.slice(-1) || "a");
     }
-    await sleep(600);
-
-    let opts = visibleOptionEls();
-    let match = bestOptionMatch(opts, value);
-
-    // Menu may not have opened on the first click; try once more.
-    if (!match) {
-      realClick(control);
-      await sleep(400);
-      opts = visibleOptionEls();
+    // Async lookups (Greenhouse's "Location (City)") can take a few seconds to
+    // list places; checking once at 600ms gave up before they arrived. Keep
+    // looking until the match shows, re-opening the menu once if nothing has.
+    let match = null;
+    let reopened = false;
+    const start = Date.now();
+    while (Date.now() - start < 5000) {
+      await sleep(250);
+      const opts = visibleOptionEls();
       match = bestOptionMatch(opts, value);
+      if (match) break;
+      if (!opts.length && !reopened && Date.now() - start > 1500) {
+        realClick(control);
+        reopened = true;
+      }
     }
 
     if (match) {
@@ -751,6 +768,83 @@
     el.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, key: "Enter", code: "Enter" }));
     await sleep(80);
     return false; // couldn't confirm a real selection
+  }
+
+  // Workday's search prompts ("How Did You Hear About Us?", "Country Phone Code"):
+  // a plain <input data-uxi-widget-type="selectinput"> that lists matches only
+  // after Enter, each as <p data-automation-id="promptOption">. Typing the answer
+  // in left the text there with nothing chosen.
+  function isWorkdayPrompt(el) {
+    return el?.getAttribute?.("data-uxi-widget-type") === "selectinput";
+  }
+
+  function keyOn(el, key, keyCode) {
+    for (const type of ["keydown", "keyup"]) {
+      el.dispatchEvent(new KeyboardEvent(type, { bubbles: true, cancelable: true, key, code: key, keyCode, which: keyCode }));
+    }
+  }
+
+  async function fillWorkdayPrompt(el, value) {
+    const box = el.closest('[data-automation-id="multiSelectContainer"]') || el.parentElement;
+    const chosen = () => Array.from(box.querySelectorAll('[data-automation-id="selectedItem"] [data-automation-id="promptOption"]'));
+    if (bestOptionMatch(chosen(), value)) return true;
+    const offered = () => Array.from(document.querySelectorAll('[data-automation-id="promptOption"]')).filter((p) => !p.closest('[data-automation-id="selectedItemList"]') && visible(p));
+    // Kept focused (setNativeValue blurs, which closes the prompt).
+    const type = (text) => {
+      el.focus();
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(el, text);
+      el.dispatchEvent(new InputEvent("input", { bubbles: true, data: text, inputType: "insertText" }));
+    };
+    // The whole answer first; Workday searches words, so "LinkedIn" also finds
+    // "I found the job on LinkedIn". Then its first word ("Canada" for "Canada (+1)").
+    const tries = [value, value.split(/[\s,(]+/)[0]].filter((t, i, a) => t && a.indexOf(t) === i);
+    for (const text of tries) {
+      realClick(el);
+      type(text);
+      keyOn(el, "Enter", 13);
+      const start = Date.now();
+      while (Date.now() - start < 4000) {
+        await sleep(250);
+        const match = bestOptionMatch(offered(), value);
+        if (match) {
+          match.scrollIntoView?.({ block: "nearest" });
+          realClick(match.closest('[role="option"]') || match);
+          await sleep(400);
+          if (chosen().length) {
+            keyOn(el, "Escape", 27);
+            return true;
+          }
+        }
+      }
+    }
+    type("");
+    keyOn(el, "Escape", 27);
+    return false;
+  }
+
+  // Workday's single-choice lists (Country, State, Phone Device Type) are a
+  // <button aria-haspopup="listbox"> that opens a list of role="option" items.
+  function workdayListButtons() {
+    return Array.from(document.querySelectorAll('[data-automation-id^="formField-"] button[aria-haspopup="listbox"]')).filter(visible);
+  }
+
+  async function fillListButton(btn, value) {
+    if (btn.textContent.trim().toLowerCase() === value.trim().toLowerCase()) return true;
+    realClick(btn);
+    const start = Date.now();
+    while (Date.now() - start < 3000) {
+      await sleep(200);
+      const opts = visibleOptionEls().filter((o) => o.closest('[role="listbox"]'));
+      const match = bestOptionMatch(opts, value);
+      if (match) {
+        match.scrollIntoView?.({ block: "nearest" });
+        realClick(match);
+        await sleep(300);
+        return true;
+      }
+    }
+    keyOn(document.activeElement || btn, "Escape", 27);
+    return false;
   }
 
   // React forms (Ashby) can re-render a field while the AI is answering, leaving
@@ -769,6 +863,10 @@
   async function applyValues(values) {
     let filled = 0;
     const typed = []; // plain text fields, re-checked below
+    // Workday rebuilds the address fields when Country changes: pick from its
+    // lists before typing anything.
+    const first = (v) => (refToEl.get(v.ref)?.kind === "listbutton" ? 0 : 1);
+    values = [...values].sort((a, b) => first(a) - first(b));
     for (const { ref, value } of values) {
       const entry = refToEl.get(ref);
       if (!entry || !value) continue;
@@ -782,6 +880,8 @@
         }
         if (entry.kind === "select") {
           if (selectByText(entry.el, value)) filled++;
+        } else if (entry.kind === "listbutton") {
+          if (await fillListButton(entry.el, value)) filled++;
         } else if (combo) {
           // Honor the combobox_fill flag; if off, set the raw text as a fallback.
           if (flagOn("combobox_fill")) {
@@ -3809,30 +3909,31 @@
    */
   /**
    * Wait until the form stops changing: a site's own autofill (after a résumé upload)
-   * rewrites fields for a few seconds. Resolves after `quietMs` without DOM changes or
-   * input events, or after `maxMs` at most.
+   * rewrites fields for a few seconds. Resolves after `watchMs` if no field value
+   * changed, `quietMs` after the last change once one did, or after `maxMs` at most.
    */
-  function waitForFormToSettle(quietMs = 1500, maxMs = 12000) {
+  function waitForFormToSettle(watchMs = 3000, quietMs = 1500, maxMs = 12000) {
+    // Watches the form's field VALUES only. Watching every DOM change meant a page's
+    // spinners and animations kept the wait running to the cap on sites that never
+    // autofill at all. No value changes within `watchMs` = the site isn't autofilling.
+    const snapshot = () =>
+      Array.from(document.querySelectorAll("input:not([type='file']):not([type='hidden']), textarea, select"))
+        .map((e) => (e.type === "radio" || e.type === "checkbox" ? (e.checked ? "1" : "0") : e.value))
+        .join("\u0001");
     return new Promise((resolve) => {
-      let quietTimer = null;
-      const finish = () => {
-        clearTimeout(quietTimer);
-        clearTimeout(cap);
-        obs.disconnect();
-        document.removeEventListener("input", poke, true);
-        document.removeEventListener("change", poke, true);
-        resolve();
+      const t0 = Date.now();
+      let last = snapshot();
+      let lastChange = 0; // 0 = no change seen yet
+      const tick = () => {
+        const now = Date.now();
+        const cur = snapshot();
+        if (cur !== last) { last = cur; lastChange = now; }
+        if (now - t0 >= maxMs) return resolve();
+        if (!lastChange && now - t0 >= watchMs) return resolve();
+        if (lastChange && now - lastChange >= quietMs) return resolve();
+        setTimeout(tick, 250);
       };
-      const poke = () => {
-        clearTimeout(quietTimer);
-        quietTimer = setTimeout(finish, quietMs);
-      };
-      const obs = new MutationObserver(poke);
-      obs.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ["value", "class", "aria-pressed", "checked"] });
-      document.addEventListener("input", poke, true);
-      document.addEventListener("change", poke, true);
-      const cap = setTimeout(finish, maxMs);
-      poke();
+      setTimeout(tick, 250);
     });
   }
 
@@ -3861,6 +3962,9 @@
         const elapsed = Date.now() - t0;
         if (elapsed >= maxMs) return resolve();
         if (elapsed >= minMs && sawChange && DONE.test(text) && !BUSY.test(text)) return resolve();
+        // Untouched by the upload: a button the user must press ("Autofill with
+        // MyGreenhouse"), not an autofill that is running. Don't wait out the cap.
+        if (elapsed >= 6000 && !sawChange) return resolve();
         // The panel can be replaced on re-render: follow the new one.
         if (!box.isConnected) { const nb = autofillBox(); if (nb) box = nb; }
         setTimeout(tick, 300);
@@ -3885,14 +3989,21 @@
         setStatus("Attaching documents…", "", true);
         const box = autofillBox();
         const before = box ? box.innerText : "";
-        await attachDocs();
-        if (box) {
-          // The site reads the PDF on its server: the page sits quiet for seconds and
-          // then rewrites the form. Wait for its own autofill box to report it's done.
-          setStatus("Waiting for the site to finish reading the résumé…", "", true);
-          await waitForAutofillBox(box, before);
+        const attached = await attachDocs();
+        // Nothing uploaded (no file input on this page) = nothing for the site to autofill from.
+        if (attached.resume?.ok || attached.cover?.ok) {
+          if (box) {
+            // The site reads the PDF on its server: the page sits quiet for seconds and
+            // then rewrites the form. Wait for its own autofill box to report it's done.
+            setStatus("Waiting for the site to finish reading the résumé…", "", true);
+            await waitForAutofillBox(box, before);
+            await waitForFormToSettle(1000);
+          } else {
+            // Most sites never autofill: a short look, longer only if fields start changing.
+            setStatus("Checking whether the site autofills from the résumé…", "", true);
+            await waitForFormToSettle();
+          }
         }
-        await waitForFormToSettle(box ? 1500 : 2500);
       }
       // Q&A pass: AI answers EVERY field (mode "ai") + passwords. The answers are
       // stored on the run.

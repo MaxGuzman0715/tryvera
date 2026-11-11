@@ -217,9 +217,23 @@ function classifyStandardField(f: FieldDescriptor): StandardKey | "" {
 
 /** Match standard fields from the profile by exact label. Returns the matched
  * values plus the descriptors that still need the LLM. */
+/**
+ * The place to put in a location field. The profile's location is the résumé
+ * header ("Ontario, Canada | Remote"); a city search such as Greenhouse's
+ * "Location (City)" found nothing for it and stayed empty. Keep the place
+ * before the first "|", led by the saved City answer when it isn't in it:
+ * "Kleinburg, Ontario, Canada".
+ */
+function placeOf(location: string, city: string): string {
+  const place = location.split("|")[0].trim();
+  if (!city || place.toLowerCase().includes(city.toLowerCase())) return place;
+  return place ? `${city}, ${place}` : city;
+}
+
 function heuristicPass(
   fields: FieldDescriptor[],
   profile: Profile,
+  city = "",
 ): { values: FillValue[]; leftovers: FieldDescriptor[] } {
   const b = profile.basic;
   const full = b.fullName ?? "";
@@ -232,7 +246,7 @@ function heuristicPass(
     linkedin: b.linkedin ?? "",
     github: b.github ?? "",
     portfolio: b.portfolio ?? "",
-    location: b.location ?? "",
+    location: placeOf(b.location ?? "", city),
     jobTitle: profile.experience?.[0]?.title ?? b.title ?? "",
     company: profile.experience?.[0]?.company ?? "",
   };
@@ -670,7 +684,7 @@ export async function buildFillMap(params: {
   // so a user-saved answer REWRITES the basic for the same field (e.g. an edited
   // "First Name" beats the auto-detected value). Both passes see every field;
   // last write per ref wins, and saved is written last.
-  const { values: heuristic } = heuristicPass(params.fields, params.profile);
+  const { values: heuristic } = heuristicPass(params.fields, params.profile, saved.get(normalizeQuestion("City"))?.answer.trim() ?? "");
   const { values: savedValues } = savedPass(params.fields, saved);
   const byRef = new Map<string, FillValue>();
   for (const v of heuristic) byRef.set(v.ref, v);
