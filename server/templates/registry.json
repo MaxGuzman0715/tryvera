@@ -48,6 +48,12 @@
       "label": "Deepankar - Steel blue — centered name & headline, skills above experience, underlined sections",
       "resume": "resume-deepankar.html",
       "coverLetter": "cv-deepankar.html"
+    },
+    {
+      "id": "executive",
+      "label": "Sean - Executive navy & brass — navy header band, serif name, brass rules",
+      "resume": "resume-executive.html",
+      "coverLetter": "cv-executive.html"
     }
   ]
 }
