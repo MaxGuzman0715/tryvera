@@ -7,7 +7,8 @@
     "phone": "+1 (737) 333-4912",
     "location": "Houston, TX",
     "linkedin": "https://linkedin.com/in/sean-fitzgerald-sfitz911",
-    "github": "https://github.com/SFitz911"
+    "github": "https://github.com/SFitz911",
+    "summary": "Senior Software Engineer with over nine years of building and shipping production software across consulting, freelance and founder-led work. Experienced across backend services and REST APIs, full-stack web applications, data pipelines and integrations, cloud and container infrastructure, AI/LLM-enabled workflows, payments, security and platform reliability. Has delivered integration services for retail and healthcare clients at Accenture and founded a freight brokerage whose in-house software he architects and builds with a small engineering team, translating business requirements into reliable production systems."
   },
   "experience": [
     {
@@ -17,7 +18,7 @@
       "endDate": "Present",
       "location": "Houston, TX",
       "bullets": [
-        "Founded Apex Freight Capital, a freight brokerage for steel, oversized equipment and infrastructure loads, and built its in-house software in Python, TypeScript and Docker instead of buying a brokerage platform.",
+        "Founded Apex Freight Capital, a freight brokerage for steel, oversized equipment and infrastructure loads, and leads the small engineering team that builds its in-house software in Python, TypeScript and Docker instead of buying a brokerage platform.",
         "Built the AI Gmail Manager (Python, scikit-learn, SQLite) that classifies freight, quote and carrier email, learns priorities from starred messages and answers questions about the inbox, cutting daily email triage from about 90 minutes to 25.",
         "Built AI Jarvis 2.0, the company's AI command center, with agent routing, task queues and a human approval step before anything reaches a customer or carrier, plus provider switching across OpenAI, Anthropic and DeepSeek, usage tracking and health monitoring.",
         "Built a containerized RAG API (FastAPI, ChromaDB, Ollama) that answers questions over company documents such as rate confirmations, carrier packets, permit rules and operating procedures, with Swagger docs and GitHub Actions CI/CD.",
@@ -50,15 +51,20 @@
     }
   ],
   "skills": [
-    "Languages: Python, TypeScript, JavaScript, SQL, Bash, C#",
-    "Backend & APIs: FastAPI, Node.js, Express, REST APIs, OAuth 2.0, webhooks, Stripe API, WebSockets, background jobs and task queues",
-    "Frontend: React, Next.js, Streamlit, Gradio, Tkinter, HTML/CSS",
-    "Databases & Storage: PostgreSQL, MySQL, SQLite, Supabase, ChromaDB, FAISS, vector storage",
-    "AI & LLMs: OpenAI API, Anthropic Claude API, DeepSeek, Ollama (Llama, Mistral, Phi-3), Hugging Face, LangChain, RAG, embeddings, Cognee graph memory, Whisper speech-to-text, prompt engineering, multi-model evaluation, agent routing, MCP",
-    "Model Serving & GPU: self-hosted LLM inference, Vast.ai GPU instances up to H100 80GB, CUDA, PyTorch, FP8 quantized serving, LoRA fine-tuning",
-    "Machine Learning & Data: scikit-learn, pandas, NumPy, data pipelines, backtesting, entity resolution",
-    "DevOps & Cloud: Docker, Linux/Ubuntu, SSH, GitHub Actions, CI/CD, Render, Vercel, Git/GitHub",
-    "Testing & Practices: pytest, Jest, integration testing, code review, debugging and root-cause analysis, API documentation (Swagger/OpenAPI)"
+    "Languages & Backend: Python, TypeScript, JavaScript, Java, Go, C#, SQL, Bash, FastAPI, Flask, Django, Node.js, Express, NestJS, Spring Boot, REST, GraphQL, gRPC, WebSockets, webhooks, background jobs and task queues",
+    "Frontend & Web: React, Next.js, Redux, React Query, TypeScript, HTML/CSS, Tailwind CSS, Vite, Webpack, Streamlit, Gradio, server-side rendering, responsive UI, internal operations tooling and dashboards",
+    "AI & Machine Learning: scikit-learn, PyTorch, Hugging Face Transformers, pandas, NumPy, classification, forecasting, feature engineering, model evaluation, backtesting and time-series analysis",
+    "Generative & Agentic AI: LLMs, RAG, embeddings, vector search, semantic search, LangChain, LlamaIndex, OpenAI API, Anthropic Claude API, DeepSeek, Ollama, prompt engineering, agent routing, tool use, multi-model evaluation, human-in-the-loop approval, Whisper speech-to-text, graph memory (Cognee) and MCP",
+    "Model Serving & GPU Infrastructure: self-hosted LLM inference, vLLM, Ollama, FP8 quantized serving, LoRA fine-tuning, CUDA, GPU instances up to H100 80GB (Vast.ai), model weight management and reproducible GPU environment builds",
+    "Data Engineering & Streaming: ETL/ELT, data pipelines, Apache Kafka, RabbitMQ, Redis Streams, Apache Airflow, scheduled jobs, change data capture, Parquet, CSV/JSON ingestion, entity resolution and record linkage",
+    "Databases, Search & Retrieval: PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, Redis, Supabase, DynamoDB, Elasticsearch/OpenSearch, vector stores (ChromaDB, FAISS, pgvector, Pinecone), schema design, indexing, migrations and query optimization",
+    "Cloud & Platform: AWS (EC2, S3, Lambda, RDS, ECS, ECR, SQS, SNS, API Gateway, App Runner, IAM), GCP, Azure, Docker, Docker Compose, Kubernetes, Helm, Terraform, GitHub Actions, GitLab CI, Jenkins, Render, Vercel, Linux/Ubuntu, SSH, Nginx and infrastructure as code",
+    "Observability & Reliability: OpenTelemetry, Prometheus, Grafana, Datadog, ELK Stack, Sentry, structured logging, distributed tracing, health checks, alerting, incident response, root-cause analysis and postmortems",
+    "Security, Identity & Compliance: OAuth 2.0, OpenID Connect, JWT, SSO, RBAC, API keys and secrets management, HashiCorp Vault, TLS, encryption at rest and in transit, audit logging, OWASP Top 10, HIPAA and PCI DSS",
+    "Architecture & Distributed Systems: Microservices, event-driven architecture, REST API design and versioning, idempotency keys, retries with exponential backoff, dead-letter queues, rate limiting, caching, circuit breakers, monolith decomposition and high availability",
+    "Logistics, Freight & Healthcare Integration: freight brokerage operations, load and carrier management, rate and quote pricing, FMCSA carrier vetting, ELD telematics and GPS tracking, EDI, order and inventory integration, HL7/FHIR, insurance-eligibility APIs and patient-portal integration",
+    "Financial Systems & Payments: Stripe (Checkout, Billing, webhooks), payment and invoice flows, reconciliation, pricing and margin analysis, cost-versus-revenue modeling, market-data pipelines and trading-strategy backtesting (Alpaca API, NinjaTrader C#)",
+    "Testing & Engineering Practices: Git/GitHub, pytest, Jest, Playwright, Cypress, Postman, unit/integration/end-to-end testing, contract testing, load testing (k6, Locust), TDD, code review, CI/CD, Agile/Scrum and API documentation (Swagger/OpenAPI)"
   ],
   "education": [
     {
