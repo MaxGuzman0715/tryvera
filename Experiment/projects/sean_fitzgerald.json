@@ -1,0 +1,40 @@
+{
+  "id": "sean_fitzgerald",
+  "note": "Sean's project store. Apex Freight Capital is the anchor (in-house software universe below); Accenture is consulting; the freelancer role renders its stored bullets verbatim.",
+  "projects": [
+    {
+      "company": "Apex Freight Capital",
+      "role": "Founder & Software Engineer",
+      "dateRange": "2024 - Present",
+      "flagshipProject": "Apex Freight Capital in-house software: AI email triage, AI command center, document RAG, self-hosted coding models",
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": [],
+      "description": "Apex Freight Capital is the freight brokerage Sean founded in 2024 and runs: it serves shippers, manufacturers and commercial carriers, specializing in steel, oversized equipment and infrastructure loads that need flatbed, step-deck and RGN trailers, permits and escort planning, priced against carrier quotes, lane history, equipment limits and margin, with a network of 63 approved carriers that Sean vets himself against FMCSA operating authority, insurance certificates and safety records (a business process, not one of the software projects below). Sean is the company's software engineer as well as its founder: instead of buying a brokerage platform he builds and runs its internal software himself, end to end, in Python, TypeScript and Docker. The in-house systems: the AI Gmail Manager (Python, scikit-learn, SQLite) that classifies freight, quote and carrier email, learns priorities from starred messages and answers questions about the inbox, cutting daily triage from about 90 minutes to 25; AI Jarvis 2.0, the company's AI command center, with agent routing, task queues, a human approval step before anything reaches a customer or carrier, provider switching across OpenAI, Anthropic and DeepSeek, a relational store, usage and cost tracking, health monitoring, Whisper speech-to-text and remote Linux access over SSH; a containerized RAG API (FastAPI, ChromaDB, Ollama) with persistent vector storage, Swagger/ReDoc docs and GitHub Actions CI/CD that answers questions over company documents (rate confirmations, carrier packets, permit rules, operating procedures); Mozart R2D2, DeepSeek-Coder 1.3B Instruct self-hosted on rented Vast.ai GPUs behind FastAPI and Gradio as a private coding assistant, with a Docker image and idempotent bootstrap that rebuild a destroyed instance in under 5 minutes; Mozart Dueling AI, a Python/Tkinter tool that reviews the company's own code before release by sending it to GPT-4 and DeepSeek and scoring both reviews on 11 criteria (correctness, security, error handling, test coverage); Python lead research that normalizes government award records and resolves recipients to companies by entity matching, keeping the source behind every signal, to find infrastructure projects that will need heavy freight (sales leads, unrelated to carrier vetting); Truckers Chat, a communication app for carriers and freight professionals; a text-to-video avatar generator for the company's marketing videos, running the 19B-parameter LTX-2 model in FP8 on Vast.ai H100 80GB instances with a FastAPI backend, Streamlit UI, IC-LoRA face training and a setup script restoring about 40 GB of weights per fresh instance; and a Stripe Checkout and webhook payment prototype deployed on Vercel. Side projects in the same period: Vibe Coding Live, a Next.js/React/TypeScript live-streaming platform with Supabase auth, Postgres and storage, LiveKit WebRTC screen sharing and automatic recording that prunes the oldest files under a 5 GB cap; and Wolfpack Recall, built at the Cognee hackathon, a FastAPI/Docker service on Render that keeps evidence in Cognee graph memory and answers through Anthropic Claude. Scale is a small company's: the users are Sean and a handful of staff and partners, load is measured in emails a day, loads and quotes a week, carriers, documents indexed and GPU instances, never in millions of users or enterprise traffic. Sean is the only engineer: there is no engineering team to lead, no other developers whose pull requests he reviews or whom he onboards, no on-call rotation and no enterprise cloud estate; he reviews, tests, deploys and fixes his own code, with AI review tools (Mozart) as the second pair of eyes. It touches the front end (Next.js, React, Streamlit, Gradio), the back end (FastAPI, Node.js, REST APIs, PostgreSQL, SQLite), AI/ML (LLM APIs, RAG, self-hosted models, scikit-learn classification) and infrastructure (Docker, Linux, GPU instances, CI/CD, Render, Vercel)."
+    },
+    {
+      "company": "Accenture",
+      "role": "Backend Engineer",
+      "dateRange": "2021 - 2024",
+      "consulting": true,
+      "flagshipProject": null,
+      "isRecentTwo": true,
+      "bulletsProvided": false,
+      "bullets": [],
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation the code reads shared.json and hands the JD-matched engagements to this company. Do not add a fixed flagship project or bullets."
+    },
+    {
+      "company": "Freelance",
+      "role": "Software Developer",
+      "dateRange": "2017 - 2021",
+      "isRecentTwo": false,
+      "bulletsProvided": true,
+      "bullets": [
+        "Built web and backend applications for small-business clients with Node.js (Express), Python, PostgreSQL and MySQL, owning scoping, implementation, debugging, deployment and post-launch changes alone.",
+        "Automated recurring business workflows with Python scripts and scheduled jobs that pulled data from third-party APIs into reporting databases, replacing manual spreadsheet updates.",
+        "Designed relational schemas, REST endpoints and admin dashboards for client operations data, adding input validation, error handling and logging before each production release.",
+        "Deployed and maintained client applications on Linux servers and cloud hosting, handling releases, backups, SSL, monitoring and post-launch fixes."
+      ]
+    }
+  ]
+}

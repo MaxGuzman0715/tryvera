@@ -1,0 +1,73 @@
+{
+  "id": "sean_fitzgerald",
+  "basic": {
+    "fullName": "Sean P. Fitzgerald",
+    "title": "Senior Software Engineer",
+    "email": "SeanFitz@apexfreightcapital.com",
+    "phone": "+1 (737) 333-4912",
+    "location": "Houston, TX",
+    "linkedin": "https://linkedin.com/in/sean-fitzgerald-sfitz911",
+    "github": "https://github.com/SFitz911"
+  },
+  "experience": [
+    {
+      "company": "Apex Freight Capital",
+      "title": "Founder & Software Engineer",
+      "startDate": "2024",
+      "endDate": "Present",
+      "location": "Houston, TX",
+      "bullets": [
+        "Founded Apex Freight Capital, a freight brokerage for steel, oversized equipment and infrastructure loads, and built its in-house software in Python, TypeScript and Docker instead of buying a brokerage platform.",
+        "Built the AI Gmail Manager (Python, scikit-learn, SQLite) that classifies freight, quote and carrier email, learns priorities from starred messages and answers questions about the inbox, cutting daily email triage from about 90 minutes to 25.",
+        "Built AI Jarvis 2.0, the company's AI command center, with agent routing, task queues and a human approval step before anything reaches a customer or carrier, plus provider switching across OpenAI, Anthropic and DeepSeek, usage tracking and health monitoring.",
+        "Built a containerized RAG API (FastAPI, ChromaDB, Ollama) that answers questions over company documents such as rate confirmations, carrier packets, permit rules and operating procedures, with Swagger docs and GitHub Actions CI/CD.",
+        "Self-hosted DeepSeek-Coder on rented Vast.ai GPUs behind FastAPI and Gradio as a private coding assistant, with a Docker image and idempotent bootstrap that rebuild a destroyed instance and serve again in under 5 minutes.",
+        "Built Mozart Dueling AI to review the company's own code before release: it sends the same code to GPT-4 and DeepSeek, scores both reviews on 11 criteria including correctness, security, error handling and test coverage, and picks the stronger answer.",
+        "Built Python lead research that normalizes government award records and resolves recipients to companies through entity matching, keeping the source behind every signal, to find infrastructure projects that will need heavy freight."
+      ]
+    },
+    {
+      "company": "Accenture",
+      "title": "Backend Engineer",
+      "startDate": "2021",
+      "endDate": "2024",
+      "location": "United States | Remote",
+      "consulting": true,
+      "bullets": []
+    },
+    {
+      "company": "Freelance",
+      "title": "Software Developer",
+      "startDate": "2017",
+      "endDate": "2021",
+      "location": "Houston, TX",
+      "bullets": [
+        "Built web and backend applications for small-business clients with Node.js (Express), Python, PostgreSQL and MySQL, owning scoping, implementation, debugging, deployment and post-launch changes alone.",
+        "Automated recurring business workflows with Python scripts and scheduled jobs that pulled data from third-party APIs into reporting databases, replacing manual spreadsheet updates.",
+        "Designed relational schemas, REST endpoints and admin dashboards for client operations data, adding input validation, error handling and logging before each production release.",
+        "Deployed and maintained client applications on Linux servers and cloud hosting, handling releases, backups, SSL, monitoring and post-launch fixes."
+      ]
+    }
+  ],
+  "skills": [
+    "Languages: Python, TypeScript, JavaScript, SQL, Bash, C#",
+    "Backend & APIs: FastAPI, Node.js, Express, REST APIs, OAuth 2.0, webhooks, Stripe API, WebSockets, background jobs and task queues",
+    "Frontend: React, Next.js, Streamlit, Gradio, Tkinter, HTML/CSS",
+    "Databases & Storage: PostgreSQL, MySQL, SQLite, Supabase, ChromaDB, FAISS, vector storage",
+    "AI & LLMs: OpenAI API, Anthropic Claude API, DeepSeek, Ollama (Llama, Mistral, Phi-3), Hugging Face, LangChain, RAG, embeddings, Cognee graph memory, Whisper speech-to-text, prompt engineering, multi-model evaluation, agent routing, MCP",
+    "Model Serving & GPU: self-hosted LLM inference, Vast.ai GPU instances up to H100 80GB, CUDA, PyTorch, FP8 quantized serving, LoRA fine-tuning",
+    "Machine Learning & Data: scikit-learn, pandas, NumPy, data pipelines, backtesting, entity resolution",
+    "DevOps & Cloud: Docker, Linux/Ubuntu, SSH, GitHub Actions, CI/CD, Render, Vercel, Git/GitHub",
+    "Testing & Practices: pytest, Jest, integration testing, code review, debugging and root-cause analysis, API documentation (Swagger/OpenAPI)"
+  ],
+  "education": [
+    {
+      "school": "San Diego State University",
+      "degree": "Bachelor of Science",
+      "field": "Biology",
+      "startDate": "",
+      "endDate": ""
+    }
+  ],
+  "note": "Sean's REAL history (user, 2026-11-10), software-only for the job market: Apex Freight Capital, Founder & Software Engineer, 2024-Present (anchor: his real projects framed as the brokerage's in-house software, per the user), Accenture Backend Engineer 2021-2024 (consulting, engagements from shared.json), freelance software developer 2017-2021 (verbatim). Left out on purpose: all EMS/paramedic roles, San Jacinto A.A.S.; education dates blank to avoid an age signal. The AI-evaluation work lives only in sean_fitzgerald_ai."
+}
