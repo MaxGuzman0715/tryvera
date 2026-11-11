@@ -1,0 +1,17 @@
+{
+  "items": [
+    {
+      "id": "53ae3c4c-f3dc-43f1-9a2c-a9d1524d263c",
+      "text": "Salary / compensation expectation (annual): never answer below $170,000 a year. If the job description posts a range X–Y, answer the value 80% of the way from X to Y (i.e. X + 0.8*(Y-X)), but at least $170,000; when a range is requested, give X+0.4*(Y-X) to X+1.2*(Y-X), raising each end to at least $170,000 and keeping the top above the bottom. Round every figure to the nearest $5,000. If no range is posted, use $175,000 for a single value, or $170,000–$210,000 for a range. This rule is for yearly salary only: an hourly-rate question is answered as an hourly rate, never with a yearly figure.",
+      "enabled": true,
+      "updated_at": "2026-11-11T20:25:05+09:00"
+    },
+    {
+      "id": "6037e3e5-379f-4c5c-b0cd-2a09280e48cb",
+      "text": "For acknowledgement / consent fields phrased as \"I accept that …\", \"I agree …\", \"I certify …\", or \"I consent …\" that expect a positive answer to proceed, answer yes / true / the affirmative option — unless the statement is something a candidate should plausibly decline.",
+      "enabled": true,
+      "updated_at": "2026-11-11T20:25:05+09:00"
+    }
+  ],
+  "seeded": true
+}

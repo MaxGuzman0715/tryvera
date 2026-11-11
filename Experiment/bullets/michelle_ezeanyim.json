@@ -2,68 +2,89 @@
   "id": "michelle_ezeanyim",
   "basic": {
     "fullName": "Michelle Ezeanyim",
-    "title": "Clinical Data Analyst",
+    "title": "Senior Software Engineer",
     "email": "chinonyelumezeanyim@gmail.com",
+    "phone": "+1 (346) 652-9874",
     "location": "Cypress, TX, United States",
     "linkedin": "https://www.linkedin.com/in/ezeanyim-michelle-3185b5401"
   },
   "experience": [
     {
-      "company": "KODEX",
-      "title": "Data Analyst (Part-time, Remote)",
-      "startDate": "Jan 2025",
-      "endDate": "Present",
+      "company": "Surge AI",
+      "title": "Senior Software Engineer, AI Model Evaluation & Training",
+      "startDate": "2025",
+      "endDate": "2026",
       "location": "Remote",
       "bullets": [
-        "Analyze client datasets for health facilities, schools and small businesses across South East Nigeria, taking raw records from collection through cleaning, analysis and a finished report the client can act on.",
-        "Clean and validate messy operational data in Excel and SQL, resolving duplicates, inconsistent spellings and missing fields, and documenting every correction so results can be traced back to the source record.",
-        "Build Power BI dashboards that track attendance, enrolment, service volume and program outcomes, replacing manual spreadsheet summaries clients previously assembled by hand each month.",
-        "Categorize and label free-text records such as patient complaints, service feedback and survey responses against written definitions, turning unstructured text into counts a manager can compare over time.",
-        "Review health-facility records with a clinician's eye, catching values that are technically valid but clinically implausible and flagging them for correction before they reach a report.",
-        "Write the data definitions, quality checks and reporting guides behind each project, so the same metric is counted the same way across clients and reporting periods.",
-        "Support KODEX's data analysis training cohorts, reviewing trainees' Excel and SQL work, explaining errors and running practice sessions on cleaning and visualizing real datasets.",
-        "Present findings to non-technical stakeholders in plain language, recommending the specific operational change each result points to rather than delivering charts alone."
+        "Evaluated model-written code and technical answers for correctness, instruction following, efficiency and security, reproducing each claimed fix in a clean environment and writing an evidence-based rationale for every rating.",
+        "Ranked paired model responses to coding and debugging prompts against project guidelines and wrote the justification behind each preference, producing human preference data for model training.",
+        "Reviewed multi-step coding-agent trajectories (diffs, tool calls, terminal output, test runs and logs) and documented the step where a solution passed the visible tests but missed the stated requirement, a boundary input or an error path.",
+        "Authored more than 300 coding-benchmark tasks in Python and TypeScript, each with a problem statement, a reference solution and a hidden pytest or Jest suite covering edge cases and error handling, verified to reject known-incorrect solutions.",
+        "Built Python evaluation harnesses that ran model-generated code against hidden tests inside isolated Docker containers with time and memory limits, recording pass, fail, timeout and runtime-error outcomes per task.",
+        "Wrote technical rubrics defining correct, partially correct and failing answers for code, debugging and data-analysis tasks, then calibrated reviewers on shared sample sets, cutting rubric-related rework by 22 percent.",
+        "Audited completed evaluations from the reviewer pool against the rubric, classified recurring model failures (logic errors, unhandled edge cases, invented APIs, tests that do not prove the fix) and fed the patterns back into task guidelines.",
+        "Built finance-domain evaluation tasks on portfolio returns, risk metrics and financial-statement analysis, checking every model answer against an independently computed result in pandas."
       ]
     },
     {
-      "company": "HCA Houston Healthcare North Cypress",
-      "title": "Patient Care Technician",
-      "startDate": "Mar 2026",
-      "endDate": "Present",
-      "location": "Cypress, TX",
+      "company": "Accenture",
+      "title": "Software Engineer, AI & Data Platforms",
+      "startDate": "2020",
+      "endDate": "2025",
+      "location": "Houston, TX",
+      "consulting": true,
+      "bullets": []
+    },
+    {
+      "company": "Independent Freelancing",
+      "title": "Software Developer (Part-time)",
+      "startDate": "2017",
+      "endDate": "2020",
+      "location": "Houston, TX | Remote",
       "bullets": [
-        "Provide direct care to adult inpatients under the direction of registered nurses, assisting with mobility, repositioning, hygiene, feeding and other activities of daily living.",
-        "Measure and record vital signs, intake and output, weights and blood glucose readings, keeping electronic health record documentation accurate and complete for the care team.",
-        "Recognize and promptly escalate changes in a patient's condition, pain or behaviour to the assigned nurse, applying nursing training to judge what needs attention now.",
-        "Follow infection-control, fall-prevention and patient-safety protocols and take part in unit safety rounds, handling protected health information in line with HIPAA.",
-        "Communicate clearly and patiently with patients and families, explaining care steps and relaying their concerns to the nursing team."
+        "Built web applications, REST APIs and reporting dashboards for small-business clients with Python (Flask), JavaScript, React and PostgreSQL, owning scoping, implementation, testing and deployment.",
+        "Automated recurring business workflows with Python scripts and scheduled jobs that pulled data from third-party APIs into reporting databases, replacing manual spreadsheet updates across 12 client engagements.",
+        "Debugged and extended inherited client codebases, adding input validation, error handling and tests before shipping changes to production."
+      ]
+    },
+    {
+      "company": "Charles Schwab",
+      "title": "Financial Analyst",
+      "startDate": "2016",
+      "endDate": "2020",
+      "location": "Texas",
+      "bullets": [
+        "Analyzed portfolio performance and return attribution for managed client accounts, preparing monthly reporting packages for portfolio managers and investment committees.",
+        "Built financial models in Excel and Python covering volatility, drawdown, value at risk and factor exposure, and ran stress scenarios on rate and market shocks.",
+        "Automated recurring portfolio and risk reports with Python and SQL against holdings databases, reducing preparation from about two days to four hours per cycle.",
+        "Reconciled positions and performance figures across more than 2,000 accounts, tracing discrepancies to source data and documenting the fixes."
       ]
     }
   ],
   "skills": [
-    "Languages & Tools: Python, SQL, JavaScript, Bash, Git, GitHub, Linux, Docker, Jupyter, VS Code, virtualenv, Markdown",
-    "Testing & Verification: pytest, pytest fixtures, golden files, Postman, unittest, held-out test sets, edge-case enumeration, deterministic reruns",
-    "Data Engineering & Validation: pandas, NumPy, CSV, JSON, fixed-width records, Parquet, ETL pipelines, schema design, validation rules, reconciliation",
-    "Health Data Standards: HL7 v2, FHIR, ICD-10, CPT, EHR charting, HIPAA, PHI de-identification, terminology mapping",
-    "Clinical Knowledge: vital signs, blood glucose monitoring, intake and output, medical terminology, clinical deterioration, infection control, patient safety, deductible and out-of-pocket accumulators, coinsurance and visit limits",
-    "Databases & Reporting: PostgreSQL, MySQL, SQLite, Power BI, Power Query, DAX, Microsoft Excel, Google Sheets, joins and aggregations, indexing",
-    "Data Quality & Annotation: labeling schemas, annotation guidelines, inter-reviewer agreement, precision and recall, consistency review, error detection"
+    "LLM Evaluation & Training: correctness and instruction-following review of model-written code, pairwise ranking, human preference data, guideline-based rating with written rationales, coding-agent trajectory review, failure classification, technical fact-checking, rubric writing, reviewer calibration, QA sampling",
+    "Benchmarks & Testing: coding-benchmark task authoring, reference solutions, hidden test suites, edge-case and error-path design, sandboxed evaluation harnesses, pytest, Jest, unit and integration testing",
+    "Languages: Python, SQL, TypeScript, JavaScript, Bash",
+    "Frameworks & Backend: FastAPI, Flask, React, REST APIs, PostgreSQL, Amazon Redshift",
+    "Data & Machine Learning: PySpark, AWS (S3, Glue, EMR), pandas, NumPy, scikit-learn, gradient boosting, feature engineering, model validation, drift monitoring, OpenAI API",
+    "DevOps & Tools: Docker, Git, GitHub, GitHub Actions, Jenkins, CI/CD",
+    "Finance: portfolio performance and attribution, risk analytics, volatility, drawdown, value at risk, factor exposure, stress testing, financial modeling, financial-statement analysis, reconciliation and reporting"
   ],
   "education": [
     {
-      "school": "Nnamdi Azikiwe University, Awka",
-      "degree": "Bachelor of Science",
-      "field": "Computer Science",
-      "startDate": "2020",
-      "endDate": "2024"
+      "school": "University of Houston",
+      "degree": "Master of Science",
+      "field": "Finance",
+      "startDate": "2015",
+      "endDate": "2016"
     },
     {
-      "school": "College of Nursing Sciences, Adazi-Nnukwu",
-      "degree": "National Diploma",
-      "field": "Nursing",
-      "startDate": "",
-      "endDate": ""
+      "school": "University of Houston",
+      "degree": "Bachelor of Science",
+      "field": "Computer Science",
+      "startDate": "2011",
+      "endDate": "2015"
     }
   ],
-  "note": "Aligned to Michelle's LinkedIn (KODEX Data Analyst; HCA Houston Healthcare North Cypress Patient Care Technician, Mar 2026 - Present; nursing diploma Dec 2024) with basic info from Info.txt, and shaped for AI-training / task-authoring platforms that vet contributors on domain authority plus engineering rigour. Education is B.Sc Computer Science (UNIZIK Awka, 2020-2024) plus a one-year nursing diploma finishing Dec 2024; LinkedIn shows only the December 2024 date for nursing and does not yet list UNIZIK - she must add it there or the two will not match. KODEX start date (Jan 2025) and its part-time remote status are inferred. Federal Science and Technical College, Awka is a secondary school and is left off."
+  "note": "Michelle's REAL career history, given by the user on 2026-11-04 (earlier KODEX/HCA and HPE/Andela/Nigeria histories were test cases): University of Houston B.S. Computer Science 2011-2015 and M.S. Finance 2015-2016; Charles Schwab Financial Analyst 2016-2020; part-time freelance software developer 2017-2020; Accenture Software Engineer, AI & Data Platforms 2020-2025 (consulting, engagements from shared.json); Surge AI Senior Software Engineer, AI Model Evaluation & Training 2025-2026 (anchor). Dates are years only, as given. Bullet figures (300+ tasks, 22%, 12 clients, 2,000 accounts, two days to four hours) are unconfirmed and must be checked with her."
 }

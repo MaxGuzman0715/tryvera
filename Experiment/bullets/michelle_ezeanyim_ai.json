@@ -3,54 +3,88 @@
   "basic": {
     "fullName": "Michelle Ezeanyim",
     "title": "Senior Software Engineer",
-    "location": "Cypress, TX, United States",
     "email": "chinonyelumezeanyim@gmail.com",
+    "phone": "+1 (346) 652-9874",
+    "location": "Cypress, TX, United States",
     "linkedin": "https://www.linkedin.com/in/ezeanyim-michelle-3185b5401"
   },
   "experience": [
     {
-      "company": "Hewlett Packard Enterprise",
-      "title": "Senior Software Engineer",
-      "startDate": "Jan 2023",
-      "endDate": "Present",
-      "location": "Spring, Texas, United States",
+      "company": "Surge AI",
+      "title": "Senior Software Engineer, AI Model Evaluation & Training",
+      "startDate": "2025",
+      "endDate": "2026",
+      "location": "Remote",
       "bullets": [
-        "Build and review features in HPE Machine Learning Development Environment, the training platform HPE ships to enterprises, working in Python and Go across the services that run and track a customer's training jobs.",
-        "Review code and designs across the HPE Private Cloud AI integration paths, checking correctness, edge cases and whether an implementation actually matches the written contract before it is promoted.",
-        "Build specification-driven verification with pytest, property-based tests, fuzz cases, golden fixtures and differential checks, so a stated behaviour either holds or fails visibly.",
-        "Run generated patches from AI-assisted coding workflows against hidden tests, performance limits, static checks and reference behaviour, and classify the recurring failure modes that come out.",
-        "Write the reference implementations and grading rubrics used to judge model-produced code, then sample completed judgments and calibrate reviewers until the same rule produces the same decision."
+        "Evaluated model-written code and technical answers for correctness, instruction following, efficiency and security, reproducing each claimed fix in a clean environment and writing an evidence-based rationale for every rating.",
+        "Ranked paired model responses to coding and debugging prompts against project guidelines and wrote the justification behind each preference, producing human preference data for model training.",
+        "Reviewed multi-step coding-agent trajectories (diffs, tool calls, terminal output, test runs and logs) and documented the step where a solution passed the visible tests but missed the stated requirement, a boundary input or an error path.",
+        "Authored more than 300 coding-benchmark tasks in Python and TypeScript, each with a problem statement, a reference solution and a hidden pytest or Jest suite covering edge cases and error handling, verified to reject known-incorrect solutions.",
+        "Built Python evaluation harnesses that ran model-generated code against hidden tests inside isolated Docker containers with time and memory limits, recording pass, fail, timeout and runtime-error outcomes per task.",
+        "Wrote technical rubrics defining correct, partially correct and failing answers for code, debugging and data-analysis tasks, then calibrated reviewers on shared sample sets, cutting rubric-related rework by 22 percent.",
+        "Audited completed evaluations from the reviewer pool against the rubric, classified recurring model failures (logic errors, unhandled edge cases, invented APIs, tests that do not prove the fix) and fed the patterns back into task guidelines.",
+        "Built finance-domain evaluation tasks on portfolio returns, risk metrics and financial-statement analysis, checking every model answer against an independently computed result in pandas."
       ]
     },
     {
-      "company": "Andela",
-      "title": "Software Engineer",
-      "startDate": "Jul 2020",
-      "endDate": "Dec 2022",
-      "location": "Lagos, Nigeria | Remote",
+      "company": "Accenture",
+      "title": "Software Engineer, AI & Data Platforms",
+      "startDate": "2020",
+      "endDate": "2025",
+      "location": "Houston, TX",
       "consulting": true,
       "bullets": []
+    },
+    {
+      "company": "Independent Freelancing",
+      "title": "Software Developer (Part-time)",
+      "startDate": "2017",
+      "endDate": "2020",
+      "location": "Houston, TX | Remote",
+      "bullets": [
+        "Built web applications, REST APIs and reporting dashboards for small-business clients with Python (Flask), JavaScript, React and PostgreSQL, owning scoping, implementation, testing and deployment.",
+        "Automated recurring business workflows with Python scripts and scheduled jobs that pulled data from third-party APIs into reporting databases, replacing manual spreadsheet updates across 12 client engagements.",
+        "Debugged and extended inherited client codebases, adding input validation, error handling and tests before shipping changes to production."
+      ]
+    },
+    {
+      "company": "Charles Schwab",
+      "title": "Financial Analyst",
+      "startDate": "2016",
+      "endDate": "2020",
+      "location": "Texas",
+      "bullets": [
+        "Analyzed portfolio performance and return attribution for managed client accounts, preparing monthly reporting packages for portfolio managers and investment committees.",
+        "Built financial models in Excel and Python covering volatility, drawdown, value at risk and factor exposure, and ran stress scenarios on rate and market shocks.",
+        "Automated recurring portfolio and risk reports with Python and SQL against holdings databases, reducing preparation from about two days to four hours per cycle.",
+        "Reconciled positions and performance figures across more than 2,000 accounts, tracing discrepancies to source data and documenting the fixes."
+      ]
     }
   ],
   "skills": [
-    "AI Evaluation & Training: LLM output evaluation and rating, human preference data collection, guideline and rubric adherence, data labeling and annotation, fact-checking and accuracy review, AI model assessment, response ranking, pairwise comparison, inter-annotator agreement, quality assurance sampling, RLHF, red-teaming, prompt durability testing, rubric design, annotation workflow design, dataset engineering, model benchmarking, evaluation harness design",
-    "Multimodal, Geospatial & Scientific Data: QGIS, GIS spatial analysis, terrain analysis, spatial dataset overlays, ParaView, scientific visualization, DICOM, 3D medical dataset reconstruction, FreeCAD, parametric CAD modelling, mechanical assemblies, technical schematics, 3D modelling, image and audio annotation",
-    "Languages: Python, Go, Rust, C, C++, Java, JavaScript, TypeScript, Swift, SQL, Bash",
-    "Frameworks & Runtimes: FastAPI, Flask, Next.js, Node.js, Express, React",
-    "Data & Backend: REST APIs, gRPC, Protocol Buffers, PostgreSQL, Redis, Kafka, Parquet, distributed systems, asynchronous processing, worker queues, ETL tools, database schema design",
-    "AI & Machine Learning: PyTorch, TensorFlow, scikit-learn, pandas, NumPy, Hugging Face Transformers, OpenAI API, Anthropic API, MLflow, Jupyter",
-    "Testing & Verification: pytest, Hypothesis, property-based testing, fuzz testing, golden files, differential testing, regression testing, deterministic replay, unit and integration testing, test-case design",
-    "Documentation & Review Practices: technical documentation, workflow guides, step-by-step verification protocols, specification writing, style and contribution guides, code review, quality assurance, critical thinking, remote and independent work, deadline management",
-    "Spoken Languages: English (Professional), Igbo (Native)"
+    "AI Evaluation & Training: LLM output evaluation and rating, pairwise comparison, response ranking, human preference data, guideline and rubric adherence, written rationales, coding-agent trajectory review, failure classification, fact-checking and accuracy review, rubric design, reviewer calibration, quality assurance sampling, RLHF",
+    "Benchmarks & Testing: coding-benchmark task authoring, reference solutions, hidden test suites, edge-case and error-path design, sandboxed evaluation harnesses, pytest, Jest, unit and integration testing",
+    "Languages: Python, SQL, TypeScript, JavaScript, Bash",
+    "Frameworks & Backend: FastAPI, Flask, React, REST APIs, PostgreSQL, Amazon Redshift",
+    "Data & Machine Learning: PySpark, AWS (S3, Glue, EMR), pandas, NumPy, scikit-learn, OpenAI API",
+    "DevOps & Tools: Docker, Git, GitHub, GitHub Actions, Jenkins",
+    "Finance Domain: portfolio performance and attribution, risk metrics, volatility, drawdown, value at risk, stress testing, financial modeling, financial-statement analysis"
   ],
   "education": [
     {
-      "school": "University of Nigeria, Nsukka",
+      "school": "University of Houston",
+      "degree": "Master of Science",
+      "field": "Finance",
+      "startDate": "2015",
+      "endDate": "2016"
+    },
+    {
+      "school": "University of Houston",
       "degree": "Bachelor of Science",
       "field": "Computer Science",
-      "startDate": "2016",
-      "endDate": "2020"
+      "startDate": "2011",
+      "endDate": "2015"
     }
   ],
-  "note": "AI-training / evaluation variant for Handshake AI-style postings, built from the candidate's current résumé (HPE anchor, Andela consulting, University of Nigeria Nsukka). Andela is the consulting employer (consulting:true, no bullets - engagements come from shared.json), mirroring Thoughtworks in rajeev_kumar_ai. Skills are tool-forward with the annotation-EXECUTION terms first, because the rendered category caps at 10 items and the design-flavoured words win otherwise. No soft-skills category. She is US-based, which Handshake AI requires."
+  "note": "AI-training / evaluation variant of michelle_ezeanyim, used automatically when the AI platform box is ticked. Same companies, titles, dates and education; only skills differ (evaluation-execution terms first). Michelle's REAL career history, given by the user on 2026-11-04 (earlier KODEX/HCA and HPE/Andela/Nigeria histories were test cases): University of Houston B.S. Computer Science 2011-2015 and M.S. Finance 2015-2016; Charles Schwab Financial Analyst 2016-2020; part-time freelance software developer 2017-2020; Accenture Software Engineer, AI & Data Platforms 2020-2025 (consulting, engagements from shared.json); Surge AI Senior Software Engineer, AI Model Evaluation & Training 2025-2026 (anchor). Dates are years only, as given. Bullet figures (300+ tasks, 22%, 12 clients, 2,000 accounts, two days to four hours) are unconfirmed and must be checked with her."
 }

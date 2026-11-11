@@ -1,42 +1,36 @@
 {
   "id": "michelle_ezeanyim_ai",
-  "note": "Per-profile career-project list. HPE is the anchor; Andela is the consulting employer and stores no bullets.",
+  "note": "Per-profile career-project list for Michelle's real history (2026-11-04). Surge AI is the anchor; Accenture is the consulting employer and stores no bullets.",
   "projects": [
     {
-      "company": "Hewlett Packard Enterprise",
-      "role": "Senior Software Engineer",
-      "dateRange": "Jan 2023 - Present",
-      "flagshipProject": "HPE Machine Learning Development Environment and Private Cloud AI",
+      "company": "Surge AI",
+      "role": "Senior Software Engineer, AI Model Evaluation & Training",
+      "dateRange": "2025 - 2026",
+      "flagshipProject": "LLM evaluation and training data: coding benchmarks, evaluation harnesses, rubrics and preference data",
       "isRecentTwo": true,
-      "bulletsProvided": false,
-      "bullets": [],
-      "description": "HPE Machine Learning Development Environment is the managed training stack HPE ships to enterprises: it runs a customer's training jobs, keeps the state and metadata of each run, and picks work back up from a checkpoint when a run is interrupted. HPE Private Cloud AI packages that training and inference path as an appliance customers run in their own data centres. Much of the engineering around it is a correctness function rather than a systems one: specification-driven test frameworks, property-based and differential checks, golden fixtures, and tooling that runs generated patches from AI-assisted coding workflows against hidden tests, performance limits, static checks and reference behaviour, then classifies the failure modes that recur. Reference implementations and grading rubrics define what a correct answer looks like, completed judgments are sampled for quality, and reviewers are calibrated against each other. Code and design review across the Private Cloud AI integration paths checks edge cases, failure recovery and whether an implementation matches its written contract before promotion.",
-      "stackExclusions": [
-        "AWS",
-        "Amazon Web Services",
-        "Azure",
-        "Google Cloud",
-        "GCP",
-        "SageMaker",
-        "Vertex AI",
-        "BigQuery",
-        "Snowflake",
-        "Databricks",
-        "EKS",
-        "AKS",
-        "GKE",
-        "Lambda"
-      ]
+      "bulletsProvided": true,
+      "bullets": [
+        "Evaluated model-written code and technical answers for correctness, instruction following, efficiency and security, reproducing each claimed fix in a clean environment and writing an evidence-based rationale for every rating.",
+        "Ranked paired model responses to coding and debugging prompts against project guidelines and wrote the justification behind each preference, producing human preference data for model training.",
+        "Reviewed multi-step coding-agent trajectories (diffs, tool calls, terminal output, test runs and logs) and documented the step where a solution passed the visible tests but missed the stated requirement, a boundary input or an error path.",
+        "Authored more than 300 coding-benchmark tasks in Python and TypeScript, each with a problem statement, a reference solution and a hidden pytest or Jest suite covering edge cases and error handling, verified to reject known-incorrect solutions.",
+        "Built Python evaluation harnesses that ran model-generated code against hidden tests inside isolated Docker containers with time and memory limits, recording pass, fail, timeout and runtime-error outcomes per task.",
+        "Wrote technical rubrics defining correct, partially correct and failing answers for code, debugging and data-analysis tasks, then calibrated reviewers on shared sample sets, cutting rubric-related rework by 22 percent.",
+        "Audited completed evaluations from the reviewer pool against the rubric, classified recurring model failures (logic errors, unhandled edge cases, invented APIs, tests that do not prove the fix) and fed the patterns back into task guidelines.",
+        "Built finance-domain evaluation tasks on portfolio returns, risk metrics and financial-statement analysis, checking every model answer against an independently computed result in pandas."
+      ],
+      "description": "Surge AI supplies the human-feedback data and evaluations that AI labs use to train and test large language models. The engineering work sits on the evaluation side: coding-benchmark tasks with problem statements, reference solutions and hidden test suites; Python harnesses that run model-generated code against those tests inside isolated Docker containers with time and memory limits; review of model-written code, technical answers and multi-step coding-agent trajectories for correctness, instruction following, efficiency and security; pairwise ranking of model responses with written justifications that become preference data for training; technical rubrics that define correct, partially correct and failing answers; reviewer calibration on shared sample sets; audit sampling of completed evaluations; and classification of recurring model failures (logic errors, unhandled edge cases, invented APIs, tests that do not prove the fix) fed back into task guidelines. Finance-domain tasks on portfolio returns, risk metrics and financial statements are checked against independently computed results in pandas."
     },
     {
-      "company": "Andela",
-      "role": "Software Engineer",
-      "dateRange": "Jul 2020 - Dec 2022",
-      "flagshipProject": "",
+      "company": "Accenture",
+      "role": "Software Engineer, AI & Data Platforms",
+      "dateRange": "2020 - 2025",
+      "consulting": true,
+      "flagshipProject": null,
       "isRecentTwo": true,
       "bulletsProvided": false,
-      "bullets": [],
-      "description": "Andela places engineers with client companies; engagements come from the shared industry project pool."
+      "description": "Consulting / client-services company - project summaries are NOT stored here. At generation the code reads shared.json, selects the engagement whose industry matches the posting's extracted client industry plus one complementary engagement, and hands those to this company. Do not add a fixed flagship project or bullets.",
+      "bullets": []
     }
   ]
 }

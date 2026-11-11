@@ -56,6 +56,11 @@
       "updated_at": "2026-06-17T05:18:20+09:00"
     },
     {
+      "question": "Typescript experience is a key component of the Member of Technical Staff Product Engineering Role at GC AI. Please describe how do types travel between your frontend and backend?",
+      "answer": "I built a Python script using OpenAI's API to summarize long technical documents into concise bullet points, saving me hours of reading time each week.",
+      "updated_at": "2026-10-31T21:49:53+09:00"
+    },
+    {
       "question": "Veteran status",
       "answer": "I am not a protected veteran",
       "updated_at": "2026-06-17T05:19:06+09:00"
