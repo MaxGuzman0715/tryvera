@@ -1738,6 +1738,7 @@ html[data-app-theme="dark"] .sc {
 .sc .tag.ok { background: var(--sc-ok-soft); color: var(--sc-ok); }
 .sc .tag.bad { background: var(--sc-bad-soft); color: var(--sc-bad); }
 .sc .tag.wait { background: var(--sc-wait-soft); color: var(--sc-wait); }
+.sc .tag.sched { background: var(--accent-soft); color: var(--accent); }
 
 .sc-month { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
 .sc-month .mh { padding: 2px 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
@@ -1763,7 +1764,7 @@ html[data-app-theme="dark"] .sc {
 .sc-hours .dh.today .dn, .sc-hours .dh.today .dd { color: var(--accent-on-soft); }
 .sc-hours .hours { position: relative; }
 .sc-hours .hour { position: absolute; right: 8px; transform: translateY(-50%); font-family: var(--sc-mono); font-size: 11px; color: var(--faint); }
-.sc-hours .col { position: relative; border-left: 1px solid var(--hairline); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 47px, var(--hairline) 47px, var(--hairline) 48px); }
+.sc-hours .col { position: relative; border-left: 1px solid var(--hairline); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 63px, var(--hairline) 63px, var(--hairline) 64px); } /* one line per hour: HOUR_PX in Schedule.tsx */
 .sc-hours .col.weekend { background-color: var(--sc-head-bg); }
 .sc-hours .col.today { background-color: var(--accent-soft); }
 .sc-hours .now { position: absolute; left: 0; right: 0; height: 2px; background: var(--accent); z-index: 2; }
@@ -1771,6 +1772,34 @@ html[data-app-theme="dark"] .sc {
 .sc-hours .ev b, .sc-hours .ev span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .sc-hours .ev b { font-size: 12px; }
 .sc-hours .ev span { font-family: var(--sc-mono); font-size: 11px; color: var(--muted); }
+/* Under 45 min: one line, company then time, so a 15-minute call still reads. */
+.sc-hours .ev.short { flex-direction: row; align-items: center; gap: 6px; padding: 0 6px; border-radius: 6px; }
+.sc-hours .ev.short b { flex: 0 1 auto; font-size: 11px; }
+.sc-hours .ev.short span { flex: 1 1 0; font-size: 10px; }
+/* The email didn't say how long: drawn at the default hour, edge dashed to show it's a guess. */
+.sc-hours .ev.nolen { border-bottom-style: dashed; }
+
+/* Drawer: a booked meeting shown the way a calendar app shows an event. */
+.sc-meet { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 10px; background: var(--surface); }
+.sc-meet + .sc-meet { margin-top: 8px; }
+.sc-meet.sched { border-left-color: var(--accent); }
+.sc-meet.wait { border-left-color: var(--sc-wait-line); }
+.sc-meet.done { border-left-color: var(--sc-ok); }
+.sc-meet.failed { border-left-color: var(--sc-bad); }
+.sc-meet.focus { box-shadow: 0 0 0 2px var(--accent-soft-border); }
+.sc-meet .mh { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sc-meet .mw { font-size: 13px; }
+.sc-meet .mj { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc-meet .md { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0; font-size: 13px; }
+.sc-meet .md dt { color: var(--muted); }
+.sc-meet .md dd { margin: 0; overflow-wrap: anywhere; }
+/* Drawer: the row's hand changes, each revertible. */
+.sc-history { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.sc-history li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; }
+.sc-history li > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sc-history .w { font-size: 13px; overflow-wrap: anywhere; }
+.sc-history button { flex: none; }
+.sc-meet .md .guest { display: inline-block; margin: 0 6px 2px 0; padding: 1px 8px; border-radius: 999px; background: var(--sc-head-bg); font-size: 12px; }
 .sc-hours .ev.sched { background: var(--accent-soft); border-color: var(--accent-soft-border); border-left-color: var(--accent); }
 .sc-hours .ev.done { background: var(--sc-ok-soft); border-color: var(--sc-ok-line); border-left-color: var(--sc-ok); }
 .sc-hours .ev.wait { background: var(--sc-wait-soft); border-color: var(--sc-wait-border); border-left-color: var(--sc-wait-line); }
@@ -1785,12 +1814,22 @@ html[data-app-theme="dark"] .sc {
 .sc .dot.done { background: var(--sc-ok); }
 .sc .dot.failed { background: var(--sc-bad); }
 
-.sc-avatar { width: 20px; height: 20px; border-radius: 50%; font-size: 10px; font-weight: 700; display: inline-grid; place-items: center; flex: none; }
-.sc-avatar.p0 { background: #e0f2fe; color: #026aa2; }
-.sc-avatar.p1 { background: #f3e8ff; color: #7e22ce; }
-.sc-avatar.p2 { background: #dcfce7; color: #15803d; }
-.sc-avatar.p3 { background: #fce7f3; color: #be185d; }
-.sc-avatar.p4 { background: #e0e7ff; color: #4338ca; }
+/* Whose interview: initials on the person's own solid colour (never the orange accent). */
+.sc-avatar { width: 22px; height: 22px; border-radius: 50%; font-size: 10px; font-weight: 700; letter-spacing: 0.02em; line-height: 1; color: #fff; display: inline-grid; place-items: center; flex: none; box-shadow: 0 0 0 2px var(--surface); }
+.sc-avatar.lg { width: 30px; height: 30px; font-size: 12px; }
+.sc-avatar.sm { width: 18px; height: 18px; font-size: 9px; }
+.sc-avatar.p0 { background: #2563eb; }
+.sc-avatar.p1 { background: #7c3aed; }
+.sc-avatar.p2 { background: #15803d; }
+.sc-avatar.p3 { background: #db2777; }
+.sc-avatar.p4 { background: #0e7490; }
+.sc-avatar.p5 { background: #4b5563; }
+.sc-people .sc-avatar { width: 20px; height: 20px; font-size: 9px; vertical-align: middle; box-shadow: none; }
+/* Hours view: the badge sits top-right of the block; a short block has it first on its line. */
+.sc-hours .ev { padding-right: 38px; }
+.sc-hours .ev .sc-avatar { position: absolute; top: 4px; right: 5px; max-width: none; overflow: visible; font-family: inherit; color: #fff; }
+.sc-hours .ev.short { padding-right: 6px; }
+.sc-hours .ev.short .sc-avatar { position: static; order: -1; flex: none; width: 18px; height: 18px; font-size: 8px; }
 
 .sc-notices { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
 .sc-alert { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 12px; border: 1px solid; font-size: 14px; text-align: left; text-decoration: none; cursor: pointer; }

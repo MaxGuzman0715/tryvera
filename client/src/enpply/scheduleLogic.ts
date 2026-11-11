@@ -193,7 +193,10 @@ export function newChanges(r: ScheduleRow, seenAt: string) {
 /** The one to show on the row: the most telling change, not just the latest. */
 const WEIGHT: Record<string, number> = { new: 7, offer: 6, rejected: 5, cancelled: 4, ask: 4, time: 3, booked: 3, assessment: 3, advanced: 2, email: 1 };
 export function headlineChange(r: ScheduleRow, seenAt: string) {
-  const list = newChanges(r, seenAt);
+  // A rejection or offer a later email undid isn't the news (Aurora: "Interview
+  // Cancelled" read as a rejection, a new invite four minutes later).
+  const kind = deriveStatus(r).kind;
+  const list = newChanges(r, seenAt).filter((c) => !(c.what === "rejected" && kind !== "rejected") && !(c.what === "offer" && kind !== "offer"));
   return list.sort((a, b) => (WEIGHT[b.what] ?? 0) - (WEIGHT[a.what] ?? 0) || b.at.localeCompare(a.at))[0] ?? null;
 }
 

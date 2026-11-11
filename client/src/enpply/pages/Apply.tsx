@@ -316,7 +316,8 @@ export default function Apply() {
 
     const tick = async () => {
       try {
-        const { applications } = await api.listApplications();
+        // The batch just started, so its runs are among the newest.
+        const { applications } = await api.listApplications(200);
         if (!alive) return;
         const next: Record<string, string> = {};
         for (const row of applications) {

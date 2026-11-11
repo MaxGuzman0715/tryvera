@@ -13,7 +13,10 @@ import {
   type Round,
   type ScheduleRow,
 } from "./scheduleBuild.js";
-import { addBaseRow, getOverride, getRowSeen, getSeen, listBase, listOverrides, mergeOverride, replaceSheetRows, seenForRow, setOverride, setRowSeen, setSeen } from "./scheduleStore.js";
+import {
+  addBaseRow, addHistory, forgetFrom, getOverride, getRowSeen, getSeen, listBase, listHistory, listOverrides, mergeOverride,
+  replaceSheetRows, revertTo, seenForRow, setOverride, setRowSeen, setSeen,
+} from "./scheduleStore.js";
 import type { ScheduleOverride } from "./scheduleBuild.js";
 import type { User } from "./types.js";
 import { requireIngestToken } from "./interviewRoutes.js";
@@ -28,7 +31,7 @@ import { requireIngestToken } from "./interviewRoutes.js";
  * a row follows profile access, as on the Interviews page.
  */
 
-type Person = { key: string; label: string; profile_ids: string[] };
+type Person = { key: string; label: string; profile_ids: string[]; initials: string; hue: number };
 
 const todayEt = () => new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(new Date());
 
@@ -55,12 +58,27 @@ async function loadPeople(): Promise<Map<string, Person>> {
     byEmail.set(email, cur);
   }
   const firsts = [...byEmail.values()].map((v) => v.names[0].split(/\s+/)[0]);
+  const inits = [...byEmail.values()].map((v) => initialsOf(v.names[0]));
   const out = new Map<string, Person>();
-  for (const [email, v] of byEmail) {
+  [...byEmail.keys()].sort().forEach((email, n) => {
+    const v = byEmail.get(email)!;
     const first = v.names[0].split(/\s+/)[0];
-    out.set(email, { key: email, label: firsts.filter((f) => f === first).length > 1 ? v.names[0] : first, profile_ids: v.ids });
-  }
+    const ini = initialsOf(v.names[0]);
+    out.set(email, {
+      key: email,
+      label: firsts.filter((f) => f === first).length > 1 ? v.names[0] : first,
+      profile_ids: v.ids,
+      // "HM", "RK"; two people with the same ones (Rajeev Kumar, Rohit Kumar) get "RA", "RO".
+      initials: inits.filter((x) => x === ini).length > 1 ? first.slice(0, 2).toUpperCase() : ini,
+      hue: n,
+    });
+  });
   return out;
+}
+
+function initialsOf(name: string): string {
+  const w = name.split(/\s+/).filter(Boolean);
+  return ((w[0]?.[0] ?? "") + (w.length > 1 ? w[w.length - 1][0] : w[0]?.[1] ?? "")).toUpperCase();
 }
 
 const canSeePerson = (user: User, p: Person | undefined) =>
@@ -90,6 +108,10 @@ async function build() {
     nowMs: Date.now(),
     todayIso: today,
   });
+  // Colours go to the people on the schedule first, so none of them share one.
+  const onSchedule = [...new Set(rows.map((r) => r.person))].filter((k) => persons.has(k)).sort();
+  let next = onSchedule.length;
+  for (const [k, p] of [...persons].sort(([a], [b]) => a.localeCompare(b))) p.hue = onSchedule.includes(k) ? onSchedule.indexOf(k) : next++;
   return { rows, unplaced, events: new Map(events.map((e) => [e.id, e])), persons, today };
 }
 
@@ -137,7 +159,8 @@ function present(row: ScheduleRow, b: Built) {
       subject: e.subject,
       permalink: e.permalink,
     }));
-  return { ...row, person_label: b.persons.get(row.person)?.label ?? row.person, emails };
+  const p = b.persons.get(row.person);
+  return { ...row, person_label: p?.label ?? row.person, person_initials: p?.initials ?? "", person_hue: p?.hue ?? 0, emails };
 }
 
 const roundBody = z.object({
@@ -151,19 +174,25 @@ const roundBody = z.object({
  * puts back exactly what was there before. The page never sends override
  * content of its own, so it can't forge who changed what or when.
  */
-const undoTokens = new Map<string, { rowId: string; userId: string; previous: ScheduleOverride | null; expires: number }>();
+const undoTokens = new Map<string, { rowId: string; userId: string; previous: ScheduleOverride | null; seq: number; expires: number }>();
 const UNDO_MS = 10 * 60_000;
 
-function issueUndo(rowId: string, userId: string, previous: ScheduleOverride | null): string {
+function issueUndo(rowId: string, userId: string, previous: ScheduleOverride | null, seq: number): string {
   const now = Date.now();
   for (const [k, v] of undoTokens) if (v.expires < now) undoTokens.delete(k);
   const token = randomUUID();
-  undoTokens.set(token, { rowId, userId, previous, expires: now + UNDO_MS });
+  undoTokens.set(token, { rowId, userId, previous, seq, expires: now + UNDO_MS });
   return token;
 }
 
 /** Undo for a bulk change: every row's hand changes as they were before it. */
-const bulkUndoTokens = new Map<string, { userId: string; items: { rowId: string; previous: ScheduleOverride | null }[]; expires: number }>();
+const bulkUndoTokens = new Map<string, { userId: string; items: { rowId: string; previous: ScheduleOverride | null; seq: number }[]; expires: number }>();
+
+/** A revert from the history rewrites the row: older toast Undos for it would put back a stale state. */
+function dropUndos(rowId: string): void {
+  for (const [k, v] of undoTokens) if (v.rowId === rowId) undoTokens.delete(k);
+  for (const [k, v] of bulkUndoTokens) if (v.items.some((it) => it.rowId === rowId)) bulkUndoTokens.delete(k);
+}
 
 /**
  * A row that only exists because of an email gets a fixed home on its first
@@ -193,7 +222,20 @@ const patchBody = z.object({
   offer: z.boolean().optional(),
   note: z.string().max(2000).optional(),
   removed: z.boolean().optional(),
+  // What the change was, in words, for the row's history ("Intro booked (Oct 29, 3:00 PM)").
+  label: z.string().trim().max(300).optional(),
 });
+
+/** History wording when the page didn't send any. */
+function describe(body: z.infer<typeof patchBody>): string {
+  const parts: string[] = [];
+  for (const [k, v] of Object.entries(body.rounds ?? {})) parts.push(`${ROUNDS[Number(k)]}: ${v.state}${v.date ? ` ${v.date}${v.time ? ` ${v.time}` : ""}` : ""}`);
+  if (body.closed !== undefined) parts.push(body.closed ? `Closed: ${body.closed}` : "Reopened");
+  if (body.offer !== undefined) parts.push(body.offer ? "Offer" : "Offer taken off");
+  if (body.note !== undefined) parts.push("Note changed");
+  if (body.removed !== undefined) parts.push(body.removed ? "Removed from the schedule" : "Put back on the schedule");
+  return parts.join(" · ") || "Changed by hand";
+}
 
 export function registerScheduleRoutes(app: Express): void {
   /**
@@ -240,11 +282,11 @@ export function registerScheduleRoutes(app: Express): void {
         row_seen: getRowSeen(req.user!.id),
         rounds: ROUNDS,
         rows: visible.map((r) => present(r, b)),
-        people: [...counts.keys()].map((k) => ({ key: k, label: b.persons.get(k)!.label, count: counts.get(k) })),
+        people: [...counts.keys()].map((k) => ({ key: k, label: b.persons.get(k)!.label, initials: b.persons.get(k)!.initials, hue: b.persons.get(k)!.hue, count: counts.get(k) })),
         // People the user may add rows for or import a sheet for, with rows or not.
         all_people: [...b.persons.values()]
           .filter((p) => canSeePerson(req.user!, p))
-          .map((p) => ({ key: p.key, label: p.label })),
+          .map((p) => ({ key: p.key, label: p.label, initials: p.initials, hue: p.hue })),
         // The same emails the Inbox lists as "Not on the schedule", so the link and the list agree.
         unplaced: [...attentionOf(b)].filter(([id, why]) => why === "not_placed" && visibleEvent(req.user!, b, id)).length,
       });
@@ -321,7 +363,13 @@ export function registerScheduleRoutes(app: Express): void {
         ...cur,
         rounds: {
           ...(cur?.rounds ?? {}),
-          ...Object.fromEntries(Object.entries(body.rounds ?? {}).map(([k, v]) => [k, { ...v, source: "manual", at: now } as Round])),
+          ...Object.fromEntries(Object.entries(body.rounds ?? {}).map(([k, v]) => {
+            // A Pass/Fail on the same meeting keeps the length and details the email gave it.
+            const was = row.rounds[Number(k)];
+            const same = was && was.date === v.date && was.time === v.time;
+            const kept = same ? { ...(was.mins ? { mins: was.mins } : {}), ...(was.meet ? { meet: was.meet } : {}) } : {};
+            return [k, { ...v, ...kept, source: "manual", at: now } as Round];
+          })),
         },
         ...(body.closed !== undefined ? { closed: body.closed } : {}),
         ...(body.offer !== undefined ? { offer: body.offer } : {}),
@@ -330,9 +378,10 @@ export function registerScheduleRoutes(app: Express): void {
         updated_at: now,
         updated_by: req.user!.email,
       }));
+      const seq = addHistory(row.id, req.user!.email, body.label || describe(body), previous);
       const after = await build();
       const next = after.rows.find((r) => r.id === row.id);
-      res.json({ ok: true, row: next ? present(next, after) : null, undo: issueUndo(row.id, req.user!.id, previous) });
+      res.json({ ok: true, row: next ? present(next, after) : null, undo: issueUndo(row.id, req.user!.id, previous, seq) });
     } catch (e) {
       if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
       res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
@@ -348,9 +397,42 @@ export function registerScheduleRoutes(app: Express): void {
       }
       undoTokens.delete(token);
       setOverride(u.rowId, u.previous);
+      forgetFrom(u.rowId, u.seq);
+      // A newer change's Undo would now re-apply a change that's gone from the history.
+      dropUndos(u.rowId);
       const after = await build();
       const next = after.rows.find((r) => r.id === u.rowId);
       res.json({ ok: true, row: next ? present(next, after) : null });
+    } catch (e) {
+      if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
+  /** A row's hand changes, newest first: what the drawer's History lists. */
+  app.get<{ id: string }>("/api/schedule/:id/history", requireAuth, async (req, res) => {
+    try {
+      const b = await build();
+      const row = b.rows.find((r) => r.id === req.params.id);
+      if (!row || !canSeePerson(req.user!, b.persons.get(row.person))) return res.status(404).json({ error: "Row not found" });
+      res.json({ history: listHistory(row.id).map(({ seq, at, by, what }) => ({ seq, at, by, what })) });
+    } catch (e) {
+      res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
+    }
+  });
+
+  /** Put a row back to how it was before one of its hand changes (and drop that change and the later ones). */
+  app.post<{ id: string }>("/api/schedule/:id/revert", requireAuth, async (req, res) => {
+    try {
+      const { seq } = z.object({ seq: z.number().int().positive() }).parse(req.body);
+      const before = await build();
+      const row = before.rows.find((r) => r.id === req.params.id);
+      if (!row || !canSeePerson(req.user!, before.persons.get(row.person))) return res.status(404).json({ error: "Row not found" });
+      if (!revertTo(row.id, seq)) return res.status(410).json({ error: "That change is no longer in this row's history." });
+      dropUndos(row.id);
+      const after = await build();
+      const next = after.rows.find((r) => r.id === row.id);
+      res.json({ ok: true, row: next ? present(next, after) : null, history: listHistory(row.id).map(({ seq, at, by, what }) => ({ seq, at, by, what })) });
     } catch (e) {
       if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });
       res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
@@ -369,7 +451,8 @@ export function registerScheduleRoutes(app: Express): void {
         const previous = getOverride(row.id) ?? null;
         materialize(row);
         mergeOverride(row.id, (cur) => ({ ...cur, removed: body.removed ? now : null, updated_at: now, updated_by: req.user!.email }));
-        return { rowId: row.id, previous };
+        const seq = addHistory(row.id, req.user!.email, body.removed ? "Removed from the schedule" : "Put back on the schedule", previous);
+        return { rowId: row.id, previous, seq };
       });
       for (const [k, v] of bulkUndoTokens) if (v.expires < Date.now()) bulkUndoTokens.delete(k);
       const undo = randomUUID();
@@ -389,7 +472,11 @@ export function registerScheduleRoutes(app: Express): void {
         return res.status(410).json({ error: "This change can no longer be undone." });
       }
       bulkUndoTokens.delete(token);
-      for (const it of u.items) setOverride(it.rowId, it.previous);
+      for (const it of u.items) {
+        setOverride(it.rowId, it.previous);
+        forgetFrom(it.rowId, it.seq);
+        dropUndos(it.rowId);
+      }
       res.json({ ok: true, count: u.items.length });
     } catch (e) {
       if (e instanceof z.ZodError) return res.status(400).json({ error: e.flatten() });

@@ -181,7 +181,10 @@ export default function GenerationToasts() {
         // anyway and we have nothing to show.
         const currentUserId = currentUserIdRef.current;
         if (!currentUserId) return;
-        const { applications } = await api.listApplications();
+        // Only the newest 30 are looked at below. The first call takes more, so
+        // the seed pass marks runs that a deleted duplicate marker could later
+        // lift into the newest 30 (they'd otherwise auto-download again).
+        const { applications } = await api.listApplications(autoDownloadSeeded ? 30 : 300);
         // Seed pass: on the first tick, mark every already-completed app as
         // "already handled" so we don't retroactively try to auto-download
         // historical runs. Only apps that transition to completed during

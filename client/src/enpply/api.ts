@@ -144,7 +144,9 @@ export const api = {
     req<import("./types").Prompts>(`/api/config/prompts/${encodeURIComponent(key)}/reset`, {
       method: "POST",
     }),
-  listApplications: () => req<{ applications: import("./types").ApplicationLogEntry[] }>("/api/applications"),
+  /** `limit`: just the newest N runs, for the pollers; omit for the full list. */
+  listApplications: (limit?: number) =>
+    req<{ applications: import("./types").ApplicationLogEntry[] }>(`/api/applications${limit ? `?limit=${limit}` : ""}`),
   updateApplicationMeta: (
     id: string,
     patch: Partial<
@@ -350,6 +352,8 @@ export const api = {
       offer?: boolean;
       note?: string;
       removed?: boolean;
+      /** The change in words, kept in the row's history. */
+      label?: string;
     }
   ) =>
     req<{ ok: boolean; row: import("./types").ScheduleRow | null; undo: string }>(
@@ -362,6 +366,15 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ token }),
     }),
+  /** A row's hand changes, newest first. */
+  scheduleHistory: (id: string) =>
+    req<{ history: import("./types").SchedHistory[] }>(`/api/schedule/${encodeURIComponent(id)}/history`),
+  /** Put a row back to before one of its hand changes (that change and later ones are dropped). */
+  revertScheduleRow: (id: string, seq: number) =>
+    req<{ ok: boolean; row: import("./types").ScheduleRow | null; history: import("./types").SchedHistory[] }>(
+      `/api/schedule/${encodeURIComponent(id)}/revert`,
+      { method: "POST", body: JSON.stringify({ seq }) }
+    ),
   bulkRemoveSchedule: (ids: string[], removed: boolean) =>
     req<{ ok: boolean; count: number; undo: string }>("/api/schedule/bulk-remove", { method: "POST", body: JSON.stringify({ ids, removed }) }),
   bulkRestoreSchedule: (token: string) =>

@@ -15,12 +15,14 @@ export const KIND_LABEL: Record<string, string> = {
 
 export function kindLabel(kind: string | null, verdict: string): string {
   if (verdict === "MAYBE") return "Maybe";
+  if (kind === "WITHDRAWN") return "Withdrew";
   if (verdict === "REJECTION") return "Rejected";
   return KIND_LABEL[kind ?? ""] ?? "Needs a look";
 }
 
 export function kindBadge(kind: string | null, verdict: string): string {
   if (verdict === "MAYBE") return "skip";
+  if (kind === "WITHDRAWN") return "skip";
   if (verdict === "REJECTION") return "fail";
   if (kind === "OFFER" || kind === "NEXT_ROUND") return "ok";
   if (kind === "SCHEDULING" || kind === "ASSESSMENT") return "info";

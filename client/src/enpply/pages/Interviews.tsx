@@ -37,10 +37,10 @@ const STATUS: Record<InterviewMatchStatus, { label: string; tone: string; hint: 
 const STATUS_ORDER: InterviewMatchStatus[] = ["needs_check", "auto_matched", "confirmed", "not_from_tryvera", "ignored"];
 
 /** Email type, with MAYBE and rejections as their own kinds. */
-const typeOf = (r: InterviewEvent) => (r.verdict === "REJECTION" ? "REJECTION" : r.verdict === "MAYBE" ? "MAYBE" : r.kind || "OTHER");
+const typeOf = (r: InterviewEvent) => (r.kind === "WITHDRAWN" ? "WITHDRAWN" : r.verdict === "REJECTION" ? "REJECTION" : r.verdict === "MAYBE" ? "MAYBE" : r.kind || "OTHER");
 const TYPE_TONE: Record<string, string> = {
   SCHEDULING: "sched", RESCHEDULE: "sched", NEXT_ROUND: "offer", ASSESSMENT: "wait", OFFER: "offer",
-  REJECTION: "rejected", MAYBE: "closed",
+  REJECTION: "rejected", MAYBE: "closed", WITHDRAWN: "closed",
 };
 
 const etDay = (iso: string) => new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(new Date(iso));
@@ -172,10 +172,10 @@ export default function Interviews() {
     const types = n("type");
     const done = n("done");
     const linked = n("linked");
-    const TYPES = ["SCHEDULING", "RESCHEDULE", "NEXT_ROUND", "ASSESSMENT", "SCREENING_QUESTION", "DOCUMENT_REQUEST", "OFFER", "OTHER", "MAYBE", "REJECTION"];
+    const TYPES = ["SCHEDULING", "RESCHEDULE", "NEXT_ROUND", "ASSESSMENT", "SCREENING_QUESTION", "DOCUMENT_REQUEST", "OFFER", "OTHER", "MAYBE", "REJECTION", "WITHDRAWN"];
     return [
       { key: "person", label: "Person", kind: "multi", options: [...people.keys()].sort().map((k) => ({ value: k, label: labelFor.get(k) ?? k, count: people.get(k) })) },
-      { key: "type", label: "Type", kind: "multi", options: TYPES.filter((t) => types.has(t)).map((t) => ({ value: t, label: t === "REJECTION" ? "Rejection" : kindLabel(t, t === "MAYBE" ? "MAYBE" : "ACTION"), count: types.get(t) })) },
+      { key: "type", label: "Type", kind: "multi", options: TYPES.filter((t) => types.has(t)).map((t) => ({ value: t, label: t === "REJECTION" ? "Rejection" : t === "WITHDRAWN" ? "Withdrew" : kindLabel(t, t === "MAYBE" ? "MAYBE" : "ACTION"), count: types.get(t) })) },
       { key: "date", label: "Received", kind: "date" },
       { key: "done", label: "Done", kind: "multi", options: [{ value: "open", label: "Still open", count: done.get("open") ?? 0 }, { value: "done", label: "Done", count: done.get("done") ?? 0 }] },
       { key: "linked", label: "Application", kind: "multi", options: [{ value: "linked", label: "Linked to one", count: linked.get("linked") ?? 0 }, { value: "unlinked", label: "Not linked", count: linked.get("unlinked") ?? 0 }] },

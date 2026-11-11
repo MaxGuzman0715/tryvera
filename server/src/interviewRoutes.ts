@@ -7,7 +7,7 @@ import { listProfiles, readProfile } from "./profileStore.js";
 import { getInterview, listInterviews, upsertInterview } from "./interviewStore.js";
 import { matchInterview, sameCompany } from "./interviewMatch.js";
 import { autoStage } from "./pipelineStage.js";
-import type { ApplicationLogEntry, InterviewEvent, User } from "./types.js";
+import type { ApplicationLogEntry, InterviewEvent, MeetingInfo, User } from "./types.js";
 
 /**
  * Interview emails pushed in by the Slack triage bot (slack-email-triage), and
@@ -45,6 +45,26 @@ export function requireIngestToken(req: Request, res: Response, next: NextFuncti
 const text = (max: number) =>
   z.unknown().transform((v) => (v == null ? "" : typeof v === "string" ? v : JSON.stringify(v)).slice(0, max));
 
+/** The bot's meeting details, kept only as plain short strings; the join link only as https. */
+function meetingInfo(v: unknown): MeetingInfo | undefined {
+  if (!v || typeof v !== "object") return undefined;
+  const o = v as Record<string, unknown>;
+  const str = (x: unknown, max: number) => (typeof x === "string" && x.trim() ? x.trim().slice(0, max) : undefined);
+  const link = str(o.link, 600);
+  const out: MeetingInfo = {
+    link: link && /^https:\/\//i.test(link) ? link : undefined,
+    platform: str(o.platform, 40),
+    meeting_id: str(o.meeting_id, 40),
+    passcode: str(o.passcode, 40),
+    phone: str(o.phone, 60),
+    location: str(o.location, 300),
+    organizer: str(o.organizer, 200),
+    attendees: Array.isArray(o.attendees) ? o.attendees.map((a) => str(a, 200)).filter((a): a is string => Boolean(a)).slice(0, 15) : undefined,
+  };
+  for (const k of Object.keys(out) as (keyof MeetingInfo)[]) if (out[k] === undefined || (Array.isArray(out[k]) && !(out[k] as string[]).length)) delete out[k];
+  return Object.keys(out).length ? out : undefined;
+}
+
 const ingestEvent = z.object({
   id: z.string().min(1).max(64),
   received_at: z.string().min(1),
@@ -65,6 +85,9 @@ const ingestEvent = z.object({
   // Anything malformed is dropped rather than refused: a bad time must not cost the email.
   meeting_date: z.unknown().transform((v) => (typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : undefined)),
   meeting_time: z.unknown().transform((v) => (typeof v === "string" && /^\d{2}:\d{2}$/.test(v) ? v : undefined)),
+  // How long the booked meeting runs, in minutes, when the invite or email says.
+  meeting_minutes: z.unknown().transform((v) => (typeof v === "number" && Number.isInteger(v) && v >= 5 && v <= 480 ? v : undefined)),
+  meeting_info: z.unknown().transform((v) => meetingInfo(v)),
   // The interview step the classifier read from the email. null = never read (older emails).
   round: z.unknown().transform((v): InterviewEvent["round"] => {
     if (typeof v !== "string") return undefined;
@@ -92,6 +115,17 @@ const handledAckBody = z.object({
 function firstAddress(to: string): string {
   const m = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/.exec(to);
   return m ? m[0].toLowerCase() : "";
+}
+
+/**
+ * Whose inbox the email is in: the first recipient or meeting guest who is one of
+ * our people. A calendar invite can list the ATS first (Elastic's went to
+ * schedule@rose.greenhouse.io, with Rohit further down), so the first address alone
+ * would hide it from everyone's schedule.
+ */
+export function recipientAddress(to: string, attendees: string[] | undefined, emailMap: Map<string, string[]>): string {
+  const all = [to, ...(attendees ?? [])].join(" ").toLowerCase().match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g) ?? [];
+  return all.find((a) => emailMap.has(a)) ?? firstAddress(to);
 }
 
 /** Recipient address → every profile using it (a person's base and _ai profiles share one inbox). */
@@ -147,7 +181,7 @@ export function registerInterviewRoutes(app: Express): void {
       let updated = 0;
       for (const e of body.events) {
         const receivedMs = Date.parse(e.received_at);
-        const to_addr = firstAddress(e.to);
+        const to_addr = recipientAddress(e.to, e.meeting_info?.attendees, emailMap);
         const fields = {
           ...e,
           source: "slack_triage" as const,
@@ -396,7 +430,8 @@ export function registerInterviewRoutes(app: Express): void {
         if (ev.match_status !== "needs_check" || ev.status_by) continue;
         upsertInterview(ev.id, (cur) => {
           if (!cur) return null;
-          const base = { ...cur, profile_ids: emailMap.get(cur.to_addr) ?? [] };
+          const to_addr = recipientAddress(cur.to ?? "", cur.meeting_info?.attendees, emailMap);
+          const base = { ...cur, to_addr, profile_ids: emailMap.get(to_addr) ?? [] };
           const m = matchInterview(base, apps);
           rematched++;
           if (m.match_status === "auto_matched") matched++;

@@ -470,7 +470,17 @@ export type BulletExperimentResult = {
 
 /** ask: they asked you to book a time (your move). pending: waiting on them. */
 export type SchedRoundState = "none" | "ask" | "pending" | "sched" | "wait" | "done" | "failed" | "skipped";
-export type SchedRound = { state: SchedRoundState; date: string; time: string; source: string; at?: string; why?: "reschedule" | "confirm" };
+/** What a calendar app shows for a booked meeting (server types.ts MeetingInfo), plus the email it came from. */
+export type MeetingInfo = {
+  link?: string; platform?: string; meeting_id?: string; passcode?: string; phone?: string;
+  location?: string; organizer?: string; attendees?: string[]; permalink?: string;
+};
+/** One hand change to a schedule row (server scheduleStore HistoryEntry). */
+export type SchedHistory = { seq: number; at: string; by: string; what: string };
+export type SchedRound = {
+  state: SchedRoundState; date: string; time: string; source: string; at?: string; why?: "reschedule" | "confirm";
+  mins?: number; meet?: MeetingInfo; with?: string;
+};
 /** An assessment / take-home waiting on you (not an interview round). */
 export type SchedTask = { kind: "assessment"; asked: string; at: string; email_id: string; due?: string };
 
@@ -480,6 +490,10 @@ export type ScheduleRow = {
   id: string;
   person: string;
   person_label: string;
+  /** "HM", "RK": the badge on each interview. */
+  person_initials?: string;
+  /** The person's own colour, 0-5, the same everywhere. */
+  person_hue?: number;
   company: string;
   role: string;
   contact: string;
@@ -501,7 +515,7 @@ export type ScheduleRow = {
 
 export type RowChangeKind = "new" | "booked" | "time" | "cancelled" | "rejected" | "offer" | "advanced" | "email";
 
-export type SchedulePerson = { key: string; label: string; count?: number };
+export type SchedulePerson = { key: string; label: string; initials?: string; hue?: number; count?: number };
 
 export type ScheduleResponse = {
   today: string;

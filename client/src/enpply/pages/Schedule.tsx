@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { api } from "../api";
-import type { SchedRoundState, ScheduleResponse, ScheduleRow } from "../types";
+import type { SchedHistory, SchedRound, SchedRoundState, ScheduleResponse, ScheduleRow } from "../types";
+import CopyButton from "../components/CopyButton";
 import { useAuth } from "../auth/AuthContext";
 import { useOnChange, usePersistentState, useScrollRestore } from "../viewState";
 import { IconCalendar } from "../../ui/icons";
@@ -78,6 +79,9 @@ export default function Schedule() {
   const [toast, setToast] = useState<Toast>(null);
   const [pop, setPop] = useState<Pop | null>(null);
   const [drawerId, setDrawerId] = useState<string | null>(null);
+  // The round whose meeting was clicked in the calendar: its card opens first in the drawer.
+  const [drawerRound, setDrawerRound] = useState<number | null>(null);
+  const openDrawer = (id: string, i?: number) => { setDrawerId(id); setDrawerRound(i ?? null); };
   const [busy, setBusy] = useState(false);
   const [modal, setModal] = useState<"add" | "import" | null>(null);
   // Ticked rows (for Remove selected), and the rows waiting on "are you sure?".
@@ -162,7 +166,9 @@ export default function Schedule() {
     setBusy(true);
     setPop(null);
     try {
-      const r = await api.updateScheduleRow(row.id, body);
+      // "Deel: note saved." → "Note saved" for the row's history.
+      const what = msg.replace(`${row.company}: `, "").replace(/\.$/, "");
+      const r = await api.updateScheduleRow(row.id, { ...body, label: what.charAt(0).toUpperCase() + what.slice(1) });
       replaceRow(r.row);
       showToast({
         msg,
@@ -208,6 +214,21 @@ export default function Schedule() {
       pass ? `${row.company}: ${ROUNDS[i]} passed.${i < 3 ? ` ${ROUNDS[i + 1]} is now Pending.` : " Waiting on the offer."}`
         : `${row.company}: ${ROUNDS[i]} failed. Moved to closed.`);
   };
+
+  /** From the drawer's History: put the row back to before one of its hand changes. */
+  async function revert(row: ScheduleRow, h: SchedHistory) {
+    setBusy(true);
+    setPop(null);
+    try {
+      const r = await api.revertScheduleRow(row.id, h.seq);
+      replaceRow(r.row);
+      showToast({ msg: `${row.company}: reverted to before “${h.what}”.` });
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   /** An assessment was submitted: mark its email done (here and on the Slack card), which closes it on the row. */
   async function taskDone(row: ScheduleRow) {
@@ -486,7 +507,7 @@ export default function Schedule() {
         </button>
         {(data?.people ?? []).map((p) => (
           <button key={p.key} type="button" role="tab" aria-selected={personKey === p.key} onClick={() => setPerson(p.key)} title={p.key}>
-            {p.label} <span className="n">{shownRows.filter((r) => r.person === p.key && !deriveStatus(r).closed).length}</span>
+            <Avatar label={p.label} initials={p.initials} hue={p.hue} /> {p.label} <span className="n">{shownRows.filter((r) => r.person === p.key && !deriveStatus(r).closed).length}</span>
             {shownRows.some((r) => r.person === p.key && isNew(r)) && (
               <span className="sc-newcount">{shownRows.filter((r) => r.person === p.key && isNew(r)).length} new</span>
             )}
@@ -504,7 +525,7 @@ export default function Schedule() {
           onView={setView}
           onAnchor={setAnchor}
           onToday={() => setAnchor(defaultAnchor(today))}
-          onOpen={setDrawerId}
+          onOpen={openDrawer}
           onHide={() => setCalOpen(false)}
         />
       ) : (
@@ -611,7 +632,7 @@ export default function Schedule() {
                     </td>
                     <td>
                       <NewBadge row={r} seenAt={seenFor(r)} onSeen={() => void markRowSeen(r.id)} />
-                      <button className="sc-co" type="button" onClick={() => setDrawerId(r.id)}>
+                      <button className="sc-co" type="button" onClick={() => openDrawer(r.id)}>
                         <span className="co">{r.company}</span>
                         <span className="role">{r.role || "—"}</span>
                       </button>
@@ -620,7 +641,7 @@ export default function Schedule() {
                         {r.application_id ? <Link to={`/result/${encodeURIComponent(r.application_id)}`} className="src tv">Tryvera</Link> : <span className="src">Other</span>}
                       </span>
                     </td>
-                    <td><span className="sc-person"><Avatar label={r.person_label} />{r.person_label}</span></td>
+                    <td><span className="sc-person"><Avatar label={r.person_label} initials={r.person_initials} hue={r.person_hue} />{r.person_label}</span></td>
                     <td>
                       <button className={`sc-pill ${st.kind}`} type="button" data-pop-anchor
                         onClick={(e) => openPop(e.currentTarget, { kind: "status", rowId: r.id })}
@@ -697,6 +718,7 @@ export default function Schedule() {
       {drawerRow && (
         <Drawer
           row={drawerRow}
+          focus={drawerRound}
           busy={busy}
           onClose={() => setDrawerId(null)}
           onEdit={(el, i) => openPop(el, { kind: "cell", rowId: drawerRow.id, i, draft: { state: drawerRow.rounds[i].state, date: drawerRow.rounds[i].date, time: drawerRow.rounds[i].time } })}
@@ -704,6 +726,7 @@ export default function Schedule() {
           onVerdict={(i, pass) => void verdict(drawerRow, i, pass)}
           onNote={(note) => note !== drawerRow.note && void patch(drawerRow, { note }, `${drawerRow.company}: note saved.`)}
           onRemove={() => (drawerRow.removed ? void removeRow(drawerRow, false) : setConfirm({ ids: [drawerRow.id], removed: true }))}
+          onRevert={(h) => void revert(drawerRow, h)}
         />
       )}
 
@@ -741,11 +764,14 @@ export default function Schedule() {
 
 /* ---------- small pieces ---------- */
 
-function Avatar({ label }: { label: string }) {
-  // A stable hue per person, so the same person reads the same colour everywhere.
-  const hues = ["p0", "p1", "p2", "p3", "p4"];
-  const h = [...label].reduce((n, c) => n + c.charCodeAt(0), 0) % hues.length;
-  return <span className={`sc-avatar ${hues[h]}`} aria-hidden="true">{label[0]?.toUpperCase()}</span>;
+/** Whose interview it is: "HM" in that person's own colour, the same everywhere. */
+function Avatar({ label, initials, hue, size }: { label: string; initials?: string; hue?: number; size?: "lg" | "sm" }) {
+  const h = hue ?? [...label].reduce((n, c) => n + c.charCodeAt(0), 0);
+  return (
+    <span className={`sc-avatar p${h % 6} ${size ?? ""}`} title={label} aria-label={label}>
+      {initials || label.slice(0, 2).toUpperCase()}
+    </span>
+  );
 }
 
 /** What changed on this row since you last looked, e.g. "● Time changed · 2h ago". */
@@ -825,6 +851,12 @@ function RoundCell({ row, i, busy, onEdit, onVerdict, onBooked }: {
       {pen}<span className="m">{main}</span>{sub ? <span className="s">{sub}</span> : null}
     </button>
   );
+  // A closed row asks nothing of you: no "your move", no Pass/Fail. A booking or ask
+  // still open when it closed didn't happen (Rajeev withdrew from SOVRA and Beacon).
+  if (row.closed && !row.offer) {
+    if (x.state === "sched" || x.state === "ask" || x.state === "pending") return btn("skipped", "✗ Cancelled", x.date ? `${shortDay(x.date)}${x.time ? ` · ${time12(x.time)}` : ""}` : undefined);
+    if (x.state === "wait") return btn("skipped", shortDay(x.date), time12(x.time));
+  }
   switch (x.state) {
     case "sched": return x.date ? btn("sched", shortDay(x.date), time12(x.time)) : btn("sched untimed", "Booked", "add the time");
     case "done": return btn("done", `✓ ${shortDay(x.date) || "Passed"}`, time12(x.time));
@@ -948,9 +980,9 @@ function RemoveButton({ row, onRemove, busy }: { row: ScheduleRow; onRemove: () 
   );
 }
 
-function Drawer({ row, busy, onClose, onEdit, onBooked, onVerdict, onNote, onRemove }: {
-  row: ScheduleRow; busy: boolean; onClose: () => void; onEdit: (el: HTMLElement, i: number) => void; onBooked: (el: HTMLElement, i: number) => void;
-  onVerdict: (i: number, pass: boolean) => void; onNote: (note: string) => void; onRemove: () => void;
+function Drawer({ row, focus, busy, onClose, onEdit, onBooked, onVerdict, onNote, onRemove, onRevert }: {
+  row: ScheduleRow; focus: number | null; busy: boolean; onClose: () => void; onEdit: (el: HTMLElement, i: number) => void; onBooked: (el: HTMLElement, i: number) => void;
+  onVerdict: (i: number, pass: boolean) => void; onNote: (note: string) => void; onRemove: () => void; onRevert: (h: SchedHistory) => void;
 }) {
   const st = deriveStatus(row);
   const [note, setNote] = useState(row.note);
@@ -981,6 +1013,7 @@ function Drawer({ row, busy, onClose, onEdit, onBooked, onVerdict, onNote, onRem
         ) : (
           <span className="dim">{row.from_sheet ? "From your sheet" : "Found in email"} · applied outside Tryvera{row.applied ? ` (${shortDay(row.applied)})` : ""}</span>
         )}
+        <Meetings row={row} focus={focus} />
         <div className="sc-section">
           <span className="label">Rounds <span className="dim">· click to change</span></span>
           <div className="sc-drawer-rounds">
@@ -996,6 +1029,7 @@ function Drawer({ row, busy, onClose, onEdit, onBooked, onVerdict, onNote, onRem
           <span className="label">Note</span>
           <input className="sc-input" value={note} placeholder="e.g. Hybrid (negotiable)" onChange={(e) => setNote(e.target.value)} onBlur={() => onNote(note)} />
         </label>
+        <History row={row} busy={busy} onRevert={onRevert} />
         <div className="sc-section">
           <span className="label">Emails on this row</span>
           {row.emails.length === 0 ? (
@@ -1017,6 +1051,126 @@ function Drawer({ row, busy, onClose, onEdit, onBooked, onVerdict, onNote, onRem
         </div>
       </aside>
     </>
+  );
+}
+
+/**
+ * The row's hand changes, newest first, each revertible: the row goes back to
+ * how it was just before that change. Reverting an older one also takes back
+ * the changes made after it, so it asks first.
+ */
+function History({ row, busy, onRevert }: { row: ScheduleRow; busy: boolean; onRevert: (h: SchedHistory) => void }) {
+  const [list, setList] = useState<SchedHistory[] | null>(null);
+  // Refetched whenever the row changes (an edit, an undo, a revert).
+  useEffect(() => {
+    let live = true;
+    api.scheduleHistory(row.id).then((r) => live && setList(r.history), () => live && setList([]));
+    return () => { live = false; };
+  }, [row]);
+  if (!list || list.length === 0) return null;
+  const fmt = (iso: string) => new Date(iso).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  return (
+    <div className="sc-section">
+      <span className="label">Your changes <span className="dim">· revert any of them</span></span>
+      <ul className="sc-history">
+        {list.map((h, k) => (
+          <li key={h.seq}>
+            <div>
+              <span className="w">{h.what}</span>
+              <span className="dim small">{fmt(h.at)} · {h.by.split("@")[0]}</span>
+            </div>
+            <button className="sc-btn sm" type="button" disabled={busy}
+              title={k === 0 ? "Put this row back to how it was before this change" : `Put this row back to how it was before this change. The ${k} newer change${k > 1 ? "s" : ""} above go${k > 1 ? "" : "es"} too.`}
+              onClick={() => {
+                if (k === 0 || window.confirm(`Revert to before “${h.what}”?\n\nThis also takes back the ${k} newer change${k > 1 ? "s" : ""} listed above it.`)) onRevert(h);
+              }}>
+              {k === 0 ? "Undo" : "Revert to before"}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+const WEEKDAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+/** "15:00" + 30 → "15:30". */
+function addMinutes(t: string, mins: number): string {
+  const [h, m] = t.split(":").map(Number);
+  const total = (h * 60 + m + mins) % (24 * 60);
+  return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+}
+
+/** "+1 216-930-2178 PIN 412773553#" → "tel:+12169302178,,412773553#": dial, pause, then the PIN. */
+function telHref(phone: string): string {
+  const [num, pin] = phone.split(/\s+PIN\s+/i);
+  const clean = (s: string) => s.replace(/[^\d+,#]/g, "");
+  return `tel:${clean(num)}${pin ? `,,${clean(pin)}` : ""}`;
+}
+
+/** "Brandi Parson <b@x.com>" → { name: "Brandi Parson", email: "b@x.com" }. */
+function person(s: string): { name: string; email: string } {
+  const m = /^(.*?)\s*<([^>]+)>$/.exec(s);
+  return m ? { name: m[1] || m[2], email: m[2] } : { name: s, email: s.includes("@") ? s : "" };
+}
+
+/**
+ * The booked meetings of a row, the way a calendar app shows an event: when,
+ * how long, the join link, meeting ID and passcode, dial-in, place and guests.
+ * The meeting clicked in the calendar comes first.
+ */
+function Meetings({ row, focus }: { row: ScheduleRow; focus: number | null }) {
+  const booked = row.rounds
+    .map((x, i) => ({ x, i }))
+    .filter(({ x }) => x.date && (x.state === "sched" || x.state === "wait" || x.state === "done" || x.state === "failed"));
+  if (!booked.length) return null;
+  const ordered = focus != null && booked.some((b) => b.i === focus) ? [...booked.filter((b) => b.i === focus), ...booked.filter((b) => b.i !== focus)] : [...booked].reverse();
+  return (
+    <div className="sc-section">
+      <span className="label">Meetings</span>
+      {ordered.map(({ x, i }) => <MeetingCard key={i} row={row} x={x} i={i} focused={i === focus} />)}
+    </div>
+  );
+}
+
+function MeetingCard({ row, x, i, focused }: { row: ScheduleRow; x: SchedRound; i: number; focused: boolean }) {
+  const m = x.meet ?? {};
+  const day = new Date(`${x.date}T12:00:00`);
+  const when = `${WEEKDAY[day.getDay()]}, ${shortDay(x.date)}`;
+  const time = x.time ? (x.mins ? `${time12(x.time)} – ${time12(addMinutes(x.time, x.mins))}` : time12(x.time)) : "Time not set";
+  const guests = (m.attendees ?? []).map(person);
+  const org = m.organizer ? person(m.organizer) : null;
+  const nothing = !m.link && !m.meeting_id && !m.phone && !m.location && !guests.length && !org;
+  return (
+    <div className={`sc-meet ${x.state} ${focused ? "focus" : ""}`}>
+      <div className="mh">
+        <b>{ROUNDS[i]} · {row.company}</b>
+        {x.state === "sched" ? <span className="tag sched">Booked</span> : <EvTag state={x.state} />}
+      </div>
+      <div className="mw">
+        {when} · {time} <span className="dim">ET{x.mins ? ` · ${x.mins} min` : ""}</span>
+      </div>
+      {m.link && (
+        <div className="mj">
+          <a className="btn primary small" href={m.link} target="_blank" rel="noreferrer">Join {m.platform ? `with ${m.platform}` : "meeting"}</a>
+          <CopyButton text={m.link} label="Copy link" />
+        </div>
+      )}
+      <dl className="md">
+        {m.meeting_id && (<><dt>Meeting ID</dt><dd>{m.meeting_id}</dd></>)}
+        {m.passcode && (<><dt>Passcode</dt><dd>{m.passcode}</dd></>)}
+        {m.phone && (<><dt>Dial-in</dt><dd><a href={telHref(m.phone)}>{m.phone}</a></dd></>)}
+        {m.location && (<><dt>Where</dt><dd>{m.location}</dd></>)}
+        {org && (<><dt>Organizer</dt><dd title={org.email}>{org.name}</dd></>)}
+        {guests.length > 0 && (
+          <><dt>Guests</dt><dd>{guests.map((g, k) => <span key={k} className="guest" title={g.email}>{g.name}</span>)}</dd></>
+        )}
+        {!guests.length && !org && x.with && (<><dt>With</dt><dd>{x.with}</dd></>)}
+      </dl>
+      {nothing && <span className="dim small">The email didn't include a join link or meeting details.</span>}
+      {m.permalink && <a className="small" href={m.permalink} target="_blank" rel="noreferrer">Open the invite email →</a>}
+    </div>
   );
 }
 
@@ -1094,14 +1248,14 @@ function ImportDialog({ people, onClose, onDone }: { people: { key: string; labe
 
 /* ---------- calendar ---------- */
 
-type Ev = { row: ScheduleRow; i: number; date: string; time: string; state: SchedRoundState };
+type Ev = { row: ScheduleRow; i: number; date: string; time: string; state: SchedRoundState; mins?: number };
 
 function Calendar({ seenFor, rows, today, view, anchor, onView, onAnchor, onToday, onOpen, onHide }: {
-  seenFor: (r: ScheduleRow) => string; rows: ScheduleRow[]; today: string; view: View; anchor: string; onView: (v: View) => void; onAnchor: (iso: string) => void; onToday: () => void; onOpen: (id: string) => void; onHide: () => void;
+  seenFor: (r: ScheduleRow) => string; rows: ScheduleRow[]; today: string; view: View; anchor: string; onView: (v: View) => void; onAnchor: (iso: string) => void; onToday: () => void; onOpen: (id: string, i?: number) => void; onHide: () => void;
 }) {
   const evs = useMemo<Ev[]>(() => {
     const out: Ev[] = [];
-    for (const row of rows) row.rounds.forEach((x, i) => { if (x.date && DATED.includes(x.state)) out.push({ row, i, date: x.date, time: x.time, state: x.state }); });
+    for (const row of rows) row.rounds.forEach((x, i) => { if (x.date && DATED.includes(x.state)) out.push({ row, i, date: x.date, time: x.time, state: x.state, mins: x.mins }); });
     return out.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
   }, [rows]);
   const a = parseDay(anchor);
@@ -1148,13 +1302,13 @@ function Calendar({ seenFor, rows, today, view, anchor, onView, onAnchor, onToda
                   <div className="sc-day-head"><span className="dn">{DOW[day.getDay()]}</span><span className="dd">{day.getDate()}</span></div>
                   <div className="sc-day-body">
                     {list.length === 0 ? <span className="sc-day-empty">—</span> : list.map((e) => (
-                      <button key={`${e.row.id}-${e.i}`} type="button" className={`sc-ev ${e.state}`} onClick={() => onOpen(e.row.id)}>
+                      <button key={`${e.row.id}-${e.i}`} type="button" className={`sc-ev ${e.state}`} onClick={() => onOpen(e.row.id, e.i)}>
                         <span className="top">
                           <span className="time">
                             {seenFor(e.row) && newChanges(e.row, seenFor(e.row)).some((c) => c.round === undefined || c.round === e.i) && <span className="sc-newdot" title="New since you last looked" />}
                             {time12(e.time) || "Time TBD"}
                           </span>
-                          <Avatar label={e.row.person_label} />
+                          <Avatar label={e.row.person_label} initials={e.row.person_initials} hue={e.row.person_hue} size="lg" />
                         </span>
                         <span className="co">{e.row.company}</span>
                         <span className="top"><span className="round">{ROUNDS[e.i]}</span><EvTag state={e.state} /></span>
@@ -1185,7 +1339,7 @@ function EvTag({ state }: { state: SchedRoundState }) {
   return null;
 }
 
-function MonthGrid({ anchor, today, evs, onOpen }: { anchor: Date; today: Date; evs: Ev[]; onOpen: (id: string) => void }) {
+function MonthGrid({ anchor, today, evs, onOpen }: { anchor: Date; today: Date; evs: Ev[]; onOpen: (id: string, i?: number) => void }) {
   const first = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
   const s = startOfWeek(first);
   return (
@@ -1199,7 +1353,7 @@ function MonthGrid({ anchor, today, evs, onOpen }: { anchor: Date; today: Date; 
             <div key={k} className={`mc ${day.getMonth() === first.getMonth() ? "" : "out"} ${sameDay(day, today) ? "today" : ""}`}>
               <span className="md">{day.getDate()}</span>
               {list.slice(0, 3).map((e) => (
-                <button key={`${e.row.id}-${e.i}`} type="button" className={`chip ${e.state}`} onClick={() => onOpen(e.row.id)} title={`${e.row.company} · ${ROUNDS[e.i]} · ${time12(e.time)}`}>
+                <button key={`${e.row.id}-${e.i}`} type="button" className={`chip ${e.state}`} onClick={() => onOpen(e.row.id, e.i)} title={`${e.row.company} · ${ROUNDS[e.i]} · ${time12(e.time)}`}>
                   <span className="t">{time12(e.time).replace(":00", "")}</span>{e.row.company}
                 </button>
               ))}
@@ -1212,7 +1366,9 @@ function MonthGrid({ anchor, today, evs, onOpen }: { anchor: Date; today: Date; 
   );
 }
 
-const HOUR_PX = 48;
+const HOUR_PX = 64;
+/** Drawn length of a meeting whose email didn't say how long it runs. */
+const DEFAULT_MINS = 60;
 const FIRST_HOUR = 8;
 const LAST_HOUR = 20;
 
@@ -1223,7 +1379,7 @@ function etNow(): { h: number; m: number } {
   return { h: get("hour"), m: get("minute") };
 }
 
-function HoursGrid({ start, today, evs, onOpen }: { start: Date; today: Date; evs: Ev[]; onOpen: (id: string) => void }) {
+function HoursGrid({ start, today, evs, onOpen }: { start: Date; today: Date; evs: Ev[]; onOpen: (id: string, i?: number) => void }) {
   const height = (LAST_HOUR - FIRST_HOUR) * HOUR_PX;
   const now = etNow();
   return (
@@ -1240,12 +1396,21 @@ function HoursGrid({ start, today, evs, onOpen }: { start: Date; today: Date; ev
       </div>
       {[0, 1, 2, 3, 4, 5, 6].map((k) => {
         const day = addDays(start, k);
+        const span = (LAST_HOUR - FIRST_HOUR) * 60;
+        // Each block is as tall as the meeting is long; side-by-side only where meetings overlap.
         const list = evs.filter((e) => e.date === isoDay(day)).map((e) => {
           const [h, m] = (e.time || "09:00").split(":").map(Number);
-          return { ...e, mins: Math.min(Math.max((h - FIRST_HOUR) * 60 + m, 0), (LAST_HOUR - FIRST_HOUR) * 60 - 45), lane: 0 };
-        });
-        list.forEach((v, idx) => { v.lane = list.slice(0, idx).filter((o) => Math.abs(o.mins - v.mins) < 50).length; });
-        const lanes = Math.max(1, ...list.map((v) => v.lane + 1));
+          const len = e.mins ?? DEFAULT_MINS;
+          const start = Math.min(Math.max((h - FIRST_HOUR) * 60 + m, 0), span - 15);
+          return { ...e, start, len: Math.max(Math.min(len, span - start), 15), lane: 0 };
+        }).sort((a, b) => a.start - b.start);
+        const laneEnds: number[] = [];
+        for (const v of list) {
+          const free = laneEnds.findIndex((end) => end <= v.start);
+          v.lane = free >= 0 ? free : laneEnds.length;
+          laneEnds[v.lane] = v.start + v.len;
+        }
+        const lanes = Math.max(1, laneEnds.length);
         const isToday = sameDay(day, today);
         return (
           <div key={k} className={`col ${isToday ? "today" : ""} ${k > 4 ? "weekend" : ""}`} style={{ height }}>
@@ -1253,10 +1418,11 @@ function HoursGrid({ start, today, evs, onOpen }: { start: Date; today: Date; ev
               <div className="now" style={{ top: ((now.h - FIRST_HOUR) * 60 + now.m) / 60 * HOUR_PX }} />
             )}
             {list.map((v) => (
-              <button key={`${v.row.id}-${v.i}`} type="button" className={`ev ${v.state}`} onClick={() => onOpen(v.row.id)}
-                title={`${v.row.company} · ${ROUNDS[v.i]} · ${time12(v.time)}`}
-                style={{ top: (v.mins / 60) * HOUR_PX + 2, height: HOUR_PX - 6, left: `calc(${(100 / lanes) * v.lane}% + 3px)`, width: `calc(${100 / lanes}% - 6px)` }}>
-                <b>{v.row.company}</b><span>{time12(v.time)} · {ROUNDS[v.i]} · {v.row.person_label[0]}</span>
+              <button key={`${v.row.id}-${v.i}`} type="button" className={`ev ${v.state} ${v.len < 45 ? "short" : ""} ${v.mins ? "" : "nolen"}`} onClick={() => onOpen(v.row.id, v.i)}
+                title={`${v.row.company} · ${ROUNDS[v.i]} · ${time12(v.time)} · ${v.mins ? `${v.mins} min` : "length not stated"}`}
+                style={{ top: (v.start / 60) * HOUR_PX + 1, height: (v.len / 60) * HOUR_PX - 2, left: `calc(${(100 / lanes) * v.lane}% + 3px)`, width: `calc(${100 / lanes}% - 6px)` }}>
+                <Avatar label={v.row.person_label} initials={v.row.person_initials} hue={v.row.person_hue} size={v.len < 45 ? "sm" : undefined} />
+                <b>{v.row.company}</b><span>{time12(v.time)} · {ROUNDS[v.i]}</span>
               </button>
             ))}
           </div>

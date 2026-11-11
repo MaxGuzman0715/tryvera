@@ -1,4 +1,4 @@
-import type { ApplicationLogEntry, InterviewEvent } from "./types.js";
+import type { ApplicationLogEntry, InterviewEvent, MeetingInfo } from "./types.js";
 import { normCompany, roleOverlap, rolesConflict, sameCompany } from "./interviewMatch.js";
 
 /**
@@ -37,6 +37,10 @@ export type Round = {
   why?: "reschedule" | "confirm";
   /** Who the booked meeting is with, read from the calendar invite ("hansal maniar and brandi parson"). */
   with?: string;
+  /** How long the booked meeting runs, in minutes, when the email says. */
+  mins?: number;
+  /** Join link, dial-in, guests of the booked meeting, plus the email that gave them. */
+  meet?: MeetingInfo & { permalink?: string };
 };
 
 /**
@@ -88,6 +92,8 @@ export type ScheduleRow = {
    * must not reject the new Oct 21 invite once it's edited).
    */
   since?: string;
+  /** When a withdrawal email closed the row (a later booking reopens it). */
+  withdrew_at?: string;
 };
 
 /**
@@ -118,6 +124,9 @@ export type ScheduleOverride = {
 /** No email and no hand edit for longer than this closes an open row as "No response". */
 export const NO_RESPONSE_DAYS = 20;
 
+/** The close reason a withdrawal email sets (one of the page's CLOSE_REASONS). */
+export const WITHDREW = "I withdrew";
+
 /** Emails that start or advance a row. Everything else only attaches to an existing one. */
 const ROW_KINDS = new Set(["SCHEDULING", "RESCHEDULE", "NEXT_ROUND", "ASSESSMENT", "OFFER"]);
 const ACTIVE: RoundState[] = ["ask", "pending", "sched", "wait"];
@@ -146,7 +155,16 @@ const BOOKED_ASK_RE = /^(attend|join)\b|manage (the |your )?(meeting|booking|int
 const BOOKED_SUBJ_RE = /\b(confirmation|confirmed|is scheduled|invitation|accepted|booked|coming up)\b/i;
 /** You (or they) missed the meeting: it needs a new time. */
 const MISSED_RE = /\bmissed (our|the|your|you)\b|\bwe missed\b|no[- ]show|couldn'?t (connect|reach you)|sorry we missed/i;
-const saysBooked = (ev: InterviewEvent) => BOOKED_ASK_RE.test(ev.asked) || BOOKED_SUBJ_RE.test(ev.subject);
+/**
+ * "Confirm availability for the meeting or propose a reschedule", "can you
+ * still make it, or do we need to reschedule?": a question about a booked
+ * meeting, not a move. It stays booked until a new time or a cancel arrives
+ * (Deel's Oct 30 tech interview was cleared by such a follow-up).
+ */
+const KEEP_OR_MOVE_RE = /\b(confirm|attend|keep|make (it|the)|still work|able to|can you)\b[^.;]{0,60}\bor\b[^.;]{0,40}\b(re-?schedul|propose|move|cancel|another time)/i;
+// A reply keeps the thread's subject: "Re: Confirmed: Your Upcoming Interview" can be
+// the recruiter asking to rebook the missed one (OpsLevel), so only the ask counts there.
+const saysBooked = (ev: InterviewEvent) => BOOKED_ASK_RE.test(ev.asked) || (BOOKED_SUBJ_RE.test(ev.subject) && !/^\s*(re|fwd?)\s*:/i.test(ev.subject));
 
 /** A booking whose time we never read counts as ahead for this long (people book up to two weeks out), then as over. */
 const UNTIMED_BOOKING_DAYS = 14;
@@ -280,7 +298,7 @@ function fixYear(m: number, d: number, receivedMs: number): number {
   return candidate < receivedMs - 45 * 86400000 ? y + 1 : y;
 }
 
-type When = { date: string; time: string };
+type When = { date: string; time: string; mins?: number; meet?: MeetingInfo };
 
 /** `zone`: a key of TZ_OFFSET/ZONE_FROM_ET, or a fixed UTC offset in hours; absent = Eastern. */
 function build(y: number, m: number, d: number, h: number, min: number, zone: string | number | null): When {
@@ -297,7 +315,9 @@ const INVITE_RE = /@\s*(?:mon|tue|wed|thu|fri|sat|sun)\w*\s+([a-z]{3,9})\s+(\d{1
 const ISO_RE = /(\d{4})-(\d{2})-(\d{2})[T ]\s*(\d{1,2}):(\d{2})(?::\d{2})?\s*(am|pm)?\s*(?:(Z|[+-]\d{2}:?\d{2})|\(?GMT([+-]\d{2}):?\d{2}\)?|\(?\b(EDT|EST|ET|CDT|CST|MDT|MST|PDT|PST|UTC)\b\)?)?/i;
 
 /** "Canceled event: … @ Mon Oct 5 …" names the slot that is now gone. */
-export const CANCELLED_RE = /^\s*(?:(?:re|fwd?):\s*)*(cancel+ed|declined)\b/i;
+// Google also sends "Updated invitation: Canceled: …" (Burq: it read as a booking
+// of the old slot and hid the new one).
+export const CANCELLED_RE = /^\s*(?:(?:re|fwd?|updated invitation(?: with note)?):\s*)*(cancel+ed|declined)\b/i;
 
 export function parseInvite(subject: string, receivedMs: number): When | null {
   if (CANCELLED_RE.test(subject)) return null;
@@ -333,7 +353,7 @@ const PROPOSED_RE = /availability|choose a time|pick a (slot|time)|propose|selec
  * reads as a confirmation — otherwise it is often a reply-by date.
  */
 export function extractWhen(
-  ev: Pick<InterviewEvent, "subject" | "deadline" | "asked" | "received_at" | "meeting_date" | "meeting_time">
+  ev: Pick<InterviewEvent, "subject" | "deadline" | "asked" | "received_at" | "meeting_date" | "meeting_time" | "meeting_minutes" | "meeting_info">
 ): When | null {
   const receivedMs = Date.parse(ev.received_at);
   // The bot read it from the email body, where most confirmations put it, and
@@ -341,7 +361,12 @@ export function extractWhen(
   // out is a misread year (Twilio's "Oct 29" read as Jan 29 2027): not used.
   if (ev.meeting_date) {
     const at = etMs(ev.meeting_date, ev.meeting_time ?? "");
-    if (at > receivedMs - 2 * 86400000 && at < receivedMs + 90 * 86400000) return { date: ev.meeting_date, time: ev.meeting_time ?? "" };
+    if (at > receivedMs - 2 * 86400000 && at < receivedMs + 90 * 86400000)
+      return {
+        date: ev.meeting_date, time: ev.meeting_time ?? "",
+        ...(ev.meeting_minutes ? { mins: ev.meeting_minutes } : {}),
+        ...(ev.meeting_info ? { meet: ev.meeting_info } : {}),
+      };
   }
   const inv = parseInvite(ev.subject, receivedMs);
   if (inv) return inv;
@@ -520,6 +545,22 @@ export type BuildInput = {
 
 export type BuildResult = { rows: ScheduleRow[]; unplaced: InterviewEvent[] };
 
+const SENIOR_WORDS: Record<string, string> = { sr: "senior", senior: "senior", staff: "staff", principal: "principal", lead: "lead", jr: "junior", junior: "junior" };
+/**
+ * A rejection names the posting it closes, so it needs more than "no word clashes":
+ * EverCommerce's "Staff Engineer" rejection failed Hansal's Senior Platform phone
+ * screen, and Handshake's "Project Boson" one his Project Hedgehog row. Different
+ * seniority, or different words once "project" is set aside, is another posting.
+ */
+function otherPosting(a: string, b: string): boolean {
+  const level = (s: string) => new Set(s.toLowerCase().split(/[^a-z]+/).map((w) => SENIOR_WORDS[w]).filter(Boolean));
+  const x = level(a);
+  const y = level(b);
+  if (x.size && y.size && ![...x].some((w) => y.has(w))) return true;
+  const plain = (s: string) => s.replace(/\b(project|participant)s?\b/gi, " ");
+  return /\bproject\b/i.test(a + " " + b) && rolesConflict(plain(a), plain(b));
+}
+
 function findRow(rows: ScheduleRow[], person: string, ev: InterviewEvent, senderOf: (id: string) => string): ScheduleRow | undefined {
   // A job title the email never states is the classifier's guess: a bare
   // calendar invite from Bill Lai ("Rajeev Kumar and Bill Lai") got "Senior
@@ -529,7 +570,8 @@ function findRow(rows: ScheduleRow[], person: string, ev: InterviewEvent, sender
   const guessed = ev.verdict !== "REJECTION" && Boolean(ev.role) && rolesConflict(ev.role, `${ev.subject} ${ev.asked}`);
   const from = (ev.sender_addr || "").toLowerCase();
   const sameSender = (r: ScheduleRow) => Boolean(from) && r.email_ids.some((id) => senderOf(id) === from);
-  const conflicts = (r: ScheduleRow) => Boolean(ev.role && r.role && rolesConflict(ev.role, r.role)) && !(guessed && sameSender(r));
+  const conflicts = (r: ScheduleRow) =>
+    Boolean(ev.role && r.role && (rolesConflict(ev.role, r.role) || (ev.verdict === "REJECTION" && otherPosting(ev.role, r.role)))) && !(guessed && sameSender(r));
   const cands = rows.filter(
     (r) => r.person === person && !(r.since && ev.received_at < r.since) && sameCompany(r.company, ev.company) && !conflicts(r)
   );
@@ -583,6 +625,12 @@ function setRound(row: ScheduleRow, k: number, next: Partial<Round>, evAt: strin
         held.set(cur, { date: next.date, time: next.time ?? "", firm: applyingSaid === k || Boolean(same && prev.firm) });
       }
       else if (next.state === "ask" || next.state === "none" || next.state === "pending") held.delete(cur);
+    }
+    // The hand edit keeps its state, but an email about that very meeting still
+    // fills in how long it runs and how to join it.
+    if (next.date && cur.date === next.date && cur.time === (next.time ?? "") && (next.mins || next.meet)) {
+      // In place: `held` is keyed by this round object.
+      Object.assign(cur, next.mins ? { mins: next.mins } : {}, next.meet ? { meet: next.meet } : {});
     }
     return;
   }
@@ -694,6 +742,14 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   }
 
   if (ev.verdict === "REJECTION") {
+    // The candidate pulled out (Rajeev took another offer; SOVRA, Forma.ai, Beacon
+    // and Velora replied to his note): the row closes, no round failed.
+    if (ev.kind === "WITHDRAWN") {
+      row.closed = WITHDREW;
+      row.withdrew_at = evAt;
+      row.task = null;
+      return;
+    }
     // After an offer, "rejection" mail is onboarding text tripping the
     // rejection filter ("Preparing for your first day…"), not a rejection.
     if (row.offer) return;
@@ -752,11 +808,24 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   const active = highest(row, ACTIVE);
   // A cancelled invite: the slot is gone, the round needs a new time.
   if (CANCELLED_RE.test(ev.subject)) {
-    if (active >= 0 && row.rounds[active].state === "sched") setRound(row, active, { state: "ask", date: "", time: "", why: "reschedule" }, evAt);
+    // Only the slot it names: a cancel of the old time that lands after the new invite
+    // must not wipe the new booking (DualEntry moved Nov 3 to Nov 6 in two emails).
+    const a = active >= 0 ? row.rounds[active] : null;
+    const other = Boolean(a?.date && ev.meeting_date && (a.date !== ev.meeting_date || (ev.meeting_time && a.time && a.time !== ev.meeting_time)));
+    // A cancel sent before the meeting would have ended counts too: it didn't take
+    // place (Deel cancelled the 8:00–9:00 Tech at 8:37).
+    const before = a?.state === "wait" && a.date && Date.parse(evAt) < etMs(a.date, a.time) + (a.mins || 60) * 60_000;
+    if (a && (a.state === "sched" || before) && !other) setRound(row, active, { state: "ask", date: "", time: "", why: "reschedule" }, evAt);
     return;
   }
 
   const when = extractWhen(ev);
+  // Latest email wins: a new time booked after the withdrawal reopens the row. Not the
+  // withdrawal reply itself, whose quoted invite can carry the old time (same Slack message).
+  if (when && row.closed === WITHDREW && row.withdrew_at && evAt > row.withdrew_at && !CANCELLED_RE.test(ev.subject)) {
+    row.closed = null;
+    row.withdrew_at = undefined;
+  }
   // Asked to book (or rebook) a time, and not yet marked done in the inbox.
   const asks = !when && !ev.handled && asksToBook(ev.asked);
   const confirm = asks && CONFIRM_RE.test(ev.asked);
@@ -767,13 +836,23 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   const said = saidRound(ev);
   let saidK = said.k;
   const am = active >= 0 ? row.rounds[active] : null;
-  if (saidK > 0 && reached < 0 && detectRound(roundText(ev), ev.kind) !== saidK) {
+  // No meeting yet: nothing booked, held or decided, at most an ask to pick a time.
+  // Rounds set by hand don't count as "nothing yet" (Verto: the held intro's date
+  // cleared by hand; its Tech booking is still Tech).
+  const noMeetingYet = !row.rounds.some((x) => x.date || x.source === "manual" || ["sched", "wait", "done", "failed"].includes(x.state));
+  if (saidK > 0 && (reached < 0 || noMeetingYet) && detectRound(roundText(ev), ev.kind) !== saidK) {
     // The first meeting of a process is the intro unless the email says
-    // otherwise in so many words (Tempo's 15-minute screen was read as HR).
+    // otherwise in so many words (Tempo's 15-minute screen was read as HR;
+    // DualEntry's booking for the pre-screen it asked to schedule, as Tech).
     saidK = 0;
   } else if (saidK > active && active >= 0 && bookedNoTime && am?.date && etMs(am.date, am.time) <= Date.parse(evAt) && Date.parse(evAt) - etMs(am.date, am.time) < 3 * 3600_000) {
     // No new time, sent while the booked meeting is under way ("Follow up!
     // Join the interview" four minutes in): it's about that meeting.
+    saidK = active;
+  } else if (when && saidK > active && active >= 0 && (am?.state === "sched" || am?.state === "wait") && am.date && etMs(am.date, am.time) > Date.parse(evAt) && detectRound(roundText(ev), ev.kind) !== saidK) {
+    // A new time while this round's meeting is still ahead, labelled a later round
+    // the email never names: the same meeting moved (DualEntry's pre-screen,
+    // Nov 3 to Nov 6, its confirmation read as Tech).
     saidK = active;
   }
   // The exact time a round already holds is that round's meeting, whatever
@@ -801,7 +880,7 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
     if (k < reached) {
       // An earlier round than the row reached: the row ran ahead on a guess
       // (a rebooked intro read as the next round). Put it back.
-      for (let j = k + 1; j < 4; j++) if (row.rounds[j].state !== "none") setRound(row, j, { state: "none", date: "", time: "", why: undefined, with: undefined }, evAt);
+      for (let j = k + 1; j < 4; j++) if (row.rounds[j].state !== "none") setRound(row, j, { state: "none", date: "", time: "", why: undefined, with: undefined, mins: undefined, meet: undefined }, evAt);
     }
   } else {
     // Only the subject and the ask: the classifier's free-text "reason" mentions
@@ -839,7 +918,13 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
   const cur = row.rounds[k];
   if (when) {
     const w = meetingWith(ev.subject);
-    setRound(row, k, { state: etMs(when.date, when.time) < nowMs ? "wait" : "sched", date: when.date, time: when.time, why: undefined, ...(w ? { with: w } : {}) }, evAt);
+    // A reminder for the same slot often says less than the invite did: keep what's known.
+    const same = cur.date === when.date && cur.time === when.time;
+    const meet = when.meet ? { ...when.meet, ...(ev.permalink ? { permalink: ev.permalink } : {}) } : same ? cur.meet : undefined;
+    setRound(row, k, {
+      state: etMs(when.date, when.time) < nowMs ? "wait" : "sched", date: when.date, time: when.time, why: undefined,
+      mins: when.mins ?? (same ? cur.mins : undefined), meet, ...(w ? { with: w } : {}),
+    }, evAt);
     row.task = null; // a booked interview means the process moved past any test
   } else if (missed && (cur.state === "sched" || cur.state === "wait")) {
     // "Missed our call? Let's reschedule": the slot is gone, pick a new one.
@@ -852,6 +937,9 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
     }
   } else if (confirm && (cur.state === "sched" || cur.state === "wait")) {
     // "Confirm the new time works": a booked round stays booked.
+  } else if (asks && moving && (cur.state === "sched" || cur.state === "wait") && cur.date && etMs(cur.date, cur.time) > Date.parse(evAt) && KEEP_OR_MOVE_RE.test(ev.asked)) {
+    // "Can you still make it, or reschedule?" about a meeting still ahead: it stays booked,
+    // also once its time has passed (Deel: the 8:00 Tech dropped the moment it began).
   } else if (asks && moving && (cur.state === "sched" || cur.state === "wait")) {
     // They asked to move a booked meeting: the old time is gone until a new one is picked.
     setRound(row, k, { state: "ask", date: "", time: "", why: "reschedule" }, evAt);
@@ -862,6 +950,9 @@ function applyEvent(row: ScheduleRow, ev: InterviewEvent, nowMs: number, ov: Sch
     setRound(row, k, { state: "pending", date: "", time: "" }, evAt);
   } else if (cur.state === "ask" && ev.handled && asksToBook(ev.asked)) {
     // The ask was marked done in the inbox: booked outside, waiting on their confirmation.
+    setRound(row, k, { state: "pending", date: "", time: "", why: undefined }, evAt);
+  } else if (cur.state === "ask" && /^\s*wait\b/i.test(ev.asked)) {
+    // "Wait for new scheduling details": the times went over, the next move is theirs (OpsLevel).
     setRound(row, k, { state: "pending", date: "", time: "", why: undefined }, evAt);
   }
 }
@@ -879,7 +970,10 @@ function lockRounds(row: ScheduleRow, ov: ScheduleOverride | undefined): Schedul
 }
 
 /** Mail hosts and ATS senders say nothing about which company an email is from. */
-const SHARED_DOMAINS = /(^|\.)(gmail|googlemail|outlook|hotmail|live|yahoo|icloud|proton|lever|greenhouse|ashbyhq|workday|myworkday|smartrecruiters|applytojob|icims|jobvite|breezy|bamboohr|recruitee|teamtailor|workable|calendly|goodtime|modernloop|zoom|google|microsoft|linkedin|indeed|paradox|gem|guide)\.[a-z.]+$/i;
+const SHARED_DOMAINS = /(^|\.)(gmail|googlemail|outlook|hotmail|live|yahoo|icloud|proton|lever|greenhouse|ashbyhq|workday|myworkday|smartrecruiters|applytojob|icims|jobvite|breezy|bamboohr|recruitee|teamtailor|workable|calendly|cal|goodtime|modernloop|zoom|google|microsoft|linkedin|indeed|paradox|gem|guide)\.[a-z.]+$/i;
+
+/** A booking service's own address (hello@cal.com, no-reply@greenhouse.io) sends for many companies. */
+const GENERIC_SENDER = /^(hello|hi|info|no-?reply|donotreply|do-not-reply|notifications?|notify|calendar|schedul\w*|team|support|mailer)@/i;
 
 /**
  * An email the classifier named no company for ("Appointment booked: 15 min
@@ -890,10 +984,15 @@ const SHARED_DOMAINS = /(^|\.)(gmail|googlemail|outlook|hotmail|live|yahoo|iclou
 function inferCompanies(events: InterviewEvent[], personOf: (ev: InterviewEvent) => string, base: ScheduleRow[]): InterviewEvent[] {
   const bySender = new Map<string, string>();
   const byDomain = new Map<string, string>();
+  // The booking a cancel names: same person, same slot (Deel's "Canceled: Technical
+  // Interview - Hansal Maniar…" from hello@cal.com, which also books for FLO).
+  const bySlot = new Map<string, string>();
+  const slot = (e: InterviewEvent) => (e.meeting_date ? `${personOf(e)}|${e.meeting_date}|${e.meeting_time ?? ""}` : "");
   for (const e of events) {
     if (!normCompany(e.company) || e.verdict === "REJECTION") continue;
     const addr = (e.sender_addr || "").toLowerCase();
-    if (addr) bySender.set(addr, e.company);
+    if (addr && !GENERIC_SENDER.test(addr)) bySender.set(addr, e.company);
+    if (slot(e)) bySlot.set(slot(e), e.company);
     const dom = addr.split("@")[1] ?? "";
     if (dom && !SHARED_DOMAINS.test(dom)) byDomain.set(dom, e.company);
   }
@@ -907,7 +1006,7 @@ function inferCompanies(events: InterviewEvent[], personOf: (ev: InterviewEvent)
     if (normCompany(e.company)) return e;
     const addr = (e.sender_addr || "").toLowerCase();
     const dom = addr.split("@")[1] ?? "";
-    let company = bySender.get(addr) ?? (dom && !SHARED_DOMAINS.test(dom) ? byDomain.get(dom) : undefined);
+    let company = (CANCELLED_RE.test(e.subject) ? bySlot.get(slot(e)) : undefined) ?? bySender.get(addr) ?? (dom && !SHARED_DOMAINS.test(dom) ? byDomain.get(dom) : undefined);
     if (!company) {
       const subject = ` ${normCompany(e.subject)} `;
       company = [...(companiesOf.get(personOf(e)) ?? [])]

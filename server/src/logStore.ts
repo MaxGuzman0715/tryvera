@@ -89,7 +89,14 @@ function importLegacyJson(d: DatabaseSync): void {
  * used for indexing and sorting. New fields on ApplicationLogEntry therefore
  * need no schema migration.
  */
+/** Goes up on every write, so a reader can tell the list hasn't changed. */
+let version = 0;
+export function applicationsVersion(): number {
+  return version;
+}
+
 function insertRow(d: DatabaseSync, entry: ApplicationLogEntry): void {
+  version++;
   d.prepare(
     `INSERT OR REPLACE INTO applications
        (id, created_at, resume_profile, user_id, status, tracking_status, data)
@@ -117,10 +124,10 @@ export function appDb(): DatabaseSync {
 const toEntry = (row: { data: string }): ApplicationLogEntry =>
   JSON.parse(row.data) as ApplicationLogEntry;
 
-export async function listApplications(): Promise<ApplicationLogEntry[]> {
-  const rows = open()
-    .prepare("SELECT data FROM applications ORDER BY created_at DESC")
-    .all() as { data: string }[];
+export async function listApplications(limit?: number): Promise<ApplicationLogEntry[]> {
+  const rows = (limit
+    ? open().prepare("SELECT data FROM applications ORDER BY created_at DESC LIMIT ?").all(limit)
+    : open().prepare("SELECT data FROM applications ORDER BY created_at DESC").all()) as { data: string }[];
   return rows.map(toEntry);
 }
 
@@ -173,6 +180,7 @@ export async function removeApplication(id: string): Promise<ApplicationLogEntry
       return null;
     }
     d.prepare("DELETE FROM applications WHERE id = ?").run(id);
+    version++;
     d.exec("COMMIT");
     return toEntry(row);
   } catch (err) {

@@ -234,6 +234,18 @@ export type InterviewMatchStatus =
  * can be tied back to the application that produced it. `id` is the triage
  * card's Slack ts, so re-sending the same card updates this row in place.
  */
+/** What a calendar app shows for a booked meeting, as far as the email or its invite says. */
+export type MeetingInfo = {
+  link?: string;
+  platform?: string;
+  meeting_id?: string;
+  passcode?: string;
+  phone?: string;
+  location?: string;
+  organizer?: string;
+  attendees?: string[];
+};
+
 export type InterviewEvent = {
   id: string;
   source: "slack_triage";
@@ -267,6 +279,10 @@ export type InterviewEvent = {
   /** The booked interview time the bot read from the email body (ET), when it states one. */
   meeting_date?: string;
   meeting_time?: string;
+  /** How long that meeting runs, in minutes, when the invite or email says. */
+  meeting_minutes?: number;
+  /** Join link, meeting ID, dial-in, organizer and guests of that meeting. */
+  meeting_info?: MeetingInfo;
   /**
    * The interview step the classifier read from the whole email. "unknown" =
    * it read the email and the step isn't stated; absent = never read.

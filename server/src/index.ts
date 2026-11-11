@@ -26,6 +26,7 @@ import {
   appendApplication,
   getApplication,
   listApplications,
+  applicationsVersion,
   removeApplication,
   updateApplication,
 } from "./logStore.js";
@@ -678,22 +679,44 @@ app.post("/api/playground/bullets/run", requireAuth, requireAdmin, async (req, r
   }
 });
 
+/** Serialized /api/applications replies for the current list version (see applicationsVersion). */
+const applicationsReplies = new Map<string, string>();
+
 app.get("/api/applications", requireAuth, async (req, res) => {
   try {
-    const apps = await listApplications();
+    // ?limit=N: just the newest N (newest first). The progress toasts poll this
+    // every 1.5s from every open tab; the full list was 2.4 MB a time and kept
+    // the server at ~90% CPU until it stopped answering (2026-11-03).
+    const n = Number(req.query.limit);
+    const limit = Number.isInteger(n) && n > 0 ? n : undefined;
+    const admin = req.user!.role === "admin";
+    // Tabs opened before that fix still poll the full list: answer them from
+    // the last reply until a run is added, changed or removed.
+    const key = `${applicationsVersion()}|${admin ? "*" : req.user!.id}|${limit ?? ""}`;
+    const hit = applicationsReplies.get(key);
+    if (hit) {
+      res.type("json").send(hit);
+      return;
+    }
+    // A non-admin's newest N are found after filtering, so read them all.
+    const all = await listApplications(admin ? limit : undefined);
+    const mine = admin ? all : all.filter((a) => a.user_id === req.user!.id);
+    const apps = limit ? mine.slice(0, limit) : mine;
     // Decorate each row with `output_folder_abs` so the Logs page can show
     // a Copy-path button without a round-trip per row. Empty output_folder
     // (e.g. a freshly-queued run that hasn't finished extraction yet) is
     // passed through as an empty string.
-    const withAbs = apps.map((a) => ({
-      ...a,
-      output_folder_abs: a.output_folder ? toAbsoluteFromStoredPath(a.output_folder) : "",
-    }));
-    if (req.user!.role === "admin") {
-      res.json({ applications: withAbs });
-      return;
-    }
-    res.json({ applications: withAbs.filter((a) => a.user_id === req.user!.id) });
+    const body = JSON.stringify({
+      applications: apps.map((a) => ({
+        ...a,
+        output_folder_abs: a.output_folder ? toAbsoluteFromStoredPath(a.output_folder) : "",
+      })),
+    });
+    // Keep only the current version's replies; skip storing if a write landed meanwhile.
+    const current = `${applicationsVersion()}|`;
+    for (const k of applicationsReplies.keys()) if (!k.startsWith(current)) applicationsReplies.delete(k);
+    if (key.startsWith(current)) applicationsReplies.set(key, body);
+    res.type("json").send(body);
   } catch (e) {
     res.status(500).json({ error: e instanceof Error ? e.message : String(e) });
   }
@@ -2437,6 +2460,20 @@ const port = Number(process.env.PORT ?? 80);
 // Mirrors the Vite dev-server port (client/vite.config.ts), so these hints stay
 // correct when CLIENT_PORT is overridden to avoid clashing with another instance.
 const clientPort = Number(process.env.CLIENT_PORT ?? 5273);
+// A run is generated inside this process, so one still "generating" at start-up
+// was cut off by the last shutdown and nothing will finish it (Rohit's 13-run
+// batch on 2026-11-03 spun forever). Mark it failed so it can be rerun.
+for (const a of await listApplications()) {
+  if (a.status !== "generating") continue;
+  await updateApplication(a.id, {
+    status: "failed",
+    status_step: "interrupted",
+    tracking_status: "failed",
+    generation_error: "Stopped when the server restarted. Rerun it.",
+  });
+  console.warn(`[enpply] run cut off by the last shutdown, marked failed: ${a.id} (${a.company_name})`);
+}
+
 const server = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
   const distIndex = path.join(projectRoot(), "client", "dist", "index.html");

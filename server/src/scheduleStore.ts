@@ -19,6 +19,10 @@ function db() {
     d.exec(
       `CREATE TABLE IF NOT EXISTS schedule_row_seen (user_id TEXT NOT NULL, row_id TEXT NOT NULL, at TEXT NOT NULL, PRIMARY KEY (user_id, row_id))`
     );
+    d.exec(
+      `CREATE TABLE IF NOT EXISTS schedule_history (seq INTEGER PRIMARY KEY AUTOINCREMENT, row_id TEXT NOT NULL, at TEXT NOT NULL, by TEXT NOT NULL, what TEXT NOT NULL, previous TEXT)`
+    );
+    d.exec(`CREATE INDEX IF NOT EXISTS schedule_history_row ON schedule_history (row_id, seq)`);
     ready = true;
   }
   return d;
@@ -82,6 +86,46 @@ export function getOverride(id: string): ScheduleOverride | undefined {
 export function setOverride(id: string, ov: ScheduleOverride | null): void {
   if (ov) db().prepare("INSERT OR REPLACE INTO schedule_overrides (id, data) VALUES (?, ?)").run(id, JSON.stringify(ov));
   else db().prepare("DELETE FROM schedule_overrides WHERE id = ?").run(id);
+}
+
+/**
+ * Every hand change to a row, with the row's hand changes as they were just
+ * before it, so any of them can be reverted later (after a restart too, unlike
+ * the toast's Undo). Reverting one puts the row back to before it, which also
+ * drops the changes made after it.
+ */
+export type HistoryEntry = { seq: number; row_id: string; at: string; by: string; what: string };
+
+export function addHistory(rowId: string, by: string, what: string, previous: ScheduleOverride | null): number {
+  const r = db()
+    .prepare("INSERT INTO schedule_history (row_id, at, by, what, previous) VALUES (?, ?, ?, ?, ?)")
+    .run(rowId, new Date().toISOString(), by, what, previous ? JSON.stringify(previous) : null);
+  return Number(r.lastInsertRowid);
+}
+
+export function listHistory(rowId: string, limit = 50): HistoryEntry[] {
+  return db()
+    .prepare("SELECT seq, row_id, at, by, what FROM schedule_history WHERE row_id = ? ORDER BY seq DESC LIMIT ?")
+    .all(rowId, limit) as HistoryEntry[];
+}
+
+/** Put the row back to before change `seq`, and forget that change and every later one. */
+export function revertTo(rowId: string, seq: number): boolean {
+  return tx(() => {
+    const d = db();
+    const h = d.prepare("SELECT previous FROM schedule_history WHERE row_id = ? AND seq = ?").get(rowId, seq) as
+      | { previous: string | null }
+      | undefined;
+    if (!h) return false;
+    setOverride(rowId, h.previous ? (JSON.parse(h.previous) as ScheduleOverride) : null);
+    d.prepare("DELETE FROM schedule_history WHERE row_id = ? AND seq >= ?").run(rowId, seq);
+    return true;
+  });
+}
+
+/** The toast's Undo took change `seq` back: drop it (and anything after it) from the history. */
+export function forgetFrom(rowId: string, seq: number): void {
+  db().prepare("DELETE FROM schedule_history WHERE row_id = ? AND seq >= ?").run(rowId, seq);
 }
 
 /**
